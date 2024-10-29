@@ -7,7 +7,6 @@
             "@/*": ["*"],
             "@adl/*": ["src/*"],
             "@src/*": ["src/*"],
-            "@externals/*": ["externals/*"],
             "@assets/*": ["assets/*"]
         },
         "baseUrl": "./",

@@ -21,109 +21,20 @@ import json5Plugin from 'vite-plugin-json5'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import nodeExternals from 'rollup-plugin-node-externals'
 import createExternal from 'vite-plugin-external';
-
 import cssnano from "cssnano";
 import deduplicate from "postcss-discard-duplicates";
-
 import postcssPresetEnv from 'postcss-preset-env';
 
 //
 const __dirname = import.meta.dirname;
-
-//
-const r = (s) => {
-    return s;
-};
-
-/*process.env = {
-    ...process.env,
-    ...loadEnv(mode, process.cwd())
-};*/
-
-const terserOptions = {
-    ecma: 2020,
-    keep_classnames: false,
-    keep_fnames: false,
-    module: true,
-    toplevel: true,
-    mangle: {
-        eval: true,
-        keep_classnames: false,
-        keep_fnames: false,
-        module: true,
-        toplevel: true,
-        properties: {
-            builtins: true,
-            keep_quoted: "strict",
-            undeclared: true,
-            only_annotated: true,
-            reserved: []
-        }
-    },
-    compress: {
-        ecma: 2020,
-        keep_classnames: false,
-        keep_fnames: false,
-        keep_infinity: false,
-        reduce_vars: true,
-        reduce_funcs: true,
-        pure_funcs: [],
-        arguments: true,
-        expression: true,
-        inline: 3,
-        module: true,
-        passes: 3,
-        side_effects: true,
-        pure_getters: true,
-        typeofs: true,
-        toplevel: true,
-        unsafe: true,
-        unsafe_Function: true,
-        unsafe_comps: true,
-        unsafe_arrows: true,
-        unsafe_math: true,
-        unsafe_symbols: true,
-        unsafe_undefined: true,
-        unsafe_methods: true,
-        unsafe_regexp: true,
-        unsafe_proto: true,
-        warnings: true,
-        unused: true,
-        booleans_as_integers: true,
-        hoist_funs: true,
-        hoist_vars: true,
-        properties: true,
-        // don't use in debug mode
-        //drop_console: true
-    },
-    format: {
-        braces: false,
-        comments: false,
-        ecma: 2020,
-        //indent_level: 0,
-        semicolons: true,
-        shebang: true,
-        inline_script: true,
-        quote_style: 0,
-        wrap_iife: true,
-        ascii_only: true,
-    }
-};
-
-//
+const r = (s) => { return s; };
 const production = process.env.NODE_ENV === 'production';
 const config = defineConfig({
     root: "./",
     base: './',
     resolve: {
         alias: {
-            "vue-i18n": 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js',
-            "vue": 'vue/dist/vue.esm-bundler.js',
             "@node_modules": path.resolve("./node_modules"),
-            "@culori": path.resolve("./node_modules/culori"),
-            "@material": path.resolve("./node_modules/@material"),
-            "happy-opfs": path.resolve("./node_modules/happy-opfs"),
-
             "@": path.resolve("./"),
             "@src": path.resolve("src/"),
             "@adl": path.resolve("src/"),
@@ -137,58 +48,16 @@ const config = defineConfig({
             externalizeDeps: ["externals", "/externals", "./externals"]
         }),
         json5Plugin(),
-        vue({
-            template: {
-                compilerOptions: {
-                    isCustomElement: (tag) => [
-                        'css-doodle',
-                        'u-scrollbox',
-                        'u-focustext',
-                        'u-longtext'
-                    ].includes(tag),
-                }
-            }
-        }),
-        VueI18n({
-            runtimeOnly: true
-        }),
         viteSingleFile({
             useRecommendedBuildConfig: false,
             inlinePattern: ["!(service).mjs"]
         }),
-        //analyzer(),
         nodePolyfills(),
         compression({
             algorithm: 'brotliCompress'
         }),
         prefetchPlugin(),
-        VitePluginBrowserSync(),
-        /*VitePWA({
-            injectRegister: null,
-            registerType: "autoUpdate",
-            devOptions: {
-                enabled: true,
-                resolveTempFolder: () => {
-                    return "./index/temp";
-                },
-            },
-            workbox: {
-                clientsClaim: true,
-                skipWaiting: true,
-            },
-        }),*/
-        viteStaticCopy({
-            targets: [
-                /*{
-                    src: "./assets/*",
-                    dest: "../assets", // 2️⃣
-                },*/
-                /*{
-                    src: "./copying/!(node_modules)",
-                    dest: "./", // 2️⃣
-                }*/
-            ],
-        })
+        VitePluginBrowserSync()
     ],
     server: {
         origin: "",
@@ -238,7 +107,6 @@ const config = defineConfig({
         outDir: "./index",
         emptyOutDir: true,
         rollupOptions: {
-            // Add _all_ external dependencies here
             external: ["externals", "/externals", "./externals"],
             output: {
                 assetFileNames: 'assets/[name]-[hash].js',
@@ -270,21 +138,15 @@ export {config};
 
 // Load path aliases from the tsconfig.json file
 const aliases = tsconfig.compilerOptions.paths;
-
 for (const alias in aliases) {
     const paths = aliases[alias].map((p) => path.resolve(__dirname, p));
-
-    // Our tsconfig uses glob path formats, whereas vite just wants directories
-    // We'll need to transform the glob format into a format acceptable to vite
-
     const viteAlias = alias.replace(/(\\|\/)\*$/, '');
     const vitePaths = paths.map((p) => p.replace(/(\\|\/)\*$/, ''));
 
+    //
     if (!config.resolve) config.resolve = {};
     if (!config.resolve.alias) config.resolve.alias = {};
-
     if (config.resolve && config.resolve.alias && !(viteAlias in config.resolve.alias)) {
         config.resolve.alias[viteAlias] = vitePaths.length > 1 ? vitePaths : vitePaths[0];
     }
 }
-
