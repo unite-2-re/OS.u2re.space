@@ -3,6 +3,7 @@
     "exclude": ["./node_modules", "../node_modules", "./externals"],
     "compilerOptions": {
         "jsx": "preserve",
+        "jsxImportSource": "solid-js",
         "types": ["./global.d.ts"],
         "paths": {
             "@/*": ["*"],

@@ -1,4 +1,5 @@
-import { For, createSignal  } from "solid-js";
+//
+import { For, createSignal, onMount  } from "solid-js";
 import html from "solid-js/html";
 
 //
@@ -13,12 +14,24 @@ export interface TabProps {
     tabs: TabType[];
 }
 
+//
+const refAndMount = (cb)=>{
+    return (element)=>{
+        onMount(()=>cb(element));
+    }
+}
+
 // while: tab.component should be  ()=> html`...`
 export const Tabbed = ({tabs}: TabProps) => {
     const [currentTab, setTab] = createSignal("main");
 
     //
-    return html`<div>
+    const $element = refAndMount((topLevel)=> {
+        console.log(topLevel.querySelector("input"));
+    });
+
+    //
+    return html`<div ref=${$element}>
         <div>
             <${For} each=${() => tabs}>${(tab) => {
                 return html`<label>
