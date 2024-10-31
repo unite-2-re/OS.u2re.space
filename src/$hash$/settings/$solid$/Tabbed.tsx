@@ -8,18 +8,23 @@ export interface TabType {
     id: string;
 };
 
+//
+export interface TabProps {
+    tabs: TabType[];
+}
+
 // while: tab.component should be  ()=> html`...`
-export const Tabbed = (tabs: TabType[]) => {
+export const Tabbed = ({tabs}: TabProps) => {
     const [currentTab, setTab] = createSignal("main");
 
     //
     return html`<div>
         <div>
             <${For} each=${() => tabs}>${(tab) => {
-                return html`<div>
+                return html`<label>
                     <span>${tab.content as string}</span>
-                    <input checked=${currentTab == tab.id} onChange=${(e)=>setTab(e.target.value)}></input>
-                </div>`
+                    <input type="radio" checked=${currentTab == tab.id} onChange=${(e)=>setTab(e.target.value)}></input>
+                </label>`
             }}<//>
         </div>
         <div>

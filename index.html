@@ -55,8 +55,9 @@
 
         <!-- critical styles -->
         <style>
-            script {
+            script, style, head {
                 display: none !important;
+                pointer-events: none !important;
             }
 
             body {
@@ -79,11 +80,12 @@
 
         </style>
 
+        <!-- USE 'unsafe-eval' only when DEBUG! -->
         <meta http-equiv="Content-Security-Policy" content="
             default-src 'self' blob: data:;
             img-src 'self' * blob: data:;
             style-src 'self' 'unsafe-inline' blob: data:;
-            script-src 'self' 'unsafe-inline' blob: data:;
+            script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data:;
             worker-src 'self' blob:* data:*;
         ">
 
@@ -116,8 +118,11 @@
         </u-scrollbox></div>
         <div id="overlays"   class="container u2-container u2-toplayer"></div>
 
+        <!-- DEBUG MODE! -->
+        <script type="module" async defer src="./src/app.ts"></script>
+
         <!-- Web App loader -->
-        <script type="module" async defer>
+        <!--<script type="module" async defer>
             const APP_JS = "./index/app.js";
             const SW_JS  = "./pwa/service.mjs";
 
@@ -128,6 +133,6 @@
                 }
                 import(/* @vite-ignore */ `${APP_JS}`)?.then?.((m)=>m?.default?.(document?.querySelector?.("#root")))?.catch?.(console.error.bind(console));
             })();
-        </script>
+        </script>-->
     </body>
 </html>

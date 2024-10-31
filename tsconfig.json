@@ -2,6 +2,7 @@
     "include": ["**/*.ts", "**/*.mjs", "**/*.js", "**/*.d.ts", "**/*.tsx"],
     "exclude": ["./node_modules", "../node_modules", "./externals"],
     "compilerOptions": {
+        "jsx": "preserve",
         "types": ["./global.d.ts"],
         "paths": {
             "@/*": ["*"],
