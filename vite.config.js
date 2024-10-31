@@ -24,6 +24,7 @@ import createExternal from 'vite-plugin-external';
 import cssnano from "cssnano";
 import deduplicate from "postcss-discard-duplicates";
 import postcssPresetEnv from 'postcss-preset-env';
+import solidPlugin from 'vite-plugin-solid';
 
 //
 const __dirname = import.meta.dirname;
@@ -57,7 +58,11 @@ const config = defineConfig({
             algorithm: 'brotliCompress'
         }),
         prefetchPlugin(),
-        VitePluginBrowserSync()
+        VitePluginBrowserSync(),
+        solidPlugin({
+            // solid-specific, other is inline/regular
+            include: ["*/$solid$/*.ts", "*/$solid$/**/*.ts"]
+        })
     ],
     server: {
         origin: "",
