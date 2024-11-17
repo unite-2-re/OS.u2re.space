@@ -1,1 +1,1 @@
-export * from "./$solid$/Tabbed.tsx";
+export * from "./$solid$/ContentLayout.tsx";
