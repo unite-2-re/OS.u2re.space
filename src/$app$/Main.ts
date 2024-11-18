@@ -49,7 +49,8 @@ export const Apps = ({apps}: AppsType) => {
     });
 
     //
-    return html`<div ref=${$element}>
+    return html`<div id="application" ref=${$element} style="inline-size: 100%; block-size: 100%; position: fixed; inset: 0px; place-self: center; display: contents; pointer-events: none;">
+        <!-- Workspace Icons -->
         <${Icons}><//>
 
         <!-- Apps Part -->

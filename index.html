@@ -5,6 +5,7 @@
         <meta nativeui="true">
 
         <!---->
+        <base href="./" />
         <title>Web App Loader</title>
 
         <!---->
@@ -16,13 +17,8 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="mobile-web-app-capable" content="yes">
-        <!--
-        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
-        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
-        -->
 
         <!---->
-        <meta name="theme-color" content="currentColor">
         <meta name="theme-color" content="transparent" data-theme-color>
 
         <!---->
@@ -64,29 +60,22 @@
         <link ref="prefetch" href="/externals/wcomp/rows.js">
         <link ref="prefetch" href="/externals/wcomp/scrollbox.js">
 
-        <!-- -->
-        <base href="./" />
-        <title>WebAPP Loader</title>
-
         <!-- webpackIgnore: true-->
         <link rel="manifest" href="./pwa/manifest.json">
         <link rel="icon" type="image/png" href="./favicon.png">
         <link rel="apple-touch-icon" href="./favicon.png">
 
         <!-- critical styles -->
-        <style>
-            script, style, head {
-                display: none !important;
-                pointer-events: none !important;
-            }
-
-            body {
-                display: grid !important;
-                grid-template-columns: minmax(0px, 1fr) !important;
-                grid-template-rows: minmax(0px, 1fr) !important;
-            }
-
+        <style data-owner="runtime" data-type="system">
             head, script, style { display: none !important; pointer-events: none !important; }
+
+            /* */
+            html, body {
+                padding: 0px;
+                margin: 0px;
+                border: none 0px transparent;
+                background-color: transparent;
+            }
 
             /* */
             body {
@@ -94,12 +83,15 @@
                 grid-template-columns: minmax(0px, 1fr) !important;
                 grid-template-rows: minmax(0px, 1fr) !important;
                 pointer-events: none;
+                position: relative;
             }
 
             /* */
             body > * {
                 inline-size: 100% !important;
                 block-size: 100% !important;
+
+                /* */
                 grid-column: 1 / 1 span !important;
                 grid-row: 1 / 1 span !important;
 
@@ -109,12 +101,28 @@
                 grid-template-rows: minmax(0px, 1fr);
 
                 /* */
+                background-color: transparent;
                 pointer-events: none;
+                position: fixed;
+                inset: 0px;
+
+                /* */
+                inset-inline-end: auto;
+                inset-block-end: auto;
             }
 
             /* */
-            body > * > * { pointer-events: auto; }
+            #viewport { display: grid; pointer-events: auto; };
 
+            /* #root slot, etc. */
+            #viewport > * { position: relative; inset: 0px; pointer-events: auto; inline-size: 100%; block-size: 100%; background-color: transparent; }
+
+            /* */
+            :where(*) {
+                box-sizing: border-box;
+                transition-behavior: allow-discrete;
+                interpolate-size: allow-keywords;
+            }
         </style>
 
         <!-- USE 'unsafe-eval' only when DEBUG! -->
@@ -149,11 +157,24 @@
         </script>
     </head>
     <body>
-        <div id="background" class="container u2-container"></div>
-        <div id="viewport"   class="container u2-container"><u-scrollbox id="root">
-            <!-- Web Application Slot -->
-        </u-scrollbox></div>
-        <div id="overlays"   class="container u2-container u2-toplayer"></div>
+        <div id="background" class="container u2-container">
+            <canvas id="image" is="ui-canvas" width="1" height="1" style="inline-size: 100%; block-size: 100%;"></canvas>
+        </div>
+        <u-scrollbox id="viewport" class="container u2-container">
+            <div id="root"><!-- Web Application Slot --></div>
+        </u-scrollbox>
+        <div id="overlays" class="container u2-container u2-toplayer">
+            <ui-statusbar id="statusbar"></ui-statusbar>
+            <ui-contextmenu id="contextmenu"></ui-contextmenu>
+            <ui-focustext
+                value=""
+                id="focustext"
+                class="ui-focus ui-mobile-input ui-dedicated"
+                data-chroma="0"
+                data-scheme="solid"
+                data-highlight="1"></ui-focustext>
+            <ui-tooltip id="tooltip"></ui-tooltip>
+        </div>
 
         <!-- DEBUG MODE! -->
         <script type="module" async defer src="./src/app.ts"></script>
