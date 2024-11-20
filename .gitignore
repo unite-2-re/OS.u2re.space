@@ -203,6 +203,12 @@ dist/
 ./dist/
 
 #
+index/*
+index/
+./index/*
+./index/
+
+#
 dev-dist
 dev-dist/
 ./dev-dist

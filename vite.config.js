@@ -105,7 +105,7 @@ const config = defineConfig({
         name: "app",
         lib: {
             formats: ["es"],
-            entry: path.resolve(__dirname, './src/Main.ts'),
+            entry: path.resolve(__dirname, './src/app.ts'),
             name: "app",
             fileName: "app",
         },
