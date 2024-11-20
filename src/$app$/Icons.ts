@@ -6,7 +6,7 @@ import html from "solid-js/html";
 import {observeAttribute} from "/externals/lib/dom.js";
 
 // @ts-ignore
-import {inflectInGrid} from "/externals/core/grid.js";
+import {inflectInGrid} from "/externals/system/grid-system.js";
 
 //
 export interface ItemType {
