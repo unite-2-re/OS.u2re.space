@@ -1,5 +1,5 @@
-export * from "./$solid$/ContentLayout.tsx";
-import Tabbed from "./$solid$/ContentLayout.tsx";
+export * from "./$solid$/Settings.tsx";
+import Settings from "./$solid$/Settings.tsx";
 
 //
-export default Tabbed;
+export default Settings;
