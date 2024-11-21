@@ -54,13 +54,13 @@ export const Apps = ({apps}: AppsType) => {
     });
 
     //
-    return html`<div id="application" ref=${$element} style="inline-size: 100%; block-size: 100%; position: fixed; inset: 0px; place-self: center; display: flex; pointer-events: auto; background: transparent; overflow: hidden;">
+    return html`<div id="root" ref=${$element} style="inline-size: 100%; block-size: 100%; position: fixed; inset: 0px; place-self: center; display: flex; pointer-events: auto; background: transparent; overflow: hidden;">
         <!-- Workspace Icons -->
         <${Icons}><//>
 
         <!-- Apps Part -->
         <${For} each=${() => apps}>${(app) => {
-            return html`<ui-frame id=${app?.id.replace("#","")}> <div slot="ui-title-bar">${app?.title}</div>  <${lazy(app?.component)}><//>  </ui-frame>`;
+            return html`<ui-frame data-scheme="solid" id=${app?.id.replace("#","")}> <div slot="ui-title-bar">${app?.title}</div>  <${lazy(app?.component)}><//>  </ui-frame>`;
         }}<//>
 
         <!-- Taskbar -->

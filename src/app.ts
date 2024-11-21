@@ -34,9 +34,20 @@ Promise.allSettled([
     // @ts-ignore
     import(/* @vite-ignore */ "/externals/core/design.js"),
     // @ts-ignore
-    import(/* @vite-ignore */ "/externals/core/theme.js")
-]).then((mds)=>mds.map((rs: any)=>rs?.value?.default?.())).then(()=>{
-    initialize(document.querySelector("#root"));
+    import(/* @vite-ignore */ "/externals/core/theme.js"),
+
+    // @ts-ignore
+    import(/* @vite-ignore */ "/externals/wcomp/longtext.js"),
+    // @ts-ignore
+    import(/* @vite-ignore */ "/externals/wcomp/contextmenu.js"),
+    // @ts-ignore
+    import(/* @vite-ignore */ "/externals/wcomp/rows.js"),
+    // @ts-ignore
+    import(/* @vite-ignore */ "/externals/wcomp/scrollbox.js"),
+    // @ts-ignore
+    import(/* @vite-ignore */ "/externals/wcomp/image.js")
+]).then((mds)=>mds.map((rs: any)=> {try { return rs?.value?.default?.() } catch(e) {}})).then(()=>{
+    initialize(document.querySelector("#viewport"));
 
     //
     requestIdleCallback(()=>{
