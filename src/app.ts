@@ -4,12 +4,20 @@ import html from "solid-js/html";
 //
 import { Apps } from "./$app$/Main.ts";
 
-// @ts-ignore
-import {makeSelection} from /* @vite-ignore */ "/externals/lib/interact.js";
+//
+const $settings$ = import("./$hash$/settings/index");
+const apps = [
+    {
+        id: "#settings",
+        component: ()=>$settings$,
+        icon: "settings",
+        active: false
+    }
+];
 
 //
 export const initialize = (root)=>{
-    render(()=>html`<${Apps}><//>`, root);
+    render(()=>html`<${Apps} apps=${apps}><//>`, root);
 }
 
 //
@@ -32,6 +40,5 @@ Promise.allSettled([
 
     //
     requestIdleCallback(()=>{
-        makeSelection(document.querySelector("#application"), "ui-shaped");
     }, {timeout: 1000});
 });
