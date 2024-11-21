@@ -65,6 +65,7 @@ const config = defineConfig({
         })
     ],
     server: {
+        open: '/frontend/index.html',
         origin: "",
         host: "0.0.0.0",
         port: 443,
@@ -109,7 +110,7 @@ const config = defineConfig({
             name: "app",
             fileName: "app",
         },
-        outDir: "./index",
+        outDir: "./frontend/app",
         emptyOutDir: true,
         rollupOptions: {
             external: ["externals", "/externals", "./externals"],
