@@ -57,14 +57,31 @@ export const Items = ({items, lists}: ItemsType) => {
 
             //
             const element: any = document.createElement("ui-shaped");
+            element.classList.add("u2-grid-item");
             element.item = item;
             element.icon = item.icon;
+            element.setAttribute("data-scheme", "inverse");
+
+            //
+            const shape: any = document.createElement("div");
+            shape.classList.add("u2-item-design");
+            shape.setAttribute("data-scheme", "inverse");
+            shape.setAttribute("data-shape", "wavy");
+            shape.setAttribute("data-scheme", "inverse");
+            shape.setAttribute("data-alpha", "1");
+            shape.setAttribute("data-highlight", "4");
+            shape.setAttribute("data-highlight-hover", "6");
+
+            //
+            element.append(shape);
+
+            //
             return element;
         });
     });
 
     //
-    return html`<ui-gridbox style="inline-size: 100%; block-size: 100%;" ref=${$element}></ui-gridbox>`;
+    return html`<div class="u2-desktop-grid"><ui-gridbox class="u2-grid-page" style="inline-size: 100%; block-size: 100%;" ref=${$element}></ui-gridbox></div>`;
 };
 
 //

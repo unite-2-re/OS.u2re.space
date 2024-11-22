@@ -32,9 +32,11 @@ Promise.allSettled([
     // @ts-ignore
     import(/* @vite-ignore */ "/externals/core/core.js"),
     // @ts-ignore
-    import(/* @vite-ignore */ "/externals/core/design.js"),
-    // @ts-ignore
     import(/* @vite-ignore */ "/externals/core/theme.js"),
+    // @ts-ignore
+    import(/* @vite-ignore */ "/externals/core/grid.js"),
+    // @ts-ignore
+    import(/* @vite-ignore */ "/externals/core/design.js"),
 
     // @ts-ignore
     import(/* @vite-ignore */ "/externals/wcomp/longtext.js"),

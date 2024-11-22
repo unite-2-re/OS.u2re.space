@@ -47,6 +47,52 @@ const logged = (fx)=>{
     }
 }
 
+
+
+// @ts-ignore /* @vite-ignore */
+import {subscribe, makeReactive, makeObjectAssignable} from "/externals/lib/object.js";
+
+// @ts-ignore /* @vite-ignore */
+//import orient from "/externals/core/core.js"; await orient();
+
+// @ts-ignore /* @vite-ignore */
+//import init from "/externals/core/grid.js"; await init();
+
+//
+//import {inflectInGrid} from "../dist/grid-system.js";
+
+//
+const lists = [["github", "youtube", "settings"]]; /*{
+    layout: [4, 8],
+    size: [0, 0],
+    list: 
+};*/
+
+//
+const items = makeReactive(new Set([
+    makeObjectAssignable(makeReactive({
+        id: "github",
+        icon: "github",
+        name: "GitHub",
+        cell: makeObjectAssignable(makeReactive([0, 0]))
+    })),
+    makeObjectAssignable(makeReactive({
+        id: "youtube",
+        icon: "youtube",
+        name: "YouTube",
+        cell: makeObjectAssignable(makeReactive([1, 0]))
+    })),
+    makeObjectAssignable(makeReactive({
+        id: "settings",
+        icon: "settings",
+        name: "Settings",
+        cell: makeObjectAssignable(makeReactive([2, 0]))
+    }))
+]));
+
+
+
+
 // while: tab.component should be  ()=> html`...`
 export const Apps = ({apps}: AppsType) => {
     const $element = refAndMount((topLevel)=> {
@@ -56,7 +102,7 @@ export const Apps = ({apps}: AppsType) => {
     //
     return html`<div id="root" ref=${$element} style="inline-size: 100%; block-size: 100%; position: fixed; inset: 0px; place-self: center; display: flex; pointer-events: auto; background: transparent; overflow: hidden;">
         <!-- Workspace Icons -->
-        <${Icons}><//>
+        <${Icons} items=${()=>items} lists=${()=>lists}><//>
 
         <!-- Apps Part -->
         <${For} each=${() => apps}>${(app) => {
