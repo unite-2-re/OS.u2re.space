@@ -1,15 +1,13 @@
 // @ts-ignore
-import { For, createSignal, onMount  } from "solid-js";
-import html from "solid-js/html";
-import { lazy, Show, createMemo, createEffect } from "solid-js";
-
+import { For, createSignal, onMount, lazy, Show, createMemo, createEffect } from "solid-js";
 
 // @ts-ignore
 import {observeAttribute} from "/externals/lib/dom.js";
-import type { TabType } from "./Types.tsx";
 
 //
+import type { TabType } from "./Types.tsx";
 import Forms from "./Forms.tsx";
+import html from "solid-js/html";
 
 //
 const refAndMount = (cb)=>{
@@ -47,12 +45,12 @@ export const Settings = () => {
     const cTab = createMemo(()=>tabOf(currentTab()));
 
     //
-    const $element = refAndMount((topLevel)=> {
+    const $content = refAndMount((topLevel)=> {
         console.log(topLevel.querySelector("input"));
     });
 
     //
-    return html`<div data-alpha="1" data-scheme="solid" class="ui-content" id="settings" ref=${$element} data-tab=${currentTab} ref=${observe(["data-tab", setTab])} style="display: inline grid; grid-template-columns: minmax(0px, 15rem) minmax(0px, 1fr); grid-template-rows: minmax(0px, 1fr);">
+    return html`<div data-alpha="1" data-scheme="solid" class="ui-content" id="settings" ref=${$content} data-tab=${currentTab} ref=${observe(["data-tab", setTab])} style="display: inline grid; grid-template-columns: minmax(0px, 15rem) minmax(0px, 1fr); grid-template-rows: minmax(0px, 1fr);">
         <ui-scrollbox style="grid-column: 1 / 1 span; grid-row: 1 / 1 span; block-size: 100%; inline-size: 100%;">
             <div style="display: inline grid; grid-auto-rows: minmax(0px, max-content); grid-template-columns: minmax(2rem, max-content) minmax(0px, 1fr); block-size: max-content; inline-size: 100%; overflow: hidden;">
                 <${For} each=${() => tabs}>${(tab) => {
