@@ -1,7 +1,6 @@
 // @ts-ignore
-import { For, createSignal, onMount  } from "solid-js";
+import { For, createSignal, onMount, lazy } from "solid-js";
 import html from "solid-js/html";
-import { lazy } from "solid-js";
 
 // @ts-ignore
 import {observeAttribute} from "/externals/lib/dom.js";
@@ -64,8 +63,7 @@ import {subscribe, makeReactive, makeObjectAssignable} from "/externals/lib/obje
 //
 const lists = [["github", "youtube", "settings"]]; /*{
     layout: [4, 8],
-    size: [0, 0],
-    list: 
+    size: [0, 0]
 };*/
 
 //
@@ -73,19 +71,19 @@ const items = makeReactive(new Set([
     makeObjectAssignable(makeReactive({
         id: "github",
         icon: "github",
-        name: "GitHub",
+        label: "GitHub",
         cell: makeObjectAssignable(makeReactive([0, 0]))
     })),
     makeObjectAssignable(makeReactive({
         id: "youtube",
         icon: "youtube",
-        name: "YouTube",
+        label: "YouTube",
         cell: makeObjectAssignable(makeReactive([1, 0]))
     })),
     makeObjectAssignable(makeReactive({
         id: "settings",
         icon: "settings",
-        name: "Settings",
+        label: "Settings",
         cell: makeObjectAssignable(makeReactive([2, 0]))
     }))
 ]));
