@@ -8,7 +8,7 @@ import type { TabType } from "./Types.tsx";
 
 //
 export const Forms = ({tab}: {tab: ()=>TabType}) => {
-    return html`<form data-tab=${()=>tab()?.id}>${()=>tab()?.id}</form>`;
+    return html`<div data-tab=${()=>tab()?.id}><slot></slot></div>`;
 };
 
 //

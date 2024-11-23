@@ -6,7 +6,8 @@ import {observeAttribute} from "/externals/lib/dom.js";
 
 //
 import type { TabType } from "./Types.tsx";
-import Forms from "./Forms.tsx";
+import Tabs from "./Tabs.tsx";
+import Form from "./Form.tsx";
 import html from "solid-js/html";
 
 //
@@ -38,6 +39,12 @@ export const tabs: TabType[] = [
     {id: "layout", icon: "grid-3x3", content: "Layout" }
 ];
 
+//
+export const forms: any[] = [{
+    label: "Workspace",
+    inputs: []
+}];
+
 // while: tab.component should be  ()=> html`...`
 export const Settings = () => {
     const tabOf = (tabId)=>tabs.find((t)=>(t?.id==tabId));
@@ -62,7 +69,11 @@ export const Settings = () => {
             </div>
         </ui-scrollbox>
         <ui-scrollbox style="grid-column: 2 / 2 span; grid-row: 1 / 1 span; block-size: 100%; inline-size: 100%;">
-            <${Forms} tab=${()=>cTab}><//>
+            <${Tabs} tab=${()=>cTab}>
+                <${For} each=${() => forms}>${(form) => {
+                    return html`<${Form} form=${()=>form} tab=${()=>cTab}><//>`;
+                }}<//>
+            <//>
         </ui-scrollbox>
     </div>`;
 };
