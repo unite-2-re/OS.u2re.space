@@ -7,9 +7,9 @@ import {observeAttribute} from "/externals/lib/dom.js";
 import type { TabType } from "./Types.tsx";
 
 //
-export const Forms = ({tab}: {tab: ()=>TabType}) => {
+export const TabContent = ({tab}: {tab: ()=>TabType}) => {
     return html`<div data-tab=${()=>tab()?.id}><slot></slot></div>`;
 };
 
 //
-export default Forms;
+export default TabContent;
