@@ -8,6 +8,7 @@ import Icons from "./Icons.ts";
 
 // @ts-ignore
 import {makeSelection} from /* @vite-ignore */ "/externals/lib/interact.js";
+import { gridState } from "../$state$/GridState";
 
 
 //
@@ -48,8 +49,6 @@ const logged = (fx)=>{
 
 
 
-// @ts-ignore /* @vite-ignore */
-import {subscribe, makeReactive, makeObjectAssignable} from "/externals/lib/object.js";
 
 // @ts-ignore /* @vite-ignore */
 //import orient from "/externals/core/core.js"; await orient();
@@ -59,34 +58,6 @@ import {subscribe, makeReactive, makeObjectAssignable} from "/externals/lib/obje
 
 //
 //import {inflectInGrid} from "../dist/grid-system.js";
-
-//
-const lists = [["github", "youtube", "settings"]]; /*{
-    layout: [4, 8],
-    size: [0, 0]
-};*/
-
-//
-const items = makeReactive(new Set([
-    makeObjectAssignable(makeReactive({
-        id: "github",
-        icon: "github",
-        label: "GitHub",
-        cell: makeObjectAssignable(makeReactive([0, 0]))
-    })),
-    makeObjectAssignable(makeReactive({
-        id: "youtube",
-        icon: "youtube",
-        label: "YouTube",
-        cell: makeObjectAssignable(makeReactive([1, 0]))
-    })),
-    makeObjectAssignable(makeReactive({
-        id: "settings",
-        icon: "settings",
-        label: "Settings",
-        cell: makeObjectAssignable(makeReactive([2, 0]))
-    }))
-]));
 
 
 
@@ -100,7 +71,7 @@ export const Apps = ({apps}: AppsType) => {
     //
     return html`<div id="root" ref=${$element} style="inline-size: 100%; block-size: 100%; position: fixed; inset: 0px; place-self: center; display: flex; pointer-events: auto; background: transparent; overflow: hidden;">
         <!-- Workspace Icons -->
-        <${Icons} items=${()=>items} lists=${()=>lists}><//>
+        <${Icons} items=${()=>gridState.items} lists=${()=>gridState.lists}><//>
 
         <!-- Apps Part -->
         <${For} each=${() => apps}>${(app) => {
