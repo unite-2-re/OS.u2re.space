@@ -57,32 +57,28 @@ export const gridState = makeObjectAssignable(makeReactive({
 }));
 
 //
-export const saveToStorage = ()=>{
+export const saveToStorage = (ev?: any)=>{
     localStorage.setItem("grids@items", JSOX.stringify(unwrap(Array.from(gridState.items?.values?.() || []))));
     localStorage.setItem("grids@lists", JSOX.stringify(unwrap(Array.from(gridState.lists?.values?.() || []))));
 }
 
-//
-addEventListener("beforeunload", ()=>{
-    saveToStorage();
-});
+// ideal scenario for protect from ban avoid...
+// why? because after clear cache, memory process still remain
+// you can pass ban-system only if you block such events, or if you clear store in out of process
+addEventListener("beforeunload", saveToStorage);
+addEventListener("pagehide", saveToStorage);
 
 //
-addEventListener("pagehide", ()=>{
-    saveToStorage();
-});
-
-//
-document.addEventListener("visibilitychange", ()=>{
+document.addEventListener("visibilitychange", (ev)=>{
     if (document.visibilityState === "hidden") {
-        saveToStorage();
+        saveToStorage(ev);
     }
 });
 
 //
 addEventListener("storage", (ev)=>{
     if (ev.storageArea == localStorage) {
-        if (ev.key == "grids@items") { gridState.items = makeObjectAssignable(makeReactive(new Set(mergeByKey([...defaultItems, ...Array.from(JSOX.parse(localStorage.getItem("grids@items") || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I))))); };
-        if (ev.key == "grids@lists") { gridState.lists = makeObjectAssignable(makeReactive(new Set([...Array.from(JSOX.parse(localStorage.getItem("grids@lists") || JSOX.stringify(defaultLists))?.values?.() || defaultLists)]))); };
+        if (ev.key == "grids@items") { gridState.items = new Set(mergeByKey([...defaultItems, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I))); };
+        if (ev.key == "grids@lists") { gridState.lists = new Set([...Array.from(JSOX.parse(ev.newValue || JSOX.stringify(defaultLists))?.values?.() || defaultLists)]); };
     }
 });
