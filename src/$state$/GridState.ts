@@ -1,7 +1,5 @@
 // @ts-ignore /* @vite-ignore */
 import {subscribe, makeReactive, makeObjectAssignable, safe } from "/externals/lib/object.js";
-
-//
 import {JSOX} from "jsox";
 
 //
