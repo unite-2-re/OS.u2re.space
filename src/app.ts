@@ -47,7 +47,10 @@ Promise.allSettled([
     // @ts-ignore
     import(/* @vite-ignore */ "/externals/wcomp/scrollbox.js"),
     // @ts-ignore
-    import(/* @vite-ignore */ "/externals/wcomp/image.js")
+    import(/* @vite-ignore */ "/externals/wcomp/image.js"),
+
+    // @ts-ignore
+    import(/* @vite-ignore */ "./$core$/ActionMap.ts"),
 ]).then((mds)=>mds.map((rs: any)=> {try { return rs?.value?.default?.() } catch(e) {}})).then(()=>{
     initialize(document.querySelector("#viewport"));
 

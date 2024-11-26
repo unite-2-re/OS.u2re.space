@@ -153,9 +153,16 @@
 
             // comment to enable native context menu
             document.documentElement.addEventListener("contextmenu", (ev)=>{
-                ev.stopPropagation();
+                //ev.stopPropagation();
                 ev.preventDefault();
-            }, {capture: true});
+
+                //
+                /*document.documentElement?.dispatchEvent?.(new CustomEvent("ui-ctx-menu", {
+                    detail: ev,
+                    cancelable: true,
+                    bubbles: true
+                }));*/
+            });
 
             //
             if ("virtualKeyboard" in navigator && navigator?.virtualKeyboard) {
