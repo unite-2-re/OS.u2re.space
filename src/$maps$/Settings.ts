@@ -1,4 +1,4 @@
-import type { TabType } from "@src/$core$/Types.tsx";
+import type { TabType } from "@/src/$core$/Types";
 
 //
 export const tabs: TabType[] = [

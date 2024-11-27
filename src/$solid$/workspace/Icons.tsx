@@ -12,7 +12,7 @@ import {inflectInGrid} from "/externals/system/grid-system.js";
 import {makeSelection} from "/externals/lib/interact.js";
 
 //
-import type { ItemsType } from "@src/$core$/Types.tsx";
+import type { ItemsType } from "@/src/$core$/Types";
 import { refAndMount } from "@src/$core$/Utils.ts";
 
 //

@@ -13,7 +13,7 @@ import Icons from "./workspace/Icons";
 import { gridState } from "../$state$/GridState";
 
 //
-import type { AppsType } from "@src/$core$/Types";
+import type { AppsType } from "@/src/$core$/Types";
 import { refAndMount } from "@src/$core$/Utils";
 
 // while: tab.component should be  ()=> html`...`
