@@ -6,19 +6,19 @@ const sourceMapsInProduction = true;
 import autoprefixer from "autoprefixer";
 import path from "node:path";
 import {defineConfig} from "vite";
-import VitePluginBrowserSync from 'vite-plugin-browser-sync';
+//import VitePluginBrowserSync from 'vite-plugin-browser-sync';
 import prefetchPlugin from 'vite-plugin-bundle-prefetch';
 import {compression} from "vite-plugin-compression2";
-import {nodePolyfills} from "vite-plugin-node-polyfills";
-import {VitePWA} from "vite-plugin-pwa";
+//import {nodePolyfills} from "vite-plugin-node-polyfills";
+//import {VitePWA} from "vite-plugin-pwa";
 import {viteStaticCopy} from "vite-plugin-static-copy";
 import certificate from "./https/certificate.mjs";
 import pkg from "./package.json" with { type: "json" };
 import tsconfig from "./tsconfig.json" with { type: "json" };
-import vue from '@vitejs/plugin-vue'
-import { viteSingleFile } from "vite-plugin-singlefile"
-import json5Plugin from 'vite-plugin-json5'
-import VueI18n from '@intlify/unplugin-vue-i18n/vite'
+//import vue from '@vitejs/plugin-vue'
+//import { viteSingleFile } from "vite-plugin-singlefile"
+//import json5Plugin from 'vite-plugin-json5'
+//import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import nodeExternals from 'rollup-plugin-node-externals'
 import createExternal from 'vite-plugin-external';
 import cssnano from "cssnano";
@@ -48,24 +48,24 @@ const config = defineConfig({
             externals: {externals: "externals"},
             externalizeDeps: ["externals", "/externals", "./externals"]
         }),
-        json5Plugin(),
-        viteSingleFile({
+        //json5Plugin(),
+        /*viteSingleFile({
             useRecommendedBuildConfig: false,
             inlinePattern: ["!(service).mjs"]
-        }),
-        nodePolyfills(),
+        }),*/
+        //nodePolyfills(),
         compression({
             algorithm: 'brotliCompress'
         }),
         prefetchPlugin(),
-        VitePluginBrowserSync(),
+        //VitePluginBrowserSync(),
         solidPlugin({
             // solid-specific, other is inline/regular
             include: ["*/$solid$/*.ts", "*/$solid$/**/*.tsx"]
         })
     ],
     server: {
-        open: '/frontend/index.html',
+        //open: '/frontend/index.html',
         origin: "",
         host: "0.0.0.0",
         port: 443,
