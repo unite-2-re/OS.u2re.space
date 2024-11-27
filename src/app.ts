@@ -1,3 +1,4 @@
+//
 import { render } from "solid-js/web"
 import html from "solid-js/html";
 
@@ -47,4 +48,5 @@ export const initialize = async (root)=>{
 export default initialize;
 
 // DEBUG MODE
+import "./$scss$/Main.scss";
 initialize?.(document.querySelector("#viewport"));
