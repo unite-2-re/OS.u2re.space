@@ -1,49 +1,14 @@
 // @ts-ignore
 import { For, createSignal, onMount, lazy, Show, createMemo, createEffect } from "solid-js";
-
-// @ts-ignore
-import {observeAttribute} from "/externals/lib/dom.js";
-
-//
-import type { TabType } from "./Types.tsx";
-import Tabs from "./Tabs.tsx";
-import Form from "./Form.tsx";
 import html from "solid-js/html";
 
 //
-const refAndMount = (cb)=>{
-    return (element)=>{
-        onMount(()=>cb(element));
-    }
-}
+import Tabs from "./Tabs.tsx";
+import Form from "./Form.tsx";
 
 //
-const observe = (val) => {
-    return (el)=> {
-        const [attr, setter] = val;
-        observeAttribute(el, attr, (obs)=>setter(el.getAttribute(attr)));
-    }
-}
-
-//
-const logged = (fx)=>{
-    return (...args)=>{
-        console.log(...args);
-        return fx(...args);
-    }
-}
-
-//
-export const tabs: TabType[] = [
-    {id: "display", icon: "monitor-cog", content: "Display" },
-    {id: "layout", icon: "grid-3x3", content: "Layout" }
-];
-
-//
-export const forms: any[] = [{
-    label: "Workspace",
-    inputs: []
-}];
+import { observe, refAndMount } from "@src/$core$/Utils.ts";
+import { forms, tabs } from "./$ts$/Map.ts";
 
 // while: tab.component should be  ()=> html`...`
 export const Settings = () => {

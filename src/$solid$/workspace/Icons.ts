@@ -12,43 +12,8 @@ import {inflectInGrid} from "/externals/system/grid-system.js";
 import {makeSelection} from /* @vite-ignore */ "/externals/lib/interact.js";
 
 //
-export interface ItemType {
-    label: string;
-    icon: string;
-    id: string;
-    href?: string;
-    action?: string;
-    cell: [number, number];
-};
-
-//
-export interface ItemsType {
-    items: ItemType[];
-    lists: string[][];
-};
-
-//
-const refAndMount = (cb)=>{
-    return (element)=>{
-        onMount(()=>cb(element));
-    }
-}
-
-//
-const observe = (val) => {
-    return (el)=> {
-        const [attr, setter] = val;
-        observeAttribute(el, attr, (obs)=>setter(el.getAttribute(attr)));
-    }
-}
-
-//
-const logged = (fx)=>{
-    return (...args)=>{
-        console.log(...args);
-        return fx(...args);
-    }
-}
+import type { ItemsType } from "@src/$core$/Types.tsx";
+import { refAndMount } from "@src/$core$/Utils.ts";
 
 //
 const createShaped = (item, gs)=>{
@@ -75,8 +40,6 @@ const createShaped = (item, gs)=>{
 
     //
     element.append(shape);
-
-    //
     return element;
 }
 
