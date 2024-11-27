@@ -8,7 +8,7 @@ import Form from "./Form.tsx";
 
 //
 import { observe, refAndMount } from "@src/$core$/Utils.ts";
-import { forms, tabs } from "./$ts$/Map.ts";
+import { forms, tabs } from "../../$maps$/Settings.ts";
 
 // while: tab.component should be  ()=> html`...`
 export const Settings = () => {

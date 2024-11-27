@@ -2,7 +2,7 @@
 export const tasks = [
     {
         id: "#settings",
-        component: ()=>import("./$solid$/settings/Settings"),
+        component: ()=>import("../$solid$/settings/Settings"),
         icon: "settings",
         active: false
     }

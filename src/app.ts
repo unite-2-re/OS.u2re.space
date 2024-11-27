@@ -2,8 +2,8 @@ import { render } from "solid-js/web"
 import html from "solid-js/html";
 
 //
-import tasks from "./tasks.ts";
-import Workspace from "./$solid$/workspace/Main.ts";
+import tasks from "./$maps$/Tasks";
+import Workspace from "./$solid$/Main.ts";
 
 //
 export const initialize = async (root)=>{
@@ -47,4 +47,4 @@ export const initialize = async (root)=>{
 export default initialize;
 
 // DEBUG MODE
-initialize(document.querySelector("#viewport"));
+initialize?.(document.querySelector("#viewport"));

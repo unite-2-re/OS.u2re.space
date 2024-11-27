@@ -9,12 +9,12 @@ import {observeAttribute} from "/externals/lib/dom.js";
 import {makeSelection} from "/externals/lib/interact.js";
 
 //
-import Icons from "./Icons.ts";
-import { gridState } from "../../$state$/GridState.ts";
+import Icons from "./workspace/Icons";
+import { gridState } from "../$state$/GridState";
 
 //
-import type { AppsType } from "@src/$core$/Types.tsx";
-import { refAndMount } from "@src/$core$/Utils.ts";
+import type { AppsType } from "@src/$core$/Types";
+import { refAndMount } from "@src/$core$/Utils";
 
 // while: tab.component should be  ()=> html`...`
 export const Workspace = ({tasks}: AppsType) => {

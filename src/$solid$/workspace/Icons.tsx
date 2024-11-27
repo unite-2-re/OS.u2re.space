@@ -9,7 +9,7 @@ import {observeAttribute} from "/externals/lib/dom.js";
 import {inflectInGrid} from "/externals/system/grid-system.js";
 
 // @ts-ignore
-import {makeSelection} from /* @vite-ignore */ "/externals/lib/interact.js";
+import {makeSelection} from "/externals/lib/interact.js";
 
 //
 import type { ItemsType } from "@src/$core$/Types.tsx";
