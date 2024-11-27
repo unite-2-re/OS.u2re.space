@@ -14,9 +14,13 @@ export const actionMap = new Map([
 //
 export const ctxMenuMap = new Map([
     [".u2-grid-item", [
-        {icon: new UILucideIcon({icon: "github", padding: ""}), content: "Properties", callback(initiator) { actionMap.get("set-wallpaper")?.(initiator); } },
-        {icon: new UILucideIcon({icon: "youtube", padding: ""}), content: "Clone", callback(initiator) { actionMap.get("set-wallpaper")?.(initiator); } }
-    ]]
+        {icon: new UILucideIcon({icon: "pencil", padding: ""}), content: "Edit", callback(initiator) { actionMap.get("item-edit")?.(initiator); } },
+        {icon: new UILucideIcon({icon: "badge-x", padding: ""}), content: "Delete", callback(initiator) { actionMap.get("item-delete")?.(initiator); } }
+    ]],
+    [".u2-desktop-grid", [
+        {icon: new UILucideIcon({icon: "badge-plus", padding: ""}), content: "Add Item", callback(initiator) { actionMap.get("item-add")?.(initiator); } },
+        {icon: new UILucideIcon({icon: "wallpaper", padding: ""}), content: "Set Wallpaper", callback(initiator) { actionMap.get("set-wallpaper")?.(initiator); } },
+    ]],
 ]);
 
 //

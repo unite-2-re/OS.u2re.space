@@ -8,6 +8,9 @@ import {observeAttribute} from "/externals/lib/dom.js";
 // @ts-ignore
 import {inflectInGrid} from "/externals/system/grid-system.js";
 
+// @ts-ignore
+import {makeSelection} from /* @vite-ignore */ "/externals/lib/interact.js";
+
 //
 export interface ItemType {
     label: string;
@@ -96,6 +99,11 @@ const createLabel = (item, gs)=>{
 
 // while: tab.component should be  ()=> html`...`
 export const Items = ({items, lists}: ItemsType) => {
+    const $element = refAndMount((topLevel)=> {
+        makeSelection(topLevel, "ui-shaped");
+    });
+
+    //
     const $shapes = refAndMount((gridSet)=> {
         inflectInGrid(gridSet, items, lists?.[0] || [], createShaped);
     });
@@ -106,7 +114,7 @@ export const Items = ({items, lists}: ItemsType) => {
     });
 
     //
-    return html`<div class="u2-desktop-grid">
+    return html`<div ref=${$element} class="u2-desktop-grid" style="pointer-events: auto;">
         <ui-gridbox class="u2-grid-page" style="inline-size: 100%; block-size: 100%;" ref=${$shapes}></ui-gridbox>
         <ui-gridbox class="u2-grid-page" style="inline-size: 100%; block-size: 100%;" ref=${$labels}></ui-gridbox>
     </div>`;

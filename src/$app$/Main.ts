@@ -65,7 +65,7 @@ const logged = (fx)=>{
 // while: tab.component should be  ()=> html`...`
 export const Apps = ({apps}: AppsType) => {
     const $element = refAndMount((topLevel)=> {
-        makeSelection(topLevel, "ui-shaped");
+        //makeSelection(topLevel, "ui-shaped");
     });
 
     //
