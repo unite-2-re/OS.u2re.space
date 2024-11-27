@@ -3,7 +3,7 @@ import html from "solid-js/html";
 
 //
 import tasks from "./$maps$/Tasks";
-import Workspace from "./$solid$/Main.ts";
+import Workspace from "./$solid$/Main";
 
 //
 export const initialize = async (root)=>{
