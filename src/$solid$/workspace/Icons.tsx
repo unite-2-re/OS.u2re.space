@@ -77,7 +77,7 @@ export const Items = ({items, lists}: ItemsType) => {
     });
 
     //
-    return html`<div ref=${$element} class="u2-desktop-grid" style="pointer-events: auto;">
+    return html`<div ref=${$element} class="u2-desktop-grid" style="pointer-events: auto; contain: none; overflow: visible; container-type: normal;">
         <ui-gridbox class="u2-grid-page" style="inline-size: 100%; block-size: 100%;" ref=${$shapes}></ui-gridbox>
         <ui-gridbox class="u2-grid-page" style="inline-size: 100%; block-size: 100%;" ref=${$labels}></ui-gridbox>
     </div>`;
