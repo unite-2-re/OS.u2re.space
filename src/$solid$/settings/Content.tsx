@@ -8,7 +8,7 @@ import type { TabType } from "@/src/$core$/Types";
 
 //
 export const TabContent = ({tab}: {tab: ()=>TabType}) => {
-    return html`<div data-tab=${()=>tab()?.id}><slot></slot></div>`;
+    return html`<div class="adl-content" data-tab=${()=>tab()?.id}><slot></slot></div>`;
 };
 
 //
