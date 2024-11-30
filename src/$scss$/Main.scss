@@ -1,60 +1,6 @@
+@use "Settings";
+
+//
 @layer adl-general {
-
-    //
-    :where(.ui-content#settings) {
-
-        //
-        & {
-            display: inline grid;
-            grid-template-columns: minmax(0px, 15rem) minmax(0px, 1fr);
-            grid-template-rows: minmax(0px, 1fr);
-            box-sizing: border-box;
-        }
-
-        //
-        .adl-tabs {
-            display: inline grid;
-            grid-auto-rows: minmax(0px, max-content);
-            grid-template-columns: minmax(2rem, max-content) minmax(0px, 1fr);
-            block-size: max-content;
-            inline-size: 100%;
-            overflow: hidden;
-        }
-
-        //
-        .adl-tab-box {
-            & {
-                grid-column: 1 / 1 span;
-                grid-row: 1 / 1 span;
-                block-size: 100%;
-                inline-size: 100%;
-                padding: 0rem;
-            }
-
-            //
-            ui-listrow {
-                block-size: 2rem;
-            }
-        }
-
-        //
-        .adl-content-box {
-            grid-column: 2 / 2 span;
-            grid-row: 1 / 1 span;
-            block-size: 100%;
-            inline-size: 100%;
-        }
-
-        //
-        .adl-content {
-            & { padding: 1rem; }
-
-            //
-            form {
-                inline-size: 100%;
-                block-size: max-content;
-            }
-        }
-    }
 
 }
