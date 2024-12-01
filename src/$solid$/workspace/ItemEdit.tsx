@@ -10,7 +10,14 @@ import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
 import { refAndMount } from "@src/$core$/Utils.ts";
 
 //
-export const stateOnEdit = makeObjectAssignable(makeReactive({}));
+export const stateOnEdit = makeObjectAssignable(makeReactive({
+    label: "",
+    icon: "",
+    href: "",
+    action: ""
+}));
+
+//
 export const ItemEdit = ({
     loadState, // loader from state manager (load for id)
     confirmState, // uploader to state manager (set by id)
@@ -18,7 +25,7 @@ export const ItemEdit = ({
 }: {
     loadState: ()=>any,
     confirmState: (S: any, KV?: [any, any])=>any,
-    form: ()=>any
+    form: any
 }) => {
     //
     const $content = refAndMount((topLevel)=> {
@@ -27,14 +34,22 @@ export const ItemEdit = ({
     });
 
     // when changing target, set another field values
-    createComputed(()=>Object.assign(stateOnEdit, loadState()));
+    createComputed(()=>{
+        const state = loadState?.();
+        if (state) {
+            stateOnEdit["label"] = state?.["label"] || "";
+            stateOnEdit["icon"] = state?.["icon"] || "";
+            stateOnEdit["href"] = state?.["href"] || "";
+            stateOnEdit["action"] = state?.["action"] || "";
+        }
+    });
 
     //data-hidden
-    return html`<div class="adl-modal">
+    return html`<div class="adl-modal" data-scheme="solid" data-highlight="8">
         <form class="adl-item-edit" ref=${$content}>
-            <${For} each=${() => form?.()?.inputs}>${(input) => { return html`<label>
+            <${For} each=${() => form}>${(input) => { return html`<label>
                 <div class="adl-label">${input?.label}</div>
-                <div class="adl-input"><${input?.component} input=${()=>input}><//></div>
+                <div class="adl-input" data-scheme="solid" data-alpha="0" data-highlight="2"><${input?.component} input=${()=>input}><//></div>
             </label>`;}}<//>
         </form>
         <div class="adl-buttons">

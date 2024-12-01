@@ -15,6 +15,31 @@ import { getItem, gridState, targetItem } from "../$state$/GridState";
 import { refAndMount } from "@src/$core$/Utils";
 import ItemEdit from "./workspace/ItemEdit.tsx";
 
+//
+const textField = (inp)=> html`<ui-longtext class="u2-input" name=${()=>inp?.name}><input value="" placeholder=${()=>inp?.name} name=${()=>inp?.name} type="text"/></ui-longtext>`;
+const itemForm  = [
+    {
+        name: "label",
+        label: "Label",
+        component: textField
+    },
+    {
+        name: "icon",
+        label: "IconID",
+        component: textField
+    },
+    {
+        name: "action",
+        label: "Action",
+        component: textField
+    },
+    {
+        name: "href",
+        label: "HREF",
+        component: textField
+    },
+];
+
 // while: tab.component should be  ()=> html`...`
 export const Workspace = ({tasks}: AppsType) => {
     const $element = refAndMount((topLevel)=> {
@@ -22,7 +47,7 @@ export const Workspace = ({tasks}: AppsType) => {
     });
 
     //
-    return html`<div id="root" ref=${$element} style="inline-size: 100%; block-size: 100%; position: fixed; inset: 0px; place-self: center; display: flex; pointer-events: auto; background: transparent; overflow: hidden;">
+    return html`<div id="root" ref=${$element}>
         <!-- Workspace Icons -->
         <${Items} items=${()=>gridState.items} lists=${()=>gridState.lists}><//>
 
@@ -35,6 +60,7 @@ export const Workspace = ({tasks}: AppsType) => {
         <${ItemEdit}
             loadState=${()=>(targetItem)}
             confirmState=${(state)=>Object.assign(getItem(state?.id)||{}, state)}
+            form=${()=>itemForm}
         ><//>
 
         <!-- Taskbar -->

@@ -16,7 +16,7 @@ export const Settings = () => {
     const [currentTab, setTab] = createSignal("display");
     const cTab = createMemo(()=>tabOf(currentTab()));
     const $content = refAndMount((topLevel)=> {
-        console.log(topLevel.querySelector("input"));
+        //console.log(topLevel.querySelector("input"));
     });
 
     //

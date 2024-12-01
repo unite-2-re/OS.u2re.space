@@ -17,7 +17,7 @@ export const Form = ({form}: {form: ()=>any}) => {
     });
 
     //
-    return html`<form ref=${$content}><${For} each=${() => form().inputs}>${(input) => {
+    return html`<form ref=${$content}><${For} each=${() => form?.()?.inputs}>${(input) => {
         return html`<ui-block>
             <ui-icon icon=${()=>input?.icon} slot="icon"></ui-icon>
             <span>${()=>input?.label}</span>
