@@ -3,7 +3,8 @@
 
 //
 export const useFS = async() => {
-    const opfs = await import('happy-opfs/dist/main.mjs').catch(console.warn.bind(console));
+    // @ts-ignore
+    const opfs = await import('/externals/vendor/happy-opfs.mjs').catch(console.warn.bind(console));
 
     // @ts-ignore
     const deno = typeof Deno != "undefined" ? Deno : null;
@@ -169,29 +170,51 @@ export const useItemEv = (ev, state)=>{
 }
 
 //
+export const imageImportDesc = {
+    types: [
+        {
+            description: "wallpaper",
+            accept: {
+                "image/*": [
+                    ".png",
+                    ".gif",
+                    ".jpg",
+                    ".jpeg",
+                    ".webp",
+                    ".jxl",
+                ],
+            },
+        },
+    ],
+    startIn: "pictures",
+    multiple: false,
+};
+
+//
 export const addItemEv = async (ev, state)=>{
     const fs = await useFS();
+    const $e = "showOpenFilePicker";
+
+    // @ts-ignore
+    const showOpenFilePicker = window?.[$e]?.bind?.(window) ?? (await import("/externals/polyfill/showOpenFilePicker.mjs"))?.[$e];
 
     //
-    /*pickWallpaperImage()
-        .catch(console.warn.bind(console))
-        .then(async (blob) => {
-            if (blob) {
-                const fn = (blob?.name || "wallpaper");
-                await fs.mkdir("/images/");
-                await fs.writeFile("/images/" + fn, blob);
+    showOpenFilePicker(imageImportDesc)?.then?.(async ([handle] = [])=>{
+        const file = handle?.getFile?.();
+        const fn   = (file?.name || "wallpaper");
 
-                //
-                files.set(fn, blob);
+        //
+        await fs.mkdir("/images/");
+        await fs.writeFile("/images/" + fn, file);
 
-                //
-                state.selectedFilename = fn;
-                state.fileList = files;
+        //
+        files.set(fn, file);
+        state.selectedFilename = fn;
+        state.fileList = files;
 
-                //
-                await getFileList(fs, state);
-            }
-        });*/
+        //
+        await getFileList(fs, state);
+    });
 }
 
 //
