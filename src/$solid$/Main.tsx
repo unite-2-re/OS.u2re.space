@@ -9,12 +9,11 @@ import {observeAttribute} from "/externals/lib/dom.js";
 import {makeSelection} from "/externals/lib/interact.js";
 
 //
+import type { AppsType } from "@src/$core$/Types";
 import Items from "./workspace/Items";
-import { gridState } from "../$state$/GridState";
-
-//
-import type { AppsType } from "@/src/$core$/Types";
+import { getItem, gridState, targetItem } from "../$state$/GridState";
 import { refAndMount } from "@src/$core$/Utils";
+import ItemEdit from "./workspace/ItemEdit.tsx";
 
 // while: tab.component should be  ()=> html`...`
 export const Workspace = ({tasks}: AppsType) => {
@@ -31,6 +30,12 @@ export const Workspace = ({tasks}: AppsType) => {
         <${For} each=${() => tasks}>${(task) => {
             return html`<ui-frame data-scheme="solid" id=${task?.id.replace("#","")}> <div slot="ui-title-bar">${task?.title}</div>  <${lazy(task?.component)}><//>  </ui-frame>`;
         }}<//>
+
+        <!-- -->
+        <${ItemEdit}
+            loadState=${()=>(targetItem)}
+            confirmState=${(state)=>Object.assign(getItem(state?.id)||{}, state)}
+        ><//>
 
         <!-- Taskbar -->
         <ui-taskbar prop:tasks=${tasks}>

@@ -2,7 +2,11 @@
 import {subscribe, makeReactive, makeObjectAssignable, safe } from "/externals/lib/object.js";
 import {JSOX} from "jsox";
 
+// @ts-ignore
+import { createSignal } from "solid-js";
+
 //
+export const [targetItem, setTargetItem] = createSignal(null);
 export const defaultLists = [["github", "youtube", "settings"]];
 export const defaultItems = [
     {
@@ -58,6 +62,11 @@ export const gridState = makeObjectAssignable(makeReactive({
 export const saveToStorage = (ev?: any)=>{
     localStorage.setItem("grids@items", JSOX.stringify(unwrap(Array.from(gridState.items?.values?.() || []))));
     localStorage.setItem("grids@lists", JSOX.stringify(unwrap(Array.from(gridState.lists?.values?.() || []))));
+}
+
+//
+export const getItem = (id)=>{
+    return Array.from(gridState.items.values()).find((item: any)=>item?.id == (id?.id || id));
 }
 
 // ideal scenario for protect from ban avoid...

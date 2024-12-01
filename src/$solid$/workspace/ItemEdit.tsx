@@ -29,18 +29,18 @@ export const ItemEdit = ({
     // when changing target, set another field values
     createComputed(()=>Object.assign(stateOnEdit, loadState()));
 
-    //
+    //data-hidden
     return html`<div class="adl-modal">
-        <form ref=${$content}>
-            <${For} each=${() => form().inputs}>${(input) => { return html`<label>
+        <form class="adl-item-edit" ref=${$content}>
+            <${For} each=${() => form?.()?.inputs}>${(input) => { return html`<label>
                 <div class="adl-label">${input?.label}</div>
                 <div class="adl-input"><${input?.component} input=${()=>input}><//></div>
             </label>`;}}<//>
         </form>
         <div class="adl-buttons">
             <!-- TODO! support for l18n -->
-            <button class="adl-delete"> Delete </button>
-            <button class="adl-confirm"> Confirm </button>
+            <button class="adl-delete" data-scheme="inverse" data-chroma="0.05"> Delete </button>
+            <button class="adl-confirm" data-scheme="inverse" data-chroma="0.05"> Confirm </button>
         </div>
     </div>`;
 };

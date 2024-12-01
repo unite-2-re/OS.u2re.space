@@ -3,4 +3,114 @@
 //
 @layer adl-general {
 
+    //
+    .adl-modal {
+        contain: none;
+        container-type: inline-size;
+        place-self: center;
+        inline-size: 12rem;
+        block-size: max-content;
+        position: fixed;
+        inset: auto;
+        inset-inline-start: 50%;
+        inset-block-start: 50%;
+        translate: -50% -50%;
+        overflow: hidden;
+        padding: 1rem;
+        box-sizing: border-box;
+        max-block-size: 100cqb;
+        max-inline-size: 100cqi;
+
+        //
+        place-items: center;
+        place-content: center;
+
+        //
+        display: flex;
+        flex-direction: column;
+    }
+
+    //
+    .adl-buttons {
+        & {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 1rem;
+
+            //
+            min-block-size: 2rem;
+            block-size: max-content;
+            place-content: stretch;
+            place-items: stretch;
+            box-sizing: border-box;
+            padding: 0.5rem;
+        }
+
+        //
+        button {
+            display: flex;
+            place-self: stretch;
+            flex-direction: row;
+            box-sizing: border-box;
+            min-block-size: 2rem;
+            block-size: max-content;
+            padding: 0.5rem;
+
+            //
+            inline-size: auto;
+            min-inline-size: max-content;
+            max-inline-size: 100%;
+            flex-grow: 1;
+
+            //
+            outline: none 0px transparent;
+            border: none 0px transparent;
+        }
+    }
+
+    //
+    .adl-item-edit {
+
+        //
+        & {
+            contain: none;
+            container-type: inline-size;
+            inline-size: 100%;
+            block-size: 100%;
+            min-block-size: max-content;
+            box-sizing: border-box;
+
+            //
+            display: grid;
+            grid-template-columns: minmax(4rem, max-content) minmax(0px, 1fr);
+            grid-auto-rows: minmax(2rem, max-content);
+            grid-auto-flow: column;
+
+            //
+            place-items: center;
+            place-content: center;
+        }
+
+        //
+        & > label {
+            //
+            inline-size: 100%;
+            block-size: 100%;
+            min-block-size: max-content;
+            box-sizing: border-box;
+
+            //
+            display: grid;
+            grid-template-columns: subgrid;
+            grid-template-rows: minmax(0px, 1fr);
+
+            //
+            grid-column: 1 / -1;
+            place-self: center;
+            place-items: center;
+            place-content: center;
+        }
+    }
+
 }

@@ -1,7 +1,12 @@
+import { getItem, setTargetItem } from "../$state$/GridState.ts";
+
 //
 export const actionMap = new Map([
     ["set-wallpaper", (initiator, ev?)=>{
         console.log(initiator);
+    }],
+    ["item-edit", (initiator, ev?)=>{
+        setTargetItem(getItem(initiator?.dataset?.id));
     }]
 ]);
 
