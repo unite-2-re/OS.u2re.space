@@ -16,7 +16,7 @@ import { refAndMount } from "@src/$core$/Utils";
 import ItemEdit from "./workspace/ItemEdit.tsx";
 
 //
-const textField = (inp)=> html`<ui-longtext class="u2-input" name=${()=>inp?.name}><input value="" placeholder=${()=>inp?.name} name=${()=>inp?.name} type="text"/></ui-longtext>`;
+const textField = ({input}: {input?: any})=> html`<ui-longtext class="u2-input" data-name=${()=>input?.name}><input value="" placeholder=${()=>input?.name} name=${()=>input?.name} type="text"/></ui-longtext>`;
 const itemForm  = [
     {
         name: "label",
@@ -40,6 +40,9 @@ const itemForm  = [
     },
 ];
 
+//
+const fields = ["label", "icon", "href", "action"];
+
 // while: tab.component should be  ()=> html`...`
 export const Workspace = ({tasks}: AppsType) => {
     const $element = refAndMount((topLevel)=> {
@@ -59,7 +62,14 @@ export const Workspace = ({tasks}: AppsType) => {
         <!-- -->
         <${ItemEdit}
             loadState=${()=>(targetItem)}
-            confirmState=${(state)=>Object.assign(getItem(state?.id)||{}, state)}
+            confirmState=${(state, [_, k])=>{
+                const item = getItem(state?.id)||{};
+                if (state && item) {
+                    //for (const k of fields) {
+                        if (item[k] != state?.[k]) { item[k] = state?.[k] || ""; };
+                    //}
+                }
+            }}
             form=${()=>itemForm}
         ><//>
 

@@ -11,11 +11,15 @@ import { refAndMount } from "@src/$core$/Utils.ts";
 
 //
 export const stateOnEdit = makeObjectAssignable(makeReactive({
+    id: "",
     label: "",
     icon: "",
     href: "",
     action: ""
 }));
+
+//
+const fields = ["label", "icon", "href", "action", "id"];
 
 //
 export const ItemEdit = ({
@@ -37,10 +41,9 @@ export const ItemEdit = ({
     createComputed(()=>{
         const state = loadState?.();
         if (state) {
-            stateOnEdit["label"] = state?.["label"] || "";
-            stateOnEdit["icon"] = state?.["icon"] || "";
-            stateOnEdit["href"] = state?.["href"] || "";
-            stateOnEdit["action"] = state?.["action"] || "";
+            for (const k of fields) {
+                if (stateOnEdit[k] != state?.[k]) { stateOnEdit[k] = state?.[k] || ""; };
+            }
         }
     });
 
