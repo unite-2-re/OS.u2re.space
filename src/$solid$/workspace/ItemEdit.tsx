@@ -10,6 +10,7 @@ import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
 import { refAndMount } from "@src/$core$/Utils.ts";
 
 //
+const fields = ["label", "icon", "href", "action", "id"];
 export const stateOnEdit = makeObjectAssignable(makeReactive({
     id: "",
     label: "",
@@ -19,7 +20,14 @@ export const stateOnEdit = makeObjectAssignable(makeReactive({
 }));
 
 //
-const fields = ["label", "icon", "href", "action", "id"];
+document.documentElement.addEventListener("click", (ev)=>{
+    const element = ev?.target as HTMLElement;
+    const selector = ".adl-modal, .u2-input, input, ui-contextmenu";
+    const modals = document.querySelectorAll(".adl-modal:not([data-hidden])");
+    if (!(element.matches(selector) || element.closest(selector))) {
+        modals.forEach((m)=>m?.setAttribute?.("data-hidden", ""));
+    }
+});
 
 //
 export const ItemEdit = ({
@@ -47,8 +55,12 @@ export const ItemEdit = ({
         }
     });
 
+    //
+    const $modal = refAndMount((topLevel)=> {
+    });
+
     //data-hidden
-    return html`<div class="adl-modal" data-scheme="solid" data-highlight="8">
+    return html`<div ref=${$modal} data-hidden class="adl-modal" data-scheme="solid" data-highlight="8">
         <form class="adl-item-edit" ref=${$content}>
             <${For} each=${() => form}>${(input) => { return html`<label>
                 <div class="adl-label">${input?.label}</div>

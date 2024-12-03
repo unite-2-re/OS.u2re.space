@@ -9,12 +9,12 @@ import { openContextMenu } from "/externals/wcomp/contextmenu.js";
 //
 export const ctxMenuMap = new Map([
     [".u2-grid-item", [
-        {icon: new UILucideIcon({icon: "pencil", padding: ""}), content: "Edit", callback(initiator) { actionMap.get("item-edit")?.(initiator); } },
-        {icon: new UILucideIcon({icon: "badge-x", padding: ""}), content: "Delete", callback(initiator) { actionMap.get("item-delete")?.(initiator); } }
+        {icon: new UILucideIcon({icon: "pencil", padding: "0.05rem"}), content: "Edit", callback(initiator) { actionMap.get("item-edit")?.(initiator); } },
+        {icon: new UILucideIcon({icon: "badge-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { actionMap.get("item-delete")?.(initiator); } }
     ]],
     [".u2-desktop-grid", [
-        {icon: new UILucideIcon({icon: "badge-plus", padding: ""}), content: "Add Item", callback(initiator) { actionMap.get("item-add")?.(initiator); } },
-        {icon: new UILucideIcon({icon: "wallpaper", padding: ""}), content: "Set Wallpaper", callback(initiator) { actionMap.get("set-wallpaper")?.(initiator); } },
+        {icon: new UILucideIcon({icon: "badge-plus", padding: "0.05rem"}), content: "Add Item", callback(initiator) { actionMap.get("item-add")?.(initiator); } },
+        {icon: new UILucideIcon({icon: "wallpaper", padding: "0.05rem"}), content: "Set Wallpaper", callback(initiator) { actionMap.get("set-wallpaper")?.(initiator); } },
     ]],
 ]);
 

@@ -69,6 +69,13 @@ export const getItem = (id)=>{
     return Array.from(gridState.items.values()).find((item: any)=>item?.id == (id?.id || id));
 }
 
+//
+export const removeItem = (id)=>{
+    const item = getItem(id);
+    if (gridState.items?.has?.(item)) { gridState.items?.delete?.(item); };
+    return item;
+}
+
 // ideal scenario for protect from ban avoid...
 // why? because after clear cache, memory process still remain
 // you can pass ban-system only if you block such events, or if you clear store in out of process

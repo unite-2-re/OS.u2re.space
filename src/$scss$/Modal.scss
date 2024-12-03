@@ -1,0 +1,38 @@
+@layer adl-modal {
+
+    //
+    .adl-modal {
+        contain: none;
+        container-type: inline-size;
+        place-self: center;
+        inline-size: 16rem;
+        block-size: max-content;
+        position: fixed;
+        inset: auto;
+        inset-inline-start: 50%;
+        inset-block-start: 50%;
+        translate: -50% -50%;
+        overflow: hidden;
+        padding: 1rem;
+        box-sizing: border-box;
+        max-block-size: 100cqb;
+        max-inline-size: 100cqi;
+        gap: 1rem;
+
+        //
+        place-items: center;
+        place-content: center;
+
+        //
+        display: flex;
+        flex-direction: column;
+
+        //
+        z-index: calc(999 + var(--z-index, 0));
+        border-radius: 0.25rem;
+
+        //
+        box-shadow: 0.125rem 0.125rem 1rem #00000080;
+    }
+
+}

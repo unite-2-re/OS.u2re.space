@@ -1,4 +1,4 @@
-import { getItem, setTargetItem } from "../$state$/GridState.ts";
+import { getItem, removeItem, setTargetItem } from "../$state$/GridState.ts";
 
 //
 export const actionMap = new Map([
@@ -6,10 +6,14 @@ export const actionMap = new Map([
         //console.log(initiator);
     }],
     ["item-edit", (initiator, ev?)=>{
-        setTargetItem(getItem(initiator?.dataset?.id));
+        const item = getItem(initiator?.dataset?.id);
+        if (item) {
+            setTargetItem(item);
+            document?.querySelector?.(".adl-modal:has(.adl-item-edit)")?.removeAttribute?.("data-hidden");
+        }
     }],
     ["item-delete", (initiator, ev?)=>{
-        //removeItem(initiator?.dataset?.id);
+        removeItem(initiator?.dataset?.id);
 
         //setTargetItem(getItem(initiator?.dataset?.id));
     }]
