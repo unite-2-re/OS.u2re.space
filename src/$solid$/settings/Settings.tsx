@@ -24,10 +24,10 @@ export const Settings = () => {
         <ui-scrollbox class="adl-tab-box">
             <div class="adl-tabs">
                 <${For} each=${() => tabs}>${(tab) => {
-                    return html`<ui-listrow onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>
+                    return html`<ui-select-row onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>
                         <ui-icon icon=${tab.icon} style="padding: 0.5rem;"></ui-icon>
                         <span>${tab.content as string}</span>
-                    </ui-listrow>`;
+                    </ui-select-row>`;
                 }}<//>
             </div>
         </ui-scrollbox>
