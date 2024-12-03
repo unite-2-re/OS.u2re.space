@@ -8,6 +8,7 @@ import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/ob
 // @ts-ignore
 import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
 import { refAndMount } from "@src/$core$/Utils.ts";
+import { removeItem } from "@/src/$state$/GridState.ts";
 
 //
 const fields = ["label", "icon", "href", "action", "id"];
@@ -42,7 +43,7 @@ export const ItemEdit = ({
     //
     const $content = refAndMount((topLevel)=> {
         synchronizeInputs(stateOnEdit, ".u2-input", topLevel, subscribe);
-        subscribe(stateOnEdit, (value, prop)=>confirmState(stateOnEdit, [value, prop]));
+        //subscribe(stateOnEdit, (value, prop)=>confirmState(stateOnEdit, [value, prop]));
     });
 
     // when changing target, set another field values
@@ -56,11 +57,27 @@ export const ItemEdit = ({
     });
 
     //
+    /*let modal: any = null;
     const $modal = refAndMount((topLevel)=> {
-    });
+        modal = topLevel;
+    });*/
+
+    //
+    const confirm = (ev)=>{
+        const modal = ev?.target?.closest?.(".adl-modal");
+        if (modal) { modal.dataset.hidden = ""; };
+        confirmState(stateOnEdit);
+    }
+
+    //
+    const deleteA = (ev)=>{
+        const modal = ev?.target?.closest?.(".adl-modal");
+        if (modal) { modal.dataset.hidden = ""; };
+        removeItem(stateOnEdit?.dataset?.id);
+    }
 
     //data-hidden
-    return html`<div ref=${$modal} data-hidden class="adl-modal" data-scheme="solid" data-highlight="8">
+    return html`<div data-hidden class="adl-modal" data-scheme="solid" data-highlight="8">
         <form class="adl-item-edit" ref=${$content}>
             <${For} each=${() => form}>${(input) => { return html`<label>
                 <div class="adl-label">${input?.label}</div>
@@ -69,8 +86,8 @@ export const ItemEdit = ({
         </form>
         <div class="adl-buttons">
             <!-- TODO! support for l18n -->
-            <button class="adl-delete" data-scheme="inverse" data-chroma="0.05"> Delete </button>
-            <button class="adl-confirm" data-scheme="inverse" data-chroma="0.05"> Confirm </button>
+            <button onClick=${deleteA} class="adl-delete" data-scheme="inverse" data-chroma="0.05"> Delete </button>
+            <button onClick=${confirm} class="adl-confirm" data-scheme="inverse" data-chroma="0.05"> Confirm </button>
         </div>
     </div>`;
 };

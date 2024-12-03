@@ -62,12 +62,16 @@ export const Workspace = ({tasks}: AppsType) => {
         <!-- -->
         <${ItemEdit}
             loadState=${()=>(targetItem)}
-            confirmState=${(state, [_, k])=>{
+            confirmState=${(state, /*[_, k]*/p?: [any?, any?])=>{
                 const item = getItem(state?.id)||{};
                 if (state && item) {
-                    //for (const k of fields) {
-                        if (item[k] != state?.[k]) { item[k] = state?.[k] || ""; };
-                    //}
+                    if (!p) {
+                        for (const k of fields) {
+                            if (item[k] != state?.[k]) { item[k] = state?.[k] ?? item[k]; };
+                        }
+                    } else {
+                        const k = p?.[1]; if (item[k] != state?.[k]) { item[k] = state?.[k] ?? item[k]; };
+                    }
                 }
             }}
             form=${()=>itemForm}
