@@ -2,7 +2,7 @@
 //import { pickWallpaperImage } from "@adl/PreInit/ActionMap.ts";
 
 //
-export const useFS = async() => {
+const $useFS$ = async() => {
     // @ts-ignore
     const opfs = await import('/externals/vendor/happy-opfs.mjs').catch(console.warn.bind(console));
 
@@ -27,13 +27,17 @@ export const useFS = async() => {
 }
 
 //
-export const provide = async (req: string | Request = "", rw = false) => {
-    const fs = await useFS();
+let currentFS: any = null;
+export const useFS = ()=>{
+    return (currentFS ??= $useFS$());
+}
 
-    //
+//
+export const provide = async (req: string | Request = "", rw = false) => {
     const path: string = (req as Request)?.url ?? req;
     const relPath = path.replace(location.origin, "");
     if (relPath.startsWith("/opfs")) {
+        const fs = await useFS();
         const params = relPath.split(/\?/i)?.[1] || relPath;
         const $path = new URLSearchParams(params).get("path");
         const parts = $path?.split?.("/") || [$path] || [""];
