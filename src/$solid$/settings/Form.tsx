@@ -11,12 +11,12 @@ import { refAndMount } from "@src/$core$/Utils.ts";
 
 //
 export const state = makeObjectAssignable(makeReactive({}));
-export const Form = ({form}: {form: ()=>any}) => {
+export const Form = ({form, tab}: {form: ()=>any, tab: ()=>any}) => {
     const $content = refAndMount((topLevel)=> {
         synchronizeInputs(state, ".u2-input", topLevel, subscribe);
     });
 
-    //
+    // TODO: available by tab (' data-hidden="..." ')
     return html`<form ref=${$content}><${For} each=${() => form?.()?.inputs}>${(input) => {
         return html`<ui-block>
             <ui-icon icon=${()=>input?.icon} slot="icon"></ui-icon>
