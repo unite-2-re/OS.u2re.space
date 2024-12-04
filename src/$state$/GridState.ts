@@ -70,17 +70,20 @@ export const getItem = (id)=>{
 }
 
 //
+export const addItem = (id, structure)=>{
+    const item = wrapItemToReactive({
+        ...structure, id: (id||structure?.id)
+    });
+    gridState.items.add(item);
+    return item;
+}
+
+//
 export const removeItem = (id)=>{
     const item = getItem(id);
     if (gridState.items?.has?.(item)) { gridState.items?.delete?.(item); };
     return item;
 }
-
-// ideal scenario for protect from ban avoid...
-// why? because after clear cache, memory process still remain
-// you can pass ban-system only if you block such events, or if you clear store in out of process
-addEventListener("beforeunload", saveToStorage);
-addEventListener("pagehide", saveToStorage);
 
 //
 document.addEventListener("visibilitychange", (ev)=>{
@@ -90,6 +93,8 @@ document.addEventListener("visibilitychange", (ev)=>{
 });
 
 //
+addEventListener("beforeunload", saveToStorage);
+addEventListener("pagehide", saveToStorage);
 addEventListener("storage", (ev)=>{
     if (ev.storageArea == localStorage) {
         if (ev.key == "grids@items") { gridState.items = new Set(mergeByKey([...defaultItems, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I))); };
