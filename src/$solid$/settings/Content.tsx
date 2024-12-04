@@ -7,8 +7,8 @@ import {observeAttribute} from "/externals/lib/dom.js";
 import type { TabType } from "@/src/$core$/Types";
 
 //
-export const TabContent = ({tab}: {tab: ()=>TabType}) => {
-    return html`<div class="adl-content" data-tab=${()=>tab()?.id}><slot></slot></div>`;
+export const TabContent = ({tab, children}: {tab: ()=>TabType, children?: ()=>any}) => {
+    return html`<div class="adl-content" data-tab=${()=>tab()?.id}>${children}</div>`;
 };
 
 //

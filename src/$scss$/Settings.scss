@@ -26,7 +26,8 @@
             & {
                 grid-column: 1 / 1 span;
                 grid-row: 1 / 1 span;
-                block-size: 100%;
+                min-block-size: 100%;
+                block-size: max-content;
                 inline-size: 100%;
                 padding: 0rem;
             }
@@ -47,12 +48,41 @@
 
         //
         .adl-content {
-            & { padding: 1rem; }
+            & {
+                padding: 1rem;
+                inline-size: 100%;
+                min-block-size: 100%;
+                block-size: max-content;
+                justify-content: start;
+
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                gap: 1rem;
+            }
 
             //
             form {
+                background-origin: border-box;
+                background-clip: border-box;
+                box-sizing: border-box;
                 inline-size: 100%;
                 block-size: max-content;
+                padding: 0.5rem;
+                padding-block-start: 1rem;
+                border-radius: 0.333rem;
+
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+
+                gap: 0.5rem;
+            }
+
+            //
+            .adl-form-label {
+                text-align: center;
+                opacity: 0.6;
             }
         }
     }
