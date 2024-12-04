@@ -13,21 +13,25 @@ export const defaultItems = [
         id: "github",
         icon: "github",
         label: "GitHub",
-        cell: [0, 0]
+        cell: [0, 0],
+        href: "https://github.com/" // TODO: add github source code link
     },
     {
         id: "youtube",
         icon: "youtube",
         label: "YouTube",
-        cell: [1, 0]
+        cell: [1, 0],
+        href: "https://youtube.com/"
     },
     {
         id: "settings",
         icon: "settings",
         label: "Settings",
-        cell: [2, 0]
+        cell: [2, 0],
+        href: "#settings"
     }
-]
+]; // also, we thinking about "action:<id>" href type instead of "action" field, and "params" instead of "action"
+// "open-link" works as "_blank" if external domain, and "_self" if internal domain or same origin
 
 //
 export const wrapItemToReactive = (item: any)=>{

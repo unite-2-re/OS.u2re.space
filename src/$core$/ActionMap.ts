@@ -1,5 +1,11 @@
 import { getItem, removeItem, setTargetItem, addItem } from "../$state$/GridState.ts";
 
+// @ts-ignore
+import {initTaskManager} from "/externals/core/core.js";
+
+//
+const taskManager = initTaskManager();
+
 //
 const UUIDv4 = () => {
     return crypto?.randomUUID ? crypto?.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16));
@@ -39,8 +45,10 @@ export const actionMap = new Map([
         //setTargetItem(getItem(initiator?.dataset?.id));
     }],
 
+    // "open-link" works as "_blank" if external domain, and "_self" if internal domain or same origin
     ["open-link", (initiator)=>{
-        window.open(initiator?.dataset?.href, isSameOrigin(initiator.dataset.href) ? "_self" : "_blank");
+        window.open(initiator?.dataset?.href, isSameOrigin(initiator?.dataset?.href||"") ? "_self" : "_blank");
+        if (initiator?.dataset?.href?.trim?.()?.startsWith?.("#")) { taskManager?.focus?.(initiator?.dataset?.href?.trim?.()); };
     }]
 ]);
 
