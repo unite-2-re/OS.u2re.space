@@ -5,6 +5,12 @@ export const tasks = [
         component: ()=>import("../$solid$/settings/Settings"),
         icon: "settings",
         active: false
+    },
+    {
+        id: "#manager",
+        component: ()=>import("../$solid$/manager/Manager"),
+        icon: "wallpaper",
+        active: false
     }
 ];
 

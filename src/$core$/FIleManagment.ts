@@ -127,36 +127,22 @@ export const downloadImage = async (file) => {
 
 //
 const files = new Map([]);
-export const getFileList = async (exists, state, dirname = "/images/")=>{
-    const fs  = await useFS(); await fs?.mkdir?.(dirname);
-    const dir = await fs.readDir(dirname);
+export const getFileList = async (exists, setFiles?, dirname = "images/")=>{
+    const fs  = await useFS(); await fs?.mkdir?.("/" + dirname);
+    const dir = await fs.readDir("/" + dirname);
     const entries: any[] = await (Array.fromAsync(await (dir?.unwrap?.() ?? dir)) || exists);
     if (entries) {
         await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemFileHandle)).map(async ({path, handle})=>{
             files.set(path, await handle.getFile());
         }));
-        if (state) { state.fileList = files; };
+        setFiles?.(files);
     }
     return files;
 }
 
 //
-export const selectFileEv = (ev, state)=>{
-    /*document.querySelectorAll("#manager .file").forEach((el)=>{
-        el.classList.remove("selected");
-    });
-
-    //
-    ev.target.classList.add("selected");*/
-
-    //
-    state.selectedFilename = ev.target.dataset.filename;
-}
-
-//
-export const useItemEv = (ev, state)=>{
-    return getFileList(null, state).then(()=>{
-        const {selectedFilename} = state;
+export const useItemEv = (selectedFilename, setFiles?)=>{
+    return getFileList(null, setFiles).then(()=>{
         if (selectedFilename && files.has(selectedFilename)) {
             const file = files.get(selectedFilename);
             if (file != null) {
@@ -167,7 +153,7 @@ export const useItemEv = (ev, state)=>{
 
                 //
                 files.set(selectedFilename, file);
-                state.fileList = files;
+                setFiles?.(files);
             }
         }
     });
@@ -195,58 +181,50 @@ export const imageImportDesc = {
 };
 
 //
-export const addItemEv = async (ev, state)=>{
+export const addItemEv = async (setFiles?, dir = "images/")=>{
     const fs = await useFS();
     const $e = "showOpenFilePicker";
 
     // @ts-ignore
     const showOpenFilePicker = window?.[$e]?.bind?.(window) ?? (await import("/externals/polyfill/showOpenFilePicker.mjs"))?.[$e];
-
-    //
     showOpenFilePicker(imageImportDesc)?.then?.(async ([handle] = [])=>{
-        const file = handle?.getFile?.();
+        const file = await handle?.getFile?.();
         const fn   = (file?.name || "wallpaper");
 
         //
-        await fs.mkdir("/images/");
-        await fs.writeFile("/images/" + fn, file);
+        await fs.mkdir("/" + dir);
+        await fs.writeFile("/" + dir + fn, file);
 
         //
         files.set(fn, file);
-        state.selectedFilename = fn;
-        state.fileList = files;
-
-        //
-        await getFileList(fs, state);
+        setFiles?.(files);
+        await getFileList(fs, setFiles);
     });
 }
 
 //
-export const removeItemEv = async (ev, state)=>{
+export const removeItemEv = async (selectedFilename, setFiles?, dir = "images/")=>{
     const fs = await useFS();
-    const {selectedFilename} = state;
     if (selectedFilename) {
         (async ()=>{
-            if (("/opfs?path=images/" + (selectedFilename || "wallpaper")) != localStorage.getItem("@wallpaper")) {
-                await fs.mkdir("/images/");
-                await fs.remove("/images/" + selectedFilename);
+            if (("/opfs?path=" + dir + (selectedFilename || "wallpaper")) != localStorage.getItem("@wallpaper")) {
+                await fs.mkdir("/" + dir);
+                await fs.remove("/" + dir + selectedFilename);
 
                 //
                 files.delete(selectedFilename);
-                state.selectedFilename = null;
-                state.fileList = files;
 
                 //
-                await getFileList(fs, state);
+                setFiles?.(files);
+                await getFileList(fs, setFiles);
             }
         })();
     }
 }
 
 //
-export const downloadItemEv = (ev, state)=>{
-    const {selectedFilename} = state;
-    return getFileList(null, state).then(()=>{
+export const downloadItemEv = (selectedFilename, setFiles?)=>{
+    return getFileList(null, setFiles).then(()=>{
         if (selectedFilename && files.has(selectedFilename)) {
             downloadImage(files.get(selectedFilename));
         }

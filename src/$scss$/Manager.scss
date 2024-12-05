@@ -6,9 +6,133 @@
         //
         & {
             display: inline grid;
-            grid-template-columns: minmax(0px, 15rem) minmax(0px, 1fr);
-            grid-template-rows: minmax(0px, 1fr);
+            grid-template-columns: minmax(0px, 0rem) minmax(0px, 1fr);
+            grid-template-rows: minmax(2rem, max-content) minmax(0px, 1fr);
             box-sizing: border-box;
+        }
+
+        //
+        .adl-toolbar {
+            grid-column: 1 / -1;
+            grid-row: 1 / 1 span;
+            inline-size: 100%;
+            min-block-size: 100%;
+            block-size: max-content;
+            z-index: 9;
+            justify-content: start;
+
+            //
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+
+            //
+            .adl-space {
+                flex-grow: 1;
+                flex-basis: stretch;
+            }
+
+            //
+            button {
+                aspect-ratio: 1 / 1;
+                block-size: 100%;
+                inline-size: max-content;
+                min-block-size: 2rem;
+                padding: 0.5rem;
+            }
+        }
+
+        //
+        .adl-tab-box {
+            & {
+                grid-column: 1 / 1 span;
+                grid-row: 2 / 2 span;
+                min-block-size: 100%;
+                block-size: max-content;
+                inline-size: 100%;
+                padding: 0rem;
+                z-index: 99;
+                overflow: visible;
+            }
+
+            //
+            .adl-tabs {
+                display: inline grid;
+                grid-auto-rows: minmax(0px, max-content);
+                grid-template-columns: minmax(2rem, max-content) minmax(0px, 1fr);
+                block-size: max-content;
+                inline-size: 100%;
+                overflow: hidden;
+            }
+
+            //
+            ui-select-row {
+                block-size: 2rem;
+            }
+        }
+
+        //
+        .adl-content-box {
+            & {
+                grid-column: 2 / 2 span;
+                grid-row: 2 / 2 span;
+                block-size: 100%;
+                inline-size: 100%;
+            }
+
+            //
+            .adl-content {
+                & {
+                    padding: 0rem;
+                    inline-size: 100%;
+                    min-block-size: 100%;
+                    block-size: max-content;
+                    align-content: start;
+
+                    //display: flex;
+                    flex-direction: column;
+                    flex-wrap: nowrap;
+                    overflow: hidden;
+                    //gap: 1rem;
+
+                    //
+                    display: inline grid;
+                    grid-auto-rows: max-content;
+                    grid-template-columns: minmax(0px, max-content) minmax(0px, 1fr);
+
+                    //
+                    font-size: 0.8rem;
+                }
+
+                //
+                & ui-select-row {
+                    font-size: 0.8rem;
+                }
+
+                //
+                form {
+                    background-origin: border-box;
+                    background-clip: border-box;
+                    box-sizing: border-box;
+                    inline-size: 100%;
+                    block-size: max-content;
+                    padding: 0.5rem;
+                    padding-block-start: 1rem;
+                    border-radius: 0.333rem;
+
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+
+                    gap: 0.5rem;
+                }
+
+                //
+                .adl-form-label {
+                    text-align: center;
+                    opacity: 0.6;
+                }
+            }
         }
 
     }
