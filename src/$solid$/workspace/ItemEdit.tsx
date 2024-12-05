@@ -77,7 +77,7 @@ export const ItemEdit = ({
     const deleteA = (ev)=>{
         const modal = ev?.target?.closest?.(".adl-modal");
         if (modal) { modal.dataset.hidden = ""; };
-        removeItem(stateOnEdit?.dataset?.id);
+        removeItem(stateOnEdit?.id);
     }
 
     //data-hidden

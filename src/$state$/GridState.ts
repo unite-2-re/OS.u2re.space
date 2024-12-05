@@ -70,7 +70,7 @@ export const saveToStorage = (ev?: any)=>{
 
 //
 export const getItem = (id)=>{
-    return Array.from(gridState.items.values()).find((item: any)=>item?.id == (id?.id || id));
+    return Array.from(gridState.items.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
 }
 
 //
