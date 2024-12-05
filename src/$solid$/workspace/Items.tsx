@@ -12,7 +12,7 @@ import {inflectInGrid} from "/externals/system/grid-system.js";
 import {makeSelection} from "/externals/lib/interact.js";
 
 //
-import type { ItemsType } from "@/src/$core$/Types";
+import type { ItemsType } from "@src/$core$/Types";
 import { refAndMount } from "@src/$core$/Utils.ts";
 
 //
@@ -26,17 +26,22 @@ const createShaped = (item, gs)=>{
     element.classList.add("u2-grid-item");
     element.item = item;
     element.icon = item.icon;
-    element.setAttribute("data-scheme", "inverse");
+    element.setAttribute("data-scheme", "solid");
+    element.setAttribute("data-alpha", "0");
+    element.setAttribute("data-chroma", "0.2");
+    element.setAttribute("data-theme", "light");
+    //element.style.setProperty("z-index", "99");
 
     //
     const shape: any = document.createElement("div");
     shape.classList.add("u2-item-design");
-    shape.setAttribute("data-scheme", "inverse");
+    //shape.setAttribute("data-scheme", "solid");
+    //shape.setAttribute("data-scheme", "dynamic-transparent");
     shape.setAttribute("data-shape", "wavy");
-    shape.setAttribute("data-scheme", "inverse");
     shape.setAttribute("data-alpha", "1");
     shape.setAttribute("data-highlight", "4");
     shape.setAttribute("data-highlight-hover", "6");
+    shape.setAttribute("data-chroma", "0.2");
 
     //
     element.append(shape);

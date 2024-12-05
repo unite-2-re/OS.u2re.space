@@ -50,7 +50,7 @@ export const Workspace = ({tasks}: AppsType) => {
     });
 
     //
-    return html`<div id="root" ref=${$element}>
+    return html`<div id="root" ref=${$element} data-scheme="accent" data-alpha="0">
         <!-- Workspace Icons -->
         <${Items} items=${()=>gridState.items} lists=${()=>gridState.lists}><//>
 
