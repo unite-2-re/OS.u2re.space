@@ -27,11 +27,11 @@ export const Manager = () => {
     //
     return html`<div data-alpha="1" data-scheme="solid" class="ui-content" id="manager" data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>
         <div class="adl-toolbar" data-alpha="1" data-chroma="0.05" data-highlight="5">
-            <button class="adl-file-add" onClick=${(ev)=>addItemEv(setFiles)}> <ui-icon icon="file-up"></ui-icon> </button>
-            <button class="adl-file-get" onClick=${(ev)=>downloadItemEv(fileOf(), setFiles)}> <ui-icon icon="file-down"></ui-icon> </button>
-            <button class="adl-file-del" onClick=${(ev)=>removeItemEv(fileOf(), setFiles)}> <ui-icon icon="file-x"></ui-icon> </button>
+            <button type="button" tabindex="-1" class="adl-file-add" onClick=${(ev)=>addItemEv(setFiles)}> <ui-icon icon="file-up"></ui-icon> </button>
+            <button type="button" tabindex="-1" class="adl-file-get" onClick=${(ev)=>downloadItemEv(fileOf(), setFiles)}> <ui-icon icon="file-down"></ui-icon> </button>
+            <button type="button" tabindex="-1" class="adl-file-del" onClick=${(ev)=>removeItemEv(fileOf(), setFiles)}> <ui-icon icon="file-x"></ui-icon> </button>
             <div class="adl-space"></div>
-            <button class="adl-file-use" onClick=${(ev)=>useItemEv(fileOf(), setFiles)}> <ui-icon icon="file-input"></ui-icon> </button>
+            <button type="button" tabindex="-1" class="adl-file-use" onClick=${(ev)=>useItemEv(fileOf(), setFiles)}> <ui-icon icon="file-input"></ui-icon> </button>
         </div>
         <ui-scrollbox class="adl-tab-box" data-alpha="1" data-highlight="4" data-chroma="0.05">
             <div class="adl-tabs">

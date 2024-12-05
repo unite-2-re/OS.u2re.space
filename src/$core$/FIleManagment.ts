@@ -1,6 +1,12 @@
 //
 //import { pickWallpaperImage } from "@adl/PreInit/ActionMap.ts";
 
+// @ts-ignore
+import {colorScheme} from "/externals/core/theme.js";
+
+// @ts-ignore
+import {observeBySelector} from "/externals/lib/dom.js";
+
 //
 const $useFS$ = async() => {
     // @ts-ignore
@@ -141,17 +147,41 @@ export const getFileList = async (exists, setFiles?, dirname = "images/")=>{
 }
 
 //
+export const useAsWallpaper = (file)=>{
+    //provide
+    const wallpaper = document.querySelector("canvas[is=\"ui-canvas\"]") as HTMLElement;
+    if (wallpaper) {
+        wallpaper.dataset.src = URL.createObjectURL(file as File);
+        colorScheme(file);
+    }
+}
+
+//
+export const loadFromStorage = async ()=>{
+    const item = localStorage.getItem("@wallpaper");
+    if (item) {
+        provide(localStorage.getItem("@wallpaper") || "/assets/wallpaper/h.webp").then(useAsWallpaper);
+    }
+}
+
+//
+addEventListener("storage", (ev)=>{
+    if (ev?.key == "@wallpaper") {
+        if (ev?.newValue) {
+            provide(ev?.newValue || "").then(useAsWallpaper);
+        }
+    }
+});
+
+//
 export const useItemEv = (selectedFilename, setFiles?)=>{
     return getFileList(null, setFiles).then(()=>{
+        console.log(selectedFilename);
         if (selectedFilename && files.has(selectedFilename)) {
             const file = files.get(selectedFilename);
             if (file != null) {
-                const wallpaper = document.querySelector("canvas[is=\"ui-canvas\"]") as HTMLElement;
-                if (wallpaper) {
-                    wallpaper.dataset.src = URL.createObjectURL(file as File);
-                }
-
-                //
+                useAsWallpaper(file);
+                localStorage.setItem("@wallpaper", "/opfs?path=" + "/images/" + (selectedFilename || "wallpaper"));
                 files.set(selectedFilename, file);
                 setFiles?.(files);
             }
@@ -230,3 +260,13 @@ export const downloadItemEv = (selectedFilename, setFiles?)=>{
         }
     });
 }
+
+//
+requestIdleCallback(()=>{
+    loadFromStorage();
+});
+
+//
+observeBySelector(document.documentElement, "canvas[is=\"ui-canvas\"]", (mut)=>{
+    loadFromStorage();
+});
