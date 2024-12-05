@@ -4,13 +4,15 @@ export const tasks = [
         id: "#settings",
         component: ()=>import("../$solid$/settings/Settings"),
         icon: "settings",
-        active: false
+        active: false,
+        title: "Settings"
     },
     {
         id: "#manager",
         component: ()=>import("../$solid$/manager/Manager"),
         icon: "wallpaper",
-        active: false
+        active: false,
+        title: "Manager"
     }
 ];
 

@@ -6,7 +6,7 @@
         //
         & {
             display: inline grid;
-            grid-template-columns: minmax(0px, 15rem) minmax(0px, 1fr);
+            grid-template-columns: minmax(0px, 0rem) minmax(0px, 1fr);
             grid-template-rows: minmax(2rem, max-content) minmax(0px, 1fr);
             box-sizing: border-box;
         }

@@ -56,7 +56,9 @@ export const Workspace = ({tasks}: AppsType) => {
 
         <!-- Apps Part -->
         <${For} each=${() => tasks}>${(task) => {
-            return html`<ui-frame data-scheme="solid" id=${task?.id.replace("#","")}> <div slot="ui-title-bar">${task?.title}</div>  <${lazy(task?.component)}><//>  </ui-frame>`;
+            return html`<ui-frame data-scheme="solid" id=${task?.id.replace("#","")}>
+            <div slot="ui-title-bar">${task?.title}</div>  <${lazy(task?.component)}><//>
+            </ui-frame>`;
         }}<//>
 
         <!-- -->
@@ -81,7 +83,7 @@ export const Workspace = ({tasks}: AppsType) => {
         <ui-taskbar prop:tasks=${tasks}>
 
             <${For} each=${() => tasks}>${(task) => {
-                return html`<ui-task prop:taskId=${task?.id} icon=${task?.icon}> <ui-icon icon=${task?.icon}></ui-icon> </ui-task>`;
+                return html`<ui-task prop:taskId=${task?.id} label=${task?.title} icon=${task?.icon}> <ui-icon icon=${task?.icon}></ui-icon> </ui-task>`;
             }}<//>
 
         </ui-taskbar>
