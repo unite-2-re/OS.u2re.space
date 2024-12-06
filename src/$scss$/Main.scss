@@ -20,8 +20,8 @@
         pointer-events: auto;
         //background: transparent;
         overflow: hidden;
-        contain: strict;
-        container-type: size;
+        contain: strict !important;
+        container-type: size !important;
         justify-self: start;
         align-self: start;
     }
