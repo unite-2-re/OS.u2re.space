@@ -16,7 +16,7 @@ import { refAndMount } from "@src/$core$/Utils";
 import ItemEdit from "./workspace/ItemEdit.tsx";
 
 //
-const textField = ({input}: {input?: any})=> html`<ui-longtext class="u2-input" data-name=${()=>input?.name}><input value="" placeholder=${()=>input?.name} name=${()=>input?.name} type="text" label="test" placeholder="test-longtext" tabindex="0" draggable="false" autocomplete="off" class="u2-input" virtualkeyboardpolicy="manual" scroll="no"/></ui-longtext>`;
+const textField = ({input}: {input?: any})=> html`<ui-longtext class="u2-input" data-name=${()=>input?.name}><input value="" placeholder=${()=>input?.name} name=${()=>input?.name} type="text" label="test" placeholder="test-longtext" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no"/></ui-longtext>`;
 const itemForm  = [
     {
         name: "label",
