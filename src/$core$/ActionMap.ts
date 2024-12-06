@@ -14,7 +14,7 @@ const UUIDv4 = () => {
 //
 const isSameOrigin = (a)=>{
     const urlA = a instanceof URL ? a : (URL.canParse(a) ? new URL(a) : null);
-    return (urlA?.origin == location?.origin) || a?.trim()?.startsWith?.("#");
+    return !a || (a.startsWith("./") || a.startsWith("/")) || (urlA?.origin == location?.origin) || a?.trim()?.startsWith?.("#");
 }
 
 //

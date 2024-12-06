@@ -81,7 +81,7 @@ export const ItemEdit = ({
     }
 
     //data-hidden
-    return html`<div data-hidden class="adl-modal" data-scheme="solid" data-highlight="8">
+    return html`<div data-hidden class="adl-modal" data-scheme="solid" data-highlight="2">
         <form class="adl-item-edit" ref=${$content}>
             <${For} each=${() => form}>${(input) => { return html`<label>
                 <div class="adl-label">${input?.label}</div>

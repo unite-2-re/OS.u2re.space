@@ -19,18 +19,22 @@ import { refAndMount } from "@src/$core$/Utils.ts";
 const createShaped = (item, gs)=>{
     // if exists, skip
     const exists = gs?.querySelector?.(`.u2-grid-item[data-id=\"${item?.id}\"]`);
-    if (exists) { return exists; }
+    if (exists || !item?.id) { return exists; };
 
     //
     const element: any = document.createElement("ui-shaped");
     element.classList.add("u2-grid-item");
     element.item = item;
-    element.icon = item.icon;
+    element.icon = item.icon || "";
+    element.label = item.label || "";
     element.setAttribute("data-scheme", "solid");
     element.setAttribute("data-alpha", "0");
     element.setAttribute("data-chroma", "0.2");
     element.setAttribute("data-theme", "light");
-    //element.style.setProperty("z-index", "99");
+    element.setAttribute("data-id", item.id || "");
+    element.setAttribute("data-label", item.label || "");
+    element.setAttribute("data-action", item.action || "");
+    element.setAttribute("data-href", item.href || "");
 
     //
     const shape: any = document.createElement("div");
@@ -52,7 +56,7 @@ const createShaped = (item, gs)=>{
 const createLabel = (item, gs)=>{
     // if exists, skip
     const exists = gs?.querySelector?.(`.u2-grid-item[data-id=\"${item?.id}\"]`);
-    if (exists) { return exists; }
+    if (exists || !item?.id) { return exists; }
 
     //
     const element: any = document.createElement("span");
@@ -61,7 +65,9 @@ const createLabel = (item, gs)=>{
     element.setAttribute("data-scheme", "accent");
     element.setAttribute("data-alpha", "0");
     element.setAttribute("data-transparent", "");
-    element.innerHTML = item.label;
+    element.setAttribute("data-label", item.label || "");
+    element.label = item.label || "";
+    element.innerHTML = item.label || "";
     return element;
 }
 
