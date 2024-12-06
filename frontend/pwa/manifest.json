@@ -3,7 +3,7 @@
     "name": "web.core",
     "short_name": "web.core",
     "version": "canary",
-    "start_url": "/",
+    "start_url": "/frontend/",
     "author": "unit-404",
     "id": "/",
     "scope": "/",
