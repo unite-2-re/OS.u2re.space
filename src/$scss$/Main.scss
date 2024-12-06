@@ -8,22 +8,27 @@
 
     //
     #root {
-        inline-size: 100%;
-        block-size: 100%;
-        max-inline-size: 100%;
-        max-block-size: 100%;
-        position: fixed !important;
-        inset: 0px !important;
-        inset-block-end: auto  !important;
         place-self: center;
         display: flex;
         pointer-events: auto;
-        //background: transparent;
-        overflow: hidden;
-        contain: strict !important;
-        container-type: size !important;
         justify-self: start;
         align-self: start;
+
+        //
+        min-inline-size: 0px !important;
+        min-block-size: 0px !important;
+        inline-size: 100% !important;
+        block-size: 100% !important;
+        max-inline-size: 100% !important;
+        max-block-size: 100% !important;
+
+        //
+        position: fixed !important;
+        inset: 0px !important;
+        inset-block-end: auto  !important;
+        overflow: hidden !important;
+        contain: strict !important;
+        container-type: size !important;
     }
 
     //
