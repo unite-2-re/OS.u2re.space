@@ -23,6 +23,18 @@ export const actionMap = new Map([
         //console.log(initiator);
     }],
 
+    ["fullscreen", ()=>{
+        //
+        if (!document.fullscreenElement) {
+            document.documentElement?.requestFullscreen?.({
+                navigationUI: "hide",
+            })?.catch?.(console.warn.bind(console));
+        } else
+        if (document.exitFullscreen) {
+            document?.exitFullscreen?.();
+        }
+    }],
+
     ["item-edit", (initiator, ev?)=>{
         const item = getItem(initiator?.dataset?.id);
         if (item) {
