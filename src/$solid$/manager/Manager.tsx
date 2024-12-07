@@ -4,12 +4,11 @@ import html from "solid-js/html";
 
 //
 import Content from "./Content.tsx";
-//import Form from "./Form.tsx";
 
 //
 import { observe, refAndMount } from "@src/$core$/Utils.ts";
-import { tabs } from "../../$maps$/Settings.ts";
-import { addItemEv, downloadItemEv, getFileList, removeItemEv, useItemEv } from "@src/$core$/FIleManagment.ts";
+import { tabs } from "../$maps$/Settings.tsx";
+import { addItemEv, downloadItemEv, getFileList, removeItemEv, useItemEv } from "@src/$core$/FileManagment.ts";
 
 // while: tab.component should be  ()=> html`...`
 export const Manager = () => {
@@ -52,8 +51,6 @@ export const Manager = () => {
         </ui-scrollbox>
     </div>`;
 };
-
-// value="f1"> <ui-icon icon="github" style="padding: 0.5rem; block-size: 2rem;"></ui-icon> <span>Test Text 1</span> 
 
 //
 export default Manager;

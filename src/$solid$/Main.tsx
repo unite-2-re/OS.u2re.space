@@ -10,38 +10,11 @@ import {makeSelection} from "/externals/lib/interact.js";
 
 //
 import type { AppsType } from "@src/$core$/Types";
-import Items from "./workspace/Items";
+import { itemFields, itemForm } from "@src/$solid$/$maps$/Forms.tsx";
 import { getItem, gridState, targetItem } from "../$state$/GridState";
 import { refAndMount } from "@src/$core$/Utils";
 import ItemEdit from "./workspace/ItemEdit.tsx";
-
-//
-const textField = ({input}: {input?: any})=> html`<ui-longtext class="u2-input" data-name=${()=>input?.name}><input value="" placeholder=${()=>input?.name} name=${()=>input?.name} type="text" label="test" placeholder="test-longtext" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no"/></ui-longtext>`;
-const itemForm  = [
-    {
-        name: "label",
-        label: "Label",
-        component: textField
-    },
-    {
-        name: "icon",
-        label: "IconID",
-        component: textField
-    },
-    {
-        name: "action",
-        label: "Action",
-        component: textField
-    },
-    {
-        name: "href",
-        label: "HREF",
-        component: textField
-    },
-];
-
-//
-const fields = ["label", "icon", "href", "action"];
+import Items from "./workspace/Items";
 
 // while: tab.component should be  ()=> html`...`
 export const Workspace = ({tasks}: AppsType) => {
@@ -68,7 +41,7 @@ export const Workspace = ({tasks}: AppsType) => {
                 const item = getItem(state?.id)||{};
                 if (state && item) {
                     if (!p) {
-                        for (const k of fields) {
+                        for (const k of itemFields) {
                             if (item[k] != state?.[k]) { item[k] = state?.[k] ?? item[k]; };
                         }
                     } else {

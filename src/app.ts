@@ -3,7 +3,7 @@ import { render } from "solid-js/web"
 import html from "solid-js/html";
 
 //
-import tasks from "./$maps$/Tasks";
+import tasks from "./$solid$/$maps$/Tasks.tsx";
 import Workspace from "./$solid$/Main";
 
 //
@@ -36,6 +36,8 @@ export const initialize = async (root)=>{
         // @ts-ignore
         import(/* @vite-ignore */ "/externals/wcomp/image.js"),
 
+        // @ts-ignore
+        import(/* @vite-ignore */ "./$core$/Modal.ts"),
         // @ts-ignore
         import(/* @vite-ignore */ "./$core$/ActionMap.ts"),
         // @ts-ignore
