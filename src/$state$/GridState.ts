@@ -13,22 +13,45 @@ export const defaultItems = [
         id: "github",
         icon: "github",
         label: "GitHub",
-        cell: [0, 0],
-        href: "https://github.com/" // TODO: add github source code link
+        //cell: [0, 0],
+        href: "https://github.com/orgs/unite-2-re/repositories" // TODO: add github source code link
     },
     {
         id: "youtube",
         icon: "youtube",
-        label: "YouTube",
-        cell: [1, 0],
-        href: "https://youtube.com/"
+        label: "(Unreleased)",
+        //cell: [1, 0],
+        href: "https://www.youtube.com/@MobileCenter-s5v"
     },
     {
         id: "settings",
         icon: "settings",
         label: "Settings",
-        cell: [2, 0],
+        //cell: [2, 0],
         href: "#settings"
+    },
+    {
+        id: "manager",
+        icon: "wallpaper",
+        label: "Manager",
+        //cell: [3, 0],
+        href: "#manager"
+    },
+    {
+        id: "import",
+        icon: "upload",
+        label: "Import Settings",
+        //cell: [0, 1],
+        href: "#import",
+        action: "import-settings"
+    },
+    {
+        id: "export",
+        icon: "download",
+        label: "Export Settings",
+        //cell: [1, 1],
+        href: "#export",
+        action: "export-settings"
     }
 ]; // also, we thinking about "action:<id>" href type instead of "action" field, and "params" instead of "action"
 // "open-link" works as "_blank" if external domain, and "_self" if internal domain or same origin
@@ -104,4 +127,10 @@ addEventListener("storage", (ev)=>{
         if (ev.key == "grids@items") { gridState.items = new Set(mergeByKey([...defaultItems, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I))); };
         if (ev.key == "grids@lists") { gridState.lists = new Set([...Array.from(JSOX.parse(ev.newValue || JSOX.stringify(defaultLists))?.values?.() || defaultLists)]); };
     }
+});
+
+//
+defaultItems.forEach((item)=>{
+    const exists = getItem(item?.id);
+    if (exists) { Object.assign(exists, item); };
 });
