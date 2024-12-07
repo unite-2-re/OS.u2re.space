@@ -20,7 +20,7 @@ const isSameOrigin = (a)=>{
 //
 export const actionMap = new Map([
     ["set-wallpaper", (initiator, ev?)=>{
-        //console.log(initiator);
+        taskManager?.focus?.("#manager");
     }],
 
     ["fullscreen", ()=>{

@@ -25,7 +25,7 @@ export const Manager = () => {
 
     //
     return html`<div data-alpha="1" data-scheme="solid" class="ui-content" id="manager" data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>
-        <div class="adl-toolbar" data-alpha="1" data-chroma="0.05" data-highlight="5">
+        <div class="adl-toolbar" data-alpha="1" data-chroma="0.1" data-highlight="5">
             <button type="button" tabindex="-1" class="adl-file-add" onClick=${(ev)=>addItemEv(setFiles)}> <ui-icon icon="file-up"></ui-icon> </button>
             <button type="button" tabindex="-1" class="adl-file-get" onClick=${(ev)=>downloadItemEv(fileOf(), setFiles)}> <ui-icon icon="file-down"></ui-icon> </button>
             <button type="button" tabindex="-1" class="adl-file-del" onClick=${(ev)=>removeItemEv(fileOf(), setFiles)}> <ui-icon icon="file-x"></ui-icon> </button>
@@ -35,7 +35,7 @@ export const Manager = () => {
         <ui-scrollbox class="adl-tab-box" data-alpha="1" data-highlight="4" data-chroma="0.05">
             <div class="adl-tabs">
                 <${For} each=${() => tabs}>${(tab) => {
-                    return html`<ui-select-row onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>
+                    return html`<ui-select-row name="m-tab" onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>
                         <ui-icon icon=${tab.icon} style="padding: 0.5rem;"></ui-icon>
                         <span>${tab.content as string}</span>
                     </ui-select-row>`;
@@ -45,7 +45,10 @@ export const Manager = () => {
         <ui-scrollbox class="adl-content-box" ref=${$content}>
             <${Content} tab=${()=>cTab}>
                 <${For} each=${()=>Array.from(files()?.values?.()||[])}>${(file) => {
-                    return html`<ui-select-row value=${file?.name}> <ui-icon icon="wallpaper" style="padding: 0.5rem; block-size: 2rem;"></ui-icon> <span>${file?.name}</span> </ui-select-row>`;
+                    return html`<ui-select-row name="file" value=${file?.name}>
+                        <ui-icon icon="wallpaper" style="padding: 0.75rem; min-block-size: 2.5rem;"></ui-icon>
+                        <span>${file?.name}</span>
+                    </ui-select-row>`;
                 }}<//>
             <//>
         </ui-scrollbox>

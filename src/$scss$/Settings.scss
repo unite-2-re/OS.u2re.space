@@ -19,19 +19,48 @@
             min-block-size: 100%;
             block-size: max-content;
             z-index: 9;
+            justify-content: start;
+
+            //
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+
+            //
+            .adl-space {
+                flex-grow: 1;
+                flex-basis: stretch;
+            }
+
+            //
+            button {
+                aspect-ratio: 1 / 1;
+                block-size: 100%;
+                inline-size: max-content;
+                min-block-size: 2rem;
+                padding: 0.5rem;
+            }
         }
 
         //
         .adl-tab-box {
+            &:not(.adl-open) { translate: -12rem 0px; }
+            &.adl-open { translate: 0px 0px; }
+
+            //
             & {
                 grid-column: 1 / 1 span;
                 grid-row: 2 / 2 span;
                 min-block-size: 100%;
                 block-size: max-content;
-                inline-size: 100%;
+                inline-size: max(100%, 12rem);
                 padding: 0rem;
-                z-index: 99;
+                z-index: 8;
                 overflow: visible;
+
+                //
+                transition: translate 0.2s;
+                box-shadow: 0rem 0rem 1rem #00000060;
             }
 
             //
@@ -46,7 +75,7 @@
 
             //
             ui-select-row {
-                block-size: 2rem;
+                block-size: 2.5rem;
             }
         }
 
