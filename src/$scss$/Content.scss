@@ -1,0 +1,160 @@
+@layer adl-content {
+
+    //
+    :where(.ui-content) {
+
+        //
+        & {
+            display: inline grid;
+            grid-template-columns: minmax(0px, 0rem) minmax(0px, 1fr);
+            grid-template-rows: minmax(2.25rem, max-content) minmax(0px, 1fr);
+            box-sizing: border-box;
+        }
+
+        //
+        .adl-toolbar {
+            & {
+                grid-row: 1 / 1 span;
+                grid-column: 1 / -1;
+                inline-size: 100%;
+                min-block-size: 100%;
+                block-size: max-content;
+
+                //
+                padding: 0px;
+                z-index: 9;
+                display: flex;
+                justify-content: start;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                gap: 0.25rem;
+                padding-inline: 0.125rem;
+            }
+
+            //
+            .adl-space {
+                flex-grow: 1;
+                flex-basis: stretch;
+            }
+
+            //
+            button {
+                aspect-ratio: 1 / 1;
+                block-size: 100%;
+                inline-size: max-content;
+                min-block-size: 2rem;
+                padding: 0.5rem;
+                margin: 0px;
+                border-radius: 0.25rem;
+            }
+        }
+
+        //
+        .adl-tab-box {
+            &:not(.adl-open) { translate: -12rem 0px; box-shadow: 0rem 0rem 0rem #00000060; }
+            &.adl-open { translate: 0px 0px; box-shadow: 0rem 0rem 1rem #00000060; }
+
+            //
+            & {
+                grid-row: 2 / 2 span;
+                block-size: max-content;
+                grid-column: 1 / 1 span;
+                inline-size: max(100%, 12rem);
+                padding: 0rem;
+                z-index: 8;
+                overflow: visible;
+
+                //
+                min-block-size: 100%;
+                transition: translate 0.2s;
+            }
+
+            //
+            .adl-tabs {
+                display: inline grid;
+                grid-auto-rows: minmax(0px, max-content);
+                grid-template-columns: minmax(2rem, max-content) minmax(0px, 1fr);
+                block-size: max-content;
+                inline-size: 100%;
+                overflow: hidden;
+            }
+
+            //
+            ui-select-row {
+                block-size: 2.5rem;
+            }
+        }
+
+        //
+        .adl-content-box {
+            & {
+                grid-column: 2 / 2 span;
+                grid-row: 2 / 2 span;
+                block-size: 100%;
+                inline-size: 100%;
+
+                //
+                place-content: center;
+                place-items: center;
+            }
+
+            //
+            .adl-content {
+
+                & {
+                    place-content: center;
+                    place-items: center;
+                    display: flex;
+                    padding: 1rem;
+                    inline-size: 100%;
+                    block-size: max-content;
+                    min-block-size: 100%;
+                    flex-direction: column;
+                    overflow: hidden;
+
+                    //
+                    justify-content: start;
+                    justify-items: start;
+                    align-content: start;
+                    align-items: start;
+                }
+
+                //
+                & ui-select-row {
+                    display: grid;
+                    font-size: 0.8rem;
+                    line-height: normal;
+                    block-size: 2rem;
+                    place-content: center;
+                    place-items: center;
+                    justify-content: start;
+                    justify-items: start;
+                }
+
+                //
+                form {
+                    background-origin: border-box;
+                    background-clip: border-box;
+                    box-sizing: border-box;
+                    inline-size: 100%;
+                    block-size: max-content;
+                    padding: 0.5rem;
+                    padding-block-start: 1rem;
+                    border-radius: 0.333rem;
+
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+
+                    gap: 0.5rem;
+                }
+
+                //
+                .adl-form-label {
+                    text-align: center;
+                    opacity: 0.6;
+                }
+            }
+        }
+    }
+}

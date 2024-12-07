@@ -4,118 +4,22 @@
     :where(.ui-content#manager) {
 
         //
-        & {
-            display: inline grid;
-            grid-template-columns: minmax(0px, 0rem) minmax(0px, 1fr);
-            grid-template-rows: minmax(2rem, max-content) minmax(0px, 1fr);
-            box-sizing: border-box;
-        }
-
-        //
-        .adl-toolbar {
-            grid-column: 1 / -1;
-            grid-row: 1 / 1 span;
+        .adl-content {
+            padding: 0rem;
             inline-size: 100%;
             min-block-size: 100%;
             block-size: max-content;
-            z-index: 9;
-            justify-content: start;
 
             //
-            display: flex;
-            flex-direction: row;
+            flex-direction: column;
             flex-wrap: nowrap;
+            font-size: 0.8rem;
+            overflow: hidden;
 
             //
-            .adl-space {
-                flex-grow: 1;
-                flex-basis: stretch;
-            }
-
-            //
-            button {
-                aspect-ratio: 1 / 1;
-                block-size: 100%;
-                inline-size: max-content;
-                min-block-size: 2rem;
-                padding: 0.5rem;
-            }
-        }
-
-        //
-        .adl-tab-box {
-            & {
-                grid-column: 1 / 1 span;
-                grid-row: 2 / 2 span;
-                min-block-size: 100%;
-                block-size: max-content;
-                inline-size: 100%;
-                padding: 0rem;
-                z-index: 99;
-                overflow: visible;
-            }
-
-            //
-            .adl-tabs {
-                display: inline grid;
-                grid-auto-rows: minmax(0px, max-content);
-                grid-template-columns: minmax(2rem, max-content) minmax(0px, 1fr);
-                block-size: max-content;
-                inline-size: 100%;
-                overflow: hidden;
-            }
-        }
-
-        //
-        .adl-content-box {
-            & {
-                grid-column: 2 / 2 span;
-                grid-row: 2 / 2 span;
-                block-size: 100%;
-                inline-size: 100%;
-
-                //
-                place-content: center;
-                place-items: center;
-            }
-
-            //
-            .adl-content {
-                & {
-                    padding: 0rem;
-                    inline-size: 100%;
-                    min-block-size: 100%;
-                    block-size: max-content;
-
-                    place-content: center;
-                    place-items: center;
-
-                    align-items: start;
-                    align-content: start;
-
-                    //display: flex;
-                    flex-direction: column;
-                    flex-wrap: nowrap;
-                    overflow: hidden;
-                    //gap: 1rem;
-
-                    //
-                    display: inline grid;
-                    grid-auto-rows: max-content;
-                    grid-template-columns: minmax(0px, max-content) minmax(0px, 1fr);
-
-                    //
-                    font-size: 0.8rem;
-                }
-
-                //
-                & ui-select-row {
-                    display: grid;
-                    font-size: 0.8rem;
-                    line-height: normal;
-                    block-size: 2rem;
-                }
-            }
+            display: inline grid;
+            grid-auto-rows: max-content;
+            grid-template-columns: minmax(0px, max-content) minmax(0px, 1fr);
         }
 
     }

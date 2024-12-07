@@ -42,6 +42,8 @@ export const initialize = async (root)=>{
         import(/* @vite-ignore */ "./$core$/ActionMap.ts"),
         // @ts-ignore
         import(/* @vite-ignore */ "./$core$/ContextMenu.ts"),
+        // @ts-ignore
+        import(/* @vite-ignore */ "./$core$/Sidebar.ts"),
     ]).then((mds)=>mds.map((rs: any)=> {try { return rs?.value?.default?.() } catch(e) {}}));
 
     //
