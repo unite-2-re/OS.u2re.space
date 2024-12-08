@@ -47,19 +47,18 @@ export const provide = async (req: string | Request = "", rw = false) => {
         const params = relPath.split(/\?/i)?.[1] || relPath;
         const $path = new URLSearchParams(params).get("path");
         const parts = $path?.split?.("/") || [$path] || [""];
-
-        //
-        await fs.mkdir("/" + parts.slice(0, parts.length-1)?.join("/"));
+        const dir = parts.slice(0, parts.length-1)?.join("/");
+        if (dir && dir != "/") { await fs?.mkdir?.("/" + dir); };
         if (rw) {
             return {
                 write(data) {
-                    return fs.writeFile("/" + $path, data);
+                    return fs?.writeFile?.("/" + $path, data);
                 }
             }
         }
 
         //
-        const handle = await fs.readFile("/" + $path, {encoding: "blob"});
+        const handle = await fs?.readFile?.("/" + $path, {encoding: "blob"});
         const file = handle?.unwrap?.() ?? handle;
         return file;
     } else {
@@ -135,8 +134,8 @@ export const downloadImage = async (file) => {
 const files = new Map([]);
 export const getFileList = async (exists, setFiles?, dirname = "images/")=>{
     const fs  = await useFS(); await fs?.mkdir?.("/" + dirname);
-    const dir = await fs.readDir("/" + dirname);
-    const entries: any[] = await (Array.fromAsync(await (dir?.unwrap?.() ?? dir)) || exists);
+    const dir = await fs?.readDir?.("/" + dirname);
+    const entries: any[] = ((dir || exists) ? await ((dir ? Array.fromAsync(await (dir?.unwrap?.() ?? dir)) : exists) || exists) : []) || [];
     if (entries) {
         await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemFileHandle)).map(async ({path, handle})=>{
             files.set(path, await handle.getFile());
@@ -150,7 +149,7 @@ export const getFileList = async (exists, setFiles?, dirname = "images/")=>{
 export const useAsWallpaper = (file)=>{
     //provide
     const wallpaper = document.querySelector("canvas[is=\"ui-canvas\"]") as HTMLElement;
-    if (wallpaper) {
+    if (wallpaper && file) {
         wallpaper.dataset.src = URL.createObjectURL(file as File);
         colorScheme(file);
     }
@@ -222,8 +221,8 @@ export const addItemEv = async (setFiles?, dir = "images/")=>{
         const fn   = (file?.name || "wallpaper");
 
         //
-        await fs.mkdir("/" + dir);
-        await fs.writeFile("/" + dir + fn, file);
+        await fs?.mkdir?.("/" + dir);
+        await fs?.writeFile?.("/" + dir + fn, file);
 
         //
         files.set(fn, file);
@@ -233,13 +232,13 @@ export const addItemEv = async (setFiles?, dir = "images/")=>{
 }
 
 //
-export const removeItemEv = async (selectedFilename, setFiles?, dir = "images/")=>{
+export const removeItemEv = async (selectedFilename = "", setFiles?, dir = "images/")=>{
     const fs = await useFS();
     if (selectedFilename) {
         (async ()=>{
             if (("/opfs?path=" + dir + (selectedFilename || "wallpaper")) != localStorage.getItem("@wallpaper")) {
-                await fs.mkdir("/" + dir);
-                await fs.remove("/" + dir + selectedFilename);
+                await fs?.mkdir?.("/" + dir);
+                await fs?.remove?.("/" + dir + selectedFilename);
 
                 //
                 files.delete(selectedFilename);
