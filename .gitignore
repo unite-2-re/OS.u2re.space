@@ -262,3 +262,14 @@ pack
 pack/
 ./pack
 ./pack/
+
+#
+./.rollup.cache
+/.rollup.cache
+.rollup.cache
+./.rollup.cache/
+/.rollup.cache/
+.rollup.cache/
+./.rollup.cache/*
+/.rollup.cache/*
+.rollup.cache/*
