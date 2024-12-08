@@ -5,9 +5,12 @@ import html from "solid-js/html";
 //
 import tasks from "./$solid$/$maps$/Tasks.tsx";
 import Workspace from "./$solid$/Main";
+import CSS from "./css";
 
 //
 export const initialize = async (root)=>{
+    CSS(root);
+
     // DEBUG_MODE
     await Promise.allSettled([
         // @ts-ignore
@@ -54,5 +57,4 @@ export const initialize = async (root)=>{
 export default initialize;
 
 // DEBUG MODE
-import "./$scss$/Main.scss";
-initialize?.(document.querySelector("#viewport"));
+//initialize?.(document.querySelector("#viewport"));
