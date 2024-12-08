@@ -78,7 +78,6 @@ export const mergeByKey = (items: any[]|Set<any>, key = "id")=>{
     return Array.from(map?.values?.() || []);
 }
 
-
 //
 export const gridState = makeObjectAssignable(makeReactive({
     items: makeObjectAssignable(makeReactive(new Set(mergeByKey([...defaultItems, ...Array.from(JSOX.parse(localStorage.getItem("grids@items") || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I))))),
@@ -90,6 +89,9 @@ export const saveToStorage = (ev?: any)=>{
     localStorage.setItem("grids@items", JSOX.stringify(unwrap(Array.from(gridState.items?.values?.() || []))));
     localStorage.setItem("grids@lists", JSOX.stringify(unwrap(Array.from(gridState.lists?.values?.() || []))));
 }
+
+//
+setInterval(saveToStorage, 6000);
 
 //
 export const getItem = (id)=>{

@@ -29,6 +29,9 @@ document.addEventListener("visibilitychange", (ev)=>{
 });
 
 //
+setInterval(saveToStorage, 6000);
+
+//
 addEventListener("beforeunload", saveToStorage);
 addEventListener("pagehide", saveToStorage);
 addEventListener("storage", (ev)=>{
