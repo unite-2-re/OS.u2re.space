@@ -25,6 +25,7 @@ import cssnano from "cssnano";
 import deduplicate from "postcss-discard-duplicates";
 import postcssPresetEnv from 'postcss-preset-env';
 import solidPlugin from 'vite-plugin-solid';
+import rollupOptions, {plugins, NAME} from "./rollup/rollup.config";
 
 //
 const __dirname = import.meta.dirname;
@@ -100,7 +101,7 @@ const config = defineConfig({
     build: {
         chunkSizeWarningLimit: 1600,
         assetsInlineLimit: 1024 * 1024,
-        minify: false,
+        minify: 'terser',
         sourcemap: 'hidden',
         target: "esnext",
         name: "app",
@@ -112,14 +113,14 @@ const config = defineConfig({
         },
         outDir: "./frontend/app",
         emptyOutDir: true,
-        rollupOptions: {
+        rollupOptions/*: {
             external: ["externals", "/externals", "./externals"],
             output: {
                 assetFileNames: 'assets/[name]-[hash].js',
                 chunkFileNames: 'chunks/[name]-[hash].js',
                 entryFileNames: 'app.js',
             }
-        },
+        },*/
     },
     css: {
         postcss: {
