@@ -9,7 +9,7 @@ import CSS from "./css";
 
 //
 export const initialize = async (root)=>{
-    CSS(root);
+    await CSS?.(root);
 
     // DEBUG_MODE
     await Promise.allSettled([
@@ -47,7 +47,7 @@ export const initialize = async (root)=>{
         import(/* @vite-ignore */ "./$core$/ContextMenu.ts"),
         // @ts-ignore
         import(/* @vite-ignore */ "./$core$/Sidebar.ts"),
-    ]).then((mds)=>mds.map((rs: any)=> {try { return rs?.value?.default?.() } catch(e) {}}));
+    ])?.then?.((mds)=>mds.map((rs: any)=> {try { return rs?.value?.default?.() } catch(e) {}}))?.catch?.(console.warn.bind(console));
 
     //
     render(()=>html`<${Workspace} tasks=${tasks}><//>`, root);
