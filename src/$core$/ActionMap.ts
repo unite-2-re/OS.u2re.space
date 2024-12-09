@@ -1,4 +1,5 @@
-import { getItem, removeItem, setTargetItem, addItem } from "../$state$/GridState.ts";
+import { UIState } from "@src/$state$/UIState.ts";
+import { getItem, removeItem, addItem } from "../$state$/GridState.ts";
 
 // @ts-ignore
 import {initTaskManager} from "/externals/core/core.js";
@@ -38,7 +39,7 @@ export const actionMap = new Map([
     ["item-edit", (initiator, ev?)=>{
         const item = getItem(initiator?.dataset?.id);
         if (item) {
-            setTargetItem(item);
+            UIState.currentItem = item;
             document?.querySelector?.(".adl-modal:has(.adl-item-edit)")?.removeAttribute?.("data-hidden");
         }
     }],
@@ -46,15 +47,13 @@ export const actionMap = new Map([
     ["item-add", (initiator, ev?)=>{
         const item = addItem(UUIDv4(), {});
         if (item) {
-            setTargetItem(item);
+            UIState.currentItem = item;
             document?.querySelector?.(".adl-modal:has(.adl-item-edit)")?.removeAttribute?.("data-hidden");
         }
     }],
 
     ["item-delete", (initiator, ev?)=>{
         removeItem(initiator?.dataset?.id);
-
-        //setTargetItem(getItem(initiator?.dataset?.id));
     }],
 
     // "open-link" works as "_blank" if external domain, and "_self" if internal domain or same origin

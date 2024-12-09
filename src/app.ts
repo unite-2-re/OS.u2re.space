@@ -1,10 +1,7 @@
-//
-import { render } from "solid-js/web"
-import html from "solid-js/html";
 
 //
 import tasks from "./$solid$/$maps$/Tasks.tsx";
-import Workspace from "./$solid$/Main";
+import { renderInPage } from "./$solid$/Main";
 import CSS from "./css";
 
 //
@@ -50,7 +47,7 @@ export const initialize = async (root)=>{
     ])?.then?.((mds)=>mds.map((rs: any)=> {try { return rs?.value?.default?.() } catch(e) {}}))?.catch?.(console.warn.bind(console));
 
     //
-    render(()=>html`<${Workspace} tasks=${tasks}><//>`, root);
+    renderInPage(root, tasks);
 }
 
 //

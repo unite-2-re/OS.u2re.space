@@ -6,7 +6,7 @@ import html from "solid-js/html";
 import Content from "./Content.tsx";
 
 //
-import { observe, refAndMount } from "@src/$core$/Utils.ts";
+import { observe, refAndMount } from "@/src/$solid$/Utils.tsx";
 import { tabs } from "../$maps$/Settings.tsx";
 import { addItemEv, downloadItemEv, getFileList, removeItemEv, useItemEv } from "@src/$core$/FileManagment.ts";
 

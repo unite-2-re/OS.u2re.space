@@ -1,5 +1,6 @@
 // @ts-ignore
 import { For, createSignal, onMount, lazy } from "solid-js";
+import { render } from "solid-js/web";
 import html from "solid-js/html";
 
 // @ts-ignore
@@ -11,9 +12,9 @@ import {makeSelection} from "/externals/lib/interact.js";
 //
 import type { AppsType } from "@src/$core$/Types";
 import { itemFields, itemForm } from "@src/$solid$/$maps$/Forms.tsx";
-import { getItem, gridState, targetItem } from "../$state$/GridState";
-import { refAndMount } from "@src/$core$/Utils";
-import ItemEdit from "./workspace/ItemEdit.tsx";
+import { getItem, gridState } from "../$state$/GridState";
+import { refAndMount } from "@/src/$solid$/Utils.tsx";
+import ItemEdit, {targetItem} from "./workspace/ItemEdit.tsx";
 import Items from "./workspace/Items";
 
 // while: tab.component should be  ()=> html`...`
@@ -66,6 +67,11 @@ export const Workspace = ({tasks}: AppsType) => {
 
     </div>`;
 };
+
+//
+export const renderInPage = (root: HTMLElement, tasks: any)=>{
+    render(()=>html`<${Workspace} tasks=${tasks}><//>`, root);
+}
 
 //
 export default Workspace;

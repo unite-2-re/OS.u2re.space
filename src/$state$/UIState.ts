@@ -2,6 +2,6 @@
 import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 
 //
-export const UIState = makeObjectAssignable(makeReactive({
-
-}));
+export const UIState = makeReactive({
+    currentItem: null
+});

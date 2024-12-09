@@ -6,7 +6,6 @@ import {JSOX} from "jsox";
 import { createSignal } from "solid-js";
 
 //
-export const [targetItem, setTargetItem] = createSignal(null);
 export const defaultLists = [["github", "youtube", "settings"]];
 export const defaultItems = [
     {

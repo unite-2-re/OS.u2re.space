@@ -7,7 +7,7 @@ import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/ob
 
 // @ts-ignore
 import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
-import { refAndMount } from "@src/$core$/Utils.ts";
+import { refAndMount } from "@/src/$solid$/Utils.tsx";
 import { preferences } from "@src/$state$/Preferences.ts";
 
 //

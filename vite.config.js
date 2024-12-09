@@ -62,7 +62,8 @@ const config = defineConfig({
         //VitePluginBrowserSync(),
         solidPlugin({
             // solid-specific, other is inline/regular
-            include: ["*/$solid$/*.ts", "*/$solid$/**/*.tsx"]
+            include: ["*/$solid$/*.ts", "*/$solid$/**/*.tsx"],
+            dev: false
         })
     ],
     server: {

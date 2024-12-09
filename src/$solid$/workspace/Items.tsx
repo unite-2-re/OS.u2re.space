@@ -13,7 +13,7 @@ import {makeSelection} from "/externals/lib/interact.js";
 
 //
 import type { ItemsType } from "@src/$core$/Types";
-import { refAndMount } from "@src/$core$/Utils.ts";
+import { refAndMount } from "@/src/$solid$/Utils.tsx";
 import { createLabel, createShaped } from "@src/$core$/Items.ts";
 
 // while: tab.component should be  ()=> html`...`

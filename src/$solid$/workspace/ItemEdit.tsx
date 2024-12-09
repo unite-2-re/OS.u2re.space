@@ -7,11 +7,15 @@ import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/ob
 
 // @ts-ignore
 import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
-import { refAndMount } from "@src/$core$/Utils.ts";
-import { removeItem } from "@/src/$state$/GridState.ts";
+
+//
+import { refAndMount } from "@src/$solid$/Utils.tsx";
+import { removeItem } from "@src/$state$/GridState.ts";
+import { UIState } from "@src/$state$/UIState.ts";
 
 //
 const fields = ["label", "icon", "href", "action", "id"];
+export const [targetItem, setTargetItem] = createSignal(null);
 export const stateOnEdit = makeObjectAssignable(makeReactive({
     id: "",
     label: "",
@@ -35,6 +39,9 @@ export const ItemEdit = ({
         synchronizeInputs(stateOnEdit, ".u2-input", topLevel, subscribe);
         //subscribe(stateOnEdit, (value, prop)=>confirmState(stateOnEdit, [value, prop]));
     });
+
+    //
+    subscribe([UIState, "currentItem"], (value, prop)=>setTargetItem(value))
 
     // when changing target, set another field values
     createComputed(()=>{
