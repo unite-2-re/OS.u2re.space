@@ -74,6 +74,9 @@
         <style data-owner="runtime" data-type="system">
             /* */
             @layer ui-system {
+                *:not(:defined) { display: none; };
+
+                /* */
                 head, script, style { display: none !important; pointer-events: none !important; }
 
                 /* */
