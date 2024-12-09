@@ -10,7 +10,7 @@ import {observeBySelector} from "/externals/lib/dom.js";
 //
 const $useFS$ = async() => {
     // @ts-ignore
-    const opfs = await import('/externals/vendor/happy-opfs.mjs').catch(console.warn.bind(console));
+    const opfs = await import(/*@vite-ignore */ '/externals/vendor/happy-opfs.mjs').catch(console.warn.bind(console));
 
     // @ts-ignore
     const deno = typeof Deno != "undefined" ? Deno : null;
@@ -19,7 +19,7 @@ const $useFS$ = async() => {
     const ignore = "" + "";
     /* @vite-ignore */
     let node = null;
-    if (!opfs?.isOPFSSupported()) {
+    if (!opfs?.isOPFSSupported?.()) {
         try {
             node = await import(/*@vite-ignore */ ignore + "node:fs/promises").catch(console.warn.bind(console));
         } catch(e) {
@@ -28,7 +28,7 @@ const $useFS$ = async() => {
     }
 
     //
-    const fs = opfs?.isOPFSSupported() ? opfs : (deno ?? node);
+    const fs = opfs?.isOPFSSupported?.() ? opfs : (deno ?? node ?? opfs);
     return fs;
 }
 
