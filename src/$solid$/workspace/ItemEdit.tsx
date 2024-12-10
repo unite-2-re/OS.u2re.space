@@ -67,15 +67,15 @@ export const ItemEdit = ({
         removeItem(stateOnEdit?.id);
     }
 
-    //data-hidden
-    return html`<div data-hidden class="adl-modal" data-scheme="solid" data-highlight="2">
-        <form class="adl-item-edit" ref=${$content}>
+    //
+    return html`<div data-hidden class="adl-modal" data-alpha="1" data-scheme="solid">
+        <form data-alpha="0" data-highlight="0" class="adl-item-edit" ref=${$content}>
             <${For} each=${() => form}>${(input) => { return html`<label>
                 <div class="adl-label">${input?.label}</div>
                 <div class="adl-input" data-scheme="solid" data-alpha="0" data-highlight="2"><${input?.component} input=${()=>input}><//></div>
             </label>`;}}<//>
         </form>
-        <div class="adl-buttons">
+        <div data-alpha="0" data-highlight="0" class="adl-buttons">
             <!-- TODO! support for l18n -->
             <button onClick=${deleteA} class="adl-delete" data-scheme="inverse" data-chroma="0.05"> Delete </button>
             <button onClick=${confirm} class="adl-confirm" data-scheme="inverse" data-chroma="0.05"> Confirm </button>
