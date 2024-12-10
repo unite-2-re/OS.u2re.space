@@ -9,8 +9,9 @@ export const tabs: TabType[] = [
 
 //
 export const forms: any[] = [
-{
-    label: "Display",
+/*{
+    // Unknown Plans, Under of 2025...
+    label: "Agate.UX Settings (NOT implemented)",
     inputs: [{
         icon: "scaling",
         label: "Scale:",
@@ -21,7 +22,7 @@ export const forms: any[] = [
             </ui-number>`;
         }
     }]
-},
+},*/
 {
     label: "Appearance",
     inputs: [{
