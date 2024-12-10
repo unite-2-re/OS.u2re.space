@@ -58,8 +58,11 @@ export const actionMap = new Map([
 
     // "open-link" works as "_blank" if external domain, and "_self" if internal domain or same origin
     ["open-link", (initiator)=>{
-        window.open(initiator?.dataset?.href, isSameOrigin(initiator?.dataset?.href||"") ? "_self" : "_blank");
-        if (initiator?.dataset?.href?.trim?.()?.startsWith?.("#")) { taskManager?.focus?.(initiator?.dataset?.href?.trim?.()); };
+        if (initiator?.dataset?.href?.trim?.()?.startsWith?.("#")) {
+            taskManager?.focus?.(initiator?.dataset?.href?.trim?.());
+        } else {
+            window.open(initiator?.dataset?.href, isSameOrigin(initiator?.dataset?.href||"") ? "_self" : "_blank");
+        }
     }]
 ]);
 
