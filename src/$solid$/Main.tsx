@@ -23,47 +23,49 @@ export const Workspace = ({tasks}: AppsType) => {
         //makeSelection(topLevel, "ui-shaped");
     });
 
-    //
+    // TODO! Wrap "Apps" with zoomed layer (initial orientation)
     return html`<div id="root" ref=${$element} data-scheme="accent" data-alpha="0">
         <!-- Workspace Icons -->
         <${Items} items=${()=>gridState.items} lists=${()=>gridState.lists}><//>
 
-        <!-- Apps Part -->
-        <${For} each=${() => tasks}>${(task) => {
-            return html`<ui-frame data-scheme="solid" id=${task?.id.replace("#","")}>
-            <div style="justify-self: start; text-align: start; padding-inline: 1rem;" slot="ui-title-bar">${task?.title}</div>  <${lazy(task?.component)}><//>
-            </ui-frame>`;
-        }}<//>
-
-        <!-- -->
-        <${ItemEdit}
-            loadState=${()=>(targetItem)}
-            confirmState=${(state, /*[_, k]*/p?: [any?, any?])=>{
-                const item = getItem(state?.id)||{};
-                if (state && item) {
-                    if (!p) {
-                        for (const k of itemFields) {
-                            if (item[k] != state?.[k]) { item[k] = state?.[k] ?? item[k]; };
-                        }
-                    } else {
-                        const k = p?.[1]; if (item[k] != state?.[k]) { item[k] = state?.[k] ?? item[k]; };
-                    }
-                }
-            }}
-            form=${()=>itemForm}
-        ><//>
-
-        <!-- Taskbar -->
-        <ui-taskbar prop:tasks=${tasks}>
-
+        <!-- UI-Scaled Layer -->
+            <!-- Apps Part -->
             <${For} each=${() => tasks}>${(task) => {
-                return html`<ui-task prop:taskId=${task?.id} label=${task?.title} icon=${task?.icon}> <ui-icon icon=${task?.icon}></ui-icon> </ui-task>`;
+                return html`<ui-frame data-scheme="solid" id=${task?.id.replace("#","")}>
+                <div style="justify-self: start; text-align: start; padding-inline: 1rem;" slot="ui-title-bar">${task?.title}</div>  <${lazy(task?.component)}><//>
+                </ui-frame>`;
             }}<//>
 
-        </ui-taskbar>
+            <!-- -->
+            <${ItemEdit}
+                loadState=${()=>(targetItem)}
+                confirmState=${(state, /*[_, k]*/p?: [any?, any?])=>{
+                    const item = getItem(state?.id)||{};
+                    if (state && item) {
+                        if (!p) {
+                            for (const k of itemFields) {
+                                if (item[k] != state?.[k]) { item[k] = state?.[k] ?? item[k]; };
+                            }
+                        } else {
+                            const k = p?.[1]; if (item[k] != state?.[k]) { item[k] = state?.[k] ?? item[k]; };
+                        }
+                    }
+                }}
+                form=${()=>itemForm}
+            ><//>
 
-        <!-- Navbar (Mobile Only) -->
-        <ui-navbar></ui-navbar>
+            <!-- Taskbar -->
+            <ui-taskbar prop:tasks=${tasks}>
+
+                <${For} each=${() => tasks}>${(task) => {
+                    return html`<ui-task prop:taskId=${task?.id} label=${task?.title} icon=${task?.icon}> <ui-icon icon=${task?.icon}></ui-icon> </ui-task>`;
+                }}<//>
+
+            </ui-taskbar>
+
+            <!-- Navbar (Mobile Only) -->
+            <ui-navbar></ui-navbar>
+        <!-- UI-Scaled Layer End -->
 
     </div>`;
 };
