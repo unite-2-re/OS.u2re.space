@@ -65,6 +65,9 @@ export const Workspace = ({tasks}: AppsType) => {
 
             <!-- Navbar (Mobile Only) -->
             <ui-navbar></ui-navbar>
+
+            <!-- Merge to UI layer context-menu (13.12.2024) -->
+            <ui-contextmenu id="contextmenu" style="padding: 0.125rem;"></ui-contextmenu>
         <!-- UI-Scaled Layer End -->
 
     </div>`;
