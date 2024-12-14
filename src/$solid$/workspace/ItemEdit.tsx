@@ -1,17 +1,15 @@
 // @ts-ignore
 import { For, createSignal, createComputed, onMount, lazy } from "solid-js";
 import html from "solid-js/html";
+import { refAndMount } from "@src/$solid$/Utils.tsx";
+import { removeItem } from "@src/$state$/GridState.ts";
+import { UIState } from "@src/$state$/UIState.ts";
 
 // @ts-ignore
 import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 
 // @ts-ignore
 import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
-
-//
-import { refAndMount } from "@src/$solid$/Utils.tsx";
-import { removeItem } from "@src/$state$/GridState.ts";
-import { UIState } from "@src/$state$/UIState.ts";
 
 //
 const fields = ["label", "icon", "href", "action", "id"];

@@ -2,23 +2,21 @@
 import { For, createSignal, onMount, lazy } from "solid-js";
 import { render } from "solid-js/web";
 import html from "solid-js/html";
-
-// @ts-ignore
-import {observeAttribute} from "/externals/lib/dom.js";
-
-// @ts-ignore
-import {makeSelection} from "/externals/lib/interact.js";
-
-// @ts-ignore
-import { fixedClientZoom, orientOf } from "/externals/lib/agate.js";
-
-//
 import type { AppsType } from "@src/$core$/Types";
 import { itemFields, itemForm } from "@src/$solid$/$maps$/Forms.tsx";
 import { getItem, gridState } from "../$state$/GridState";
 import { refAndMount } from "@/src/$solid$/Utils.tsx";
 import ItemEdit, {targetItem} from "./workspace/ItemEdit.tsx";
 import Items from "./workspace/Items";
+
+// @ts-ignore
+import { observeAttribute } from "/externals/lib/dom.js";
+
+// @ts-ignore
+import { makeSelection } from "/externals/lib/interact.js";
+
+// @ts-ignore
+import { fixedClientZoom, orientOf } from "/externals/lib/agate.js";
 
 // while: tab.component should be  ()=> html`...`
 export const Workspace = ({tasks}: AppsType) => {
@@ -32,7 +30,7 @@ export const Workspace = ({tasks}: AppsType) => {
         <${Items} items=${()=>gridState.items} lists=${()=>gridState.lists}><//>
 
         <!-- UI-Scaled Layer -->
-        <ui-orientbox>
+        <ui-orientbox id="ui-layer" class="ui-layer">
             <!-- Apps Part -->
             <${For} each=${() => tasks}>${(task) => {
                 return html`<ui-frame data-scheme="solid" id=${task?.id.replace("#","")}>
@@ -78,9 +76,7 @@ export const Workspace = ({tasks}: AppsType) => {
 };
 
 //
+export default Workspace;
 export const renderInPage = (root: HTMLElement, tasks: any)=>{
     render(()=>html`<${Workspace} tasks=${tasks}><//>`, root);
 }
-
-//
-export default Workspace;

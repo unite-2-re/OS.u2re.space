@@ -1,6 +1,12 @@
 // @ts-ignore
 import { For, createSignal, onMount  } from "solid-js";
 import html from "solid-js/html";
+import type { ItemsType } from "@src/$core$/Types";
+import { refAndMount } from "@/src/$solid$/Utils.tsx";
+import { createLabel, createShaped } from "@src/$core$/Items.ts";
+
+// @ts-ignore
+import {fixOrientToScreen} from "/externals/lib/agate.js";
 
 // @ts-ignore
 import {observeAttribute} from "/externals/lib/dom.js";
@@ -11,15 +17,11 @@ import {inflectInGrid} from "/externals/system/grid-system.js";
 // @ts-ignore
 import {makeSelection} from "/externals/lib/interact.js";
 
-//
-import type { ItemsType } from "@src/$core$/Types";
-import { refAndMount } from "@/src/$solid$/Utils.tsx";
-import { createLabel, createShaped } from "@src/$core$/Items.ts";
-
 // while: tab.component should be  ()=> html`...`
 export const Items = ({items, lists}: ItemsType) => {
     const $element = refAndMount((topLevel)=> {
         makeSelection(topLevel, "ui-shaped");
+        fixOrientToScreen(topLevel);
     });
 
     //
