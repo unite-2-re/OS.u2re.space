@@ -9,6 +9,9 @@ import {observeAttribute} from "/externals/lib/dom.js";
 // @ts-ignore
 import {makeSelection} from "/externals/lib/interact.js";
 
+// @ts-ignore
+import { fixedClientZoom, orientOf } from "/externals/lib/agate.js";
+
 //
 import type { AppsType } from "@src/$core$/Types";
 import { itemFields, itemForm } from "@src/$solid$/$maps$/Forms.tsx";
@@ -29,6 +32,7 @@ export const Workspace = ({tasks}: AppsType) => {
         <${Items} items=${()=>gridState.items} lists=${()=>gridState.lists}><//>
 
         <!-- UI-Scaled Layer -->
+        <ui-orientbox>
             <!-- Apps Part -->
             <${For} each=${() => tasks}>${(task) => {
                 return html`<ui-frame data-scheme="solid" id=${task?.id.replace("#","")}>
@@ -68,7 +72,7 @@ export const Workspace = ({tasks}: AppsType) => {
 
             <!-- Merge to UI layer context-menu (13.12.2024) -->
             <ui-contextmenu id="contextmenu" style="padding: 0.125rem;"></ui-contextmenu>
-        <!-- UI-Scaled Layer End -->
+        </ui-orientbox>
 
     </div>`;
 };

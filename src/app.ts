@@ -11,6 +11,9 @@ export const initialize = async (root)=>{
     // DEBUG_MODE
     await Promise.allSettled([
         // @ts-ignore
+        import(/* @vite-ignore */ "/externals/lib/agate.js"),
+
+        // @ts-ignore
         import(/* @vite-ignore */ "/externals/system/grid-system.js"),
         // @ts-ignore
         import(/* @vite-ignore */ "/externals/system/ui.js"),
