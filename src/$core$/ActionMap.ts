@@ -68,7 +68,9 @@ export const actionMap = new Map([
 
 //
 export const initActionMap = (root = document.documentElement)=>{
-    root?.addEventListener?.("click", (ev)=>{
+    root?.addEventListener?.("ag-click", (evc)=>{
+        const ev = evc?.detail || evc;
+        if (ev?.target?.matches?.("[data-dragging]") || ev?.target?.closest?.("[data-dragging]")) { return; };
         const element   = ev?.target as HTMLElement;
         const selector  = "*[data-action]";
         const initiator = element?.matches?.(selector) ? element : element?.closest?.(selector);

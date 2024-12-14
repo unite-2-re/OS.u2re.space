@@ -35,7 +35,7 @@ export const Items = ({items, lists}: ItemsType) => {
     });
 
     // TODO! replace by orient-layer, and make it local
-    return html`<ui-orientbox ref=${$element} class="u2-desktop-grid" style="inset: 0px; inset-block-end: auto; pointer-events: auto; contain: none; overflow: visible; container-type: normal; touch-action: none;">
+    return html`<ui-orientbox orient="0" ref=${$element} class="u2-desktop-grid" style="inset: 0px; inset-block-end: auto; pointer-events: auto; contain: none; overflow: visible; container-type: normal; touch-action: none;">
         <ui-gridbox class="u2-grid-page" style="inline-size: 100%; block-size: 100%;" ref=${$labels}></ui-gridbox>
         <ui-gridbox class="u2-grid-page" style="inline-size: 100%; block-size: 100%;" ref=${$shapes}></ui-gridbox>
     </ui-orientbox>`;

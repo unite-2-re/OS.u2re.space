@@ -1,6 +1,7 @@
 export const initializeModal = ()=>{
     //
-    const hideModal = (ev)=>{
+    const hideModal = (evc)=>{
+        const ev = evc?.detail || evc;
         const element = ev?.target as HTMLElement;
         const selector = ".adl-modal, .u2-input, input, ui-contextmenu, button, ui-focustext";
         const modals = document.querySelectorAll(".adl-modal:not([data-hidden])");
@@ -10,8 +11,8 @@ export const initializeModal = ()=>{
     }
 
     //
-    document.documentElement.addEventListener("contextmenu", hideModal);
-    document.documentElement.addEventListener("click", hideModal);
+    document.documentElement.addEventListener("ag-contextmenu", hideModal);
+    document.documentElement.addEventListener("ag-click", hideModal);
 }
 
 //

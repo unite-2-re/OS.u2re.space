@@ -30,7 +30,7 @@ export const Workspace = ({tasks}: AppsType) => {
         <${Items} items=${()=>gridState.items} lists=${()=>gridState.lists}><//>
 
         <!-- UI-Scaled Layer -->
-        <ui-orientbox id="ui-layer" class="ui-layer">
+        <ui-orientbox id="ui-layer" class="ui-layer" orient="0">
             <!-- Apps Part -->
             <${For} each=${() => tasks}>${(task) => {
                 return html`<ui-frame data-scheme="solid" id=${task?.id.replace("#","")}>
