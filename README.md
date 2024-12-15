@@ -1,4 +1,6 @@
-# ADL.C24B
+# OS.U2RE
+
+> 🪟 **OS:** <https://os.u2re.space/> 🪟
 
 Full remake of that project.
 
@@ -19,6 +21,20 @@ Possible code-names: "Aderal", "Adeline", "Adel"...
 - Resizable and draggable windowed frames
 - Hide common visualization and interact issues
 
+---
+
+**Hidden plans that are scheduled for release:**
+
+- Calendar in TaskBar, Quick Settings
+- Improved file manager, directories support
+- Support for HFS or backend file systems
+- Improved color scheme (dual and more color)
+- Additional colors due to Hue shifts of 45 degrees on OkLCH
+- Will be used, for example, folder icons
+- Some important also will have another colors
+
+---
+
 ## Plans
 
 - [ ] Export/Import settings (I thinking about it)
@@ -36,3 +52,5 @@ Possible code-names: "Aderal", "Adeline", "Adel"...
 - [ ] Better Settings
 - [ ] Soft DPI Scaling
 - [ ] More Others...
+
+---
