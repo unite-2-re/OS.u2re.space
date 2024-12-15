@@ -38,6 +38,9 @@
         //
         label, .adl-label, .adl-input { pointer-events: none; }
         ui-longtext input, ui-longtext { pointer-events: auto; };
+
+        //
+        button { pointer-events: auto; };
     }
 
 }

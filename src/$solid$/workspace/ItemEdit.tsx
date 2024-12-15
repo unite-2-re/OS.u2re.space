@@ -54,15 +54,19 @@ export const ItemEdit = ({
     //
     const confirm = (ev)=>{
         const modal = ev?.target?.closest?.(".adl-modal");
-        if (modal) { modal.dataset.hidden = ""; };
-        confirmState(stateOnEdit);
+        if (modal) {
+            confirmState(stateOnEdit);
+            modal.dataset.hidden = "";
+        };
     }
 
     //
     const deleteA = (ev)=>{
         const modal = ev?.target?.closest?.(".adl-modal");
-        if (modal) { modal.dataset.hidden = ""; };
-        removeItem(stateOnEdit?.id);
+        if (modal) {
+            removeItem(stateOnEdit?.id);
+            modal.dataset.hidden = "";
+        };
     }
 
     //
