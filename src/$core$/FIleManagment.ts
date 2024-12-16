@@ -42,24 +42,27 @@ export const useFS = ()=>{
 export const provide = async (req: string | Request = "", rw = false) => {
     const path: string = (req as Request)?.url ?? req;
     const relPath = path.replace(location.origin, "");
-    if (relPath.startsWith("/opfs")) {
+    if (relPath.startsWith("/user/") || relPath.startsWith("user/")) {
         const fs = await useFS();
-        const params = relPath.split(/\?/i)?.[1] || relPath;
-        const $path = new URLSearchParams(params).get("path");
-        const parts = $path?.split?.("/") || [$path] || [""];
-        const dir = parts.slice(0, parts.length-1)?.join("/");
+        const $path = relPath.replace("user", "");
+        const parts = ($path?.split?.("/") || [$path])?.filter?.((p)=>!!p?.trim?.()) || [""];
+        const npt = parts?.join?.("/") || $path;
+        const dir = parts.slice(0, parts.length-1)?.join?.("/") || "/";
         if (dir && dir != "/") { await fs?.mkdir?.("/" + dir); };
         if (rw) {
             return {
                 write(data) {
-                    return fs?.writeFile?.("/" + $path, data);
+                    return fs?.writeFile?.("/" + npt, data);
                 }
             }
         }
 
         //
-        const handle = await fs?.readFile?.("/" + $path, {encoding: "blob"});
-        const file = handle?.unwrap?.() ?? handle;
+        const handle = await fs?.readFile?.("/" + npt, {encoding: "blob"});
+
+        //
+        let file = null;
+        try { file = handle?.unwrap?.() ?? handle; } catch(e) {};
         return file;
     } else {
         return fetch(path).then(async (r) => {
@@ -140,6 +143,12 @@ export const getFileList = async (exists, setFiles?, dirname = "images/")=>{
         await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemFileHandle)).map(async ({path, handle})=>{
             files.set(path, await handle.getFile());
         }));
+
+        // add stock image into registry
+        const _name = "stock.png";
+        files.set(_name, await provide("/assets/wallpaper/" + _name));
+
+        // to UI reaction
         setFiles?.(files);
     }
     return files;
@@ -150,8 +159,14 @@ export const useAsWallpaper = (file)=>{
     //provide
     const wallpaper = document.querySelector("canvas[is=\"ui-canvas\"]") as HTMLElement;
     if (wallpaper && file) {
-        wallpaper.dataset.src = URL.createObjectURL(file as File);
-        colorScheme(file);
+        if (typeof file == "string" && URL.canParse(file)) {
+            wallpaper.dataset.src = file;
+            provide(file)?.then?.(colorScheme);
+        } else
+        if (file instanceof Blob || file instanceof File) {
+            wallpaper.dataset.src = URL.createObjectURL(file as File);
+            colorScheme(file);
+        }
     }
 }
 
@@ -159,7 +174,7 @@ export const useAsWallpaper = (file)=>{
 export const loadFromStorage = async ()=>{
     const item = localStorage.getItem("@wallpaper");
     if (item) {
-        provide(localStorage.getItem("@wallpaper") || "/assets/wallpaper/h.webp").then(useAsWallpaper);
+        provide(localStorage.getItem("@wallpaper") || "/assets/wallpaper/stock.png").then(useAsWallpaper);
     }
 }
 
@@ -175,12 +190,12 @@ addEventListener("storage", (ev)=>{
 //
 export const useItemEv = (selectedFilename, setFiles?)=>{
     return getFileList(null, setFiles).then(()=>{
-        console.log(selectedFilename);
-        if (selectedFilename && files.has(selectedFilename)) {
-            const file = files.get(selectedFilename);
-            if (file != null) {
+        if (selectedFilename) {
+            const file = files?.get?.(selectedFilename);
+            if (file != null && selectedFilename) {
                 useAsWallpaper(file);
-                localStorage.setItem("@wallpaper", "/opfs?path=" + "/images/" + (selectedFilename || "wallpaper"));
+                // TODO! fix directory issues
+                localStorage.setItem("@wallpaper", "/user/images/" + (selectedFilename || "wallpaper"));
                 files.set(selectedFilename, file);
                 setFiles?.(files);
             }
@@ -236,7 +251,7 @@ export const removeItemEv = async (selectedFilename = "", setFiles?, dir = "imag
     const fs = await useFS();
     if (selectedFilename) {
         (async ()=>{
-            if (("/opfs?path=" + dir + (selectedFilename || "wallpaper")) != localStorage.getItem("@wallpaper")) {
+            if (("/user/" + dir + (selectedFilename || "wallpaper")) != localStorage.getItem("@wallpaper")) {
                 await fs?.mkdir?.("/" + dir);
                 await fs?.remove?.("/" + dir + selectedFilename);
 
