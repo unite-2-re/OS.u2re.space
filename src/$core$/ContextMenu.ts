@@ -1,7 +1,7 @@
 import { actionMap } from "@/src/$core$/ActionMap.ts";
 
 // @ts-ignore
-import { UILucideIcon } from "/externals/system/ui.js";
+import { UILucideIcon } from "/externals/wcomp/ui.js";
 
 // @ts-ignore
 import { openContextMenu } from "/externals/wcomp/contextmenu.js";

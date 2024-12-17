@@ -6,16 +6,16 @@ import { refAndMount } from "@/src/$solid$/Utils.tsx";
 import { createLabel, createShaped } from "@src/$core$/Items.ts";
 
 // @ts-ignore
-import {fixOrientToScreen} from "/externals/lib/agate.js";
+import {fixOrientToScreen} from "/externals/core/agate.js";
 
 // @ts-ignore
 import {observeAttribute} from "/externals/lib/dom.js";
 
 // @ts-ignore
-import {inflectInGrid} from "/externals/system/grid-system.js";
+import {inflectInGrid} from "/externals/core/grid.js";
 
 // @ts-ignore
-import {makeSelection} from "/externals/lib/interact.js";
+import {makeSelection} from "/externals/core/interact.js";
 
 // while: tab.component should be  ()=> html`...`
 export const Items = ({items, lists}: ItemsType) => {
