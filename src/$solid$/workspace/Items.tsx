@@ -21,7 +21,7 @@ import {makeSelection} from "/externals/lib/interact.js";
 export const Items = ({items, lists}: ItemsType) => {
     const $element = refAndMount((topLevel)=> {
         // broken performance...
-        //makeSelection(topLevel, "ui-shaped");
+        makeSelection(topLevel, "ui-shaped");
         fixOrientToScreen(topLevel);
     });
 

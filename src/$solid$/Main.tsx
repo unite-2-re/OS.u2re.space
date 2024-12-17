@@ -21,7 +21,7 @@ import { fixedClientZoom, orientOf } from "/externals/lib/agate.js";
 // while: tab.component should be  ()=> html`...`
 export const Workspace = ({tasks}: AppsType) => {
     const $element = refAndMount((topLevel)=> {
-        makeSelection(topLevel, "ui-shaped");
+        //makeSelection(topLevel, "ui-shaped");
     });
 
     // TODO! Wrap "Apps" with zoomed layer (initial orientation)
