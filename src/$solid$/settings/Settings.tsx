@@ -26,7 +26,7 @@ export const Settings = () => {
 
     //
     return html`<div data-alpha="1" data-scheme="solid" class="ui-content" id="settings" ref=${$content} data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>
-        <div class="adl-toolbar" data-alpha="1" data-chroma="0.1" data-highlight="5">
+        <div class="adl-toolbar" data-alpha="0">
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-menu" onClick=${()=>$openMenu(content)}> <ui-icon icon="menu"></ui-icon> </button>
             <div class="adl-space"></div>
         </div>
@@ -40,7 +40,7 @@ export const Settings = () => {
                 }}<//>
             </div>
         </ui-scrollbox>
-        <ui-scrollbox class="adl-content-box">
+        <ui-scrollbox data-alpha="0" class="adl-content-box">
             <${Content} tab=${()=>cTab}>
                 <${For} each=${() => forms}>${(form) => {
                     return html`<${Form} form=${()=>form} tab=${()=>cTab}><//>`;

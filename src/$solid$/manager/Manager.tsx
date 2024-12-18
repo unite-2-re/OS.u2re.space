@@ -25,7 +25,7 @@ export const Manager = () => {
 
     //
     return html`<div data-alpha="1" data-scheme="solid" class="ui-content" id="manager" data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>
-        <div class="adl-toolbar" data-alpha="1" data-chroma="0.1" data-highlight="5">
+        <div class="adl-toolbar" data-alpha="0">
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-add" onClick=${(ev)=>addItemEv(setFiles)}> <ui-icon icon="file-up"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-get" onClick=${(ev)=>downloadItemEv(fileOf(), setFiles)}> <ui-icon icon="file-down"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-del" onClick=${(ev)=>removeItemEv(fileOf(), setFiles)}> <ui-icon icon="file-x"></ui-icon> </button>
@@ -42,7 +42,7 @@ export const Manager = () => {
                 }}<//>
             </div>
         </ui-scrollbox>
-        <ui-scrollbox class="adl-content-box" ref=${$content}>
+        <ui-scrollbox data-alpha="0" class="adl-content-box" ref=${$content}>
             <${Content} tab=${()=>cTab}>
                 <${For} each=${()=>Array.from(files()?.values?.()||[])}>${(file) => {
                     return html`<ui-select-row name="file" value=${file?.name}>
