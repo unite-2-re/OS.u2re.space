@@ -22,7 +22,7 @@
 
                 //
                 padding: 0px;
-                z-index: 9;
+                z-index: 99;
                 display: flex;
                 justify-content: start;
                 flex-direction: row;
@@ -51,6 +51,7 @@
 
         //
         .adl-tab-box {
+            &:has(.adl-tabs:empty) { display: none !important; }
             &:not(.adl-open) { translate: -12rem 0px; box-shadow: 0rem 0rem 0rem #00000060; }
             &.adl-open { translate: 0px 0px; box-shadow: 0rem 0rem 1rem #00000060; }
 
@@ -63,6 +64,7 @@
                 padding: 0rem;
                 z-index: 8;
                 overflow: visible;
+                justify-self: start;
 
                 //
                 min-block-size: 100%;

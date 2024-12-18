@@ -25,14 +25,14 @@ export const Manager = () => {
 
     //
     return html`<div data-alpha="1" data-scheme="solid" class="ui-content" id="manager" data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>
-        <div class="adl-toolbar" data-alpha="0">
+        <div class="adl-toolbar" data-alpha="1">
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-add" onClick=${(ev)=>addItemEv(setFiles)}> <ui-icon icon="file-up"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-get" onClick=${(ev)=>downloadItemEv(fileOf(), setFiles)}> <ui-icon icon="file-down"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-del" onClick=${(ev)=>removeItemEv(fileOf(), setFiles)}> <ui-icon icon="file-x"></ui-icon> </button>
             <div class="adl-space"></div>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-use" onClick=${(ev)=>useItemEv(fileOf(), setFiles)}> <ui-icon icon="file-input"></ui-icon> </button>
         </div>
-        <ui-scrollbox class="adl-tab-box" data-alpha="1" data-highlight="4" data-chroma="0.05">
+        <ui-scrollbox class="adl-tab-box" data-alpha="1">
             <div class="adl-tabs">
                 <${For} each=${() => tabs}>${(tab) => {
                     return html`<ui-select-row name="m-tab" onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>

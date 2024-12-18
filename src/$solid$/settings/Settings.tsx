@@ -26,11 +26,11 @@ export const Settings = () => {
 
     //
     return html`<div data-alpha="1" data-scheme="solid" class="ui-content" id="settings" ref=${$content} data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>
-        <div class="adl-toolbar" data-alpha="0">
+        <div class="adl-toolbar" data-alpha="1">
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-menu" onClick=${()=>$openMenu(content)}> <ui-icon icon="menu"></ui-icon> </button>
             <div class="adl-space"></div>
         </div>
-        <ui-scrollbox class="adl-tab-box" data-alpha="1" data-highlight="2" data-chroma="0.05">
+        <ui-scrollbox class="adl-tab-box" data-alpha="1">
             <div class="adl-tabs">
                 <${For} each=${() => tabs}>${(tab) => {
                     return html`<ui-select-row name="s-tab" onClick=${()=>$hideMenu(content)} onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>
