@@ -31,7 +31,7 @@ export const Settings = () => {
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-menu" onClick=${()=>$openMenu(content)}> <ui-icon icon="menu"></ui-icon> </button>
             <div class="adl-space"></div>
         </div>
-        <ui-scrollbox data-highlight="2" data-chroma="0.05" class="adl-tab-box" data-alpha="1">
+        <ui-scrollbox data-highlight="0" data-chroma="0" class="adl-tab-box" data-alpha="1">
             <div class="adl-tabs">
                 <${For} each=${() => tabs}>${(tab) => {
                     return html`<ui-select-row name="s-tab" onClick=${()=>$hideMenu(content)} onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>

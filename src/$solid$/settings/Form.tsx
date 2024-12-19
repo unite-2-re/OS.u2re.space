@@ -17,7 +17,7 @@ export const Form = ({form, tab}: {form: any, tab: ()=>any}) => {
     });
 
     // TODO: available by tab (' data-hidden="..." ')
-    return html`<form data-alpha="1" data-scheme="solid" data-chroma="0.05" data-highlight="2" ref=${$content}>
+    return html`<form data-alpha="1" data-scheme="solid" data-chroma="0.01" data-highlight="1" ref=${$content}>
     <span class="adl-form-label">${form?.label}</span>
     <${For} each=${() => form?.inputs}>${(input) => {
         return html`<ui-block>
