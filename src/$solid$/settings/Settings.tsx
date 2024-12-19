@@ -25,12 +25,13 @@ export const Settings = () => {
     });
 
     //
-    return html`<div data-alpha="1" data-scheme="solid" class="ui-content" id="settings" ref=${$content} data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>
-        <div class="adl-toolbar" data-alpha="1">
+    return html`<div data-alpha="0" data-scheme="solid" class="ui-content" id="settings" ref=${$content} data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>
+        <!-- TODO: support titlebar-inline menu button support -->
+        <div class="adl-toolbar" data-alpha="0">
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-menu" onClick=${()=>$openMenu(content)}> <ui-icon icon="menu"></ui-icon> </button>
             <div class="adl-space"></div>
         </div>
-        <ui-scrollbox class="adl-tab-box" data-alpha="1">
+        <ui-scrollbox data-highlight="2" data-chroma="0.05" class="adl-tab-box" data-alpha="1">
             <div class="adl-tabs">
                 <${For} each=${() => tabs}>${(tab) => {
                     return html`<ui-select-row name="s-tab" onClick=${()=>$hideMenu(content)} onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>
@@ -40,7 +41,7 @@ export const Settings = () => {
                 }}<//>
             </div>
         </ui-scrollbox>
-        <ui-scrollbox data-alpha="0" class="adl-content-box">
+        <ui-scrollbox data-alpha="1" class="adl-content-box">
             <${Content} tab=${()=>cTab}>
                 <${For} each=${() => forms}>${(form) => {
                     return html`<${Form} form=${()=>form} tab=${()=>cTab}><//>`;

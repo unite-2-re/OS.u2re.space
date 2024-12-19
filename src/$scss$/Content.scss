@@ -1,6 +1,28 @@
 @layer adl-content {
 
     //
+    @mixin mobile-version {
+        :where(.ui-content) {
+            & { grid-template-columns: minmax(0px, 0rem) minmax(0px, 1fr); };
+            .adl-toolbar { z-index: 98; };
+            .adl-tab-box {
+                & { grid-row: 1 / 2 span; };
+                &:not(.adl-open) { translate: -100% 0px; box-shadow: 0rem 0rem 0rem #00000060; };
+                &.adl-open { translate: 0px 0px; box-shadow: 0rem 0rem 1rem #00000060; };
+            }
+        }
+    }
+
+    //
+    @mixin desktop-version {
+        :where(.ui-content) {
+            & { grid-template-columns: minmax(12rem, 0rem) minmax(0px, 1fr); };
+            .adl-toolbar { z-index: 99; };
+            .adl-tab-box { grid-row: 2 / 2 span; translate: 0px 0px; }
+        }
+    }
+
+    //
     :where(.ui-content) {
 
         //
@@ -22,7 +44,7 @@
 
                 //
                 padding: 0px;
-                z-index: 99;
+                z-index: 98;
                 display: flex;
                 justify-content: start;
                 flex-direction: row;
@@ -52,17 +74,14 @@
         //
         .adl-tab-box {
             &:has(.adl-tabs:empty) { display: none !important; }
-            &:not(.adl-open) { translate: -12rem 0px; box-shadow: 0rem 0rem 0rem #00000060; }
-            &.adl-open { translate: 0px 0px; box-shadow: 0rem 0rem 1rem #00000060; }
 
             //
             & {
-                grid-row: 2 / 2 span;
                 block-size: max-content;
                 grid-column: 1 / 1 span;
                 inline-size: max(100%, 12rem);
                 padding: 0rem;
-                z-index: 8;
+                z-index: 99;
                 overflow: visible;
                 justify-self: start;
 
@@ -158,5 +177,23 @@
                 }
             }
         }
+
+        // if there is no toolbar, just use same content space
+        &:not(:has(.adl-toolbar)), &:has(.adl-toolbar:empty) {
+            .adl-content-box { grid-row: 1 / 2 span; };
+            .adl-tab-box { grid-row: 1 / 2 span; };
+            .adl-toolbar { display: none; };
+        }
     }
+
+    //
+    @media not (((hover: hover) or (pointer: fine)) and ((width >= 9in) or (orientation: landscape))) {
+        @include mobile-version;
+    }
+
+    //
+    @media (((hover: hover) or (pointer: fine)) and ((width >= 9in) or (orientation: landscape))) {
+        @include desktop-version;
+    }
+
 }
