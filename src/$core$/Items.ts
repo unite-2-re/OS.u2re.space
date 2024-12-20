@@ -22,8 +22,7 @@ export const createShaped = (item, gs)=>{
     //
     const shape: any = document.createElement("div");
     shape.classList.add("u2-item-design");
-    //shape.setAttribute("data-scheme", "solid");
-    //shape.setAttribute("data-scheme", "dynamic-transparent");
+    shape.setAttribute("data-scheme", "solid");
     shape.setAttribute("data-shape", "wavy");
     shape.setAttribute("data-alpha", "1");
     shape.setAttribute("data-highlight", "4");
