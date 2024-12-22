@@ -25,14 +25,14 @@ export const Manager = () => {
 
     //
     return html`<div data-alpha="0" data-scheme="solid" class="ui-content" id="manager" data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>
-        <div data-alpha="1" data-highlight="0" data-chroma="0" class="adl-toolbar">
+        <div data-alpha="0" data-highlight="0" data-chroma="0" class="adl-toolbar">
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-add" onClick=${(ev)=>addItemEv(setFiles)}> <ui-icon icon="file-up"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-get" onClick=${(ev)=>downloadItemEv(fileOf(), setFiles)}> <ui-icon icon="file-down"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-del" onClick=${(ev)=>removeItemEv(fileOf(), setFiles)}> <ui-icon icon="file-x"></ui-icon> </button>
             <div class="adl-space"></div>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-use" onClick=${(ev)=>useItemEv(fileOf(), setFiles)}> <ui-icon icon="file-input"></ui-icon> </button>
         </div>
-        <ui-scrollbox data-alpha="0" data-highlight="0" data-chroma="0" class="adl-tab-box">
+        <ui-scrollbox data-alpha="1" data-highlight="0" data-chroma="0" class="adl-tab-box">
             <div class="adl-tabs">
                 <${For} each=${() => tabs}>${(tab) => {
                     return html`<ui-select-row name="m-tab" onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>
