@@ -46,7 +46,7 @@ export const Manager = () => {
             <${Content} tab=${()=>cTab}>
                 <${For} each=${()=>Array.from(files()?.values?.()||[])}>${(file) => {
                     return html`<ui-select-row name="file" value=${file?.name}>
-                        <ui-icon icon="wallpaper" style="padding: 0.75rem; min-block-size: 2.5rem;"></ui-icon>
+                        <ui-icon icon="wallpaper"></ui-icon>
                         <span>${file?.name}</span>
                     </ui-select-row>`;
                 }}<//>

@@ -105,6 +105,13 @@
             //
             ui-select-row {
                 block-size: 2.5rem;
+                display: inline grid;
+                grid-template-columns: subgrid;
+            }
+
+            //
+            ui-icon {
+                min-block-size: 2rem;
             }
         }
 
@@ -144,14 +151,22 @@
 
                 //
                 & ui-select-row {
-                    display: grid;
-                    font-size: 0.8rem;
-                    line-height: normal;
-                    block-size: 2rem;
-                    place-content: center;
-                    place-items: center;
-                    justify-content: start;
-                    justify-items: start;
+                    & {
+                        display: grid;
+                        font-size: 0.8rem;
+                        line-height: normal;
+                        block-size: 2rem;
+                        place-content: center;
+                        place-items: center;
+                        justify-content: start;
+                        justify-items: start;
+                        padding: 0.5rem;
+                    }
+
+                    //
+                    ui-icon {
+                        min-block-size: 1rem;
+                    }
                 }
 
                 //

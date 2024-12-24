@@ -69,7 +69,7 @@ export const Workspace = ({tasks}: AppsType) => {
             <ui-navbar></ui-navbar>
 
             <!-- Merge to UI layer context-menu (13.12.2024) -->
-            <ui-contextmenu id="contextmenu" style="padding: 0.125rem;"></ui-contextmenu>
+            <ui-modal type="contextmenu" id="contextmenu" style="display: inline grid; padding: 0.25rem; grid-template-columns: [icon] minmax(0px, 1.5rem) [content] minmax(0px, 1fr);"></ui-modal>
         </ui-orientbox>
 
     </div>`;

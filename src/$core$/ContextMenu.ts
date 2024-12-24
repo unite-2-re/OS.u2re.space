@@ -1,10 +1,7 @@
 import { actionMap } from "@/src/$core$/ActionMap.ts";
 
 // @ts-ignore
-import { UILucideIcon } from "/externals/wcomp/ui.js";
-
-// @ts-ignore
-import { openContextMenu } from "/externals/wcomp/contextmenu.js";
+import { UILucideIcon, makeCtxMenuItems, openContextMenu } from "/externals/wcomp/ui.js";
 
 //
 export const ctxMenuMap = new Map([
@@ -47,7 +44,7 @@ export const initCtxMenu = (root = document.documentElement)=>{
                 clientY: ev.clientY,
                 pageX: ev.pageX,
                 pageY: ev.pageY
-            }, one, false);
+            }, false, (menu, initiator)=>makeCtxMenuItems(menu, initiator, one));
         }
     }
 
