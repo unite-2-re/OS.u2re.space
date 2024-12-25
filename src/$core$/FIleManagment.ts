@@ -145,7 +145,7 @@ export const getFileList = async (exists, setFiles?, dirname = "images/")=>{
         }));
 
         // add stock image into registry
-        const _name = "stock.png";
+        const _name = "stock.webp";
         files.set(_name, await provide("/assets/wallpaper/" + _name));
 
         // to UI reaction
