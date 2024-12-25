@@ -15,8 +15,8 @@
         "standalone"
     ],
     "description": "NTP PWA Application.",
-    "theme_color": "#101010",
-    "background_color": "#101010",
+    "theme_color": "#000000",
+    "background_color": "#000000",
     "orientation": "any",
     "categories": [
         "personalization",
@@ -29,13 +29,20 @@
         {
             "src": "../assets/icons/home/512c.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any"
         },
         {
             "src": "../assets/icons/home/512x.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
+        },
+        {
+            "src": "../assets/icons/home/512b.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "badge"
         }
     ],
     "related_applications": [
