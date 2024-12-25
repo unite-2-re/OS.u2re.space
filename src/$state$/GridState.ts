@@ -2,9 +2,6 @@
 import {subscribe, makeReactive, makeObjectAssignable, safe } from "/externals/lib/object.js";
 import {JSOX} from "jsox";
 
-// @ts-ignore
-import { createSignal } from "solid-js";
-
 //
 export const defaultLists = [["github", "youtube", "settings"]];
 export const defaultItems = [

@@ -3,6 +3,7 @@ import { getItem, removeItem, addItem } from "../$state$/GridState.ts";
 
 // @ts-ignore
 import {initTaskManager} from "/externals/core/core.js";
+import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "@/src/$state$/ImportExport.ts";
 
 //
 const taskManager = initTaskManager();
@@ -63,7 +64,11 @@ export const actionMap = new Map([
         } else {
             window.open(initiator?.dataset?.href, isSameOrigin(initiator?.dataset?.href||"") ? "_self" : "_blank");
         }
-    }]
+    }],
+
+    //
+    ["export-settings", (initiator)=>{ saveBinaryToFS?.(exportSettings()); }],
+    ["import-settings", (initiator)=>{ pickBinaryFromFS()?.then?.(importSettings); }]
 ]);
 
 //

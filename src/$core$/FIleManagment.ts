@@ -155,13 +155,17 @@ export const getFileList = async (exists, setFiles?, dirname = "images/")=>{
 }
 
 //
-export const useAsWallpaper = (file)=>{
-    //provide
+export const useAsWallpaper = (file) => {
     const wallpaper = document.querySelector("canvas[is=\"ui-canvas\"]") as HTMLElement;
     if (wallpaper && file) {
-        if (typeof file == "string" && URL.canParse(file)) {
+        if (typeof file == "string" && (URL.canParse(file) || file?.startsWith?.("/user") || file?.startsWith?.("user/"))) {
             wallpaper.dataset.src = file;
-            provide(file)?.then?.(colorScheme);
+            Promise.try(provide, file)?.then?.((F: any) => {
+                wallpaper.dataset.src = (file?.startsWith?.("/user") || file?.startsWith?.("user/")) ? URL.createObjectURL(F) : file;
+                if (F) { colorScheme(F); };
+            })?.catch?.(()=>{
+                wallpaper.dataset.src = file;
+            });
         } else
         if (file instanceof Blob || file instanceof File) {
             wallpaper.dataset.src = URL.createObjectURL(file as File);
@@ -174,7 +178,7 @@ export const useAsWallpaper = (file)=>{
 export const loadFromStorage = async ()=>{
     const item = localStorage.getItem("@wallpaper");
     if (item) {
-        provide(localStorage.getItem("@wallpaper") || "/assets/wallpaper/stock.png").then(useAsWallpaper);
+        useAsWallpaper(localStorage.getItem("@wallpaper") || "");
     }
 }
 
@@ -182,25 +186,16 @@ export const loadFromStorage = async ()=>{
 addEventListener("storage", (ev)=>{
     if (ev?.key == "@wallpaper") {
         if (ev?.newValue) {
-            provide(ev?.newValue || "").then(useAsWallpaper);
+            useAsWallpaper(ev?.newValue || "");
         }
     }
 });
 
 //
 export const useItemEv = (selectedFilename, setFiles?)=>{
-    return getFileList(null, setFiles).then(()=>{
-        if (selectedFilename) {
-            const file = files?.get?.(selectedFilename);
-            if (file != null && selectedFilename) {
-                useAsWallpaper(file);
-                // TODO! fix directory issues
-                localStorage.setItem("@wallpaper", "/user/images/" + (selectedFilename || "wallpaper"));
-                files.set(selectedFilename, file);
-                setFiles?.(files);
-            }
-        }
-    });
+    const url = "/user/images/" + (selectedFilename || "wallpaper");
+    useAsWallpaper(url);
+    localStorage.setItem("@wallpaper", url);
 }
 
 //
