@@ -82,8 +82,8 @@ export const gridState = makeObjectAssignable(makeReactive({
 
 //
 export const saveToStorage = (ev?: any)=>{
-    localStorage.setItem("grids@items", JSOX.stringify(unwrap(Array.from(gridState.items?.values?.() || []))));
-    localStorage.setItem("grids@lists", JSOX.stringify(unwrap(Array.from(gridState.lists?.values?.() || []))));
+    localStorage.setItem("grids@items", JSOX.stringify([...unwrap(gridState.items || [])]));
+    localStorage.setItem("grids@lists", JSOX.stringify([...unwrap(gridState.lists || [])]));
 }
 
 //
@@ -122,8 +122,8 @@ addEventListener("beforeunload", saveToStorage);
 addEventListener("pagehide", saveToStorage);
 addEventListener("storage", (ev)=>{
     if (ev.storageArea == localStorage) {
-        if (ev.key == "grids@items") { gridState.items = new Set(mergeByKey([...defaultItems, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I))); };
-        if (ev.key == "grids@lists") { gridState.lists = new Set([...Array.from(JSOX.parse(ev.newValue || JSOX.stringify(defaultLists))?.values?.() || defaultLists)]); };
+        if (ev.key == "grids@items") { gridState.items = mergeByKey([...defaultItems, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I)); };
+        if (ev.key == "grids@lists") { gridState.lists = [...Array.from(JSOX.parse(ev.newValue || JSOX.stringify(defaultLists))?.values?.() || defaultLists)]; };
     }
 });
 
