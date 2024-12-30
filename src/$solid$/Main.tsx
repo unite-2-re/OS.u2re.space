@@ -70,6 +70,11 @@ export const Workspace = ({tasks}: AppsType) => {
 
             <!-- Merge to UI layer context-menu (13.12.2024) -->
             <ui-modal type="contextmenu" id="contextmenu" style="display: inline grid; padding: 0.25rem; grid-template-columns: [icon] minmax(0px, 1.75rem) [content] minmax(0px, 1fr);"></ui-modal>
+
+            <!-- Sentence 30.12.2024 -->
+            <ui-modal type="popup" data-name="calendar">
+                <ui-calendar></ui-calendar>
+            </ui-modal>
         </ui-orientbox>
 
     </div>`;
