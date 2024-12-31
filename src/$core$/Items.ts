@@ -44,9 +44,9 @@ export const createLabel = (item, gs)=>{
     const element: any = document.createElement("span");
     element.classList.add("u2-grid-item");
     element.classList.add("u2-item-label");
-    element.setAttribute("data-scheme", "accent-inverse");
+    element.setAttribute("data-scheme", "accent");
     element.setAttribute("data-alpha", "0");
-    element.setAttribute("data-chroma", "0");
+    element.setAttribute("data-chroma", "0.01");
     element.setAttribute("data-transparent", "");
     element.setAttribute("data-label", item.label || "");
     element.label = item.label || "";
