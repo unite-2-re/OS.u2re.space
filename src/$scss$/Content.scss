@@ -168,6 +168,20 @@
                     ui-icon {
                         min-block-size: 1rem;
                     }
+
+                    //
+                    span, div { pointer-events: none; overflow: hidden; display: inline-block; inline-size: 100%; block-size: 100%; max-inline-size: 100%; max-block-size: 100%; };
+                    span, div, & {
+                        word-break: keep-all;
+                        white-space: nowrap;
+                        overflow-wrap: anywhere;
+                        text-overflow: ellipsis;
+                        text-wrap: nowrap;
+                        text-wrap-mode: nowrap;
+                        text-wrap-style: pretty;
+                        text-spacing-trim: trim-start;
+                        white-space-collapse: collapse;
+                    }
                 }
 
                 //
