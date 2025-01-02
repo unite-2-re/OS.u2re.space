@@ -3,7 +3,7 @@ import {subscribe, makeReactive, makeObjectAssignable, safe } from "/externals/l
 import {JSOX} from "jsox";
 
 //
-export const defaultLists = [["github", "youtube", "settings"]];
+export const defaultLists = [["settings", "import", "export"]];
 export const defaultItems = [
     /*{
         id: "github",
