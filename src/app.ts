@@ -1,5 +1,3 @@
-
-//
 import tasks from "./$solid$/$maps$/Tasks.tsx";
 import { renderInPage } from "./$solid$/Main";
 import CSS from "./css";
@@ -11,14 +9,10 @@ import $S from "./$core$/Sidebar.ts";
 import $C from "./$core$/ContextMenu.ts";
 
 //
-const $I = [$M, $A, $S, $C]?.map?.((f)=>Promise?.try?.(f));
-
-//
+const $I = Promise.allSettled([$M, $A, $S, $C]?.map?.((f)=>Promise?.try?.(f)));
 export const initialize = async (root)=>{
-    await CSS?.(root);
-
-    // DEBUG_MODE
-    await Promise.allSettled([
+    //
+    const loadingModules = Promise.allSettled([
         // @ts-ignore
         import(/* @vite-ignore */ "/externals/core/agate.js"),
         // @ts-ignore
@@ -42,7 +36,13 @@ export const initialize = async (root)=>{
         import(/* @vite-ignore */ "/externals/wcomp/scrollbox.js"),
         // @ts-ignore
         import(/* @vite-ignore */ "/externals/wcomp/image.js"),
-    ])?.then?.((mds)=>mds.map((rs: any)=> {try { return rs?.value?.default?.() } catch(e) {}}))?.catch?.(console.warn.bind(console));
+    ]);
+
+    //
+    await Promise.allSettled([
+        $I, CSS?.(root),
+        loadingModules?.then?.((mds)=>Promise.allSettled(mds.map((rs: any)=> Promise.try(rs?.value?.default))))?.catch?.(console.warn.bind(console))
+    ]);
 
     //
     renderInPage(root, tasks);
@@ -50,6 +50,3 @@ export const initialize = async (root)=>{
 
 //
 export default initialize;
-
-// DEBUG MODE
-//initialize?.(document.querySelector("#viewport"));

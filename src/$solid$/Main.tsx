@@ -15,9 +15,6 @@ import { observeAttribute } from "/externals/lib/dom.js";
 // @ts-ignore
 import { makeSelection } from "/externals/core/interact.js";
 
-// @ts-ignore
-import { fixedClientZoom, orientOf } from "/externals/core/agate.js";
-
 // while: tab.component should be  ()=> html`...`
 export const Workspace = ({tasks}: AppsType) => {
     const $element = refAndMount((topLevel)=> {
