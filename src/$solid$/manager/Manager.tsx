@@ -44,10 +44,10 @@ export const Manager = () => {
         </ui-scrollbox>
         <ui-scrollbox data-alpha="0" data-highlight="0" data-chroma="0" class="adl-content-box" ref=${$content}>
             <${Content} tab=${()=>cTab}>
-                <${For} each=${()=>Array.from(files()?.values?.()||[])}>${(file) => {
-                    return html`<ui-select-row name="file" value=${file?.name}>
+                <${For} each=${()=>Array.from(files()?.entries?.()||[])}>${([path, file]) => {
+                    return html`<ui-select-row name="file" value=${path}>
                         <ui-icon icon="wallpaper"></ui-icon>
-                        <span>${file?.name}</span>
+                        <span>${(file?.name?.split?.("/")?.at?.(-1) || file?.name)}</span>
                     </ui-select-row>`;
                 }}<//>
             <//>
