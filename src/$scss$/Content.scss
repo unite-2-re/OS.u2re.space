@@ -75,8 +75,6 @@
 
         //
         .adl-tab-box {
-            &:has(.adl-tabs:empty) { display: none !important; }
-
             //
             & {
                 block-size: max-content;
@@ -113,6 +111,9 @@
             ui-icon {
                 min-block-size: 2rem;
             }
+
+            //
+            &:has(.adl-tabs:empty) { display: none !important; visibility: hidden !important; pointer-events: none !important; :where(*) { display: none !important;  visibility: hidden !important; pointer-events: none !important; }; };
         }
 
         //
@@ -194,6 +195,12 @@
                     font-size: 0.8rem;
                 }
             }
+        }
+
+        // if there is no toolbar, just use same content space
+        &:not(:has(.adl-tabs)), &:has(.adl-tabs:empty) {
+            .adl-content-box { grid-column: 1 / 2 span; };
+            .adl-tab-box { display: none !important; visibility: hidden !important; pointer-events: none !important; :where(*) { display: none !important; visibility: hidden !important; pointer-events: none !important; }; };
         }
 
         // if there is no toolbar, just use same content space

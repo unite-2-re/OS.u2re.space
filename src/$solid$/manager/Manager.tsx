@@ -48,6 +48,7 @@ export const Manager = () => {
                     return html`<ui-select-row name="file" value=${path}>
                         <ui-icon icon="wallpaper"></ui-icon>
                         <span>${(file?.name?.split?.("/")?.at?.(-1) || file?.name)}</span>
+                        <span>${new Date(file.lastModified)?.toLocaleString?.()}</span>
                     </ui-select-row>`;
                 }}<//>
             <//>
