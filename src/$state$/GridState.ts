@@ -5,7 +5,7 @@ import {JSOX} from "jsox";
 //
 export const defaultLists = [["github", "youtube", "settings"]];
 export const defaultItems = [
-    {
+    /*{
         id: "github",
         icon: "github",
         label: "GitHub",
@@ -18,7 +18,7 @@ export const defaultItems = [
         label: "(Unreleased)",
         //cell: [1, 0],
         href: "https://www.youtube.com/@MobileCenter-s5v"
-    },
+    },*/
     {
         id: "settings",
         icon: "settings",
