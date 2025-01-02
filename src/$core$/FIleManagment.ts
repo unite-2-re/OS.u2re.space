@@ -265,11 +265,12 @@ export const addItemEv = async (setFiles?, dest = "images/")=>{
     const showOpenFilePicker = window?.[$e]?.bind?.(window) ?? (await import("/externals/polyfill/showOpenFilePicker.mjs"))?.[$e];
     return showOpenFilePicker(imageImportDesc)?.then?.(async ([handle] = [])=>{
         const file = await handle?.getFile?.();
-        const fn   = (("/user"+path) || STOCK_NAME);
+        const fp = path + (file?.name || "wallpaper");
+        const fn = (("/user"+fp) || STOCK_NAME);
 
         //
         await fs?.mkdir?.(path);
-        await fs?.writeFile?.(path + fn, file);
+        await fs?.writeFile?.(fp, file);
 
         // TODO? Needs reactive map?
         files.set(fn, file);
@@ -285,13 +286,15 @@ export const removeItemEv = async (f_path = "", setFiles?/*, dir = "images/"*/)=
     const fs = await useFS();
     if (f_path) {
         (async ()=>{
-            const dir = (f_path?.split?.("/")?.slice(0, -1)?.join?.("/")?.trim?.() || "/");
+            const dir = (f_path?.trim()?.split?.("/")?.slice(0, -1)?.join?.("/")?.trim?.() || "/");
             const p1 = !dir?.trim()?.endsWith("/") ? (dir+"/") : dir;
-            const path = !p1?.startsWith("/") ? ("/"+p1) : p1;
-            //const fn = (selectedFilename.split("/")?.at?.(-1) || selectedFilename)?.trim?.();
+            const path = (!p1?.startsWith("/") ? ("/"+p1) : p1)?.replace?.("/user", "");
+            const fn = (f_path?.trim?.()?.split?.("/")?.at?.(-1) || f_path?.trim?.());
+
+            //
             if ((f_path || STOCK_NAME) != (localStorage.getItem("@wallpaper") || "")) {
                 await fs?.mkdir?.(path);
-                await fs?.remove?.(f_path);
+                await fs?.remove?.(path + fn);
 
                 // TODO? Use reactive files map?
                 files.delete(f_path);
