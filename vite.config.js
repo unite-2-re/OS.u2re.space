@@ -16,7 +16,7 @@ import certificate from "./https/certificate.mjs";
 import pkg from "./package.json" with { type: "json" };
 import tsconfig from "./tsconfig.json" with { type: "json" };
 //import vue from '@vitejs/plugin-vue'
-//import { viteSingleFile } from "vite-plugin-singlefile"
+//
 //import json5Plugin from 'vite-plugin-json5'
 //import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import nodeExternals from 'rollup-plugin-node-externals'
@@ -26,6 +26,7 @@ import deduplicate from "postcss-discard-duplicates";
 import postcssPresetEnv from 'postcss-preset-env';
 import solidPlugin from 'vite-plugin-solid';
 import rollupOptions, {plugins, NAME} from "./rollup/rollup.config";
+import { viteSingleFile } from "vite-plugin-singlefile"
 
 //
 const __dirname = import.meta.dirname;
@@ -44,26 +45,26 @@ const config = defineConfig({
         },
     },
     plugins: [
+        solidPlugin({
+            // solid-specific, other is inline/regular
+            include: ["*/$solid$/*.ts", "*/$solid$/**/*.tsx"],
+            dev: false
+        }),
         createExternal({
             interop: 'auto',
             externals: {externals: "externals"},
             externalizeDeps: ["externals", "/externals", "./externals"]
         }),
         //json5Plugin(),
-        /*viteSingleFile({
-            useRecommendedBuildConfig: false,
-            inlinePattern: ["!(service).mjs"]
-        }),*/
+        /**/
         //nodePolyfills(),
         compression({
             algorithm: 'brotliCompress'
         }),
         prefetchPlugin(),
-        //VitePluginBrowserSync(),
-        solidPlugin({
-            // solid-specific, other is inline/regular
-            include: ["*/$solid$/*.ts", "*/$solid$/**/*.tsx"],
-            dev: false
+        viteSingleFile({
+            useRecommendedBuildConfig: false,
+            inlinePattern: ["!(service).mjs"]
         })
     ],
     server: {

@@ -141,9 +141,6 @@ export const rollupOptions = {
     ],
     input: "./src/app.ts",
     output: {
-        assetFileNames: 'assets/[name]-[hash].js',
-        chunkFileNames: 'chunks/[name]-[hash].js',
-        entryFileNames: 'app.js',
         minifyInternalExports: true,
         compact: true,
         globals: {},
@@ -154,7 +151,18 @@ export const rollupOptions = {
         exports: "auto",
         esModuleInterop: true,
         experimentalMinChunkSize: 500_500,
-        inlineDynamicImports: true,
+        //inlineDynamicImports: true,
+        chunkFileNames: '[name].js',
+        assetFileNames: 'assets/[name][extname]',
+        entryFileNames: NAME + ".js",
+        manualChunks(id) {
+            if (id.includes('node_modules')) {
+                return "modules/" + (id.toString().split('node_modules/')[1].split('/')[0])?.replace?.("@","");
+            };
+            //if (id.endsWith('.ts')) { return null; };
+            //if (id.endsWith('.tsx')) { return null; };
+            //return "chunks/" + id?.toString()?.split("/")?.at(-1)?.replace?.(/\.ts(x?)$/, "")?.replace?.("@","");
+        }
 	}
 };
 

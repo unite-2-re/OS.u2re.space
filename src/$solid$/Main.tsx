@@ -34,7 +34,7 @@ export const Workspace = ({tasks}: AppsType) => {
             <!-- Apps Part -->
             <${For} each=${() => tasks}>${(task) => {
                 return html`<ui-frame data-chroma="0.01" data-scheme="solid" id=${task?.id.replace("#","")}>
-                <div style="justify-self: start; text-align: start; padding-inline: 1rem;" slot="ui-title-bar">${task?.title}</div>  <${lazy(task?.component)}><//>
+                <div style="justify-self: start; text-align: start; padding-inline: 1rem;" slot="ui-title-bar">${task?.title}</div>  <${  task?.component  }><//>
                 </ui-frame>`;
             }}<//>
 

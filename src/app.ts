@@ -5,6 +5,15 @@ import { renderInPage } from "./$solid$/Main";
 import CSS from "./css";
 
 //
+import $M from "./$core$/Modal.ts";
+import $A from "./$core$/ActionMap.ts";
+import $S from "./$core$/Sidebar.ts";
+import $C from "./$core$/ContextMenu.ts";
+
+//
+const $I = [$M, $A, $S, $C]?.map?.((f)=>Promise?.try?.(f));
+
+//
 export const initialize = async (root)=>{
     await CSS?.(root);
 
@@ -33,15 +42,6 @@ export const initialize = async (root)=>{
         import(/* @vite-ignore */ "/externals/wcomp/scrollbox.js"),
         // @ts-ignore
         import(/* @vite-ignore */ "/externals/wcomp/image.js"),
-
-        // @ts-ignore
-        import(/* @vite-ignore */ "./$core$/Modal.ts"),
-        // @ts-ignore
-        import(/* @vite-ignore */ "./$core$/ActionMap.ts"),
-        // @ts-ignore
-        import(/* @vite-ignore */ "./$core$/ContextMenu.ts"),
-        // @ts-ignore
-        import(/* @vite-ignore */ "./$core$/Sidebar.ts"),
     ])?.then?.((mds)=>mds.map((rs: any)=> {try { return rs?.value?.default?.() } catch(e) {}}))?.catch?.(console.warn.bind(console));
 
     //

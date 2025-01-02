@@ -1,15 +1,18 @@
+import $S from "../settings/Settings";
+import $M from "../manager/Manager";
+
 //
 export const tasks = [
     {
         id: "#settings",
-        component: ()=>import("../settings/Settings"),
+        component: $S,
         icon: "settings",
         active: false,
         title: "Settings"
     },
     {
         id: "#manager",
-        component: ()=>import("../manager/Manager"),
+        component: $M,
         icon: "wallpaper",
         active: false,
         title: "Manager"
