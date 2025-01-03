@@ -5,7 +5,6 @@ import html from "solid-js/html";
 import type { AppsType } from "@src/$core$/Types";
 import { itemFields, itemForm } from "@src/$solid$/$maps$/Forms.tsx";
 import { getItem, gridState } from "../$state$/GridState";
-import { refAndMount } from "@/src/$solid$/Utils.tsx";
 import ItemEdit, {targetItem} from "./workspace/ItemEdit.tsx";
 import Items from "./workspace/Items";
 
@@ -17,12 +16,8 @@ import { makeSelection } from "/externals/core/interact.js";
 
 // while: tab.component should be  ()=> html`...`
 export const Workspace = ({tasks}: AppsType) => {
-    const $element = refAndMount((topLevel)=> {
-        //makeSelection(topLevel, "ui-shaped");
-    });
-
     // TODO! Wrap "Apps" with zoomed layer (initial orientation)
-    return html`<div id="root" ref=${$element} data-scheme="accent" data-alpha="0">
+    return html`<div id="root" data-scheme="accent" data-alpha="0">
         <!-- Workspace Icons -->
         <${Items} items=${()=>gridState.items} lists=${()=>gridState.lists}><//>
 

@@ -1,7 +1,6 @@
 // @ts-ignore
 import { For, createSignal, createComputed, onMount, lazy } from "solid-js";
 import html from "solid-js/html";
-import { refAndMount } from "@src/$solid$/Utils.tsx";
 import { removeItem } from "@src/$state$/GridState.ts";
 import { UIState } from "@src/$state$/UIState.ts";
 
@@ -33,10 +32,7 @@ export const ItemEdit = ({
     form: any
 }) => {
     //
-    const $content = refAndMount((topLevel)=> {
-        synchronizeInputs(stateOnEdit, ".u2-input", topLevel, subscribe);
-        //subscribe(stateOnEdit, (value, prop)=>confirmState(stateOnEdit, [value, prop]));
-    });
+    const $content = (topLevel)=> { synchronizeInputs(stateOnEdit, ".u2-input", topLevel, subscribe); };
 
     //
     subscribe([UIState, "currentItem"], (value, prop)=>setTargetItem(value))

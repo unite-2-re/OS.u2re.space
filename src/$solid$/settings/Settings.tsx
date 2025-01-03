@@ -8,7 +8,7 @@ import Form from "./Form.tsx";
 
 //
 import { $hideMenu, $openMenu } from "@src/$core$/Sidebar.ts";
-import { observe, refAndMount } from "@/src/$solid$/Utils.tsx";
+import { observe } from "@/src/$solid$/Utils.tsx";
 import { forms, tabs } from "../$maps$/Settings.tsx";
 
 // while: tab.component should be  ()=> html`...`
@@ -19,10 +19,7 @@ export const Settings = () => {
 
     //
     let content: any = null;
-    const $content = refAndMount((topLevel)=> {
-        content = topLevel;
-        //console.log(topLevel.querySelector("input"));
-    });
+    const $content = (topLevel)=> { content = topLevel; };
 
     //
     return html`<div data-alpha="0" data-scheme="solid" class="ui-content" id="settings" ref=${$content} data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>

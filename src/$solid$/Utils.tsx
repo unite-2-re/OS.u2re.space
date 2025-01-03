@@ -7,6 +7,7 @@ import {observeAttribute} from "/externals/lib/dom.js";
 //
 export const refAndMount = (cb)=>{
     return (element)=>{
+        cb(element);
         onMount(()=>cb(element));
     }
 }

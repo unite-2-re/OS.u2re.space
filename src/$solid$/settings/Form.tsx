@@ -7,14 +7,11 @@ import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/ob
 
 // @ts-ignore
 import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
-import { refAndMount } from "@/src/$solid$/Utils.tsx";
 import { preferences } from "@src/$state$/Preferences.ts";
 
 //
 export const Form = ({form, tab}: {form: any, tab: ()=>any}) => {
-    const $content = refAndMount((topLevel)=> {
-        synchronizeInputs(preferences, ".u2-input", topLevel, subscribe);
-    });
+    const $content = (topLevel)=> { synchronizeInputs(preferences, ".u2-input", topLevel, subscribe); };
 
     // TODO: available by tab (' data-hidden="..." ')
     return html`<form data-alpha="1" data-scheme="solid" data-chroma="0.01" data-highlight="1" ref=${$content}>

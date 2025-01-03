@@ -19,11 +19,10 @@ import {makeSelection} from "/externals/core/interact.js";
 
 // while: tab.component should be  ()=> html`...`
 export const Items = ({items, lists}: ItemsType) => {
-    const $element = refAndMount((topLevel)=> {
-        // broken performance...
+    const $element = (topLevel)=> {
         makeSelection(topLevel, "ui-shaped");
         fixOrientToScreen(topLevel);
-    });
+    };
 
     //
     const $shapes = refAndMount((gridSet)=> {
