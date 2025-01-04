@@ -6,6 +6,7 @@ import { UILucideIcon, makeCtxMenuItems, openContextMenu } from "/externals/wcom
 //
 export const ctxMenuMap = new Map([
     [".u2-grid-item", [
+        {icon: new UILucideIcon({icon: "external-link", padding: "0.05rem"}), content: "Open", callback(initiator) { actionMap.get(initiator?.dataset?.action || "open-link")?.(initiator); } },
         {icon: new UILucideIcon({icon: "pencil", padding: "0.05rem"}), content: "Edit", callback(initiator) { actionMap.get("item-edit")?.(initiator); } },
         {icon: new UILucideIcon({icon: "badge-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { actionMap.get("item-delete")?.(initiator); } }
     ]],
@@ -13,6 +14,7 @@ export const ctxMenuMap = new Map([
         {icon: new UILucideIcon({icon: "badge-plus", padding: "0.05rem"}), content: "Add Item", callback(initiator) { actionMap.get("item-add")?.(initiator); } },
         {icon: new UILucideIcon({icon: "wallpaper", padding: "0.05rem"}), content: "Set Wallpaper", callback(initiator) { actionMap.get("set-wallpaper")?.(initiator); } },
         {icon: new UILucideIcon({icon: "fullscreen", padding: "0.05rem"}), content: "Fullscreen", callback(initiator) { actionMap.get("fullscreen")?.(initiator); } },
+        {icon: new UILucideIcon({icon: "settings", padding: "0.05rem"}), content: "Settings", callback(initiator) { actionMap.get("settings")?.(initiator); } },
     ]],
 ]);
 

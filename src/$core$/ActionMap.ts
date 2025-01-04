@@ -25,6 +25,10 @@ export const actionMap = new Map([
         taskManager?.focus?.("#manager");
     }],
 
+    ["settings", (initiator, ev?)=>{
+        taskManager?.focus?.("#settings");
+    }],
+
     ["fullscreen", ()=>{
         //
         if (!document.fullscreenElement) {
