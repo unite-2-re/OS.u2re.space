@@ -10,10 +10,9 @@ export const createShaped = (item, gs)=>{
     element.item = item;
     element.icon = item.icon || "";
     element.label = item.label || "";
-    element.setAttribute("data-scheme", "solid");
-    element.setAttribute("data-alpha", "0");
-    element.setAttribute("data-chroma", "0.2");
-    element.setAttribute("data-theme", "light");
+    element.setAttribute("data-scheme", "accent-inverse");
+    element.setAttribute("data-alpha", "1");
+    element.setAttribute("data-chroma", "0");
     element.setAttribute("data-id", item.id || "");
     element.setAttribute("data-label", item.label || "");
     element.setAttribute("data-action", item.action || "");
@@ -22,12 +21,12 @@ export const createShaped = (item, gs)=>{
     //
     const shape: any = document.createElement("div");
     shape.classList.add("u2-item-design");
-    shape.setAttribute("data-scheme", "solid");
+    shape.setAttribute("data-scheme", "accent-inverse");
     shape.setAttribute("data-shape", "square");
     shape.setAttribute("data-alpha", "1");
-    shape.setAttribute("data-highlight", "4");
-    shape.setAttribute("data-highlight-hover", "6");
-    shape.setAttribute("data-chroma", "0.2");
+    shape.setAttribute("data-highlight", "1");
+    shape.setAttribute("data-highlight-hover", "5");
+    shape.setAttribute("data-chroma", "0");
 
     //
     element.append(shape);
