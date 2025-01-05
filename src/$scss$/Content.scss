@@ -3,12 +3,14 @@
     //
     @mixin mobile-version {
         :where(.ui-content) {
+            & { column-gap: 0rem; };
             & { grid-template-columns: minmax(0px, 0rem) minmax(0px, 1fr); };
             .adl-toolbar { z-index: 98; };
+            .adl-content-box { grid-column: 2 / 2 span; };
             .adl-tab-box {
-                & { grid-row: 1 / 2 span; };
-                &:not(.adl-open) { translate: -100% 0px; box-shadow: 0rem 0rem 0rem #00000060; };
-                &.adl-open { translate: 0px 0px; box-shadow: 0rem 0rem 1rem #00000060; };
+                & { grid-row: 2 / 2 span; };
+                &:not(.adl-open) { translate: calc(-100% - 0.2rem) 0px; };
+                &.adl-open { translate: 0px 0px; };
             }
         }
     }
@@ -18,7 +20,8 @@
         :where(.ui-content) {
             & { grid-template-columns: minmax(12rem, 0rem) minmax(0px, 1fr); };
             .adl-toolbar { z-index: 99; };
-            .adl-tab-box { grid-row: 2 / 2 span; translate: 0px 0px; }
+            .adl-tab-box { grid-column: 1 / 1 span; grid-row: 2 / 2 span; translate: 0px 0px; };
+            .adl-content-box { grid-column: 2 / 2 span; };
         }
     }
 
@@ -31,10 +34,11 @@
             grid-template-columns: minmax(0px, 0rem) minmax(0px, 1fr);
             grid-template-rows: minmax(2.25rem, max-content) minmax(0px, 1fr);
             box-sizing: border-box;
-            gap: 1px;
             font-size: 0.9rem;
             background-color: transparent;
             padding: 0.2rem;
+            gap: 0.1rem;
+            column-gap: 0.2rem;
         }
 
         //
@@ -81,20 +85,26 @@
             //
             & {
                 block-size: max-content;
-                grid-column: 1 / 1 span;
-                inline-size: max(100%, 12rem);
+                grid-column: 1 / 2 span;
+                inline-size: 100%; //max(100%, 100cqi);
                 padding: 0rem;
                 z-index: 99;
-                overflow: visible;
+                overflow: hidden;
                 justify-self: start;
 
                 //
                 min-block-size: 100%;
                 transition: translate 0.2s;
+
+                //
+                border-radius: 0.4rem;
+                //border-start-end-radius: 0.5rem;
+                //border-start-start-radius: 0.5rem;
             }
 
             //
             .adl-tabs {
+                background-color: transparent;
                 display: inline grid;
                 grid-auto-rows: minmax(0px, max-content);
                 grid-template-columns: minmax(2rem, max-content) minmax(0px, 1fr);
@@ -133,8 +143,8 @@
 
                 //
                 border-radius: 0.4rem;
-                border-start-end-radius: 0.5rem;
-                border-start-start-radius: 0.5rem;
+                //border-start-end-radius: 0.5rem;
+                //border-start-start-radius: 0.5rem;
             }
 
             //
@@ -164,7 +174,7 @@
                         display: grid;
                         font-size: 0.8rem;
                         line-height: normal;
-                        block-size: 2rem;
+                        block-size: 2.25rem;
                         place-content: center;
                         place-items: center;
                         justify-content: start;

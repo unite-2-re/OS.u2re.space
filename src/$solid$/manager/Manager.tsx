@@ -32,10 +32,10 @@ export const Manager = () => {
             <div class="adl-space"></div>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-use" onClick=${(ev)=>useItemEv(fileOf(), setFiles)}> <ui-icon icon="file-input"></ui-icon> </button>
         </div>
-        <ui-scrollbox data-scheme="solid" data-alpha="1" data-chroma="0" class="adl-tab-box">
+        <ui-scrollbox data-scheme="solid" data-alpha="1" data-highlight="0.5" data-chroma="0.01" class="adl-tab-box">
             <div class="adl-tabs">
                 <${For} each=${() => tabs}>${(tab) => {
-                    return html`<ui-select-row name="m-tab" onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>
+                    return html`<ui-select-row data-alpha="0" name="m-tab" onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>
                         <ui-icon icon=${tab.icon} style="padding: 0.5rem;"></ui-icon>
                         <span>${tab.content as string}</span>
                     </ui-select-row>`;
