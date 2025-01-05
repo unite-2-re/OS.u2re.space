@@ -3,8 +3,8 @@ import html from "solid-js/html";
 
 // Functionality Not Implemented
 export const tabs: TabType[] = [
-    //{id: "display", icon: "monitor-cog", content: "Display" },
-    //{id: "layout", icon: "grid-3x3", content: "Layout" }
+    {id: "display", icon: "monitor-cog", content: "Display" },
+    {id: "layout", icon: "grid-3x3", content: "Layout" }
 ];
 
 //

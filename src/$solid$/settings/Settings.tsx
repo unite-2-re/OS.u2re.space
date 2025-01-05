@@ -22,32 +22,31 @@ export const Settings = () => {
     const $content = (topLevel)=> { content = topLevel; };
 
     //
-    //
-
-    //
     return html`<div data-alpha="0" data-scheme="solid" class="ui-content" id="settings" ref=${$content} data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>
         <!-- TODO: support titlebar-inline menu button support -->
         <div data-alpha="0" data-highlight="0" data-chroma="0" class="adl-toolbar">
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-menu" onClick=${()=>$openMenu(content)}> <ui-icon icon="menu"></ui-icon> </button>
             <div class="adl-space"></div>
         </div>
-        <ui-scrollbox data-scheme="solid" data-alpha="1" data-highlight="0.5" data-chroma="0.01" class="adl-tab-box">
-            <div class="adl-tabs" data-alpha="0">
-                <${For} each=${() => tabs}>${(tab) => {
-                    return html`<ui-select-row data-alpha="0" name="s-tab" onClick=${()=>$hideMenu(content)} onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>
-                        <ui-icon icon=${tab.icon} style="padding: 0.5rem;"></ui-icon>
-                        <span>${tab.content as string}</span>
-                    </ui-select-row>`;
-                }}<//>
-            </div>
-        </ui-scrollbox>
-        <ui-scrollbox data-scheme="solid" data-alpha="1" data-highlight="0" data-chroma="0" class="adl-content-box">
-            <${Content} tab=${()=>cTab}>
-                <${For} each=${() => forms}>${(form) => {
-                    return html`<${Form} form=${()=>form} tab=${()=>cTab}><//>`;
-                }}<//>
-            <//>
-        </ui-scrollbox>
+        <div data-scheme="solid" data-alpha="0" class="adl-main">
+            <ui-scrollbox data-scheme="solid" data-alpha="1" data-highlight="0.5" data-chroma="0.01" class="adl-tab-box">
+                <div class="adl-tabs" data-alpha="0">
+                    <${For} each=${() => tabs}>${(tab) => {
+                        return html`<ui-select-row data-alpha="0" name="s-tab" onClick=${()=>$hideMenu(content)} onChange=${(e)=>setTab(e.target.value)} value=${tab.id} checked=${currentTab() == tab.id}>
+                            <ui-icon icon=${tab.icon} style="padding: 0.5rem;"></ui-icon>
+                            <span>${tab.content as string}</span>
+                        </ui-select-row>`;
+                    }}<//>
+                </div>
+            </ui-scrollbox>
+            <ui-scrollbox data-scheme="solid" data-alpha="1" class="adl-content-box">
+                <${Content} tab=${()=>cTab}>
+                    <${For} each=${() => forms}>${(form) => {
+                        return html`<${Form} form=${()=>form} tab=${()=>cTab}><//>`;
+                    }}<//>
+                <//>
+            </ui-scrollbox>
+        </div>
     </div>`;
 };
 
