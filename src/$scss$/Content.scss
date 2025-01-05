@@ -33,6 +33,14 @@
             box-sizing: border-box;
             gap: 1px;
             font-size: 0.9rem;
+            background-color: transparent;
+            padding: 0.2rem;
+        }
+
+        //
+        @media not (((hover: hover) or (pointer: fine)) and ((width >= 9in) or (orientation: landscape)))
+        {   // not implemented for mobile...
+            padding: 0rem !important;
         }
 
         //
@@ -53,6 +61,7 @@
                 flex-wrap: nowrap;
                 gap: 0.25rem;
                 padding-inline: 0.125rem;
+                background-color: transparent;
             }
 
             //
@@ -127,6 +136,11 @@
                 //
                 place-content: center;
                 place-items: center;
+
+                //
+                border-radius: 0px;
+                border-start-end-radius: 0.5rem;
+                border-start-start-radius: 0.5rem;
             }
 
             //
@@ -191,7 +205,7 @@
                     box-sizing: border-box;
                     inline-size: 100%;
                     block-size: max-content;
-                    padding: 0.5rem;
+                    padding: 0rem;
                     padding-block-start: 1rem;
                     border-radius: 0.333rem;
 

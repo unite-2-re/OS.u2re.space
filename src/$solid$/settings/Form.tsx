@@ -14,7 +14,7 @@ export const Form = ({form, tab}: {form: any, tab: ()=>any}) => {
     const $content = (topLevel)=> { synchronizeInputs(preferences, ".u2-input", topLevel, subscribe); };
 
     // TODO: available by tab (' data-hidden="..." ')
-    return html`<form data-alpha="1" data-scheme="solid" data-chroma="0.01" data-highlight="1" ref=${$content}>
+    return html`<form data-alpha="0" data-scheme="solid" data-chroma="0" data-highlight="0" ref=${$content}>
     <span class="adl-form-label">${form?.label}</span>
     <${For} each=${() => form?.inputs}>${(input) => {
         return html`<ui-block>

@@ -25,7 +25,7 @@ export const Workspace = ({tasks}: AppsType) => {
         <ui-orientbox id="ui-layer" class="ui-layer" orient="0">
             <!-- Apps Part -->
             <${For} each=${() => tasks}>${(task) => {
-                return html`<ui-frame data-chroma="0.01" data-scheme="solid" id=${task?.id.replace("#","")}>
+                return html`<ui-frame data-highlight="2" data-chroma="0.1" data-scheme="solid" id=${task?.id.replace("#","")}>
                 <div style="justify-self: start; text-align: start; padding-inline: 1rem;" slot="ui-title-bar">${task?.title}</div>  <${  task?.component  }><//>
                 </ui-frame>`;
             }}<//>
