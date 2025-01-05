@@ -78,6 +78,7 @@
                 block-size: 100%;
                 min-block-size: max-content;
                 box-sizing: border-box;
+                padding: 0rem;
 
                 //
                 display: grid;
@@ -97,6 +98,7 @@
 
             //
             .adl-label {
+                padding-inline-start: 0.6666rem;
                 grid-column: 1 / 1 span;
                 min-inline-size: max-content;
                 min-block-size: max-content;
@@ -112,6 +114,8 @@
                 display: flex;
                 place-content: center;
                 place-items: center;
+                justify-content: start;
+                justify-self: start;
                 text-align: start;
             }
 
@@ -126,7 +130,7 @@
                     padding: 0rem;
                     box-sizing: border-box;
                     overflow: hidden;
-                    border-radius: 0.125rem;
+                    border-radius: 0.33rem;
 
                     //
                     user-select: none;

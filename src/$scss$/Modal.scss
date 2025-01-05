@@ -18,6 +18,7 @@
         max-block-size: 100cqb;
         max-inline-size: 100cqi;
         pointer-events: auto;
+        font-size: 0.9rem;
         gap: 1rem;
 
         //
@@ -30,7 +31,7 @@
 
         //
         z-index: calc(999 + var(--z-index, 0));
-        border-radius: 0.25rem;
+        border-radius: 0.4rem;
 
         //
         box-shadow: 0.125rem 0.125rem 1rem #00000080;
