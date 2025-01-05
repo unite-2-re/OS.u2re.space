@@ -38,12 +38,6 @@
         }
 
         //
-        @media not (((hover: hover) or (pointer: fine)) and ((width >= 9in) or (orientation: landscape)))
-        {   // not implemented for mobile...
-            padding: 0rem !important;
-        }
-
-        //
         .adl-toolbar {
             & {
                 grid-row: 1 / 1 span;
@@ -138,7 +132,7 @@
                 place-items: center;
 
                 //
-                border-radius: 0px;
+                border-radius: 0.4rem;
                 border-start-end-radius: 0.5rem;
                 border-start-start-radius: 0.5rem;
             }
