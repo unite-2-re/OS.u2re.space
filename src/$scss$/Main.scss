@@ -1,3 +1,4 @@
+@use "Layers";
 @use "Content";
 @use "Settings";
 @use "Manager";
@@ -6,6 +7,14 @@
 
 //
 @layer adl-general {
+
+    :root, :host, :scope, body, html {
+        font-family: 'Open Sans', 'Gill Sans Nova', Ubuntu, 'DejaVu Sans', Candara, Segoe, "Segoe UI", Optima, source-sans-pro, sans-serif;
+    }
+
+    body, :host, body {
+        font-size: 0.8rem;
+    }
 
     //
     #root {

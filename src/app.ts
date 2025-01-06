@@ -11,6 +11,21 @@ import $C from "./$core$/ContextMenu.ts";
 //
 const $I = Promise.allSettled([$M, $A, $S, $C]?.map?.((f)=>Promise?.try?.(f)));
 export const initialize = async (root)=>{
+
+    //
+    const OpenSans = new FontFace("Open Sans", "url(\"/assets/fonts/OpenSans-VariableFont_wdth,wght.ttf\")", {
+
+    });
+    const OpenSansItalic = new FontFace("Open Sans Italic", "url(\"/assets/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf\")", {
+        
+    });
+
+    // @ts-ignore
+    document.fonts?.add?.(OpenSans);
+
+    // @ts-ignore
+    document.fonts?.add?.(OpenSansItalic);
+
     //
     const loadingModules = Promise.allSettled([
         // @ts-ignore

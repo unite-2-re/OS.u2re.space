@@ -34,7 +34,7 @@
             grid-template-columns: minmax(0px, 0rem) minmax(0px, 1fr);
             grid-template-rows: minmax(2.25rem, max-content) minmax(0px, 1fr);
             box-sizing: border-box;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             background-color: transparent;
             gap: 0.1rem;
             column-gap: 0.2rem;
@@ -189,7 +189,7 @@
                     & ui-select-row {
                         & {
                             display: grid;
-                            font-size: 0.8rem;
+                            font-size: 0.7rem;
                             line-height: normal;
                             block-size: 2.25rem;
                             place-content: center;
@@ -241,7 +241,7 @@
                     .adl-form-label {
                         text-align: center;
                         opacity: 0.6;
-                        font-size: 0.8rem;
+                        font-size: 0.7rem;
                     }
                 }
             }
