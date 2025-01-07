@@ -3,45 +3,69 @@ const NETWORK_TIMEOUT_MS = 6000; // hosting, amvera
 //const NETWORK_TIMEOUT_MS = 3000; //localhost, router
 const RUNTIME = "webapp";
 
+const efficientTimeout = {
+    "5g": 2000,
+    "4g": 3000,
+    "3g": 4000,
+    "2g": 4000,
+    "2g-slow": 4000
+};
+
 //
 const isSameOrigin = (urlString) => {
-    const urlOrigin = new URL(urlString).origin;
-    return urlOrigin.startsWith(self.location.origin);
+    const urlOrigin = new URL(urlString)?.origin?.trim?.();
+    return urlOrigin?.startsWith?.(self.location.origin) || 
+           urlOrigin?.startsWith?.("#") || 
+           urlOrigin?.startsWith?.("?") || 
+           !urlOrigin?.startsWith?.("http");
 };
 
 //
 const _WARN_ = (...args) => {
     const real = args.filter((v) => v != null);
-    if (real && real.length > 0) {
-        console.warn(...real);
-    }
-    //return args[0];
+    if (real && real.length > 0)
+        { console.warn(...real); };
     return null;
 };
 
 //
-const tryFetch = (req, event) => {
+const tryFetch = (req, event, cachedResponse = null) => {
     const sendResponse = async (response) => {
-        const resp = ((async ()=>((await response)?.clone?.()?.catch?.((e)=>{
-            console.warn(e);
-            return response;
-        }) || (await response)))())?.then?.((rc)=>{
-            // TODO: improve caching (batch)
-            caches.open(RUNTIME)?.then?.(async (c)=>c?.add?.(rc)?.catch?.(_WARN_));
-            return rc;
+        if ((await response)?.status === 304) { return cachedResponse; };
+
+        //
+        const resp = Promise?.try?.(async ()=>{
+            const clone = await (await response)?.clone?.();
+            return (clone || response);
         });
-        return resp;
+        Promise?.try?.(async ()=>{
+            const rc = (await resp) || (await response);
+            if (rc && (rc?.ok || rc?.status == 200)) {
+                const cache = await caches.open(RUNTIME)?.catch?.(console.warn.bind(console));
+                await cache?.put?.(req, rc)?.catch?.(console.warn.bind(console));
+                return rc;
+            }
+        })?.catch?.(console.warn.bind(console));
+
+        //
+        return response;
     };
 
     //
-    {
+    {   //
+        const eTag = cachedResponse?.headers?.get?.('ETag');
+        const etagH = eTag ? { 'If-None-Match': eTag } : {};
+        const url = (req?.url || req);
+
         // @ts-ignore
-        const ctime = !navigator.onLine || (navigator?.connection?.effectiveType == "slow-2g") ? 1000 : NETWORK_TIMEOUT_MS;
+        const ctime = !navigator.onLine || Math.min((navigator?.connection?.rtt*4) || efficientTimeout[navigator?.connection?.effectiveType], efficientTimeout[navigator?.connection?.effectiveType]) || 1000;
         const fc = new Promise((resolve, reject) =>setTimeout(() => reject(null), ctime)).catch(_WARN_);
         const fp = fetch(req, {
-            //cache: "no-store",
+            priority: (url?.includes?.(".mjs") || url?.includes?.(".js") || url?.includes?.(".css")) ? "high" : "low",
+            headers: {...etagH},
+            cache: "no-store",
             signal: AbortSignal.timeout(ctime + 2000),
-            mode: (req?.url ?? req).startsWith("http:") ? "no-cors" : (isSameOrigin(req?.url ?? req) ? "same-origin" : "cors"),
+            mode: url?.startsWith("http:") ? "no-cors" : (isSameOrigin(url) ? "same-origin" : "cors"),
         }).then(sendResponse).catch(_WARN_);
 
         //
@@ -51,12 +75,11 @@ const tryFetch = (req, event) => {
 
 //
 const fit = (req, event) => {
-
-    //
-    const loading = (async ()=>{
+    const tryLoad = async (cachedResponse = null)=>{
+        const $C = await cachedResponse;
         for (let i = 0; i < 3; i++) {
             try {
-                const resp = await tryFetch(req, event);
+                const resp = await tryFetch(req, event, $C);
                 if (await resp) { return resp; }
             } catch (e) {
                 console.warn(e);
@@ -64,7 +87,7 @@ const fit = (req, event) => {
             console.warn("Attempt: " + i + ", failed, trying again...");
         }
         return null;
-    })();
+    };
 
     //
     const cached = caches.open(RUNTIME).then((c) => c?.match?.(req, {
@@ -77,12 +100,10 @@ const fit = (req, event) => {
     event?.waitUntil?.(cached);
 
     //
-    const anyone = loading?.then?.((r)=>(r||cached))?.catch(()=>cached);
+    const useCached = (!navigator.onLine || navigator?.connection?.effectiveType == "slow-2g");
+    const anyone = (useCached ? cached : Promise.try(tryLoad, cached))?.then?.((r)=>(r||cached))?.catch(()=>cached);
     anyone?.then?.(()=>self.skipWaiting());
-    return anyone?.then?.((resp)=>{
-        if (!(resp instanceof Response)) { throw Error("Invalid Response"); };
-        return resp;
-    });
+    return anyone;
 };
 
 //

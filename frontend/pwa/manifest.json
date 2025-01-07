@@ -4,7 +4,7 @@
     "short_name": "web.core",
     "version": "canary",
     "start_url": "/frontend/",
-    "author": "unit-404",
+    "author": "U2RE",
     "id": "/",
     "scope": "/",
     "display": "fullscreen",
@@ -29,8 +29,7 @@
         {
             "src": "../assets/icons/home/512c.png",
             "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any"
+            "type": "image/png"
         },
         {
             "src": "../assets/icons/home/512x.png",

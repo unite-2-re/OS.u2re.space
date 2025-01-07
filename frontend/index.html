@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta nativeui="true">
+        <!-- Legacy compatible -->
+        <!--<meta charset="utf-8" http-equiv="Content-Type" content="text/html; charset=utf-8">-->
+        <!--<meta nativeui="true">-->
 
         <!---->
-        <base href="/frontend/" />
+        <meta charset="utf-8"/>
         <title>Web App Loader</title>
 
         <!---->
@@ -13,12 +14,16 @@
         <meta http-equiv="content-language" content="en-us">
 
         <!---->
-        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, viewport-fit=cover, interactive-widget=overlays-content, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width,
+            initial-scale=1.0,
+            viewport-fit=cover,
+            interactive-widget=overlays-content
+        "/>
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="mobile-web-app-capable" content="yes">
 
-        <!---->
+        <!-- @vite-ignore -->
         <meta name="theme-color" content="transparent" data-theme-color>
 
         <!---->
@@ -27,58 +32,51 @@
         <meta name="full-screen" content="yes">
 
         <!---->
-        <meta name="application-name" content="IDC-LX0">
+        <meta name="application-name" content="U2RE">
         <meta name="author" content="intendant, unit-404, community">
         <meta name="designer" content="intendant, unit-404, community, Google">
         <meta name="publisher" content="intendant, unit-404, community, Github">
 
-        <!---->
+        <!-- -->
         <meta name="distribution" content="web">
         <meta name="dcterms.audience" content="Global">
-        <meta name="generator" content="Webpack, Svelte, SCSS">
+        <meta name="generator" content="app.runtime">
         <meta name="referrer" content="origin-when-cross-origin">
         <meta name="keywords"
             content="pwa, source, project, intendant, idc, software, experimental, nextgen, ng, 2024, 2025, future, wip, portfolio">
 
-        <!-- -->
-        <link ref="prefetch" href="/externals/lib/dom.js">
-        <link ref="prefetch" href="/externals/lib/object.js">
-        <link ref="prefetch" href="/externals/lib/uniform.js">
+        <!-- CSP local rules -->
+        <meta http-equiv="Content-Security-Policy" content="
+            default-src 'self' blob: data:;
+            img-src 'self' * blob: data:;
+            style-src 'self' 'unsafe-inline' blob: data:;
+            script-src-elem 'self' 'unsafe-inline' node: blob: data:;
+            script-src 'self' 'unsafe-inline' 'unsafe-eval' node: blob: data:;
+            worker-src 'self' blob:* data:*;
+        ">
 
         <!-- -->
-        <link ref="prefetch" href="/externals/core/interact.js">
-        <link ref="prefetch" href="/externals/core/core.js">
-        <link ref="prefetch" href="/externals/core/design.js">
-        <link ref="prefetch" href="/externals/core/existence.js">
-        <link ref="prefetch" href="/externals/core/grid.js">
-        <link ref="prefetch" href="/externals/core/theme.js">
-
-        <!-- -->
-        <link ref="prefetch" href="/externals/wcomp/image.js">
-        <link ref="prefetch" href="/externals/wcomp/longtext.js">
-        <link ref="prefetch" href="/externals/wcomp/scrollbox.js">
-
-        <!-- webpackIgnore: true-->
-        <link rel="manifest" href="./pwa/manifest.json">
-        <link rel="icon" type="image/png" href="./favicon.png">
-        <link rel="apple-touch-icon" href="./favicon.png">
+        <base href="./" />
 
         <!-- -->
         <style data-owner="runtime" data-type="layers">
-            @layer u2-props, u2-core, u2-zoom, u2-normalize, ui-system, u2-theme, u2-colors, u2-rows, u2-grid-box, u2-layout, adl-css;
+            @layer u2-props, u2-core, u2-zoom, u2-normalize, ux-agate, ui-system, u2-theme, u2-colors, u2-rows, u2-grid-box, u2-layout;
         </style>
 
         <!-- critical styles -->
         <style data-owner="runtime" data-type="system">
-            /* */
             @layer ui-system {
-                *:not(:defined) { display: none; };
+                *:not(:defined) { --tm-bg-alpha: 0; display: none; background-color: transparent; color: transparent; };
 
                 /* */
                 :root, :scope, :host, body, :where(*) {
                     dynamic-range-limit: constrained-high;
                     transition-behavior: allow-discrete;
                     interpolate-size: allow-keywords;
+                    background-color: transparent;
+                    color: transparent;
+                    font-display: swap;
+                    --tm-bg-alpha: 0;
                 }
 
                 /* */
@@ -86,29 +84,47 @@
 
                 /* */
                 html, body {
+                    inset: 0px;
                     padding: 0px;
                     margin: 0px;
                     border: none 0px transparent;
-                    background-color: transparent;
+                    background-color: black;
+                    color: transparent;
+                    font-family: Calibri, Carlito, Caliburn, Seravek, 'Gill Sans Nova', Ubuntu, 'DejaVu Sans', Candara, Segoe, "Segoe UI", Optima, source-sans-pro, sans-serif;
                 }
+
+                /* */
+                a { color: transparent; text-decoration: none; };
 
                 /* */
                 body {
                     display: grid !important;
                     grid-template-columns: minmax(0px, 1fr) !important;
                     grid-template-rows: minmax(0px, 1fr) !important;
+                    position: relative !important;
+                    overflow: hidden;
+                    flex-direction: column;
                     pointer-events: none;
-                    position: relative;
+                    container-type: size;
+                    contain: strict;
                 }
 
                 /* */
                 body > * {
+                    max-inline-size: 100% !important;
+                    max-block-size: 100% !important;
+
+                    /* */
                     inline-size: 100% !important;
                     block-size: 100% !important;
 
                     /* */
-                    grid-column: 1 / 1 span !important;
-                    grid-row: 1 / 1 span !important;
+                    min-inline-size: 0px !important;
+                    min-block-size: 0px !important;
+
+                    /* */
+                    grid-column: 1 / -1 !important;
+                    grid-row: 1 / -1 !important;
 
                     /* */
                     display: grid;
@@ -118,19 +134,29 @@
                     /* */
                     background-color: transparent !important;
                     pointer-events: none;
-                    position: fixed;
+                    position: absolute;
                     inset: 0px;
 
                     /* */
                     inset-inline-end: auto;
                     inset-block-end: auto;
+                    overflow: hidden;
+
+                    /* */
+                    container-type: size;
+                    contain: strict;
                 }
 
                 /* */
-                #viewport { display: grid; pointer-events: auto; }
+                #viewport { display: grid; pointer-events: auto; };
 
                 /* #root slot, etc. */
-                #viewport > * { position: relative; inset: 0px; pointer-events: auto; inline-size: 100% !important; block-size: 100% !important; background-color: transparent; }
+                #viewport > * { pointer-events: auto; inline-size: 100% !important; block-size: 100% !important; background-color: transparent; }
+
+                /* */
+                #background > * { position: absolute; inset: 0px; };
+                #overlays > * { position: absolute; inset: 0px; };
+                #viewport > * { position: absolute; inset: 0px; };
 
                 /* */
                 :where(*) {
@@ -141,18 +167,41 @@
             }
         </style>
 
-        <!-- USE 'unsafe-eval' only when DEBUG! -->
-        <meta http-equiv="Content-Security-Policy" content="
-            default-src 'self' blob: data:;
-            img-src 'self' * blob: data:;
-            style-src 'self' 'unsafe-inline' blob: data:;
-            script-src 'self' 'unsafe-inline' 'unsafe-eval' node: blob: data:;
-            script-src-elem 'self' 'unsafe-inline' node: blob: data:;
-            worker-src 'self' blob:* data:*;
-        ">
+        <!-- -->
+        <link ref="prefetch" href="./externals/lib/dom.js">
+        <link ref="prefetch" href="./externals/lib/object.js">
+        <link ref="prefetch" href="./externals/lib/uniform.js">
 
         <!-- -->
-        <script>
+        <link ref="prefetch" href="./externals/core/interact.js">
+        <link ref="prefetch" href="./externals/core/core.js">
+        <link ref="prefetch" href="./externals/core/design.js">
+        <link ref="prefetch" href="./externals/core/existence.js">
+        <link ref="prefetch" href="./externals/core/grid.js">
+        <link ref="prefetch" href="./externals/core/theme.js">
+
+        <!-- -->
+        <link ref="prefetch" href="./externals/wcomp/image.js">
+        <link ref="prefetch" href="./externals/wcomp/longtext.js">
+        <link ref="prefetch" href="./externals/wcomp/rows.js">
+        <link ref="prefetch" href="./externals/wcomp/scrollbox.js">
+
+        <!-- webpackIgnore: true-->
+        <link rel="manifest" href="./pwa/manifest.json">
+        <link rel="icon" type="image/png" href="./favicon.png">
+        <link rel="apple-touch-icon" href="./favicon.png">
+
+        <!-- -->
+        <script data-owner="runtime" data-type="interact">
+            // workaround for happy-fs
+            if (typeof process == "undefined" || !window?.process) {
+                window.process = {
+                    env: {
+                        NODE_ENV: "production"
+                    }
+                }
+            }
+
             // avoid any dragging when no-needed...
             document.documentElement.addEventListener("dragstart", (ev) => {
                 if (ev?.target?.matches?.("div, img, picture, canvas, video, svg")) {
@@ -162,15 +211,7 @@
 
             // comment to enable native context menu
             document.documentElement.addEventListener("contextmenu", (ev)=>{
-                //ev.stopPropagation();
                 ev.preventDefault();
-
-                //
-                /*document.documentElement?.dispatchEvent?.(new CustomEvent("ui-ctx-menu", {
-                    detail: ev,
-                    cancelable: true,
-                    bubbles: true
-                }));*/
             });
 
             //
@@ -181,9 +222,8 @@
         </script>
 
         <!-- Web App loader -->
-        <script type="module" async defer>
-            //const APP_JS = "./index/app.js";
-            const APP_JS = "../src/app.ts";//"./index/app.js";
+        <script data-owner="runtime" data-type="loader" type="module" async defer>
+            const APP_JS = "/src/app.ts";
             const SW_JS  = "./pwa/service.mjs";
 
             //
@@ -196,29 +236,30 @@
         </script>
     </head>
     <body data-scheme="accent" data-chroma="1" data-alpha="1" data-highlight="0" style="pointer-events: auto; overflow: hidden;">
+
+        <!-- -->
         <div id="background" class="container u2-container" data-alpha="0">
-            <canvas data-src="/assets/wallpaper/stock.webp" id="image" is="ui-canvas" width="1" height="1" style="inline-size: 100%; block-size: 100%;"></canvas>
+            <canvas data-src="./assets/wallpaper/stock.webp" id="image" is="ui-canvas" width="1" height="1" style="inline-size: 100%; block-size: 100%;"></canvas>
         </div>
         <div id="viewport" class="container u2-container" data-alpha="0">
             <!--<div id="root"></div>-->
             <!-- Web Application Slot -->
         </div>
-        <div id="overlays" class="container u2-container u2-toplayer" data-alpha="0">
+        <div id="overlays"   class="container u2-container u2-toplayer" data-alpha="0" style="container-type: normal;">
+
+            <!-- -->
             <ui-statusbar id="statusbar"></ui-statusbar>
+            <!--<ui-contextmenu id="contextmenu"></ui-contextmenu>-->
             <ui-focustext
                 value=""
                 id="focustext"
                 class="ui-focus ui-mobile-input ui-dedicated"
                 data-chroma="0"
                 data-scheme="solid"
-                data-highlight="1"
-                virtualkeyboardpolicy="auto">
+                data-highlight="1">
                 <input type="text" label="test" placeholder="test-longtext" tabindex="-1" draggable="false" autocomplete="on" class="u2-input" value="" scroll="no"/>
             </ui-focustext>
             <ui-tooltip id="tooltip"></ui-tooltip>
         </div>
-
-        <!-- DEBUG MODE! -->
-        <!--<script type="module" async defer src="../src/app.ts"></script>-->
     </body>
 </html>
