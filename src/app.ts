@@ -14,10 +14,14 @@ export const initialize = async (root)=>{
 
     //
     const OpenSans = new FontFace("Open Sans", "url(\"/assets/fonts/OpenSans-VariableFont_wdth,wght.ttf\")", {
-
     });
     const OpenSansItalic = new FontFace("Open Sans Italic", "url(\"/assets/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf\")", {
-        
+    });
+
+    //
+    const SourceSans3 = new FontFace("Source Sans 3", "url(\"/assets/fonts/SourceSans3-VariableFont_wght.ttf\")", {
+    });
+    const SourceSansItalic3 = new FontFace("Source Sans 3 Italic", "url(\"/assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf\")", {
     });
 
     // @ts-ignore
@@ -25,6 +29,12 @@ export const initialize = async (root)=>{
 
     // @ts-ignore
     document.fonts?.add?.(OpenSansItalic);
+
+    // @ts-ignore
+    document.fonts?.add?.(SourceSans3);
+
+    // @ts-ignore
+    document.fonts?.add?.(SourceSansItalic3);
 
     //
     const loadingModules = Promise.allSettled([
