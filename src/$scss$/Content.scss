@@ -39,6 +39,8 @@
             gap: 0.1rem;
             column-gap: 0.2rem;
             padding: 0.3333rem;
+            padding-inline-end: max(env(safe-area-inset-right, 0px), 0.3333rem);
+            padding-inline-start: max(env(safe-area-inset-left, 0px), 0.3333rem);
         }
 
         //
