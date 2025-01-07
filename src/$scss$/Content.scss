@@ -89,7 +89,7 @@
                 grid-template-columns: subgrid;
                 grid-template-rows: minmax(0px, 1fr);
                 grid-auto-flow: row;
-                border-radius: 0.4rem;
+                border-radius: 0.5rem;
                 grid-column: 1 / -1;
                 inline-size: 100%;
                 block-size: 100%;
@@ -117,7 +117,7 @@
                     padding: 0rem;
                     overflow: hidden;
                     justify-self: start;
-                    border-radius: 0.4rem;
+                    border-radius: 0.5rem;
                     z-index: 99;
                 }
 
@@ -159,7 +159,7 @@
                     inline-size: 100%;
 
                     //
-                    border-radius: 0.4rem;
+                    border-radius: 0.5rem;
                     place-content: center;
                     place-items: center;
                 }
