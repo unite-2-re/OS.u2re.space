@@ -1,0 +1,1 @@
+../../../../interact.ts/dist/interact.js
