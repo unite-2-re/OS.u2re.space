@@ -1,8 +1,8 @@
 // @ts-ignore
 import { For, createSignal, createComputed, onMount, lazy } from "solid-js";
 import html from "solid-js/html";
-import { removeItem } from "@src/$state$/GridState.ts";
-import { UIState } from "@src/$state$/UIState.ts";
+import { removeItem } from "../../$state$/GridState.ts";
+import { UIState } from "../../$state$/UIState.ts";
 
 // @ts-ignore
 import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";

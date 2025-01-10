@@ -4,7 +4,7 @@ import html from "solid-js/html";
 
 // @ts-ignore
 import {observeAttribute} from "/externals/lib/dom.js";
-import type { TabType } from "@/src/$core$/Types";
+import type { TabType } from "../../$core$/Types";
 
 //
 export const TabContent = ({tab, children}: {tab: ()=>TabType, children?: ()=>any}) => {

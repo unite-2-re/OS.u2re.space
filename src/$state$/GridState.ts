@@ -1,6 +1,6 @@
 // @ts-ignore /* @vite-ignore */
-import {subscribe, makeReactive, makeObjectAssignable, safe } from "/externals/lib/object.js";
-import {JSOX} from "jsox";
+import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
+import { JSOX } from "jsox";
 
 //
 export const defaultLists = [["settings", "import", "export"]];

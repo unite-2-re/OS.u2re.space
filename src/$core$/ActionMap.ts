@@ -1,9 +1,9 @@
-import { UIState } from "@src/$state$/UIState.ts";
+import { UIState } from "../$state$/UIState.ts";
 import { getItem, removeItem, addItem } from "../$state$/GridState.ts";
 
 // @ts-ignore
 import {initTaskManager} from "/externals/core/core.js";
-import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "@/src/$state$/ImportExport.ts";
+import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "../$state$/ImportExport.ts";
 
 //
 const taskManager = initTaskManager();
@@ -77,7 +77,7 @@ export const actionMap = new Map([
 
 //
 export const initActionMap = (root = document.documentElement)=>{
-    root?.addEventListener?.("ag-click", (evc)=>{
+    root?.addEventListener?.("ag-click", (evc: any)=>{
         const ev = evc?.detail || evc;
         if (ev?.target?.matches?.("[data-dragging]") || ev?.target?.closest?.("[data-dragging]")) { return; };
         const element   = ev?.target as HTMLElement;

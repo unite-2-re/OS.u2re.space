@@ -1,9 +1,9 @@
 // @ts-ignore
 import { For, createSignal, onMount  } from "solid-js";
 import html from "solid-js/html";
-import type { ItemsType } from "@src/$core$/Types";
-import { refAndMount } from "@/src/$solid$/Utils.tsx";
-import { createLabel, createShaped } from "@src/$core$/Items.ts";
+import type { ItemsType } from "../../$core$/Types";
+import { refAndMount } from "../../$solid$/Utils.tsx";
+import { createLabel, createShaped } from "../../$core$/Items.ts";
 
 // @ts-ignore
 import {fixOrientToScreen} from "/externals/core/agate.js";

@@ -1,8 +1,8 @@
-import { gridState, mergeByKey, wrapItemToReactive } from "@/src/$state$/GridState.ts";
+import { gridState, mergeByKey, wrapItemToReactive } from "../$state$/GridState.ts";
 
 // @ts-ignore /* @vite-ignore */
-import {subscribe, makeReactive, makeObjectAssignable, safe } from "/externals/lib/object.js";
-import {JSOX} from "jsox";
+import { safe } from "/externals/lib/object.js";
+import { JSOX } from "jsox";
 
 // Function to download data to a file
 export const saveBinaryToFS = async (data, filename = "settings") => {

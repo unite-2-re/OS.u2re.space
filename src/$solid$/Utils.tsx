@@ -1,5 +1,5 @@
 // @ts-ignore
-import { For, createSignal, onMount, lazy, Show, createMemo, createEffect } from "solid-js";
+import { onMount } from "solid-js";
 
 // @ts-ignore
 import {observeAttribute} from "/externals/lib/dom.js";

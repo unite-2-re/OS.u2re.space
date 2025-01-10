@@ -190,6 +190,7 @@ export const useAsWallpaper = (f_path) => {
         const inUserSpace = path?.startsWith?.("/user");
         if (typeof f_path == "string" && (URL.canParse(f_path) || path?.startsWith?.("/"))) {
             if (!inUserSpace) { wallpaper.dataset.src = f_path; };
+            // @ts-ignore
             Promise.try(provide, f_path)?.then?.((F: any) => {
                 wallpaper.dataset.src = inUserSpace ? URL.createObjectURL(F) : f_path;
                 if (F) { colorScheme(F); };

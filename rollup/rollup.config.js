@@ -101,8 +101,8 @@ export const TSConfig = {
         "inlineSources": true,
         "inlineSourceMap": true,
         "sourceMap": false,
-        "outDir": "./frontend/app/",
-        "declarationDir": "./frontend/"+NAME+"/",
+        "outDir": "./frontend/"+NAME+"/",
+        "declarationDir": "./frontend/"+NAME+"/",//"./frontend/decl/",
         //"allowImportingTsExtensions": true,
         //"emitDeclarationOnly": true,
         "typeRoots": ["./global.d.ts"]

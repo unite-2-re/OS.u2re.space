@@ -1,6 +1,6 @@
 {
     "include": ["**/*.ts", "**/*.mjs", "**/*.js", "**/*.d.ts", "**/*.tsx"],
-    "exclude": ["./node_modules", "../node_modules", "./externals"],
+    "exclude": ["./node_modules", "../node_modules", "./externals", "./frontend"],
     "compilerOptions": {
         "jsx": "preserve",
         "jsxImportSource": "solid-js",

@@ -3,7 +3,7 @@
 //
 export const initializeSidebar = ()=>{
     //
-    document.documentElement.addEventListener("ag-click", (evc)=>{
+    document.documentElement.addEventListener("ag-click", (evc: any)=>{
         const ev = evc?.detail || evc;
         const target = ev?.target as HTMLElement;
         if (!(target?.matches?.(".adl-tab-box, .adl-menu") || target?.closest?.(".adl-tab-box, .adl-menu"))) {

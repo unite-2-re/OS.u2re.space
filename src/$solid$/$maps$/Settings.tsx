@@ -1,4 +1,4 @@
-import type { TabType } from "@src/$core$/Types";
+import type { TabType } from "../../$core$/Types";
 import html from "solid-js/html";
 
 // Functionality Not Implemented

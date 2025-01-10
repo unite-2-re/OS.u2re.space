@@ -7,7 +7,7 @@ import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/ob
 
 // @ts-ignore
 import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
-import { preferences } from "@src/$state$/Preferences.ts";
+import { preferences } from "../../$state$/Preferences.ts";
 
 //
 export const Form = ({form, tab}: {form: any, tab: ()=>any}) => {

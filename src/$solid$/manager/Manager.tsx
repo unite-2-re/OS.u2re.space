@@ -6,9 +6,9 @@ import html from "solid-js/html";
 import Content from "./Content.tsx";
 
 //
-import { observe, refAndMount } from "@/src/$solid$/Utils.tsx";
+import { observe, refAndMount } from "../../$solid$/Utils.tsx";
 import { tabs } from "../$maps$/Settings.tsx";
-import { addItemEv, downloadItemEv, getFileList, removeItemEv, useItemEv } from "@src/$core$/FileManagment.ts";
+import { addItemEv, downloadItemEv, getFileList, removeItemEv, useItemEv } from "../../$core$/FileManagment.ts";
 
 // while: tab.component should be  ()=> html`...`
 export const Manager = () => {

@@ -2,8 +2,8 @@
 import { For, createSignal, onMount, lazy } from "solid-js";
 import { render } from "solid-js/web";
 import html from "solid-js/html";
-import type { AppsType } from "@src/$core$/Types";
-import { itemFields, itemForm } from "@src/$solid$/$maps$/Forms.tsx";
+import type { AppsType } from "../$core$/Types";
+import { itemFields, itemForm } from "../$solid$/$maps$/Forms.tsx";
 import { getItem, gridState } from "../$state$/GridState";
 import ItemEdit, {targetItem} from "./workspace/ItemEdit.tsx";
 import Items from "./workspace/Items";

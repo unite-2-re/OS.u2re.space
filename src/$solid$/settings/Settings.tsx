@@ -7,8 +7,8 @@ import Content from "./Content.tsx";
 import Form from "./Form.tsx";
 
 //
-import { $hideMenu, $openMenu } from "@src/$core$/Sidebar.ts";
-import { observe } from "@/src/$solid$/Utils.tsx";
+import { $hideMenu, $openMenu } from "../../$core$/Sidebar.ts";
+import { observe } from "../../$solid$/Utils.tsx";
 import { forms, tabs } from "../$maps$/Settings.tsx";
 
 // while: tab.component should be  ()=> html`...`
