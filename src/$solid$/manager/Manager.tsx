@@ -20,15 +20,24 @@ export const Manager = () => {
     const cTab = createMemo(()=>tabOf(currentTab()));
     const fileOf = ()=>((document.querySelector("#manager .adl-content input:checked") as HTMLInputElement)?.value||"");
     const $content = refAndMount((topLevel)=> {
-        getFileList(null, setFiles);
+        getFileList(null, setFiles, input?.value || "/user/images/");
     });
+
+    //
+    let input: HTMLInputElement|null = null;
+
+    /*  Planned File Managment
+        <ui-longtext data-highlight="1" style="inline-size: 100%;" class="u2-input" data-name="directory"><input ref=${(I)=>(input = I)} placeholder="" name="directory" type="text" label="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" value="/user/images/"/></ui-longtext>
+        <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-dir-go" onClick=${(ev)=>getFileList(null, setFiles, input?.value || "/user/images/")}> <ui-icon icon="step-forward"></ui-icon> </button>
+    */
 
     //
     return html`<div data-chroma="0" data-highlight="0" data-alpha="0" data-scheme="solid" class="ui-content" id="manager" data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>
         <div data-alpha="0" data-highlight="0" data-chroma="0" class="adl-toolbar">
-            <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-add" onClick=${(ev)=>addItemEv(setFiles)}> <ui-icon icon="file-up"></ui-icon> </button>
+            <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-add" onClick=${(ev)=>addItemEv(setFiles, input?.value || "/user/images/")}> <ui-icon icon="file-up"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-get" onClick=${(ev)=>downloadItemEv(fileOf(), setFiles)}> <ui-icon icon="file-down"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-del" onClick=${(ev)=>removeItemEv(fileOf(), setFiles)}> <ui-icon icon="file-x"></ui-icon> </button>
+            
             <div class="adl-space"></div>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-use" onClick=${(ev)=>useItemEv(fileOf(), setFiles)}> <ui-icon icon="file-input"></ui-icon> </button>
         </div>

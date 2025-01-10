@@ -147,7 +147,7 @@ export const downloadImage = async (file) => {
 
 //
 const files = new Map([]);
-export const getFileList = async (exists, setFiles?, dirname = "/images/")=>{
+export const getFileList = async (exists, setFiles?, dirname = "/user/images/")=>{
     // use exists results if has
     setFiles?.(files);
 
@@ -157,18 +157,25 @@ export const getFileList = async (exists, setFiles?, dirname = "/images/")=>{
     const path = (tp?.endsWith("/") ? tp : (tp+"/"))
 
     //
-    const fs   = await useFS(); await fs?.mkdir?.(path);
-    const dir  = await fs?.readDir?.(path);
+    const fs   = await useFS(); await fs?.mkdir?.(path?.replace?.("/user",""));
+    const dir  = await fs?.readDir?.(path?.replace?.("/user",""));
     const entries: any[] = ((dir || exists) ? await ((dir ? Array.fromAsync(await (dir?.unwrap?.() ?? dir)) : exists) || exists) : []) || [];
 
     //
     if (entries) {
-        await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemFileHandle)).map(async ({path: fn, handle})=>{
-            files.set("/user" + path + fn, await handle.getFile());
-        }));
+        files?.clear?.();
 
-        // add stock image into registry
-        files.set(STOCK_NAME, await provide(STOCK_NAME));
+        //
+        if (path?.startsWith?.("/user")) {
+            await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemFileHandle)).map(async ({path: fn, handle})=>{
+                files.set(path + fn, await handle.getFile());
+            }));
+        }
+
+        if (path?.startsWith?.("/assets")) {
+            // add stock image into registry
+            files.set(STOCK_NAME, await provide(STOCK_NAME));
+        }
 
         // to UI reaction
         setFiles?.(files);
@@ -253,7 +260,7 @@ export const imageImportDesc = {
 };
 
 //
-export const addItemEv = async (setFiles?, dest = "images/")=>{
+export const addItemEv = async (setFiles?, dest = "/user/images/")=>{
     const fs = await useFS();
     const $e = "showOpenFilePicker";
 
@@ -261,16 +268,17 @@ export const addItemEv = async (setFiles?, dest = "images/")=>{
     const dp = (dest?.split?.("/")?.join?.("/")?.trim?.() || "/");
     const p1 = !dp?.trim()?.endsWith("/") ? (dest+"/") : dest;
     const path = !p1?.startsWith("/") ? ("/"+p1) : p1;
+    if (!path?.startsWith?.("/user")) return;
 
     // @ts-ignore
     const showOpenFilePicker = window?.[$e]?.bind?.(window) ?? (await import("/externals/polyfill/showOpenFilePicker.mjs"))?.[$e];
     return showOpenFilePicker(imageImportDesc)?.then?.(async ([handle] = [])=>{
         const file = await handle?.getFile?.();
-        const fp = path + (file?.name || "wallpaper");
-        const fn = (("/user"+fp) || STOCK_NAME);
+        const fp = path?.replace?.("/user","") + (file?.name || "wallpaper");
+        const fn = (fp || STOCK_NAME);
 
         //
-        await fs?.mkdir?.(path);
+        await fs?.mkdir?.(path?.replace?.("/user",""));
         await fs?.writeFile?.(fp, file);
 
         // TODO? Needs reactive map?
@@ -278,31 +286,32 @@ export const addItemEv = async (setFiles?, dest = "images/")=>{
         setFiles?.(files);
 
         //
-        return getFileList(fs, setFiles);
+        return getFileList(fs, setFiles, dest);
     });
 }
 
 //
 export const removeItemEv = async (f_path = "", setFiles?/*, dir = "images/"*/)=>{
-    const fs = await useFS();
-    if (f_path) {
-        (async ()=>{
-            const dir = (f_path?.trim()?.split?.("/")?.slice(0, -1)?.join?.("/")?.trim?.() || "/");
-            const p1 = !dir?.trim()?.endsWith("/") ? (dir+"/") : dir;
-            const path = (!p1?.startsWith("/") ? ("/"+p1) : p1)?.replace?.("/user", "");
-            const fn = (f_path?.trim?.()?.split?.("/")?.at?.(-1) || f_path?.trim?.());
+    const dir = (f_path?.trim()?.split?.("/")?.slice(0, -1)?.join?.("/")?.trim?.() || "/");
+    const p1 = !dir?.trim()?.endsWith("/") ? (dir+"/") : dir;
+    const path = (!p1?.startsWith("/") ? ("/"+p1) : p1);
+    if (!path?.startsWith?.("/user")) return;
 
-            //
+    //
+    const fn = (f_path?.trim?.()?.split?.("/")?.at?.(-1) || f_path?.trim?.());
+    if (f_path) {
+        const fs = await useFS();
+        (async ()=>{
             if ((f_path || STOCK_NAME) != (localStorage.getItem("@wallpaper") || "")) {
-                await fs?.mkdir?.(path);
-                await fs?.remove?.(path + fn);
+                await fs?.mkdir?.(path?.replace?.("/user",""));
+                await fs?.remove?.(path?.replace?.("/user","") + fn);
 
                 // TODO? Use reactive files map?
                 files.delete(f_path);
                 setFiles?.(files);
 
                 //
-                await getFileList(fs, setFiles);
+                await getFileList(fs, setFiles, path);
             }
         })();
     }
