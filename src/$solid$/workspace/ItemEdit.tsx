@@ -78,7 +78,7 @@ export const ItemEdit = ({
             <button onClick=${deleteA} class="adl-delete" data-scheme="inverse" data-chroma="0.05"> Delete </button>
             <button onClick=${confirm} class="adl-confirm" data-scheme="inverse" data-chroma="0.05"> Confirm </button>
         </div>
-    </ui-modal>`;
+    </div>`;
 };
 
 //
