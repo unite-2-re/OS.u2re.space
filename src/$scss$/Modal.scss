@@ -37,16 +37,13 @@
         box-shadow: 0.125rem 0.125rem 1rem #00000080;
 
         //
-        form, label, span, .adl-label {
+        form, label, span, .adl-label, .adl-buttons {
             background-color: transparent;
         }
 
         //
-        label, .adl-label, .adl-input { pointer-events: none; }
-        ui-longtext input, ui-longtext { pointer-events: auto; };
-
-        //
-        button { pointer-events: auto; };
+        label, .adl-label, .adl-input, .adl-buttons { pointer-events: none; }
+        ui-longtext input, ui-longtext, button { pointer-events: auto; };
     }
 
 };
