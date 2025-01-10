@@ -1,8 +1,11 @@
 import $S from "../settings/Settings";
 import $M from "../manager/Manager";
 
+// @ts-ignore
+import { createSignal } from "solid-js";
+
 //
-export const tasks = [
+const [tasks, setTasks] = createSignal([
     {
         id: "#settings",
         component: $S,
@@ -17,7 +20,8 @@ export const tasks = [
         active: false,
         title: "Manager"
     }
-];
+], { equals: false });
 
 //
+export {tasks, setTasks};
 export default tasks;

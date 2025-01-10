@@ -14,6 +14,13 @@ import { observeAttribute } from "/externals/lib/dom.js";
 // @ts-ignore
 import { makeSelection } from "/externals/core/interact.js";
 
+
+//
+const makeView = ({url, id}: {url: string, id: string})=>{
+    return html`<div id=${id?.replace?.("#","")} class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe referrerpolicy="origin-when-cross-origin" width="100%" height="100%" frameBorder="0" style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" allowtransparency="true" scrolling="allow" seamless=true src=${url}></iframe></div></div></div>`;
+}
+
+
 // while: tab.component should be  ()=> html`...`
 export const Workspace = ({tasks}: AppsType) => {
     // TODO! Wrap "Apps" with zoomed layer (initial orientation)
@@ -24,9 +31,9 @@ export const Workspace = ({tasks}: AppsType) => {
         <!-- UI-Scaled Layer -->
         <ui-orientbox id="ui-layer" class="ui-layer" orient="0">
             <!-- Apps Part -->
-            <${For} each=${() => tasks}>${(task) => {
+            <${For} each=${tasks}>${(task) => {
                 return html`<ui-frame data-highlight="2" data-chroma="0.1" data-scheme="solid" id=${task?.id.replace("#","")}>
-                <div style="justify-self: start; text-align: start; padding-inline: 1rem;" slot="ui-title-bar">${task?.title}</div>  <${  task?.component  }><//>
+                <div style="justify-self: start; text-align: start; padding-inline: 1rem;" slot="ui-title-bar">${task?.title}</div>  <${  task?.component || makeView } id=${task?.id} url=${task?.href}><//>
                 </ui-frame>`;
             }}<//>
 
@@ -49,9 +56,9 @@ export const Workspace = ({tasks}: AppsType) => {
             ><//>
 
             <!-- Taskbar -->
-            <ui-taskbar prop:tasks=${tasks}>
+            <ui-taskbar prop:tasks=${tasks?.()}>
 
-                <${For} each=${() => tasks}>${(task) => {
+                <${For} each=${tasks}>${(task) => {
                     return html`<ui-task prop:taskId=${task?.id} label=${task?.title} icon=${task?.icon}> <ui-icon icon=${task?.icon}></ui-icon> </ui-task>`;
                 }}<//>
 
@@ -75,5 +82,5 @@ export const Workspace = ({tasks}: AppsType) => {
 //
 export default Workspace;
 export const renderInPage = (root: HTMLElement, tasks: any)=>{
-    render(()=>html`<${Workspace} tasks=${tasks}><//>`, root);
+    render(()=>html`<${Workspace} tasks=${()=>tasks}><//>`, root);
 }

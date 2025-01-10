@@ -4,9 +4,27 @@ import { getItem, removeItem, addItem } from "../$state$/GridState.ts";
 // @ts-ignore
 import {initTaskManager} from "/externals/core/core.js";
 import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "../$state$/ImportExport.ts";
+import tasks, { setTasks } from "../$solid$/$maps$/Tasks.tsx";
 
 //
 const taskManager = initTaskManager();
+
+//
+taskManager?.on?.("removeTask", ({task})=>{
+    const index = tasks?.()?.findIndex((t)=>t?.id == task?.id);
+    if (index >= 0) {
+        tasks?.().splice(index, 1);
+    }
+    setTasks?.(tasks);
+});
+
+//
+taskManager?.on?.("addTask", ({task})=>{
+    const index = tasks?.()?.findIndex((t)=>t?.id == task?.id);
+    if (index < 0) tasks?.()?.push?.(task);
+    setTasks?.(tasks);
+});
+
 
 //
 const UUIDv4 = () => {
@@ -17,10 +35,33 @@ const UUIDv4 = () => {
 const isSameOrigin = (a)=>{
     const urlA = a instanceof URL ? a : (URL.canParse(a) ? new URL(a) : null);
     return !a || (a.startsWith("./") || a.startsWith("/")) || (urlA?.origin == location?.origin) || a?.trim()?.startsWith?.("#");
-}
+};
 
 //
 export const actionMap = new Map([
+    ["close-task", ()=>{
+        
+    }],
+
+    ["open-in-frame", (initiator, ev?)=>{
+        const id = "#" + "TASK-" + Array.from({ length: 8 }, () => "0123456789ABCDEF".charAt(Math.floor(Math.random() * 16))).join('');
+        const task = {
+            id,
+            title: (initiator?.dataset?.label?.trim?.() || initiator?.dataset?.href?.trim?.()),
+            active: true,
+            icon: (initiator?.dataset?.icon?.trim?.() || "globe"),
+            href: (initiator?.dataset?.href?.trim?.())
+        };
+        
+        // @ts-ignore
+        const module = import("../$solid$/$maps$/Tasks.tsx")?.then?.(({tasks, setTasks})=>{
+            taskManager?.addTask?.(task, true);
+            requestIdleCallback?.(()=>{
+                taskManager?.focus?.(id);
+            })
+        });
+    }],
+
     ["set-wallpaper", (initiator, ev?)=>{
         taskManager?.focus?.("#manager");
     }],
