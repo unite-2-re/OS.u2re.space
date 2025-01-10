@@ -66,7 +66,7 @@ export const ItemEdit = ({
     }
 
     //
-    return html`<div data-hidden class="adl-modal" data-alpha="1" data-scheme="solid">
+    return html`<ui-modal data-hidden class="adl-modal" data-alpha="1" data-scheme="solid">
         <form data-alpha="0" data-highlight="0" class="adl-item-edit" ref=${$content}>
             <${For} each=${() => form}>${(input) => { return html`<label>
                 <div class="adl-label">${input?.label}</div>
