@@ -17,7 +17,21 @@ import { makeSelection } from "/externals/core/interact.js";
 
 //
 const makeView = ({url, id}: {url: string, id: string})=>{
-    return html`<div id=${id?.replace?.("#","")} class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe referrerpolicy="origin-when-cross-origin" width="100%" height="100%" frameBorder="0" style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" allowtransparency="true" scrolling="allow" seamless=true src=${url}></iframe></div></div></div>`;
+    return html`<div id=${id?.replace?.("#","")} class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe 
+    referrerpolicy="no-referrer" 
+    width="100%" height="100%" 
+    frameBorder="0" 
+    style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" 
+    allowtransparency="true" 
+    scrolling="auto"
+    src=${url}
+    loading="eager" 
+    seamless=true
+    sandbox="allow-same-origin allow-scripts allow-downloads allow-storage-access-by-user-activation allow-forms" 
+    allowfullscreen=true
+    credentialless=true
+    allow="*"
+    ></iframe></div></div></div>`;
 }
 
 
