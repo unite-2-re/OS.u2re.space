@@ -89,7 +89,9 @@ export const actionMap = new Map<any, any>([
 
     // "open-link" works as "_blank" if external domain, and "_self" if internal domain or same origin
     ["open-link", (href: any, takeAction?: any|null)=>{
-        const openLink = (href)=> { window.open(href, isSameOrigin(href||"") ? "_self" : "_blank"); };
+        const desc = typeof href == "object" ? href : null; 
+        if (desc) href = desc?.href?.trim?.();
+        const openLink = (href)=> { return (desc ? linkViewer(desc) : window.open(href, isSameOrigin(href||"") ? "_self" : "_blank")); };
         if (typeof href == "string") {
             if ((href = href?.trim?.())?.startsWith?.("/user")) {
                 if (href?.endsWith?.("/") && !takeAction) { return actionMap?.get?.("manager")?.(href); };
@@ -100,10 +102,6 @@ export const actionMap = new Map<any, any>([
             } else {
                 return (takeAction ?? openLink)?.(href);
             }
-        } else 
-        if (typeof href == "object") {
-            const desc = href; href = href?.href?.trim?.();
-            return takeAction ? takeAction?.(href, desc) : linkViewer(desc);
         }
     }],
 
