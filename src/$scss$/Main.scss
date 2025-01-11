@@ -42,7 +42,15 @@
     };
 
     //
-    #viewport { overflow: hidden; };
+    #viewport { 
+        background-color: transparent;
+        overflow: hidden;
+
+        //
+        & > * {
+            background-color: transparent;
+        }
+    };
 
     //
     ui-orientbox {

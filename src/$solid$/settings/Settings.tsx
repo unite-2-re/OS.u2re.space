@@ -7,7 +7,7 @@ import Content from "./Content.tsx";
 import Form from "./Form.tsx";
 
 //
-import { $hideMenu, $openMenu } from "../../$core$/Sidebar.ts";
+import { $hideMenu, $openMenu } from "../../$ui$/Sidebar.ts";
 import { observe } from "../../$solid$/Utils.tsx";
 import { forms, tabs } from "../$maps$/Settings.tsx";
 

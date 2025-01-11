@@ -1,12 +1,12 @@
-import tasks from "./$solid$/$maps$/Tasks.tsx";
+//
 import { renderInPage } from "./$solid$/Main";
 import CSS from "./css";
 
 //
-import $M from "./$core$/Modal.ts";
-import $A from "./$core$/ActionMap.ts";
-import $S from "./$core$/Sidebar.ts";
-import $C from "./$core$/ContextMenu.ts";
+import $M from "./$ui$/Modal.ts";
+import $S from "./$ui$/Sidebar.ts";
+import $C from "./$ui$/ContextMenu.ts";
+import $A from "./$ui$/ItemAction.tsx";
 
 //
 const $I = Promise.allSettled([$M, $A, $S, $C]?.map?.((f)=>Promise?.try?.(f)));
@@ -70,7 +70,7 @@ export const initialize = async (root)=>{
     ]);
 
     //
-    renderInPage(root, tasks);
+    renderInPage(root);
 }
 
 //

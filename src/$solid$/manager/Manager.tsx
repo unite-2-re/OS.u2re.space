@@ -1,17 +1,18 @@
 // @ts-ignore
 import { For, createSignal, onMount, lazy, Show, createMemo, createEffect } from "solid-js";
-import html from "solid-js/html";
+
+// @ts-ignore
+import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 
 //
+import html from "solid-js/html";
 import Content from "./Content.tsx";
 
 //
 import { hooked, observe, refAndMount } from "../../$solid$/Utils.tsx";
+import { addItemEv, downloadItemEv, removeItemEv } from "../../$core$/FileOps.ts";
+import { byType, current, currentDir, fileOf, navigate } from "../../$core$/FileManage.ts";
 import { tabs } from "../$maps$/Settings.tsx";
-import { addItemEv, current, downloadItemEv, getFileList, provide, removeItemEv, useItemEv } from "../../$core$/FileManagement";
-
-// @ts-ignore
-import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 
 //
 const MOCElement = (el, selector)=>{
@@ -31,46 +32,9 @@ export const Manager = () => {
     let input = hooked();
     let content = hooked();
 
-    // fileOf - under selection, currentDir - under path field
-    const fileOf = ()=>((document.querySelector("#manager .adl-content input:checked") as HTMLInputElement)?.value||"");
-    const currentDir = (val?: any|null)=>{ if (val) { input.value = val; }; return input?.value || "/user/images/"; };
-
     //
     const cTab = createMemo(()=>tabOf(currentTab()));
     const $content = refAndMount((topLevel)=> navigate(currentDir()));
-
-    //
-    const fileAction = (path, ev?: any)=>{
-        // if directory (but action avoided indirectly)
-        if (path?.endsWith?.("/") || path?.startsWith?.("..")) {
-            const file = files?.()?.get(path);
-            return typeof file == "string" ? navigate?.(file) : (typeof file == "function" ? file?.() : file);
-        };
-
-        // if regular file (currently, only wallpaper usage implemented)
-        if (!ev || ev?.type == "dblclick") { return useItemEv(path); };
-    };
-
-    // dynamic icon by type
-    const byType = (path)=>{
-        if (path?.endsWith?.("..")) {
-            return currentDir()?.endsWith("user/") ? "shield-alert" : "arrow-left";
-        }
-        if (path?.endsWith?.("/")) {
-            if (path == "/user/") return "folder-root";
-            if (!path?.startsWith?.("/user/")) return "folder-lock";
-            return "folder";
-        }
-        return "wallpaper";
-    }
-
-    //
-    const navigate = (path = "/", ev?: any)=>{
-        if (!ev || ev?.type == "dblclick" || ev?.pointerType == "touch") {
-            if (path?.startsWith?.("..")) { return navigate?.(currentDir()?.split?.("/")?.slice?.(0, -2)?.join?.("/") + "/" || ""); };
-            return (path?.endsWith("/") ? getFileList(currentDir(path), navigate) : fileAction(path, ev));
-        };
-    }
 
     //
     document.documentElement.addEventListener("keydown", (e) => {
@@ -84,9 +48,9 @@ export const Manager = () => {
     //
     return html`<div data-chroma="0" data-highlight="0" data-alpha="0" data-scheme="solid" class="ui-content" id="manager" data-tab=${currentTab} ref=${content} ref=${observe(["data-tab", setTab])}>
         <div data-alpha="0" data-highlight="0" data-chroma="0" class="adl-toolbar">
-            <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-add" onClick=${(ev)=>addItemEv(currentDir())}> <ui-icon icon="file-up"></ui-icon> </button>
+            <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-add" onClick=${(ev)=>addItemEv(currentDir(), current)}> <ui-icon icon="file-up"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-get" onClick=${(ev)=>downloadItemEv(fileOf())}> <ui-icon icon="file-down"></ui-icon> </button>
-            <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-del" onClick=${(ev)=>removeItemEv(fileOf())}> <ui-icon icon="file-x"></ui-icon> </button>
+            <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-del" onClick=${(ev)=>removeItemEv(fileOf(), current)}> <ui-icon icon="file-x"></ui-icon> </button>
 
             <ui-longtext data-highlight="1" class="adl-space" class="u2-input" data-name="directory"><input ref=${input} placeholder="" name="directory" type="text" label="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" value="/user/images/"/></ui-longtext>
             

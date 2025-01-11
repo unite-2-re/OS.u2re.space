@@ -1,17 +1,22 @@
-//
-//import { pickWallpaperImage } from "@adl/PreInit/ActionMap.ts";
-
 // @ts-ignore
-import {colorScheme} from "/externals/core/theme.js";
+import { colorScheme } from "/externals/core/theme.js";
 
 // @ts-ignore
 import {observeBySelector} from "/externals/lib/dom.js";
 
-// @ts-ignore
-import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
+//
+export const STOCK_NAME = "/assets/wallpaper/stock.webp"
 
 //
-const STOCK_NAME = "/assets/wallpaper/stock.webp"
+export const getDir = (dest)=>{
+    if (typeof dest != "string") return dest;
+
+    //
+    dest = dest?.trim?.() || dest;
+    if (!dest?.endsWith?.("/")) { dest = dest?.trim?.()?.split?.("/")?.slice(0, -1)?.join?.("/")?.trim?.() || dest; };
+    const p1 = !dest?.trim()?.endsWith("/") ? (dest+"/") : dest;
+    return (!p1?.startsWith("/") ? ("/"+p1) : p1);
+}
 
 //
 const $useFS$ = async() => {
@@ -36,17 +41,6 @@ const $useFS$ = async() => {
     //
     const fs = opfs?.isOPFSSupported?.() ? opfs : (deno ?? node ?? opfs);
     return fs;
-}
-
-//
-const getDir = (dest)=>{
-    if (typeof dest != "string") return dest;
-
-    //
-    dest = dest?.trim?.() || dest;
-    if (!dest?.endsWith?.("/")) { dest = dest?.trim?.()?.split?.("/")?.slice(0, -1)?.join?.("/")?.trim?.() || dest; };
-    const p1 = !dest?.trim()?.endsWith("/") ? (dest+"/") : dest;
-    return (!p1?.startsWith("/") ? ("/"+p1) : p1);
 }
 
 //
@@ -150,53 +144,6 @@ export const downloadImage = async (file) => {
     }
 };
 
-// TODO: targeting support
-export const current = makeReactive(new Map([]));
-export const getFileList = async (dirname = "/user/images/", navigate?: any)=>{
-    const path = getDir(dirname);
-    if (path) {
-        current?.clear?.();
-
-        // root directory (currently, not available, except "/user/")
-        // root directories practically unsupported (just stub)
-        if (path == "/") {
-            current.set("/user/", ()=>navigate?.("/user/"));
-            current.set("/assets/", ()=>navigate?.("/assets/"));
-        } else {
-            current.set("..", ()=>navigate?.((path?.split?.("/")?.slice?.(0, -2)?.join?.("/") || "") + "/"));
-        }
-
-        // user-space OPFS
-        if (path?.startsWith?.("/user")) {
-            const user = path?.replace?.("/user","");
-            const fs   = await useFS(); await fs?.mkdir?.(user);
-            const dir  = await fs?.readDir?.(user);
-            const entries: null|any[] = await (dir ? Array.fromAsync(await (dir?.unwrap?.() ?? dir)) : null);
-            if (entries) {
-                // directory types
-                await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemDirectoryHandle)).map(async ({path: fn})=>{
-                    const dir = path + fn + "/";
-                    current.set(dir, ()=>navigate?.(dir));
-                }));
-
-                // file types
-                await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemFileHandle)).map(async ({path: fn, handle})=>{
-                    current.set(path + fn, await handle.getFile());
-                }));
-            }
-        } else
-
-        // root directories (practically unsupported)
-        if (path?.startsWith?.("/assets")) {
-            // add stock image into registry
-            current.set(STOCK_NAME, await provide(STOCK_NAME));
-        }
-    }
-
-    //
-    return current;
-};
-
 //
 export const useAsWallpaper = (f_path) => {
     const wallpaper = document.querySelector("canvas[is=\"ui-canvas\"]") as HTMLElement;
@@ -269,7 +216,7 @@ export const imageImportDesc = {
 };
 
 //
-export const addItemEv = async (dest = "/user/images/")=>{
+export const addItemEv = async (dest = "/user/images/", current?: any)=>{
     const fs = await useFS();
     const $e = "showOpenFilePicker";
     const path = getDir(dest);
@@ -287,15 +234,12 @@ export const addItemEv = async (dest = "/user/images/")=>{
         //
         await fs?.mkdir?.(user);
         await fs?.writeFile?.(fp, file);
-        current.set("/user" + fp, file);
-
-        // currently, won't works with directories
-        //if (fp) { return getFileList(fs, path); };
+        current?.set?.("/user" + fp, file);
     });
 }
 
 //
-export const removeItemEv = async (f_path = "")=>{
+export const removeItemEv = async (f_path = "", current?: any)=>{
     const path = getDir(f_path);
 
     // TODO: supports other file systems
@@ -316,7 +260,7 @@ export const removeItemEv = async (f_path = "")=>{
                 }
 
                 //
-                current.delete(f_path);
+                current?.delete?.(f_path);
             }
         })();
     }
@@ -325,7 +269,7 @@ export const removeItemEv = async (f_path = "")=>{
 //
 export const downloadItemEv = async (f_path)=>{
     downloadImage(await provide(f_path));
-}
+};
 
 //
 requestIdleCallback(()=>{
@@ -336,6 +280,3 @@ requestIdleCallback(()=>{
 observeBySelector(document.documentElement, "canvas[is=\"ui-canvas\"]", (mut)=>{
     loadFromStorage();
 });
-
-//
-getFileList("/user/images/");

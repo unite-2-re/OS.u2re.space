@@ -1,4 +1,4 @@
-import { gridState, mergeByKey, wrapItemToReactive } from "../$state$/GridState.ts";
+import { gridState, mergeByKey, wrapItemToReactive } from "./GridState.ts";
 
 // @ts-ignore /* @vite-ignore */
 import { safe } from "/externals/lib/object.js";

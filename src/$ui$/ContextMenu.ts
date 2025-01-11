@@ -1,4 +1,4 @@
-import { actionMap } from "../$core$/ActionMap.ts";
+import { actionMap } from "../$state$/ActionMap.ts";
 
 // @ts-ignore
 import { UILucideIcon, makeCtxMenuItems, openContextMenu } from "/externals/wcomp/ui.js";
@@ -6,15 +6,15 @@ import { UILucideIcon, makeCtxMenuItems, openContextMenu } from "/externals/wcom
 //
 export const ctxMenuMap = new Map([
     [".u2-grid-item", [
-        {icon: new UILucideIcon({icon: "external-link", padding: "0.05rem"}), content: "Open", callback(initiator) { actionMap.get(initiator?.dataset?.action || "open-link")?.(initiator); } },
-        {icon: new UILucideIcon({icon: "pencil", padding: "0.05rem"}), content: "Edit", callback(initiator) { actionMap.get("item-edit")?.(initiator); } },
-        {icon: new UILucideIcon({icon: "badge-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { actionMap.get("item-delete")?.(initiator); } }
+        {icon: new UILucideIcon({icon: "external-link", padding: "0.05rem"}), content: "Open Link", callback(initiator) { actionMap.get("open-link")?.(initiator?.dataset?.href || "#"); } },
+        {icon: new UILucideIcon({icon: "pencil", padding: "0.05rem"}), content: "Edit", callback(initiator) { actionMap.get("item-edit")?.(initiator?.dataset?.id); } },
+        {icon: new UILucideIcon({icon: "badge-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { actionMap.get("item-delete")?.(initiator?.dataset?.id); } }
     ]],
     [".u2-desktop-grid", [
-        {icon: new UILucideIcon({icon: "badge-plus", padding: "0.05rem"}), content: "Add Item", callback(initiator) { actionMap.get("item-add")?.(initiator); } },
-        {icon: new UILucideIcon({icon: "folder-code", padding: "0.05rem"}), content: "Manager", callback(initiator) { actionMap.get("set-wallpaper")?.(initiator); } },
-        {icon: new UILucideIcon({icon: "settings", padding: "0.05rem"}), content: "Settings", callback(initiator) { actionMap.get("settings")?.(initiator); } },
-        {icon: new UILucideIcon({icon: "fullscreen", padding: "0.05rem"}), content: "Fullscreen", callback(initiator) { actionMap.get("fullscreen")?.(initiator); } },
+        {icon: new UILucideIcon({icon: "badge-plus", padding: "0.05rem"}), content: "Add Item", callback() { actionMap.get("item-add")?.(); } },
+        {icon: new UILucideIcon({icon: "folder-code", padding: "0.05rem"}), content: "Manager", callback() { actionMap.get("manager")?.(); } },
+        {icon: new UILucideIcon({icon: "settings", padding: "0.05rem"}), content: "Settings", callback() { actionMap.get("settings")?.(); } },
+        {icon: new UILucideIcon({icon: "fullscreen", padding: "0.05rem"}), content: "Fullscreen", callback() { actionMap.get("fullscreen")?.(); } },
     ]],
 ]);
 
