@@ -168,14 +168,15 @@ export const getFileList = async (dirname = "/user/images/", navigate?: any)=>{
 
         // user-space OPFS
         if (path?.startsWith?.("/user")) {
-            const fs   = await useFS(); await fs?.mkdir?.(path?.replace?.("/user",""));
-            const dir  = await fs?.readDir?.(path?.replace?.("/user",""));
-            const entries: null|any[] = await (dir ? Array.fromAsync(await (dir?.unwrap?.() ?? dir)) : null);        
-
+            const user = path?.replace?.("/user","");
+            const fs   = await useFS(); await fs?.mkdir?.(user);
+            const dir  = await fs?.readDir?.(user);
+            const entries: null|any[] = await (dir ? Array.fromAsync(await (dir?.unwrap?.() ?? dir)) : null);
             if (entries) {
                 // directory types
-                await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemDirectoryHandle)).map(async ({path: fn, handle})=>{
-                    current.set(path + fn + "/", ()=>navigate?.(path + fn + "/"));
+                await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemDirectoryHandle)).map(async ({path: fn})=>{
+                    const dir = path + fn + "/";
+                    current.set(dir, ()=>navigate?.(dir));
                 }));
 
                 // file types
@@ -200,10 +201,9 @@ export const getFileList = async (dirname = "/user/images/", navigate?: any)=>{
 export const useAsWallpaper = (f_path) => {
     const wallpaper = document.querySelector("canvas[is=\"ui-canvas\"]") as HTMLElement;
     if (wallpaper && f_path) {
-        const path = getDir(f_path);
-
         // if f_path is string
-        if (typeof f_path == "string" && (URL.canParse(f_path) || path?.startsWith?.("/"))) {
+        if (typeof f_path == "string" && (URL.canParse(f_path) || f_path?.startsWith?.("/"))) {
+            const path = getDir(f_path);
             const inUserSpace = path?.startsWith?.("/user");
             if (!inUserSpace) { wallpaper.dataset.src = f_path; };
             // @ts-ignore
@@ -315,11 +315,8 @@ export const removeItemEv = async (f_path = "")=>{
                     await fs?.remove?.(user, {recursive: true});
                 }
 
-                // TODO? Use reactive current map?
+                //
                 current.delete(f_path);
-
-                // currently, won't works with directories
-                //if (fn) { await getFileList(path); };
             }
         })();
     }
