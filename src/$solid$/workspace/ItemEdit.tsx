@@ -54,7 +54,7 @@ export const ItemEdit = ({
             confirmState(stateOnEdit);
             modal.dataset.hidden = "";
         };
-    }
+    };
 
     //
     const deleteA = (ev)=>{
@@ -63,10 +63,10 @@ export const ItemEdit = ({
             removeItem(stateOnEdit?.id);
             modal.dataset.hidden = "";
         };
-    }
+    };
 
     //
-    return html`<div data-hidden class="adl-modal" data-alpha="1" data-scheme="solid">
+    return html`<ui-modal class="adl-modal" data-hidden data-alpha="1" data-scheme="solid">
         <form data-alpha="0" data-highlight="0" class="adl-item-edit" ref=${$content}>
             <${For} each=${() => form}>${(input) => { return html`<label>
                 <div class="adl-label">${input?.label}</div>
@@ -78,7 +78,7 @@ export const ItemEdit = ({
             <button onClick=${deleteA} class="adl-delete" data-scheme="inverse" data-chroma="0.05"> Delete </button>
             <button onClick=${confirm} class="adl-confirm" data-scheme="inverse" data-chroma="0.05"> Confirm </button>
         </div>
-    </div>`;
+    </ui-modal>`;
 };
 
 //
