@@ -4,6 +4,13 @@
     :where(.ui-content#manager) {
 
         //
+        .adl-toolbar {
+            ui-longtext {
+                border-radius: 0.5rem;
+            }
+        }
+
+        //
         .adl-content {
             padding: 0rem;
             inline-size: 100%;

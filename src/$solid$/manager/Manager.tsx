@@ -66,7 +66,8 @@ export const Manager = () => {
 
     //
     const navigate = (path = "/", ev?: any)=>{
-        if (!ev || ev?.type == "dblclick" || ev?.pointerType == "touch") { 
+        if (!ev || ev?.type == "dblclick" || ev?.pointerType == "touch") {
+            if (path?.startsWith?.("..")) { return navigate?.(currentDir()?.split?.("/")?.slice?.(0, -2)?.join?.("/") + "/" || ""); };
             return (path?.endsWith("/") ? getFileList(currentDir(path), navigate) : fileAction(path, ev));
         };
     }
@@ -90,7 +91,7 @@ export const Manager = () => {
             <ui-longtext data-highlight="1" class="adl-space" class="u2-input" data-name="directory"><input ref=${input} placeholder="" name="directory" type="text" label="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" value="/user/images/"/></ui-longtext>
             
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-dir-go" onClick=${(ev)=>navigate(currentDir())}> <ui-icon icon="step-forward"></ui-icon> </button>
-            <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-use" onClick=${(ev)=>navigate(fileOf())}> <ui-icon icon="file-input"></ui-icon> </button>
+            <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-use" onClick=${(ev)=>navigate(fileOf())}> <ui-icon icon="image-play"></ui-icon> </button>
         </div>
         <div data-scheme="solid" data-alpha="0" class="adl-main">
             <ui-scrollbox data-scheme="solid" data-alpha="1" data-highlight="0.5" data-chroma="0.01" class="adl-tab-box">

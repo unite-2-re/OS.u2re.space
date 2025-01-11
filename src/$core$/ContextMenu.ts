@@ -12,9 +12,9 @@ export const ctxMenuMap = new Map([
     ]],
     [".u2-desktop-grid", [
         {icon: new UILucideIcon({icon: "badge-plus", padding: "0.05rem"}), content: "Add Item", callback(initiator) { actionMap.get("item-add")?.(initiator); } },
-        {icon: new UILucideIcon({icon: "wallpaper", padding: "0.05rem"}), content: "Set Wallpaper", callback(initiator) { actionMap.get("set-wallpaper")?.(initiator); } },
-        {icon: new UILucideIcon({icon: "fullscreen", padding: "0.05rem"}), content: "Fullscreen", callback(initiator) { actionMap.get("fullscreen")?.(initiator); } },
+        {icon: new UILucideIcon({icon: "folder-code", padding: "0.05rem"}), content: "Manager", callback(initiator) { actionMap.get("set-wallpaper")?.(initiator); } },
         {icon: new UILucideIcon({icon: "settings", padding: "0.05rem"}), content: "Settings", callback(initiator) { actionMap.get("settings")?.(initiator); } },
+        {icon: new UILucideIcon({icon: "fullscreen", padding: "0.05rem"}), content: "Fullscreen", callback(initiator) { actionMap.get("fullscreen")?.(initiator); } },
     ]],
 ]);
 

@@ -28,7 +28,7 @@ export const defaultItems = [
     },
     {
         id: "manager",
-        icon: "wallpaper",
+        icon: "folder-code",
         label: "Manager",
         //cell: [3, 0],
         href: "#manager"
