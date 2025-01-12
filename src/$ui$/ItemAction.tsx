@@ -7,7 +7,7 @@ export const UIAction = new Map([
         const dataset = initiator?.dataset;
         return actionMap?.get?.("open-link")?.({
             title: (dataset?.label?.trim?.() || dataset?.href?.trim?.()),
-            icon: (dataset?.icon?.trim?.() || "globe"),
+            icon: (initiator?.icon?.trim?.() || dataset?.icon?.trim?.() || "globe"),
             href: (dataset?.href?.trim?.() || "#")
         });
     }],
