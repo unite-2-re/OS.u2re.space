@@ -216,25 +216,35 @@ export const imageImportDesc = {
 };
 
 //
-export const addItemEv = async (dest = "/user/images/", current?: any)=>{
+export const dropItemEv = async (file, dest = "/user/images/", current?: any)=>{
     const fs = await useFS();
-    const $e = "showOpenFilePicker";
     const path = getDir(dest);
 
-    // TODO: supports other file systems
+    //
     if (!path?.startsWith?.("/user")) return;
     const user = path?.replace?.("/user","");
+    const fp = user + (file?.name || "wallpaper");
+
+    //
+    await fs?.mkdir?.(user);
+    await fs?.writeFile?.(fp, file);
+
+    // TODO! needs to fix same directory scope
+    current?.set?.("/user" + fp, file);
+
+    //
+    return "/user" + fp;
+}
+
+//
+export const addItemEv = async (dest = "/user/images/", current?: any)=>{
+    const $e = "showOpenFilePicker";
 
     // @ts-ignore
     const showOpenFilePicker = window?.[$e]?.bind?.(window) ?? (await import("/externals/polyfill/showOpenFilePicker.mjs"))?.[$e];
     return showOpenFilePicker(imageImportDesc)?.then?.(async ([handle] = [])=>{
         const file = await handle?.getFile?.();
-        const fp = user + (file?.name || "wallpaper");
-
-        //
-        await fs?.mkdir?.(user);
-        await fs?.writeFile?.(fp, file);
-        current?.set?.("/user" + fp, file);
+        return dropItemEv(file, dest, current);
     });
 }
 

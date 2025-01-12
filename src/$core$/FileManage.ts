@@ -1,9 +1,29 @@
 // @ts-ignore
-import { makeReactive } from "/externals/lib/object.js";
+import { makeReactive, subscribe } from "/externals/lib/object.js";
 import { getDir, provide, STOCK_NAME, useFS, useItemEv } from "./FileOps";
 
 // TODO: targeting support
+export const preload = new Map<string, HTMLImageElement>();
 export const current = makeReactive(new Map([]));
+
+//
+export const preloadImage = (path)=>{
+    const file = current?.get?.(path);
+    if (file && (file instanceof File || file instanceof Blob)) {
+        const img = new Image();
+        img.decoding = "async";
+        img.src = URL.createObjectURL(file);
+        preload.set(path, img);
+    }
+}
+
+//
+subscribe(current, (file, path, old)=>{
+    //if (path) { preloadImage(path); };
+    //if (!path && old) { preload.delete(old); };
+});
+
+//
 export const getFileList = async (dirname = "/user/images/", navigate?: any)=>{
     const path: any = getDir?.(dirname);
     if (path) {
@@ -33,7 +53,8 @@ export const getFileList = async (dirname = "/user/images/", navigate?: any)=>{
 
                 // file types
                 await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemFileHandle)).map(async ({path: fn, handle})=>{
-                    current.set(path + fn, await handle.getFile());
+                    const file = await handle.getFile();
+                    current.set(path + fn, file);
                 }));
             }
         } else
