@@ -16,7 +16,7 @@ const [tasks, setTasks] = createSignal([
     {
         id: "#manager",
         component: $M,
-        icon: "wallpaper",
+        icon: "folder-code",
         active: false,
         title: "Manager"
     }
