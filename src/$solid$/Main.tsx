@@ -1,5 +1,5 @@
 // @ts-ignore
-import { For, createSignal, onMount, lazy } from "solid-js";
+import { For } from "solid-js";
 import { render } from "solid-js/web";
 import html from "solid-js/html";
 import type { AppsType } from "../$core$/Types";
@@ -7,13 +7,6 @@ import { itemFields, itemForm } from "../$solid$/$maps$/Forms.tsx";
 import { getItem, gridState } from "../$state$/GridState";
 import ItemEdit, {targetItem} from "./workspace/ItemEdit.tsx";
 import Items from "./workspace/Items";
-
-// @ts-ignore
-import { observeAttribute } from "/externals/lib/dom.js";
-
-// @ts-ignore
-import { makeSelection } from "/externals/core/interact.js";
-
 
 //
 const makeView = ({url, id}: {url: string, id: string})=>{

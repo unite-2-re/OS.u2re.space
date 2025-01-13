@@ -9,15 +9,9 @@ import { createLabel, createShaped } from "../../$core$/Items.ts";
 import {fixOrientToScreen} from "/externals/core/agate.js";
 
 // @ts-ignore
-import {observeAttribute} from "/externals/lib/dom.js";
-
-// @ts-ignore
 import {inflectInGrid} from "/externals/core/grid.js";
-
-// @ts-ignore
-import {makeSelection} from "/externals/core/interact.js";
 import { dropItemEv, useItemEv } from "../../$core$/FileOps.ts";
-import { current, currentDir } from "../../$core$/FileManage.ts";
+import { current } from "../../$core$/FileManage.ts";
 
 // while: tab.component should be  ()=> html`...`
 export const Items = ({items, lists}: ItemsType) => {
@@ -38,7 +32,7 @@ export const Items = ({items, lists}: ItemsType) => {
 
 
     const $element = (topLevel)=> {
-        makeSelection(topLevel, "ui-shaped");
+        //makeSelection(topLevel, "ui-shaped");
         fixOrientToScreen(topLevel);
     };
 
