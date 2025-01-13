@@ -9,9 +9,16 @@
         block-size: max-content;
         position: fixed !important;
         inset: auto;
+
+        //
         inset-inline-start: 50%;
         inset-block-start: 50%;
-        translate: -50% -50%;
+
+        //
+        transform: scale3d(var(--scale, 1), var(--scale, 1), var(--scale, 1)) translate3d(-50%, -50%, 0%);
+        transform-origin: 0% 0%;
+
+        //
         overflow: hidden;
         padding: 1rem;
         box-sizing: border-box;
