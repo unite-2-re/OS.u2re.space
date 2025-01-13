@@ -3,7 +3,7 @@ import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.
 import { JSOX } from "jsox";
 
 //
-export const defaultLists = [["settings", "import", "export"]];
+export const defaultLists = [[/*"settings", "import", "export"*/]];
 export const defaultItems = [
     /*{
         id: "github",
@@ -19,7 +19,7 @@ export const defaultItems = [
         //cell: [1, 0],
         href: "https://www.youtube.com/@MobileCenter-s5v"
     },*/
-    {
+    /*{
         id: "settings",
         icon: "settings",
         label: "Settings",
@@ -48,7 +48,7 @@ export const defaultItems = [
         //cell: [1, 1],
         href: "#export",
         action: "export-settings"
-    }
+    }*/
 ]; // also, we thinking about "action:<id>" href type instead of "action" field, and "params" instead of "action"
 // "open-link" works as "_blank" if external domain, and "_self" if internal domain or same origin
 
