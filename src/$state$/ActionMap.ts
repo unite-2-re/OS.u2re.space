@@ -57,7 +57,7 @@ export const actionMap = new Map<any, any>([
         //
         if (!document.fullscreenElement) {
             document.documentElement?.requestFullscreen?.({
-                navigationUI: "hide",
+                navigationUI: "hide", screen
             })?.catch?.(console.warn.bind(console));
         } else
         if (document.exitFullscreen) {
