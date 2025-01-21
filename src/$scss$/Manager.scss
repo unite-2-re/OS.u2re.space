@@ -1,33 +1,35 @@
 @layer adl-manager {
-
     //
-    :where(.ui-content#manager) {
-
+    @media screen {
         //
-        .adl-toolbar {
-            ui-longtext {
-                border-radius: 0.5rem;
+        :where(.ui-content#manager) {
+
+            //
+            .adl-toolbar {
+                ui-longtext {
+                    border-radius: 0.5rem;
+                }
             }
-        }
-
-        //
-        .adl-content {
-            padding: 0rem;
-            inline-size: 100%;
-            min-block-size: 100%;
-            block-size: max-content;
 
             //
-            flex-direction: column;
-            flex-wrap: nowrap;
-            font-size: 0.7rem;
-            overflow: hidden;
+            .adl-content {
+                padding: 0rem;
+                inline-size: 100%;
+                min-block-size: 100%;
+                block-size: max-content;
 
-            //
-            display: inline grid;
-            grid-auto-rows: max-content;
-            grid-template-columns: minmax(0px, max-content) minmax(0px, 1fr) minmax(0px, max-content);
+                //
+                flex-direction: column;
+                flex-wrap: nowrap;
+                font-size: 0.7rem;
+                overflow: hidden;
+
+                //
+                display: inline grid;
+                grid-auto-rows: max-content;
+                grid-template-columns: minmax(0px, max-content) minmax(0px, 1fr) minmax(0px, max-content);
+            }
+
         }
-
-    }
+    };
 };

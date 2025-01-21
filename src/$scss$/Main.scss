@@ -7,53 +7,54 @@
 
 //
 @layer adl-general {
+    @media screen {
+        :root, :host, :scope, body, html {
+            font-family: 'Open Sans', 'Ubuntu Sans', Ubuntu, Segoe, "Segoe UI", source-sans-pro, 'Source Sans 3', 'Gill Sans Nova', Candara, sans-serif, ui-sans-serif, system-ui;
+        }
 
-    :root, :host, :scope, body, html {
-        font-family: 'Open Sans', 'Ubuntu Sans', Ubuntu, Segoe, "Segoe UI", source-sans-pro, 'Source Sans 3', 'Gill Sans Nova', Candara, sans-serif, ui-sans-serif, system-ui;
-    }
-
-    body, :host, body {
-        font-size: 0.8rem;
-    }
-
-    //
-    #root {
-        place-self: center;
-        display: flex;
-        pointer-events: auto;
-        justify-self: start;
-        align-self: start;
+        body, :host, body {
+            font-size: 0.8rem;
+        }
 
         //
-        min-inline-size: 0px !important;
-        min-block-size: 0px !important;
-        inline-size: 100% !important;
-        block-size: 100% !important;
-        max-inline-size: 100% !important;
-        max-block-size: 100% !important;
+        #root {
+            place-self: center;
+            display: flex;
+            pointer-events: auto;
+            justify-self: start;
+            align-self: start;
+
+            //
+            min-inline-size: 0px !important;
+            min-block-size: 0px !important;
+            inline-size: 100% !important;
+            block-size: 100% !important;
+            max-inline-size: 100% !important;
+            max-block-size: 100% !important;
+
+            //
+            position: fixed !important;
+            inset: 0px !important;
+            inset-block-end: auto  !important;
+            overflow: hidden !important;
+            contain: strict !important;
+            container-type: size !important;
+        };
 
         //
-        position: fixed !important;
-        inset: 0px !important;
-        inset-block-end: auto  !important;
-        overflow: hidden !important;
-        contain: strict !important;
-        container-type: size !important;
-    };
-
-    //
-    #viewport { 
-        background-color: transparent;
-        overflow: hidden;
-
-        //
-        & > * {
+        #viewport { 
             background-color: transparent;
+            overflow: hidden;
+
+            //
+            & > * {
+                background-color: transparent;
+            }
+        };
+
+        //
+        ui-orientbox {
+            position: fixed !important;
         }
     };
-
-    //
-    ui-orientbox {
-        position: fixed !important;
-    }
 };
