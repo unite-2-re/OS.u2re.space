@@ -7,7 +7,7 @@ export const Print = () => {
     const $content = (topLevel)=> {
         // @ts-ignore
         import(/* @vite-ignore */ "/print/app.js")?.then?.((module)=>{
-            module?.default?.(topLevel);
+            module?.renderInPage?.(topLevel);
         });
     };
 
