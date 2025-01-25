@@ -113,6 +113,7 @@
                     padding: 0px;
 
                     //
+                    content-visibility: visible;
                     padding-inline-end: max(calc(env(safe-area-inset-right, 0px) - 0.3333rem), 0px);
                     padding-block-end: max(calc(env(safe-area-inset-bottom, 0px) - 0.3333rem), 0px);
                     padding-inline-start: max(calc(env(safe-area-inset-left, 0px) - 0.3333rem), 0px);
