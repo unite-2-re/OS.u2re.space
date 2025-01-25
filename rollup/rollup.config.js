@@ -118,14 +118,18 @@ export const plugins = [
     createExternal({
         interop: 'auto',
         externals: {
+            app: "app",
+            print: "print",
             frontend: "frontend",
-            externals: "externals",
-            dist: "dist"
+            externals: "externals"
         },
         externalizeDeps: [
             "externals", "/externals", "./externals",
-            "frontend/externals", "/frontend/externals", "./frontend/externals",
-            "frontend/app", "/frontend/app", "./frontend/app"
+            "frontend", "/frontend", "./frontend",
+            "app", "/app", "./app",
+            "print", "/print", "./print",
+            "frontend/app", "/frontend/app", "./frontend/app",
+            "frontend/print", "/frontend/print", "./frontend/print"
         ]
     }),
 ];
@@ -135,9 +139,13 @@ export const rollupOptions = {
     plugins,
     treeshake: 'smallest',
     external: [
+        "app", "/app", "./app",
+        "print", "/print", "./print",
+        "frontend", "/frontend", "./frontend",
         "externals", "/externals", "./externals",
         "frontend/externals", "/frontend/externals", "./frontend/externals",
-        "frontend/app", "/frontend/app", "./frontend/app"
+        "frontend/app", "/frontend/app", "./frontend/app",
+        "frontend/print", "/frontend/print", "./frontend/print"
     ],
     input: "./src/app.ts",
     output: {

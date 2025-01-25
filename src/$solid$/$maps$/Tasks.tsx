@@ -1,5 +1,6 @@
 import $S from "../settings/Settings";
 import $M from "../manager/Manager";
+import $P from "../print/Print";
 
 // @ts-ignore
 import { createSignal } from "solid-js";
@@ -19,6 +20,13 @@ const [tasks, setTasks] = createSignal([
         icon: "folder-code",
         active: false,
         title: "Manager"
+    },
+    {
+        id: "#print",
+        component: $P,
+        icon: "book-marked",
+        active: false,
+        title: "Markdown"
     }
 ], { equals: false });
 

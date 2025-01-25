@@ -39,6 +39,7 @@
         "jsox": "^1.2.121",
         "lit": "^3.2.1",
         "lucide-solid": "^0.454.0",
+        "marked": "^15.0.6",
         "p-retry": "^6.2.0",
         "postcss": "^8.4.40",
         "postcss-discard-duplicates": "^7.0.0",

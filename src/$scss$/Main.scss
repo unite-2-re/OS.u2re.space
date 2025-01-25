@@ -42,17 +42,6 @@
         };
 
         //
-        #viewport { 
-            background-color: transparent;
-            overflow: hidden;
-
-            //
-            & > * {
-                background-color: transparent;
-            }
-        };
-
-        //
         ui-orientbox {
             position: fixed !important;
         }

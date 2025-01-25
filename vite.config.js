@@ -52,8 +52,20 @@ const config = defineConfig({
         }),
         createExternal({
             interop: 'auto',
-            externals: {externals: "externals"},
-            externalizeDeps: ["externals", "/externals", "./externals"]
+            externals: {
+                app: "app",
+                print: "print",
+                frontend: "frontend",
+                externals: "externals"
+            },
+            externalizeDeps: [
+                "externals", "/externals", "./externals",
+                "frontend", "/frontend", "./frontend",
+                "app", "/app", "./app",
+                "print", "/print", "./print",
+                "frontend/app", "/frontend/app", "./frontend/app",
+                "frontend/print", "/frontend/print", "./frontend/print"
+            ]
         }),
         //json5Plugin(),
         /**/
