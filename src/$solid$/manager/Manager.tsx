@@ -6,7 +6,6 @@ import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/ob
 
 //
 import html from "solid-js/html";
-import Content from "./Content.tsx";
 
 //
 import { hooked, observe, refAndMount } from "../../$solid$/Utils.tsx";
@@ -19,7 +18,6 @@ const MOCElement = (el, selector)=>{
     return el?.matches?.(selector) ? el : el?.closest?.(selector);
 }
 
-
 //
 const ghostImage = new Image();
 ghostImage.decoding = "async";
@@ -27,9 +25,14 @@ ghostImage.src = URL.createObjectURL(new Blob([`<svg xmlns="http://www.w3.org/20
 ghostImage.width = 24;
 ghostImage.height = 24;
 
+//
+const UUIDv4 = () => {
+    return crypto?.randomUUID ? crypto?.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16));
+};
+
 // while: tab.component should be  ()=> html`...`
 export const Manager = () => {
-    const tabOf = (tabId)=>tabs.find((t)=>(t?.id==tabId));
+    //const tabOf = (tabId)=>tabs.find((t)=>(t?.id==tabId));
     const [currentTab, setTab] = createSignal("display");
     const [files, setFiles] = createSignal(null, { equals: false });
 
@@ -41,15 +44,74 @@ export const Manager = () => {
     let content = hooked();
 
     //
-    const cTab = createMemo(()=>tabOf(currentTab()));
+    //const cTab = createMemo(()=>tabOf(currentTab()));
     const $content = refAndMount((topLevel)=> navigate(currentDir()));
 
     //
+    document.documentElement.addEventListener("copy", (ev) => {
+        if (MOCElement(document.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content?.["@target"]) {
+            const file = current.get(fileOf());
+            if (file) {
+                const url = URL.createObjectURL(file);
+                ev?.clipboardData?.setData?.("text/plain", url);
+                ev?.clipboardData?.setData?.("text/uri-list", url);
+                ev?.clipboardData?.setData?.("DownloadURL", file?.type + ":" + file?.name + ":" + url);
+                ev?.clipboardData?.items?.add?.(file);
+                ev?.preventDefault?.();
+            }
+        }
+    });
+
+    //
+    document.documentElement.addEventListener("paste", (e) => {
+        if (MOCElement(document.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content?.["@target"]) {
+            const items = (e.clipboardData)?.items;
+            const blob = items?.[0]?.getAsFile?.();
+            //const isImage = item?.types?.find?.((n)=>n?.startsWith?.("image/"));
+            //if (isImage) {
+                //const blob = await item?.getType?.(isImage);
+                if (blob) {
+                    e?.preventDefault?.();
+                    const file = blob instanceof File ? blob : (new File([blob], UUIDv4() + ".tmp"));
+                    if (file) dropItemEv(file, currentDir(), current);
+                }
+            //}
+        }
+    });
+
+    //
     document.documentElement.addEventListener("keydown", (e) => {
-        if (e?.key == "Enter" && (e?.target == input?.["@target"] || MOCElement(document.querySelector(":hover, :focus"), ".ui-content") == content)) {
-            e?.preventDefault?.();
-            // TODO: trigger by selected in list
-            navigate(currentDir());
+        if (MOCElement(document.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content?.["@target"]) {
+            if (e?.key == "Enter" && (e?.target == input?.["@target"])) {
+                e?.preventDefault?.();
+                // TODO: trigger by selected in list
+                navigate(currentDir());
+            }
+
+            //
+            if (e?.ctrlKey && e?.key == "v") {
+                navigator.clipboard.read?.()?.then?.(async (items)=>{
+                    const item = items?.[0];
+                    const isImage = item?.types?.find?.((n)=>n?.startsWith?.("image/"));
+                    if (isImage) {
+                        const blob = await item?.getType?.(isImage);
+                        if (blob) {
+                            e?.preventDefault?.();
+                            const file = blob instanceof File ? blob : (new File([blob], UUIDv4() + "." + isImage?.replace?.("image/", "")));
+                            if (file) dropItemEv(file, currentDir(), current);
+                        }
+                    }
+                });
+            }
+
+            //
+            if (e?.ctrlKey && e?.key == "c") {
+                const file = current.get(fileOf());
+                if (file && ClipboardItem?.supports?.(file?.type)) {
+                    e?.preventDefault?.();
+                    navigator.clipboard.write([new ClipboardItem({[file?.type]: file})]);
+                }
+            }
         }
     });
 
@@ -71,7 +133,6 @@ export const Manager = () => {
         const file = current?.get?.(path);
         if (file) {
             const url = URL.createObjectURL(file);
-            
             ev.dataTransfer.effectAllowed = "copyLink";
             ev?.dataTransfer?.clearData?.();
             ev?.dataTransfer?.setDragImage?.(ghostImage, 0, 0);
@@ -82,15 +143,13 @@ export const Manager = () => {
         } else { ev?.preventDefault?.(); }
     }
 
-    // 
+    //
     return html`<div data-chroma="0" data-highlight="0" data-alpha="0" data-scheme="solid" class="ui-content" id="manager" data-tab=${currentTab} ref=${content} ref=${observe(["data-tab", setTab])}>
         <div data-alpha="0" data-highlight="0" data-chroma="0" class="adl-toolbar">
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-add" onClick=${(ev)=>addItemEv(currentDir(), current)}> <ui-icon icon="file-up"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-get" onClick=${(ev)=>downloadItemEv(fileOf())}> <ui-icon icon="file-down"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-del" onClick=${(ev)=>removeItemEv(fileOf(), current)}> <ui-icon icon="file-x"></ui-icon> </button>
-
             <ui-longtext data-highlight="1" class="adl-space" class="u2-input" data-name="directory"><input ref=${input} placeholder="" name="directory" type="text" label="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" value="/user/images/"/></ui-longtext>
-            
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-dir-go" onClick=${(ev)=>navigate(currentDir())}> <ui-icon icon="step-forward"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-use" onClick=${(ev)=>navigate(fileOf())}> <ui-icon icon="image-play"></ui-icon> </button>
         </div>

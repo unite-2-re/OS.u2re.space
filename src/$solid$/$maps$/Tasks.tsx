@@ -21,13 +21,13 @@ const [tasks, setTasks] = createSignal([
         active: false,
         title: "Manager"
     },
-    {
+    /*{
         id: "#print",
         component: $P,
         icon: "book-marked",
         active: false,
         title: "Markdown"
-    }
+    }*/
 ], { equals: false });
 
 //

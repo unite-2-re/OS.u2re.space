@@ -29,6 +29,11 @@
         "src": "../assets/icons/home/512x.png",
         "sizes": "512x512",
         "type": "image/png",
+        "purpose": "any"
+    }, {
+        "src": "../assets/icons/home/512x.png",
+        "sizes": "512x512",
+        "type": "image/png",
         "purpose": "maskable"
     }],
     "incognito": "split",
