@@ -24,8 +24,8 @@ export const initializeModal = ()=>{
     }
 
     //
-    //document.documentElement.addEventListener("ag-contextmenu", hideModal);
-    document.documentElement.addEventListener("ag-click", hideModal);*/
+    //document.documentElement.addEventListener("contextmenu", hideModal);
+    document.documentElement.addEventListener("click", hideModal);*/
 };
 
 //
