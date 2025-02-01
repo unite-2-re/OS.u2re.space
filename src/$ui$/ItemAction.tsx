@@ -25,7 +25,7 @@ export const UIAction = new Map([
 //
 export const initUIAction = (root = document.documentElement)=>{
     root?.addEventListener?.("click", (evc: any)=>{
-        const ev = evc?.detail || evc;
+        const ev = evc;
         if (ev?.target?.matches?.("[data-dragging]") || ev?.target?.closest?.("[data-dragging]")) { return; };
         const element   = ev?.target as HTMLElement;
         const selector  = "*[data-action]";
