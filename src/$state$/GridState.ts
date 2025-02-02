@@ -89,8 +89,9 @@ export const saveToStorage = (ev?: any)=>{
 //
 const setIdleInterval = (cb, timeout, ...args)=>{
     requestIdleCallback(async ()=>{
+        if (!cb || typeof cb != "function") return;
         while (true) {
-            cb?.(...args);
+            await Promise.try(cb, ...args);
             await new Promise((r)=>setTimeout(r, timeout));
             await new Promise((r)=>requestIdleCallback(r));
         }
