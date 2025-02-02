@@ -87,7 +87,18 @@ export const saveToStorage = (ev?: any)=>{
 }
 
 //
-setInterval(saveToStorage, 6000);
+const setIdleInterval = (cb, timeout, ...args)=>{
+    requestIdleCallback(async ()=>{
+        while (true) {
+            cb?.(...args);
+            await new Promise((r)=>setTimeout(r, timeout));
+            await new Promise((r)=>requestIdleCallback(r));
+        }
+    }, {timeout: 1000});
+}
+
+//
+setIdleInterval(saveToStorage, 6000);
 
 //
 export const getItem = (id)=>{
