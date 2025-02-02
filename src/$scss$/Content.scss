@@ -283,17 +283,19 @@
                 .adl-tab-box { grid-row: 1 / 2 span; };
                 .adl-toolbar { display: none; };
             }
+
+            //
+            @at-root [data-device-type="mobile"] & {
+                @include mobile-version;
+            }
+
+            //
+            @at-root [data-device-type="desktop"] & {
+                @include desktop-version;
+            }
         }
 
-        //
-        @media not (((hover: hover) or (pointer: fine)) and ((width >= 9in) or (orientation: landscape))) {
-            @include mobile-version;
-        }
 
-        //
-        @media (((hover: hover) or (pointer: fine)) and ((width >= 9in) or (orientation: landscape))) {
-            @include desktop-version;
-        }
     };
 
 };
