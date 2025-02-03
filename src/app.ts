@@ -7,9 +7,10 @@ import $M from "./$ui$/Modal.ts";
 import $S from "./$ui$/Sidebar.ts";
 import $C from "./$ui$/ContextMenu.ts";
 import $A from "./$ui$/ItemAction.tsx";
+import $F from "./$ui$/FileInteration.ts";
 
 //
-const $I = Promise.allSettled([$M, $A, $S, $C]?.map?.((f)=>Promise?.try?.(f)));
+const $I = Promise.allSettled([$M, $A, $S, $C, $F]?.map?.((f)=>Promise?.try?.(f)));
 export const initialize = async (root)=>{
 
     //

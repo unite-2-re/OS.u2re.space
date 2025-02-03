@@ -18,12 +18,6 @@ export const preloadImage = (path)=>{
 }
 
 //
-subscribe(current, (file, path, old)=>{
-    //if (path) { preloadImage(path); };
-    //if (!path && old) { preload.delete(old); };
-});
-
-//
 export const getFileList = async (dirname = "/user/images/", navigate?: any)=>{
     const path: any = getDir?.(dirname);
     if (path) {
