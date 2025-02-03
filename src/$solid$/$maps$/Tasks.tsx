@@ -1,6 +1,6 @@
 import $S from "../settings/Settings";
 import $M from "../manager/Manager";
-import $P from "../print/Print";
+//import $P from "../print/Print";
 
 // @ts-ignore
 import { createSignal } from "solid-js";

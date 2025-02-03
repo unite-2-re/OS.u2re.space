@@ -57,8 +57,6 @@ export const initialize = async (root)=>{
         // @ts-ignore
         import(/* @vite-ignore */ "/externals/wcomp/longtext.js"),
         // @ts-ignore
-        import(/* @vite-ignore */ "/externals/wcomp/rows.js"),
-        // @ts-ignore
         import(/* @vite-ignore */ "/externals/wcomp/scrollbox.js"),
         // @ts-ignore
         import(/* @vite-ignore */ "/externals/wcomp/image.js"),

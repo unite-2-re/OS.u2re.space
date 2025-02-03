@@ -1,1 +1,0 @@
-../../../../theme.core/dist/theme.js

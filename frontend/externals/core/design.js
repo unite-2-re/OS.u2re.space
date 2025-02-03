@@ -1,1 +1,0 @@
-../../../../design.core/dist/design.js
