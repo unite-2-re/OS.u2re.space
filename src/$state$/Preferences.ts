@@ -31,11 +31,12 @@ document.addEventListener("visibilitychange", (ev)=>{
 //
 const setIdleInterval = (cb, timeout = 1000, ...args)=>{
     requestIdleCallback(async ()=>{
-        if (!cb || typeof cb != "function") return;
+        if (!cb || (typeof cb != "function")) return;
         while (true) {
             await Promise.try(cb, ...args);
             await new Promise((r)=>setTimeout(r, timeout));
-            await new Promise((r)=>requestIdleCallback(r));
+            await new Promise((r)=>requestIdleCallback(r, {timeout: 100}));
+            await new Promise((r)=>requestAnimationFrame(r));
         }
     }, {timeout: 1000});
 }
@@ -57,7 +58,7 @@ subscribe(preferences, (value, prop)=>{
     const grids = document.querySelectorAll(".u2-desktop-grid .u2-grid-page") as unknown as HTMLElement[];
     if (prop == "columns") { grids.forEach((target: HTMLElement)=>target.style.setProperty("--layout-c", "" + (value||4))); };
     if (prop == "rows") { grids.forEach((target: HTMLElement)=>target.style.setProperty("--layout-r", "" + (value||8))); };
-    if (prop == "theme") { document.documentElement.setAttribute("data-theme", "" + (value||"default")); };
+    if (prop == "theme") { document.documentElement.dispatchEvent(new CustomEvent("u2-theme-change", { bubbles: true, detail: {} })); document.documentElement.setAttribute("data-theme", "" + (value||"default")); };
 });
 
 //
