@@ -89,7 +89,7 @@ export const actionMap = new Map<any, any>([
 
     // "open-link" works as "_blank" if external domain, and "_self" if internal domain or same origin
     ["open-link", (href: any, takeAction?: any|null)=>{
-        const desc = typeof href == "object" ? href : null; 
+        const desc = typeof href == "object" ? href : null;
         if (desc) href = desc?.href?.trim?.();
         const openLink = (href)=> { return (desc ? linkViewer(desc) : window.open(href, isSameOrigin(href||"") ? "_self" : "_blank")); };
         if (typeof href == "string") {

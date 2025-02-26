@@ -15,8 +15,8 @@
         "standalone"
     ],
     "description": "U2RE Workspace App",
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "theme_color": "#101010",
+    "background_color": "#101010",
     "orientation": "any",
     "categories": [
         "personalization",

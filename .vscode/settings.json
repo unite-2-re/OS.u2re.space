@@ -1,6 +1,9 @@
 {
   "i18n-ally.localesPaths": [],
   "cssVarHover.watchedFiles": [
-    "src/$solid$/$maps$/Settings.tsx"
-  ]
+    "src/$solid$/$maps$/Settings.tsx",
+    "frontend/src/$solid$/$maps$/Settings.tsx",
+    "frontend/index.html",
+    "accessible-view-terminal"
+]
 }
