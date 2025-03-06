@@ -216,56 +216,6 @@
             }
         </style>
 
-
-        <!-- vital-test #1 -->
-        <style data-owner="vital" data-type="system">
-            body { container-name: body; --vital-flag: 1; overflow: visible; content-visibility: visible; contain: none; }
-            #vital-test-container { display: block !important; color: red; opacity: 0 !important; position: fixed !important; inset: 0px !important; inline-size: 1px !important; block-size: 1px !important; }
-            @container body style(--vital-flag: 1) { #vital-test-container { color: green; } }
-            #vital-test-fail-warning {
-                visibility: visible;
-                content-visibility: visible;
-                box-sizing: border-box;
-                display: none;
-                position: fixed;
-                inset: 0px;
-                inline-size: 100% !important;
-                block-size: max(100%, 100dvb) !important;
-                background-color: rgba(0, 0, 0, 0.8);
-                color: white !important;
-                font-family: Arial, sans-serif;
-                text-align: center;
-                padding: 20px;
-                z-index: 1000;
-            }
-
-            #vital-test-fail-warning * {
-                color: white;
-                content-visibility: visible;
-                opacity: 1;
-            }
-        </style>
-
-
-        <!-- -->
-        <link ref="prefetch" href="./externals/lib/dom.js">
-        <link ref="prefetch" href="./externals/lib/object.js">
-        <link ref="prefetch" href="./externals/lib/uniform.js">
-
-        <!-- -->
-        <link ref="prefetch" href="./externals/core/interact.js">
-        <link ref="prefetch" href="./externals/core/core.js">
-        <link ref="prefetch" href="./externals/core/design.js">
-        <link ref="prefetch" href="./externals/core/existence.js">
-        <link ref="prefetch" href="./externals/core/grid.js">
-        <link ref="prefetch" href="./externals/core/theme.js">
-
-        <!-- -->
-        <link ref="prefetch" href="./externals/wcomp/image.js">
-        <link ref="prefetch" href="./externals/wcomp/longtext.js">
-        <link ref="prefetch" href="./externals/wcomp/rows.js">
-        <link ref="prefetch" href="./externals/wcomp/scrollbox.js">
-
         <!-- webpackIgnore: true-->
         <link rel="manifest" href="./pwa/manifest.json">
         <link rel="icon" type="image/png" href="./favicon.png">
@@ -316,21 +266,17 @@
 
         <!-- Web App loader -->
         <script data-owner="runtime" data-type="loader" type="module" async defer>
-            const APP_JS = "/src/app.ts";
-            const SW_JS  = "./pwa/service.mjs";
+            import { placeCSSCompatWarning } from "./vital.mjs";
 
             //
-            if (!CSS.supports("selector(:host-context(body))") || getComputedStyle(document.querySelector("#vital-test-container")).color != "rgb(0, 128, 0)") {
-                console.error("CRITICAL FEATURES DOESN'T SUPPORTED!");
-                document.querySelector("#vital-test-fail-warning").style.display = "block";
-            } else { //
-                (async()=>{
-                    if (typeof navigator != "undefined") {
-                        await navigator?.serviceWorker?.register?.(new URL(/* @vite-ignore */ SW_JS, import.meta.url).href, {scope: "/"})?.catch?.(console.warn.bind(console));
-                    }
-                    import(/* @vite-ignore */ `${APP_JS}`)?.then?.((m)=>m?.default?.(document?.querySelector?.("#viewport")))?.catch?.(console.error.bind(console));
-                })();
-            }
+            const APP_JS = "/src/app.ts";
+            const SW_JS  = "./pwa/service.mjs";
+            if (placeCSSCompatWarning()) (async()=>{
+                if (typeof navigator != "undefined") {
+                    await navigator?.serviceWorker?.register?.(new URL(/* @vite-ignore */ SW_JS, import.meta.url).href, {scope: "/"})?.catch?.(console.warn.bind(console));
+                }
+                import(/* @vite-ignore */ `${APP_JS}`)?.then?.((m)=>m?.default?.(document?.querySelector?.("#viewport")))?.catch?.(console.error.bind(console));
+            })();
         </script>
     </head>
     <body
@@ -341,17 +287,7 @@
         data-highlight="0"
         style="pointer-events: auto; overflow: hidden;"
     >
-        <div id="vital-test-container"></div>
-        <div id="vital-test-fail-warning">
-            <h1>CSS Features Not Supported</h1>
-            <p>Your browser does not support some required CSS features:</p>
-            <ul>
-                <li><code>@container</code> with custom properties</li>
-                <li><code>:host-context()</code> in Shadow DOM</li>
-            </ul>
-            <p>We currently do not provide a fallback for these features.</p>
-            <!--<button id="continue-button">Continue Anyway</button>-->
-        </div>
+
 
         <!-- -->
         <div id="background" class="container u2-container" data-alpha="0">
