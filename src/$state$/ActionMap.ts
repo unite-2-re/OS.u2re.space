@@ -2,7 +2,7 @@ import { UIState } from "./UIState.ts";
 import { getItem, removeItem, addItem } from "./GridState.ts";
 
 // @ts-ignore
-import {initTaskManager} from "/externals/core/core.js";
+import {initTaskManager} from "/externals/wcomp/ui.js";
 import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "./ImportExport.ts";
 
 // redundant from core

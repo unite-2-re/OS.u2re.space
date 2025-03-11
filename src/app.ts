@@ -6,7 +6,7 @@ import CSS from "./css";
 import $M from "./$ui$/Modal.ts";
 import $S from "./$ui$/Sidebar.ts";
 import $C from "./$ui$/ContextMenu.ts";
-import $A from "./$ui$/ItemAction.tsx";
+import $A from "./$ui$/ItemAction.ts";
 import $F from "./$ui$/FileInteration.ts";
 
 //
