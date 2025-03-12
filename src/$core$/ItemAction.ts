@@ -1,5 +1,5 @@
 //
-import { actionMap } from "../$state$/ActionMap.ts";
+import { actionMap } from "../$core$/ActionMap.ts";
 
 //
 export const UIAction = new Map([

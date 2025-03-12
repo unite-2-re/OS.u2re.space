@@ -87,7 +87,7 @@ export const Workspace = ({tasks}: AppsType) => {
 
 //
 import tasks, { setTasks } from "./$maps$/Tasks.tsx";
-import { taskManager } from "../$state$/ActionMap.ts";
+import { taskManager } from "../$core$/ActionMap.ts";
 
 //
 taskManager?.on?.("removeTask", ({task})=>{

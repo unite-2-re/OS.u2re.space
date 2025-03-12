@@ -1,4 +1,4 @@
-import { actionMap } from "../$state$/ActionMap.ts";
+import { actionMap } from "../$core$/ActionMap.ts";
 
 // @ts-ignore
 import { UILucideIcon, makeCtxMenuItems, openContextMenu } from "/externals/wcomp/ui.js";

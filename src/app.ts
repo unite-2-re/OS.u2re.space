@@ -3,14 +3,16 @@ import { renderInPage } from "./$solid$/Main";
 import CSS from "./css";
 
 //
-import $M from "./$ui$/Modal.ts";
 import $S from "./$ui$/Sidebar.ts";
 import $C from "./$ui$/ContextMenu.ts";
-import $A from "./$ui$/ItemAction.ts";
 import $F from "./$ui$/FileInteration.ts";
 
 //
-const $I = Promise.allSettled([$M, $A, $S, $C, $F]?.map?.((f)=>Promise?.try?.(f)));
+import $A from "./$core$/ItemAction.ts";
+import $P from "./$core$/Preload.ts";
+
+//
+const $I = Promise.allSettled([$A, $S, $C, $F, $P]?.map?.((f)=>Promise?.try?.(f)));
 export const initialize = async (root)=>{
 
     //

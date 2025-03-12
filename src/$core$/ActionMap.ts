@@ -1,12 +1,13 @@
-import { UIState } from "./UIState.ts";
-import { getItem, removeItem, addItem } from "./GridState.ts";
+import { UIState } from "../$state$/UIState.ts";
+import { getItem, removeItem, addItem } from "../$state$/GridState.ts";
 
 // @ts-ignore
-import {initTaskManager} from "/externals/wcomp/ui.js";
-import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "./ImportExport.ts";
+import { initTaskManager } from "/externals/wcomp/ui.js";
+import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "../$state$/ImportExport.ts";
 
 // redundant from core
-import { navigate } from "../$core$/FileManage.ts";
+import { navigate } from "./FileManage.ts";
+import { fileActions } from "./FileAction";
 
 //
 export const taskManager = initTaskManager();
@@ -93,9 +94,10 @@ export const actionMap = new Map<any, any>([
         if (desc) href = desc?.href?.trim?.();
         const openLink = (href)=> { return (desc ? linkViewer(desc) : window.open(href, isSameOrigin(href||"") ? "_self" : "_blank")); };
         if (typeof href == "string") {
+            // TODO:: external files support, custom mounts of FS
             if ((href = href?.trim?.())?.startsWith?.("/user")) {
                 if (href?.endsWith?.("/") && !takeAction) { return actionMap?.get?.("manager")?.(href); };
-                return (takeAction ?? openLink)?.(href);
+                return (takeAction ?? fileActions(href, {actionMap}) ?? openLink)?.(href);
             } else
             if (href?.trim?.()?.startsWith?.("#")) {
                 return taskManager?.focus?.(href?.trim?.());

@@ -1,12 +1,3 @@
-// @ts-ignore
-import { colorScheme } from "/externals/core/theme.js";
-
-// @ts-ignore
-import {observeBySelector} from "/externals/lib/dom.js";
-
-//
-export const STOCK_NAME = "/assets/wallpaper/stock.webp"
-
 //
 export const getDir = (dest)=>{
     if (typeof dest != "string") return dest;
@@ -90,7 +81,8 @@ export const provide = async (req: string | Request = "", rw = false) => {
 
 // Function to download data to a file
 export const downloadImage = async (file) => {
-    const filename = file.name || STOCK_NAME;
+    const filename = file.name; //|| STOCK_NAME;
+    if (!filename) return;
 
     //
     if ("msSaveOrOpenBlob" in self.navigator) {
@@ -143,56 +135,6 @@ export const downloadImage = async (file) => {
         }, 0);
     }
 };
-
-//
-export const useAsWallpaper = (f_path) => {
-    const wallpaper = document.querySelector("canvas[is=\"ui-canvas\"]") as HTMLElement;
-    if (wallpaper && f_path) {
-        // if f_path is string
-        if (typeof f_path == "string" && (URL.canParse(f_path) || f_path?.startsWith?.("/"))) {
-            const path = getDir(f_path);
-            const inUserSpace = path?.startsWith?.("/user");
-            if (!inUserSpace) { wallpaper.dataset.src = f_path; };
-            // @ts-ignore
-            Promise.try(provide, f_path)?.then?.((F: any) => {
-                wallpaper.dataset.src = inUserSpace ? URL.createObjectURL(F) : f_path;
-                if (F) { colorScheme(F); };
-            })?.catch?.(()=>{
-                wallpaper.dataset.src = f_path;
-            });
-        } else
-
-        // if f_path is not string
-        if (f_path instanceof Blob || f_path instanceof File) {
-            wallpaper.dataset.src = URL.createObjectURL(f_path as File);
-            colorScheme(f_path);
-        }
-    }
-};
-
-//
-export const loadFromStorage = async ()=>{
-    const item = localStorage.getItem("@wallpaper");
-    if (item) {
-        useAsWallpaper(localStorage.getItem("@wallpaper") || "");
-    }
-}
-
-//
-addEventListener("storage", (ev)=>{
-    if (ev?.key == "@wallpaper") {
-        if (ev?.newValue) {
-            useAsWallpaper(ev?.newValue || "");
-        }
-    }
-});
-
-//
-export const useItemEv = (selectedFilename)=>{
-    const url = (selectedFilename || STOCK_NAME);
-    useAsWallpaper(url);
-    localStorage.setItem("@wallpaper", url);
-}
 
 //
 export const imageImportDesc = {
@@ -261,7 +203,7 @@ export const removeItemEv = async (f_path = "", current?: any)=>{
     if (f_path) {
         const fs = await useFS();
         (async ()=>{
-            if ((f_path || STOCK_NAME) != (localStorage.getItem("@wallpaper") || "")) {
+            if ((f_path) != (localStorage.getItem("@wallpaper") || "")) {
                 if (fn) {
                     await fs?.mkdir?.(user);
                     await fs?.remove?.(user + fn);
@@ -280,13 +222,3 @@ export const removeItemEv = async (f_path = "", current?: any)=>{
 export const downloadItemEv = async (f_path)=>{
     downloadImage(await provide(f_path));
 };
-
-//
-requestIdleCallback(()=>{
-    loadFromStorage();
-});
-
-//
-observeBySelector(document.documentElement, "canvas[is=\"ui-canvas\"]", (mut)=>{
-    loadFromStorage();
-});

@@ -1,6 +1,7 @@
 // @ts-ignore
 import { makeReactive, subscribe } from "/externals/lib/object.js";
-import { getDir, provide, STOCK_NAME, useFS, useItemEv } from "./FileOps";
+import { getDir, provide, useFS } from "./FileOps";
+import { fileActions, STOCK_NAME } from "./FileAction";
 
 // TODO: targeting support
 export const preload = new Map<string, HTMLImageElement>();
@@ -95,15 +96,18 @@ export const navigate = (path = "/", ev?: any)=>{
 };
 
 //
-export const fileAction = (path, ev?: any)=>{
+export const fileAction = async (path, ev?: any)=>{
     // if directory (but action avoided indirectly)
     if (path?.endsWith?.("/") || path?.startsWith?.("..")) {
-        const file = current?.get(path);
+        const file = await (current?.get(path) ?? provide(path));
         return typeof file == "string" ? navigate?.(file) : (typeof file == "function" ? file?.() : file);
     };
 
     // if regular file (currently, only wallpaper usage implemented)
-    if (!ev || ev?.type == "dblclick") { return useItemEv(path); };
+    if (!ev || ev?.type == "dblclick") { 
+        return fileActions(path, {current});
+        //return useItemEv(path); 
+    };
 };
 
 //
