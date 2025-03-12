@@ -12,7 +12,7 @@ import $A from "./$core$/ItemAction.ts";
 import $P from "./$core$/Preload.ts";
 
 //
-const $I = Promise.allSettled([$A, $S, $C, $F, $P]?.map?.((f)=>Promise?.try?.(f)));
+const $I = Promise.allSettled([$A, $S, $C, $F, $P]?.map?.((f)=>Promise?.try?.(f?.default || f)));
 export const initialize = async (root)=>{
 
     //
@@ -67,7 +67,7 @@ export const initialize = async (root)=>{
     //
     await Promise.allSettled([
         $I, CSS?.(root),
-        loadingModules?.then?.((mds)=>Promise.allSettled(mds.map((rs: any)=> Promise.try(rs?.value?.default))))?.catch?.(console.warn.bind(console))
+        loadingModules?.then?.((mds)=>Promise.allSettled(mds.map((rs: any)=> Promise.try(rs?.value?.default || rs?.value))))?.catch?.(console.warn.bind(console))
     ]);
 
     //

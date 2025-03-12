@@ -9,17 +9,17 @@ export const STOCK_NAME = "/assets/wallpaper/stock.webp"
 
 //
 export const fileActionMap = new Map([
-    ["view", (file, args?)=>{
+    ["view", async (path, args?)=>{
         console.warn("Image View Not Implemented!");
-        useItemEv(file);
+        useItemEv(path?.name || path);
     }],
-    ["use", (file, args?)=>{
-        useItemEv(file);
+    ["use", async (path, args?)=>{
+        useItemEv(path?.name || path);
     }],
-    ["text", (file, args?)=>{
+    ["text", async (path, args?)=>{
         console.error("Not implemented!");
     }],
-    ["error", (file, args?)=>{
+    ["error", async (path, args?)=>{
         console.error(args?.reason || "Not implemented!");
     }],
 ]);
@@ -45,9 +45,8 @@ export const actionByType = (ext)=>{
 
 //
 export const fileActions = (path, args?)=>{
-    const file = path instanceof File || path instanceof Blob ? path : (args?.current?.get?.(path) ?? provide(path));
-    if (file) {
-        fileActionMap.get(actionByType(getFileExtension(path)) || "error")?.(file, args);
+    if (path) {
+        fileActionMap.get(actionByType(getFileExtension(path)) || "error")?.(path, args);
     }
 }
 
@@ -57,11 +56,11 @@ export const useAsWallpaper = (f_path) => {
     if (wallpaper && f_path) {
         // if f_path is string
         if (typeof f_path == "string" && (URL.canParse(f_path) || f_path?.startsWith?.("/"))) {
-            const path = getDir(f_path);
-            const inUserSpace = path?.startsWith?.("/user");
+            const inUserSpace = getDir(f_path)?.startsWith?.("/user");
             if (!inUserSpace) { wallpaper.dataset.src = f_path; };
             // @ts-ignore
             Promise.try(provide, f_path)?.then?.((F: any) => {
+                console.log(F);
                 wallpaper.dataset.src = inUserSpace ? URL.createObjectURL(F) : f_path;
                 if (F) { colorScheme(F); };
             })?.catch?.(()=>{
@@ -75,7 +74,7 @@ export const useAsWallpaper = (f_path) => {
             colorScheme(f_path);
         }
     }
-    return f_path;
+    return f_path?.name || f_path;
 };
 
 //

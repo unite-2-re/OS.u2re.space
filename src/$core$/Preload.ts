@@ -5,18 +5,14 @@ import { useAsWallpaper } from "./FileAction";
 //
 export const loadFromStorage = async ()=>{
     const item = localStorage.getItem("@wallpaper");
-    if (item) {
-        useAsWallpaper(localStorage.getItem("@wallpaper") || "");
-    }
+    if (item) { useAsWallpaper(item); }
 }
 
 //
 export const preload = ()=>{
     addEventListener("storage", (ev)=>{
         if (ev?.key == "@wallpaper") {
-            if (ev?.newValue) {
-                useAsWallpaper(ev?.newValue || "");
-            }
+            if (ev?.newValue) { useAsWallpaper(ev?.newValue || ""); }
         }
     });
 
@@ -32,5 +28,5 @@ export const preload = ()=>{
 
 }
 
+//
 export default preload;
-
