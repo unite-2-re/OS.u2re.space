@@ -1,3 +1,25 @@
+import { getItem, gridState } from "../$state$/GridState";
+import { subscribe } from "/externals/lib/object.js";
+
+//
+export const setProperty = (target, name, value, importance = "")=>{
+    if ("attributeStyleMap" in target) {
+        const raw = target.attributeStyleMap.get(name);
+        const prop = raw?.[0] ?? raw?.value;
+        if (parseFloat(prop) != value && prop != value || prop == null) {
+            //if (raw?.[0] != null) { raw[0] = value; } else
+            if (raw?.value != null) { raw.value = value; } else
+            { target.attributeStyleMap.set(name, value); };
+        }
+    } else
+    {
+        const prop = target?.style?.getPropertyValue?.(name);
+        if ((parseFloat(prop||"0") != value && prop != value) || !prop) {
+            target.style.setProperty(name, value, importance);
+        }
+    }
+}
+
 //
 export const createShaped = (item, gs)=>{
     // if exists, skip
@@ -29,6 +51,12 @@ export const createShaped = (item, gs)=>{
     shape.setAttribute("data-chroma", "0");
 
     //
+    const scr = getItem(item.id);
+    subscribe(scr, (value, prop)=>{
+        trackShortcutState(element, scr, [value, prop]);
+    });
+
+    //
     element.append(shape);
     return element;
 }
@@ -50,5 +78,31 @@ export const createLabel = (item, gs)=>{
     element.setAttribute("data-label", item.label || "");
     element.label = item.label || "";
     element.innerHTML = item.label || "";
+
+    //
+    const scr = getItem(item.id);
+    subscribe(scr, (value, prop)=>{
+        trackShortcutState(element, scr, [value, prop]);
+    });
+
+    //
     return element;
+}
+
+//
+export const trackShortcutState = (element, shoftcut, [value, prop], args?)=>{
+
+    //
+    if (element) {
+        if (prop == "label" && element.matches("span")) { element.innerHTML = value; } else
+        if (prop == "icon") { element[prop] = value || element[prop] || ""; } else
+        if (element?.dataset && typeof prop == "string" && !URL.canParse(prop) && !prop.includes("\/") && !prop.includes("#")) { element.dataset[prop] = value; };
+    }
+
+    //
+    element?.dispatchEvent?.(new CustomEvent("u2-item-state-change", {
+        detail: {shoftcut, value, prop},
+        bubbles: true,
+        cancelable: true
+    }));
 }

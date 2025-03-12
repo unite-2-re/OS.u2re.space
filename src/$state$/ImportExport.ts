@@ -85,6 +85,7 @@ export const pickBinaryFromFS = async () => {
 //
 export const exportSettings = () => {
     return JSOX.stringify({
+        shortcuts: [...safe(gridState.shortcuts || [])],
         items: [...safe(gridState.items || [])],
         lists: [...safe(gridState.lists || [])]
     });
@@ -94,6 +95,9 @@ export const exportSettings = () => {
 export const importSettings = (data) => {
     if (!data) return;
     const obj = JSOX.parse(data);
+    gridState.shortcuts = mergeByKey([...(obj.shortcuts || [])]).map((I)=>wrapItemToReactive(I));
+
+    // TODO: deprecate items, lists, and use items-groups
     gridState.items = mergeByKey([...(obj.items || [])]).map((I)=>wrapItemToReactive(I));
     gridState.lists = [...(obj.lists || [])];
     return obj;

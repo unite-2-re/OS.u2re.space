@@ -3,9 +3,8 @@ import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.
 import { JSOX } from "jsox";
 
 //
-export const defaultLists = [[/*"settings", "import", "export"*/]];
-export const defaultItems = [
-    /*{
+export const defaultShortcuts = [
+        /*{
         id: "github",
         icon: "github",
         label: "GitHub",
@@ -49,6 +48,10 @@ export const defaultItems = [
         href: "#export",
         action: "export-settings"
     }*/
+];
+export const defaultLists = [[/*"settings", "import", "export"*/]];
+export const defaultItems = [
+
 ]; // also, we thinking about "action:<id>" href type instead of "action" field, and "params" instead of "action"
 // "open-link" works as "_blank" if external domain, and "_self" if internal domain or same origin
 
@@ -76,12 +79,16 @@ export const mergeByKey = (items: any[]|Set<any>, key = "id")=>{
 
 //
 export const gridState = makeObjectAssignable(makeReactive({
+    shortcuts: makeObjectAssignable(makeReactive(new Set(mergeByKey([...defaultShortcuts, ...Array.from(JSOX.parse(localStorage.getItem("grids@shortcuts") || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I))))),
+    
+    // TODO: deprecate items, lists, and use items-groups
     items: makeObjectAssignable(makeReactive(new Set(mergeByKey([...defaultItems, ...Array.from(JSOX.parse(localStorage.getItem("grids@items") || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I))))),
     lists: makeObjectAssignable(makeReactive(new Set([...Array.from(JSOX.parse(localStorage.getItem("grids@lists") || JSOX.stringify(defaultLists))?.values?.() || defaultLists)])))
 }));
 
 //
 export const saveToStorage = (ev?: any)=>{
+    localStorage.setItem("grids@shortcuts", JSOX.stringify([...unwrap(gridState.shortcuts || [])]));
     localStorage.setItem("grids@items", JSOX.stringify([...unwrap(gridState.items || [])]));
     localStorage.setItem("grids@lists", JSOX.stringify([...unwrap(gridState.lists || [])]));
 }
@@ -104,23 +111,29 @@ setIdleInterval(saveToStorage, 6000);
 
 //
 export const getItem = (id)=>{
-    return Array.from(gridState.items.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
+    return Array.from(gridState.shortcuts.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
 }
 
 //
 export const addItem = (id, structure)=>{
-    const item = wrapItemToReactive({
-        ...structure, id: (id||structure?.id)
-    });
+    const item = wrapItemToReactive({ id: (id||structure?.id) });
+    const shortcut = wrapItemToReactive({ ...structure, id: (id||structure?.id) });
+    gridState.shortcuts.add(shortcut);
     gridState.items.add(item);
-    return item;
+    return shortcut;
 }
 
 //
 export const removeItem = (id)=>{
-    const item = getItem(id);
+    const item = Array.from(gridState.items.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
+    const shortcut = Array.from(gridState.shortcuts.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
+
+    //
     if (gridState.items?.has?.(item)) { gridState.items?.delete?.(item); };
-    return item;
+    if (gridState.shortcuts?.has?.(shortcut)) { gridState.shortcuts?.delete?.(shortcut); };
+
+    //
+    return shortcut;
 }
 
 //
@@ -135,6 +148,7 @@ addEventListener("beforeunload", saveToStorage);
 addEventListener("pagehide", saveToStorage);
 addEventListener("storage", (ev)=>{
     if (ev.storageArea == localStorage) {
+        if (ev.key == "grids@shortcuts") { gridState.shortcuts = mergeByKey([...defaultShortcuts, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I)); };
         if (ev.key == "grids@items") { gridState.items = mergeByKey([...defaultItems, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I)); };
         if (ev.key == "grids@lists") { gridState.lists = [...Array.from(JSOX.parse(ev.newValue || JSOX.stringify(defaultLists))?.values?.() || defaultLists)]; };
     }
