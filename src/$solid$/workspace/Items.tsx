@@ -11,7 +11,7 @@ import {fixOrientToScreen} from "/externals/core/agate.js";
 // @ts-ignore
 import {inflectInGrid} from "/externals/core/grid.js";
 import { dropItemEv } from "../../$core$/FileOps.ts";
-import { current } from "../../$core$/FileManage.ts";
+//import { current } from "../../$core$/FileManage.ts";
 import { fileActions } from "../../$core$/FileAction";
 
 // while: tab.component should be  ()=> html`...`
@@ -26,7 +26,7 @@ export const Items = ({items, lists}: ItemsType) => {
     const dropHandle = (ev)=>{
         ev?.preventDefault?.();
         const file = ev?.dataTransfer?.files?.[0];
-        if (file) { dropItemEv(file, "/user/temp/", current)?.then?.((path)=>{
+        if (file) { dropItemEv(file, "/user/temp/")?.then?.((path)=>{
             if (path) { fileActions?.(path); };
         }); };
     }

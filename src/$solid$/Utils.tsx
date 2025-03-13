@@ -32,13 +32,15 @@ export const logged = (fx)=>{
 const hookHandle = {
     apply(target, thisArg, argumentsList) {
         target.target = argumentsList?.[0] ?? target.target;
+        return target?.(...argumentsList);
     },
     set(target, name, value) {
         return target.target ? Reflect.set(target.target, name, value) : true;
     },
     get(target, name, receiver) {
         if (name == "@target") { return target.target; };
-        return target.target ? Reflect.get(target.target, name) : null;
+        const got = target.target ? Reflect.get(target.target, name) : null;
+        return typeof got == "function" ? (got?.bind?.(target.target) || got) : got;
     },
     has(target, name) {
         return target.target ? Reflect.has(target.target, name) : false;
@@ -49,8 +51,7 @@ const hookHandle = {
 };
 
 //
-export const hooked = (target = null)=>{
-    const fx = ()=>{};
+export const hooked = (target = null, fx: any = ()=>{})=>{
     fx.target = target;
     return new Proxy(fx, hookHandle);
 };
@@ -58,7 +59,8 @@ export const hooked = (target = null)=>{
 //
 const getterHandle = {
     apply(target, thisArg, argumentsList) {
-        return target?.();//Reflect.apply(target?.(), thisArg, argumentsList);
+        return target?.(...argumentsList);
+        //return Reflect.apply(target, thisArg, argumentsList);
     },
     set(target, name, value) {
         return Reflect.set(target?.(), name, value);

@@ -5,10 +5,7 @@ import { fileActions, STOCK_NAME } from "./FileAction";
 
 // TODO: targeting support
 export const preload = new Map<string, HTMLImageElement>();
-export const current = makeReactive(new Map([]));
-
-//
-export const preloadImage = (path)=>{
+export const preloadImage = (path, current?)=>{
     const file = current?.get?.(path);
     if (file && (file instanceof File || file instanceof Blob)) {
         const img = new Image();
@@ -18,97 +15,122 @@ export const preloadImage = (path)=>{
     }
 }
 
+
 //
-export const getFileList = async (dirname = "/user/images/", navigate?: any)=>{
-    const path: any = getDir?.(dirname);
-    if (path) {
-        current?.clear?.();
+export class FileManagment {
+    #current: any;
 
-        // root directory (currently, not available, except "/user/")
-        // root directories practically unsupported (just stub)
-        if (path == "/") {
-            current.set("/user/", ()=>navigate?.("/user/"));
-            current.set("/assets/", ()=>navigate?.("/assets/"));
-        } else {
-            current.set("..", ()=>navigate?.((path?.split?.("/")?.slice?.(0, -2)?.join?.("/") || "") + "/"));
-        }
+    //
+    static elementMap = new WeakMap();
 
-        // user-space OPFS
-        if (path?.startsWith?.("/user")) {
-            const user = path?.replace?.("/user","");
-            const fs   = await useFS(); await fs?.mkdir?.(user);
-            const dir  = await fs?.readDir?.(user);
-            const entries: null|any[] = await (dir ? Array.fromAsync(await (dir?.unwrap?.() ?? dir)) : null);
-            if (entries) {
-                // directory types
-                await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemDirectoryHandle)).map(async ({path: fn})=>{
-                    const dir = path + fn + "/";
-                    current.set(dir, ()=>navigate?.(dir));
-                }));
-
-                // file types
-                await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemFileHandle)).map(async ({path: fn, handle})=>{
-                    const file = await handle.getFile();
-                    current.set(path + fn, file);
-                }));
-            }
-        } else
-
-        // root directories (practically unsupported)
-        if (path?.startsWith?.("/assets")) {
-            // add stock image into registry
-            current.set(STOCK_NAME, await provide(STOCK_NAME));
-        }
+    //
+    constructor() {
+        this.#current = makeReactive(new Map([]));
     }
 
     //
-    return current;
-};
-
-// fileOf - under selection, currentDir - under path field
-export const fileOf = ()=>((document.querySelector("#manager .adl-content input:checked") as HTMLInputElement)?.value||"");
-export const currentDir = (val?: any|null)=>{ 
-    const manager = document.querySelector("#manager");
-    const input: any = manager?.querySelector?.("ui-longtext input");
-    if (val && input) { input.value = val; };
-    return input?.value || val || "/user/images/";
-};
-
-// dynamic icon by type
-export const byType = (path)=>{
-    if (path?.endsWith?.("..")) {
-        return currentDir()?.endsWith("user/") ? "shield-alert" : "arrow-left";
+    async getFileList(dirname = "/user/images/", navigate?: any) {
+        const path: any = getDir?.(dirname);
+        if (path) {
+            this.#current?.clear?.();
+    
+            // root directory (currently, not available, except "/user/")
+            // root directories practically unsupported (just stub)
+            if (path == "/") {
+                this.#current.set("/user/", ()=>navigate?.("/user/"));
+                this.#current.set("/assets/", ()=>navigate?.("/assets/"));
+            } else {
+                this.#current.set("..", ()=>navigate?.((path?.split?.("/")?.slice?.(0, -2)?.join?.("/") || "") + "/"));
+            }
+    
+            // user-space OPFS
+            if (path?.startsWith?.("/user")) {
+                const user = path?.replace?.("/user","");
+                const fs   = await useFS(); await fs?.mkdir?.(user);
+                const dir  = await fs?.readDir?.(user);
+                const entries: null|any[] = await (dir ? Array.fromAsync(await (dir?.unwrap?.() ?? dir)) : null);
+                if (entries) {
+                    // directory types
+                    await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemDirectoryHandle)).map(async ({path: fn})=>{
+                        const dir = path + fn + "/";
+                        this.#current.set(dir, ()=>navigate?.(dir));
+                    }));
+    
+                    // file types
+                    await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemFileHandle)).map(async ({path: fn, handle})=>{
+                        const file = await handle.getFile();
+                        this.#current.set(path + fn, file);
+                    }));
+                }
+            } else
+    
+            // root directories (practically unsupported)
+            if (path?.startsWith?.("/assets")) {
+                // add stock image into registry
+                this.#current.set(STOCK_NAME, await provide(STOCK_NAME));
+            }
+        }
+    
+        //
+        return this.#current;
     }
-    if (path?.endsWith?.("/")) {
-        if (path == "/user/") return "folder-root";
-        if (!path?.startsWith?.("/user/")) return "folder-lock";
-        return "folder";
+
+    currentDir(val?: any|null) {
+        const manager = document.querySelector("#manager");
+        const input: any = manager?.querySelector?.("ui-longtext input");
+        if (val && input) { input.value = val; };
+        return input?.value || val || "/user/images/";
     }
-    return "wallpaper";
-};
+
+    static getManager(element) {
+        return this.elementMap.get(element);
+    }
+
+    static fileOf(element?) {
+        return ((element ?? document.querySelector("#manager"))?.querySelector?.(".adl-content input:checked") as HTMLInputElement)?.value||"";
+    }
+
+    static bindManager(element, manager) {
+        this.elementMap.set(element, manager);
+    }
+
+    getCurrent() {
+        return this.#current;
+    }
+
+    byType (path) {
+        if (path?.endsWith?.("..")) {
+            return this.currentDir()?.endsWith("user/") ? "shield-alert" : "arrow-left";
+        }
+        if (path?.endsWith?.("/")) {
+            if (path == "/user/") return "folder-root";
+            if (!path?.startsWith?.("/user/")) return "folder-lock";
+            return "folder";
+        }
+        return "wallpaper";
+    }
+
+    navigate(path = "/", ev?: any) {
+        if (!ev || ev?.type == "dblclick" || ev?.pointerType == "touch") {
+            if (path?.startsWith?.("..")) { return this.navigate?.(this.currentDir()?.split?.("/")?.slice?.(0, -2)?.join?.("/") + "/" || ""); };
+            return (path?.endsWith("/") ? this.getFileList(this.currentDir(path), this.navigate) : this.fileAction(path, ev));
+        };
+    };
+
+    async fileAction(path, ev?: any) {
+        // if directory (but action avoided indirectly)
+        if (path?.endsWith?.("/") || path?.startsWith?.("..")) {
+            const file = await (this.#current?.get(path) ?? provide(path));
+            return typeof file == "string" ? this.navigate?.(file) : (typeof file == "function" ? file?.() : file);
+        };
+    
+        // if regular file (currently, only wallpaper usage implemented)
+        if (!ev || ev?.type == "dblclick") { 
+            return fileActions(path, {current: this.#current});
+            //return useItemEv(path); 
+        };
+    };
+}
 
 //
-export const navigate = (path = "/", ev?: any)=>{
-    if (!ev || ev?.type == "dblclick" || ev?.pointerType == "touch") {
-        if (path?.startsWith?.("..")) { return navigate?.(currentDir()?.split?.("/")?.slice?.(0, -2)?.join?.("/") + "/" || ""); };
-        return (path?.endsWith("/") ? getFileList(currentDir(path), navigate) : fileAction(path, ev));
-    };
-};
-
-//
-export const fileAction = async (path, ev?: any)=>{
-    // if directory (but action avoided indirectly)
-    if (path?.endsWith?.("/") || path?.startsWith?.("..")) {
-        const file = await (current?.get(path) ?? provide(path));
-        return typeof file == "string" ? navigate?.(file) : (typeof file == "function" ? file?.() : file);
-    };
-
-    // if regular file (currently, only wallpaper usage implemented)
-    if (!ev || ev?.type == "dblclick") { 
-        return fileActions(path, {current});
-        //return useItemEv(path); 
-    };
-};
-
-//
-getFileList("/user/images/");
+//getFileList("/user/images/");

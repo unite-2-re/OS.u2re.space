@@ -2,12 +2,16 @@ import { UIState } from "../$state$/UIState.ts";
 import { getItem, removeItem, addItem } from "../$state$/GridState.ts";
 
 // @ts-ignore
+import { makeReactive, subscribe } from "/externals/lib/object.js";
+
+// @ts-ignore
 import { initTaskManager } from "/externals/wcomp/ui.js";
 import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "../$state$/ImportExport.ts";
 
 // redundant from core
-import { navigate } from "./FileManage.ts";
+//import { navigate } from "./FileManage.ts";
 import { fileActions } from "./FileAction";
+import { FileManagment } from "./FileManage";
 
 //
 export const taskManager = initTaskManager();
@@ -26,10 +30,14 @@ const isSameOrigin = (a)=>{
 //
 const linkViewer = ({title, icon, href})=>{
     const id = "#" + "TASK-" + Array.from({ length: 8 }, () => "0123456789ABCDEF".charAt(Math.floor(Math.random() * 16))).join('');
-    const task = { title, icon, href: href?.trim?.(), id, active: true };
+    const task = makeReactive({ 
+        id, active: true, 
+        desc: makeReactive({ title, icon }), 
+        args: makeReactive({ href: href?.trim?.() }) 
+    });
 
     // @ts-ignore
-    const module = import("../$solid$/$maps$/Tasks.tsx")?.then?.(({tasks, setTasks})=>{
+    const module = import("./Tasks.ts")?.then?.(({tasks, setTasks})=>{
         taskManager?.addTask?.(task, true);
         requestIdleCallback?.(()=>{
             taskManager?.focus?.(id);
@@ -45,8 +53,9 @@ export const actionMap = new Map<any, any>([
 
     ["manager", (goTo = "")=>{
         taskManager?.focus?.("#manager");
+        const manager = FileManagment.getManager(document.querySelector("#manager"));
         requestAnimationFrame(()=>{
-            if (goTo) { navigate?.(goTo); };
+            if (goTo) { manager?.navigate?.(goTo); };
         });
     }],
 

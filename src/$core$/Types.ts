@@ -37,5 +37,5 @@ export interface AppType {
 
 //
 export interface AppsType {
-    tasks: any;
+    tasksList: any;
 };

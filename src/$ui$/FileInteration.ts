@@ -1,5 +1,5 @@
 import { dropItemEv } from "../$core$/FileOps.ts";
-import { current, currentDir, fileOf, navigate } from "../$core$/FileManage.ts";
+import { FileManagment } from "../$core$/FileManage.ts";
 
 //
 const MOCElement = (el, selector)=>{
@@ -23,10 +23,11 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
     //
     ROOT.addEventListener("copy", (ev) => {
         const content = ROOT.querySelector("ui-frame #manager");
+        const manager = FileManagment.getManager(content);
 
         //
         if (MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
-            const file = current.get(fileOf());
+            const file = manager.getCurrent().get(FileManagment.fileOf(content));
             if (file) {
                 const url = URL.createObjectURL(file);
                 ev?.clipboardData?.setData?.("text/plain", url);
@@ -41,6 +42,7 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
     //
     ROOT.addEventListener("paste", (e) => {
         const content = ROOT.querySelector("ui-frame #manager");
+        const manager = FileManagment.getManager(content);
 
         //
         if (MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
@@ -49,7 +51,7 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
             if (blob) {
                 e?.preventDefault?.();
                 const file = blob instanceof File ? blob : (new File([blob], UUIDv4() + ".tmp"));
-                if (file) dropItemEv(file, currentDir(), current);
+                if (file) dropItemEv(file, manager.currentDir(), manager.getCurrent());
             }
         }
     });
@@ -58,13 +60,14 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
     ROOT.addEventListener("keydown", (e) => {
         const content = ROOT.querySelector("ui-frame #manager");
         const input = content?.querySelector?.("input[type=\"text\"]");
+        const manager = FileManagment.getManager(content);
 
         //
         if (MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
             if (e?.key == "Enter" && (e?.target == input)) {
                 e?.preventDefault?.();
                 // TODO: trigger by selected in list
-                navigate(currentDir());
+                manager.navigate(manager.currentDir());
             }
 
             //
@@ -77,7 +80,7 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
                         if (blob) {
                             e?.preventDefault?.();
                             const file = blob instanceof File ? blob : (new File([blob], UUIDv4() + "." + isImage?.replace?.("image/", "")));
-                            if (file) dropItemEv(file, currentDir(), current);
+                            if (file) dropItemEv(file, manager.currentDir(), manager.getCurrent());
                         }
                     }
                 });
@@ -85,7 +88,7 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
 
             //
             if (e?.ctrlKey && e?.key == "c") {
-                const file = current.get(fileOf());
+                const file = manager.getCurrent().get(FileManagment.fileOf(content));
                 if (file && ClipboardItem?.supports?.(file?.type)) {
                     e?.preventDefault?.();
                     navigator.clipboard.write([new ClipboardItem({[file?.type]: file})]);
@@ -101,10 +104,11 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
             content?.querySelector?.("ui-select-row:is(:hover, :active)") ||
             content?.querySelector?.("ui-select-row[checked]")
         ) as HTMLInputElement;
+        const manager = FileManagment.getManager(content);
 
         //
-        const path = input?.value || fileOf();
-        const file = current?.get?.(path);
+        const path = input?.value || FileManagment.fileOf(content)
+        const file = manager.getCurrent()?.get?.(path);
         if (file) {
             const url = URL.createObjectURL(file);
             if (ev?.dataTransfer) {

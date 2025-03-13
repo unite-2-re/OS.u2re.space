@@ -1,5 +1,5 @@
 // @ts-ignore
-import { For } from "solid-js";
+import { For, createSignal } from "solid-js";
 import { render } from "solid-js/web";
 import html from "solid-js/html";
 import type { AppsType } from "../$core$/Types";
@@ -8,8 +8,11 @@ import { getItem, gridState } from "../$state$/GridState";
 import ItemEdit, {targetItem} from "./workspace/ItemEdit.tsx";
 import Items from "./workspace/Items";
 
+// @ts-ignore /* @vite-ignore */
+import { safe, subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
+
 //
-const makeView = ({url, id}: {url: string, id: string})=>{
+const makeView = ({args, id}: {args: any, id: string})=>{
     return html`<div id=${id?.replace?.("#","")} class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe 
     referrerpolicy="no-referrer" 
     width="100%" height="100%" 
@@ -17,7 +20,7 @@ const makeView = ({url, id}: {url: string, id: string})=>{
     style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" 
     allowtransparency="true" 
     scrolling="auto"
-    src=${url}
+    src=${args?.href}
     loading="eager" 
     seamless=true
     sandbox="allow-same-origin allow-scripts allow-downloads allow-storage-access-by-user-activation allow-forms" 
@@ -27,9 +30,17 @@ const makeView = ({url, id}: {url: string, id: string})=>{
     ></iframe></div></div></div>`;
 }
 
+// app or task types
+export const components = new Map([
+    ["manager", Manager],
+    ["settings", Settings]
+]);
 
 // while: tab.component should be  ()=> html`...`
-export const Workspace = ({tasks}: AppsType) => {
+export const Workspace = ({tasksList}: AppsType) => {
+    const [tasks, setTasks] = createSignal(tasksList, {equals: false});
+    subscribe(tasksList, ()=>{ setTasks(Array.from(tasksList.values())) });
+
     return html`<>
         <!-- Workspace Icons -->
         <${Items} items=${()=>gridState.items} lists=${()=>gridState.lists}><//>
@@ -39,7 +50,7 @@ export const Workspace = ({tasks}: AppsType) => {
             <!-- Apps Part -->
             <${For} each=${tasks}>${(task) => {
                 return html`<ui-frame data-highlight="2" data-chroma="0.1" data-scheme="solid" id=${task?.id.replace("#","")}>
-                <div style="justify-self: start; text-align: start; padding-inline: 1rem;" slot="ui-title-bar">${task?.title}</div>  <${  task?.component || makeView } id=${task?.id} url=${task?.href}><//>
+                <div style="justify-self: start; text-align: start; padding-inline: 1rem;" slot="ui-title-bar">${task?.desc?.label}</div>  <${  components?.get(task?.args?.type) || makeView } id=${task?.id} args=${task?.args}><//>
                 </ui-frame>`;
             }}<//>
 
@@ -65,7 +76,7 @@ export const Workspace = ({tasks}: AppsType) => {
             <ui-taskbar prop:tasks=${tasks?.()}>
 
                 <${For} each=${tasks}>${(task) => {
-                    return html`<ui-task prop:taskId=${task?.id} label=${task?.title} icon=${task?.icon}> <ui-icon icon=${task?.icon}></ui-icon> </ui-task>`;
+                    return html`<ui-task prop:taskId=${task?.id} desc=${task?.desc}> <ui-icon icon=${task?.desc?.icon}></ui-icon> </ui-task>`;
                 }}<//>
 
             </ui-taskbar>
@@ -86,29 +97,23 @@ export const Workspace = ({tasks}: AppsType) => {
 };
 
 //
-import tasks, { setTasks } from "./$maps$/Tasks.tsx";
+import tasksList from "../$core$/Tasks.ts";
 import { taskManager } from "../$core$/ActionMap.ts";
+import Manager from "./manager/Manager";
+import Settings from "./settings/Settings";
 
 //
 taskManager?.on?.("removeTask", ({task})=>{
-    const index = tasks?.()?.findIndex((t)=>t?.id == task?.id);
-    if (index >= 0) {
-        tasks?.().splice(index, 1);
-    }
-    setTasks?.(tasks);
+    tasksList?.delete(task);
 });
 
 //
 taskManager?.on?.("addTask", ({task})=>{
-    const index = tasks?.()?.findIndex((t)=>t?.id == task?.id);
-    if (index < 0) tasks?.()?.push?.(task);
-    setTasks?.(tasks);
+    tasksList.add(task);
 });
 
-
-
-
+//
 export default Workspace;
 export const renderInPage = (root: HTMLElement/*, tasks: any*/)=>{
-    render(()=>html`<${Workspace} tasks=${()=>tasks}><//>`, root);
+    render(()=>html`<${Workspace} tasksList=${()=>tasksList}><//>`, root);
 }
