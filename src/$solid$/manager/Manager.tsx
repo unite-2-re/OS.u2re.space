@@ -4,33 +4,42 @@ import { For, createSignal, onMount, lazy, Show, createMemo, createEffect } from
 // @ts-ignore
 import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 
+// @ts-ignore
+import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
+
 //
 import html from "solid-js/html";
 
 //
 import { hooked, observe, refAndMount } from "../core/Utils.tsx";
 import { addItemEv, downloadItemEv, dropItemEv, removeItemEv } from "../../$core$/FileOps.ts";
-import { FileManagment, preload } from "../../$core$/FileManage.ts";
+import { FileManagment } from "../../$core$/FileManage.ts";
 import { tabs } from "../settings/Fields.tsx";
 
 // while: tab.component should be  ()=> html`...`
-export const Manager = ({args, id}: {args: any, id: string}) => {
+export const Manager = (task: {args: any, id: string}) => {
     //const tabOf = (tabId)=>tabs.find((t)=>(t?.id==tabId));
     const [currentTab, setTab] = createSignal("display");
-    
+
     //
-    const manager = new FileManagment();
-    manager.getFileList(args?.dir || "/user/images/");
+    const manager = new FileManagment(task?.args);
     const current: any = manager.getCurrent();
+    manager.navigate(task?.args?.directory || "/user/images/");
 
     //
     const [files, setFiles] = createSignal(current, { equals: false });
     subscribe(current, (value, prop) => setFiles(current));
 
+    // subscribe by args payload (if prop is directory, change it)
+    subscribe(task?.args, (value, prop) => { if (prop == "directory") manager.navigate(value); });
+
     //
     let input = hooked();
     let content = hooked(null, (topLevel)=>{
         FileManagment.bindManager(topLevel, manager);
+
+        // when input changes opinion of directory, reflect it
+        synchronizeInputs(task?.args, ".u2-input", topLevel, subscribe);
     });
 
     //
@@ -52,12 +61,12 @@ export const Manager = ({args, id}: {args: any, id: string}) => {
     }
 
     //
-    return html`<div data-chroma="0" data-highlight="0" data-alpha="0" data-scheme="solid" class="ui-content" id=${id?.replace?.("#","")||"manager"} data-tab=${currentTab} ref=${content} ref=${observe(["data-tab", setTab])}>
+    return html`<div data-chroma="0" data-highlight="0" data-alpha="0" data-scheme="solid" class="ui-content" id=${task?.id?.replace?.("#","")||"manager"} data-tab=${currentTab} ref=${content} ref=${observe(["data-tab", setTab])}>
         <div data-alpha="0" data-highlight="0" data-chroma="0" class="adl-toolbar">
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-add" onClick=${(ev)=>addItemEv(manager.currentDir(), current)}> <ui-icon icon="file-up"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-get" onClick=${(ev)=>downloadItemEv(FileManagment.fileOf(content))}> <ui-icon icon="file-down"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-del" onClick=${(ev)=>removeItemEv(FileManagment.fileOf(content), current)}> <ui-icon icon="file-x"></ui-icon> </button>
-            <ui-longtext data-highlight="1" class="adl-space" class="u2-input" data-name="directory"><input ref=${input} placeholder="" name="directory" type="text" label="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" value="/user/images/"/></ui-longtext>
+            <ui-longtext data-highlight="1" class="adl-space u2-input" data-name="directory"><input ref=${input} placeholder="" name="directory" type="text" label="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" value="/user/images/"/></ui-longtext>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-dir-go" onClick=${(ev)=>manager.navigate(manager.currentDir())}> <ui-icon icon="step-forward"></ui-icon> </button>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-use" onClick=${(ev)=>manager.navigate(FileManagment.fileOf(content))}> <ui-icon icon="image-play"></ui-icon> </button>
         </div>

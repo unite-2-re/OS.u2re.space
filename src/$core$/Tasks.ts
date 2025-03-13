@@ -21,7 +21,8 @@ export const tasks = makeReactive(new Set([
             label: "Manager",
         }),
         args: makeReactive({
-            type: "manager"
+            type: "manager",
+            directory: "/user/images/"
         }),
     }
 ]));

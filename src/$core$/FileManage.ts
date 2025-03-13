@@ -19,12 +19,14 @@ export const preloadImage = (path, current?)=>{
 //
 export class FileManagment {
     #current: any;
+    #task: any;
 
     //
     static elementMap = new WeakMap();
 
     //
-    constructor() {
+    constructor(task?: any) {
+        this.#task = task;
         this.#current = makeReactive(new Map([]));
     }
 
@@ -76,10 +78,15 @@ export class FileManagment {
     }
 
     currentDir(val?: any|null) {
-        const manager = document.querySelector("#manager");
-        const input: any = manager?.querySelector?.("ui-longtext input");
-        if (val && input) { input.value = val; };
-        return input?.value || val || "/user/images/";
+        if (this.#task) {
+            if (val && this.#task.directory != val) { this.#task.directory = val; };
+            return this.#task.directory || "/user/images/";
+        } else {
+            const manager = document.querySelector("#manager");
+            const input: any = manager?.querySelector?.("ui-longtext input");
+            if (val && input) { input.value = val; };
+            return input?.value || val || "/user/images/";
+        }
     }
 
     static getManager(element) {
@@ -113,7 +120,7 @@ export class FileManagment {
     navigate(path = "/", ev?: any) {
         if (!ev || ev?.type == "dblclick" || ev?.pointerType == "touch") {
             if (path?.startsWith?.("..")) { return this.navigate?.(this.currentDir()?.split?.("/")?.slice?.(0, -2)?.join?.("/") + "/" || ""); };
-            return (path?.endsWith("/") ? this.getFileList(this.currentDir(path), this.navigate) : this.fileAction(path, ev));
+            return (path?.endsWith("/") ? this.getFileList(this.currentDir(path), this.navigate.bind(this)) : this.fileAction(path, ev));
         };
     };
 
@@ -131,6 +138,3 @@ export class FileManagment {
         };
     };
 }
-
-//
-//getFileList("/user/images/");
