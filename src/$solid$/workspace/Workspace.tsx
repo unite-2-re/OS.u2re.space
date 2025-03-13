@@ -16,7 +16,7 @@ import {fixOrientToScreen} from "/externals/core/agate.js";
 import {inflectInGrid} from "/externals/core/grid.js";
 
 // while: tab.component should be  ()=> html`...`
-export const Items = ({items, lists}: ItemsType) => {
+export const Workspace = ({items, lists}: ItemsType) => {
 
     //
     const dragOverHandle = (ev)=>{
@@ -56,4 +56,4 @@ export const Items = ({items, lists}: ItemsType) => {
 };
 
 //
-export default Items;
+export default Workspace;

@@ -3,7 +3,7 @@ import { For, createSignal, onMount, lazy, Show, createMemo, createEffect } from
 import html from "solid-js/html";
 
 //
-import Content from "./Content.tsx";
+import Content from "../core/TabContent.tsx";
 import Form from "./Form.tsx";
 
 //
