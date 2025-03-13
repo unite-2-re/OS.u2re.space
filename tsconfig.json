@@ -1,5 +1,5 @@
 {
-    "include": ["**/*.ts", "**/*.mjs", "**/*.js", "**/*.d.ts", "**/*.tsx"],
+    "include": ["**/*.ts", "**/*.mjs", "**/*.js", "**/*.d.ts", "**/*.tsx", "src/angular/Main.ng.ts"],
     "exclude": ["./node_modules", "../node_modules", "./externals", "./frontend"],
     "compilerOptions": {
         "jsx": "preserve",

@@ -1,6 +1,8 @@
 // @ts-ignore
 import { For, createSignal, createComputed, onMount, lazy } from "solid-js";
 import html from "solid-js/html";
+
+//
 import { removeItem } from "../../$state$/GridState.ts";
 import { UIState } from "../../$state$/UIState.ts";
 
@@ -12,6 +14,11 @@ import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
 
 //
 const fields = ["label", "icon", "href", "action", "id"];
+const fieldTypes = new Map([
+    ["text", ({input}: {input?: any})=> html`<ui-longtext class="u2-input" data-name=${()=>input?.name}><input value="" placeholder=${()=>input?.name} name=${()=>input?.name} type="text" label="test" placeholder="test-longtext" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no"/></ui-longtext>`]
+]);
+
+//
 export const [targetItem, setTargetItem] = createSignal(null);
 export const stateOnEdit = makeObjectAssignable(makeReactive({
     id: "",
@@ -70,7 +77,7 @@ export const ItemEdit = ({
         <form data-alpha="0" data-highlight="0" class="adl-item-edit" ref=${$content}>
             <${For} each=${() => form}>${(input) => { return html`<label>
                 <div class="adl-label">${input?.label}</div>
-                <div class="adl-input" data-scheme="solid" data-alpha="0" data-highlight="2"><${input?.component} input=${()=>input}><//></div>
+                <div class="adl-input" data-scheme="solid" data-alpha="0" data-highlight="2"><${fieldTypes?.get(input?.type)} input=${()=>input}><//></div>
             </label>`;}}<//>
         </form>
         <div data-alpha="0" data-highlight="0" class="adl-buttons">

@@ -155,7 +155,46 @@ addEventListener("storage", (ev)=>{
 });
 
 //
-defaultItems.forEach((item)=>{
+defaultItems.forEach((item: any)=>{
     const exists = getItem(item?.id);
     if (exists) { Object.assign(exists, item); };
 });
+
+//
+export const itemForm  = [
+    {
+        name: "label",
+        label: "Label",
+        type: "text"
+    },
+    {
+        name: "icon",
+        label: "IconID",
+        type: "text"
+    },
+    {
+        name: "action",
+        label: "Action",
+        type: "text"
+    },
+    {
+        name: "href",
+        label: "HREF",
+        type: "text"
+    },
+];
+
+//
+export const confirmEdit = (state, /*[_, k]*/p?: [any?, any?])=>{
+    const item = getItem(state?.id)||{};
+    if (state && item) {
+        if (!p) {
+            for (const F of itemForm) {
+                const k = F.name;
+                if (item[k] != state?.[k]) { item[k] = state?.[k] ?? item[k]; };
+            }
+        } else {
+            const k = p?.[1]; if (item[k] != state?.[k]) { item[k] = state?.[k] ?? item[k]; };
+        }
+    }
+};

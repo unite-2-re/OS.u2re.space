@@ -8,10 +8,10 @@ import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/ob
 import html from "solid-js/html";
 
 //
-import { hooked, observe, refAndMount } from "../../$solid$/Utils.tsx";
+import { hooked, observe, refAndMount } from "../core/Utils.tsx";
 import { addItemEv, downloadItemEv, dropItemEv, removeItemEv } from "../../$core$/FileOps.ts";
 import { FileManagment, preload } from "../../$core$/FileManage.ts";
-import { tabs } from "../$maps$/Settings.tsx";
+import { tabs } from "../settings/Fields.tsx";
 
 // while: tab.component should be  ()=> html`...`
 export const Manager = ({args, id}: {args: any, id: string}) => {

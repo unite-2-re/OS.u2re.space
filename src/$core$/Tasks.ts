@@ -1,5 +1,6 @@
 // @ts-ignore /* @vite-ignore */
 import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
+import { taskManager } from "../$core$/ActionMap.ts";
 
 //
 export const tasks = makeReactive(new Set([
@@ -24,6 +25,16 @@ export const tasks = makeReactive(new Set([
         }),
     }
 ]));
+
+//
+taskManager?.on?.("removeTask", ({task})=>{
+    tasks?.delete(task);
+});
+
+//
+taskManager?.on?.("addTask", ({task})=>{
+    tasks.add(task);
+});
 
 //
 export default tasks;

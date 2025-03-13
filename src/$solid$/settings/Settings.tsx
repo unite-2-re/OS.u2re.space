@@ -7,9 +7,9 @@ import Content from "./Content.tsx";
 import Form from "./Form.tsx";
 
 //
-import { $hideMenu, $openMenu } from "../../$ui$/Sidebar.ts";
-import { observe } from "../../$solid$/Utils.tsx";
-import { forms, tabs } from "../$maps$/Settings.tsx";
+import { $hideMenu } from "../../$ui$/Sidebar.ts";
+import { observe } from "../core/Utils.tsx";
+import { forms, tabs } from "./Fields.tsx";
 
 // while: tab.component should be  ()=> html`...`
 export const Settings = () => {
@@ -20,11 +20,6 @@ export const Settings = () => {
     //
     let content: any = null;
     const $content = (topLevel)=> { content = topLevel; };
-
-    /*
-        <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-menu" onClick=${()=>$openMenu(content)}> <ui-icon icon="menu"></ui-icon> </button>
-        <div class="adl-space"></div>
-    */
 
     //
     return html`<div data-alpha="0" data-scheme="solid" class="ui-content" id="settings" ref=${$content} data-tab=${currentTab} ref=${observe(["data-tab", setTab])}>
