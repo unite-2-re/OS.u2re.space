@@ -8,7 +8,7 @@ import type { TabType } from "../../$core$/Types";
 
 //
 export const TabContent = ({tab, children}: {tab: ()=>TabType, children?: ()=>any}) => {
-    return html`<div class="adl-content" data-tab=${()=>tab()?.id}>${children}</div>`;
+    return (<div class="adl-content" data-tab={tab?.id}>{children}</div>);
 };
 
 //

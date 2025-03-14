@@ -7,5 +7,5 @@ import html from "solid-js/html";
 
 //
 export const renderInPage = (root: HTMLElement/*, tasks: any*/)=>{
-    render(()=>html`<${Shell} tasksList=${()=>tasksList}><//>`, root);
+    render(()=>(<Shell tasksList={tasksList}></Shell>), root);
 }
