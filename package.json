@@ -61,6 +61,8 @@
         "vite-plugin-optimizer": "^1.4.3",
         "vite-plugin-singlefile": "^2.1.0",
         "vite-plugin-solid": "^2.11.0",
-        "vite-plugin-static-copy": "^2.2.0"
+        "vite-plugin-static-copy": "^2.2.0",
+        "vue": "^3.5.13",
+        "vue-i18n": "^11.1.2"
     }
 }

@@ -1,15 +1,14 @@
 {
-    "include": ["**/*.ts", "**/*.mjs", "**/*.js", "**/*.d.ts", "**/*.tsx", "src/angular/Main.ng.ts"],
-    "exclude": ["./node_modules", "../node_modules", "./externals", "./frontend"],
+    "include": ["**/*.ts", "**/*.mjs", "**/*.js", "**/*.d.ts", "**/*.tsx", "src/angular/Main.ng.ts", "**/*.vue"],
+    "exclude": ["node_modules/**", "externals/**", "frontend/**"],
     "compilerOptions": {
+        "skipLibCheck": true,
         "jsx": "preserve",
         "jsxImportSource": "solid-js",
         "types": ["./global.d.ts"],
         "paths": {
-            "@/*": ["*"],
-            "@adl/*": ["src/*"],
-            "@src/*": ["src/*"],
-            "@assets/*": ["assets/*"]
+            "/externals/*": ["externals/*"],
+            "/frontend/*": ["frontend/*"]
         },
         "baseUrl": "./",
         "composite": true,
@@ -19,7 +18,6 @@
         "resolveJsonModule": true,
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "Bundler",
-        "verbatimModuleSyntax": true,
         "allowArbitraryExtensions": true,
         "allowImportingTsExtensions": true,
         "esModuleInterop": true,
@@ -30,7 +28,6 @@
         "noImplicitAny": false,
         "noImplicitOverride": false,
         "noImplicitReturns": false,
-        "noImplicitThis": false,
         "noImplicitUseStrict": false,
         "strictNullChecks": true,
         "strictFunctionTypes": true,
@@ -44,6 +41,9 @@
         "allowUnreachableCode": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "isolatedModules": true,
+        "verbatimModuleSyntax": true,
+        "noImplicitThis": true
     }
 }

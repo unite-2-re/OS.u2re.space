@@ -1,9 +1,3 @@
-<template>
-  <div class="adl-content" :data-tab="tabId">
-    <slot />
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue';
 
@@ -21,3 +15,9 @@ const props = defineProps<{
 // Вычисляем id вкладки, учитывая, что tab может вернуть null
 const tabId = computed(() => props.tab()?.id);
 </script>
+
+<template>
+  <div class="adl-content" :data-tab="tabId">
+    <slot />
+  </div>
+</template>
