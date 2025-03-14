@@ -12,7 +12,7 @@ export const Print = () => {
     };
 
     //
-    return html`<div data-alpha="0" data-scheme="solid" class="ui-content" id="print" ref=${$content}></div>`;
+    return html`<div data-alpha="0" data-scheme="solid" class="ui-content" id="print" .ref=${$content}></div>`;
 };
 
 //

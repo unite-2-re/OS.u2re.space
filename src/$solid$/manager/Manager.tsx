@@ -28,7 +28,7 @@ export const Manager = (task: {args: any, id: string}) => {
 
     //
     const [files, setFiles] = createSignal(current, { equals: false });
-    subscribe(current, (value, prop) => setFiles(current));
+    subscribe(current, () => setFiles(current));
 
     // subscribe by args payload (if prop is directory, change it)
     subscribe(task?.args, (value, prop) => { if (prop == "directory") manager.navigate(value); });
@@ -44,7 +44,7 @@ export const Manager = (task: {args: any, id: string}) => {
 
     //
     //const cTab = createMemo(()=>tabOf(currentTab()));
-    const $content = refAndMount((topLevel)=> {
+    const $content = refAndMount((_)=> {
         manager.navigate(manager.currentDir());
     });
 

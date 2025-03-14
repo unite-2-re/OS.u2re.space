@@ -1,88 +1,64 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
-import { subscribe } from "/externals/lib/object.js";
-import { synchronizeInputs } from "/externals/lib/dom.js";
-import { addItemEv, downloadItemEv, dropItemEv, removeItemEv } from "../../$core$/FileOps.ts";
-import { FileManagment } from "../../$core$/FileManage.ts";
+
+//
 import { tabs as importedTabs } from "../settings/Fields.vue";
 import { observe } from "../core/Utils.ts";
 
-interface Task {
-    args: any;
-    id: string;
-}
+//
+import { addItemEv, downloadItemEv, dropItemEv, removeItemEv } from "../../$core$/FileOps.ts";
+import { FileManagment } from "../../$core$/FileManage.ts";
+import type { Task } from "../../$core$/Types";
 
-// Expect an object { task } as a prop
+//
+import { subscribe } from "/externals/lib/object.js";
+import { synchronizeInputs } from "/externals/lib/dom.js";
+
+//
 const props = defineProps < { task: Task } > ();
-
-// currentTab – default "display"
 const currentTab = ref("display");
-
-// For two‐way binding the directory input
 const directoryValue = ref("/user/images/");
 
-// Create and initialize the file manager.
+//
 const manager = new FileManagment(props.task.args);
 const current = manager.getCurrent();
 manager.navigate(props.task.args?.directory || directoryValue.value);
 
-// Use a ref (files) to hold the current FileManagment state.
+//
 const files = ref(current);
 
 // Subscribe to changes on current so that files is updated.
-subscribe(current, (_value: any, _prop: string) => {
-    files.value = current;
-});
+subscribe(current, (_value: any, _prop: string) => { files.value = current; });
 
 // When task.args changes (e.g. its directory property), navigate.
-subscribe(props.task.args, (value: any, prop: string) => {
-    if (prop === "directory") manager.navigate(value);
-});
+subscribe(props.task.args, (value: any, prop: string) => { if (prop === "directory") manager.navigate(value); });
 
 // Refs for some DOM elements.
 const contentEl = ref < HTMLElement | null > (null);
 const inputEl = ref < HTMLInputElement | null > (null);
 const contentBoxEl = ref < HTMLElement | null > (null);
 
-// onMounted: bind manager and synchronize input when the component mounts.
+//
 onMounted(() => {
     if (contentEl.value) {
         FileManagment.bindManager(contentEl.value, manager);
         synchronizeInputs(props.task.args, ".u2-input", contentEl.value, subscribe);
     }
-    // This simulates the refAndMount action.
     manager.navigate(manager.currentDir());
 });
 
-// Event handlers.
-const handleAddClick = (ev: Event) => {
-    addItemEv(manager.currentDir(), current);
-};
+//
+const handleAddClick = (_: Event) => { addItemEv(manager.currentDir(), current); };
+const handleDownloadClick = (_: Event) => { downloadItemEv(FileManagment.fileOf(contentEl.value)); };
+const handleDeleteClick = (_: Event) => { removeItemEv(FileManagment.fileOf(contentEl.value), current); };
+const goDirectory = (_: Event) => { manager.navigate(manager.currentDir()); };
+const handlePlayClick = (_: Event) => { manager.navigate(FileManagment.fileOf(contentEl.value)); };
+const handleTabChange = (ev: Event, _: string) => { currentTab.value = (ev.target as HTMLInputElement).value; };
+const dragOverHandle = (ev: DragEvent) => { ev.preventDefault(); };
+const navigateFile = (ev: Event, _: string) => { manager.navigate(FileManagment.fileOf(contentEl.value), ev); };
+const getFilename = (path: string) => { const parts = path.split("/"); return parts.at(-1) || parts.at(-2) || path; };
 
-const handleDownloadClick = (ev: Event) => {
-    downloadItemEv(FileManagment.fileOf(contentEl.value));
-};
-
-const handleDeleteClick = (ev: Event) => {
-    removeItemEv(FileManagment.fileOf(contentEl.value), current);
-};
-
-const goDirectory = (ev: Event) => {
-    manager.navigate(manager.currentDir());
-};
-
-const handlePlayClick = (ev: Event) => {
-    manager.navigate(FileManagment.fileOf(contentEl.value));
-};
-
-const handleTabChange = (ev: Event, tabId: string) => {
-    currentTab.value = (ev.target as HTMLInputElement).value;
-};
-
-const dragOverHandle = (ev: DragEvent) => {
-    ev.preventDefault();
-};
-
+//
 const dropHandle = (ev: DragEvent) => {
     ev.preventDefault();
     const file = ev.dataTransfer?.files?.[0];
@@ -91,17 +67,8 @@ const dropHandle = (ev: DragEvent) => {
     }
 };
 
-const navigateFile = (ev: Event, path: string) => {
-    manager.navigate(FileManagment.fileOf(contentEl.value), ev);
-};
-
-const getFilename = (path: string) => {
-    const parts = path.split("/");
-    return parts.at(-1) || parts.at(-2) || path;
-};
-
 // Convert the files (assumed to be a Map or similar) into an array of entries.
-const fileEntries = computed(() => {
+const fileEntries = computed<any[]>(() => {
     if (files.value && typeof files.value.entries === "function") {
         return Array.from(files.value.entries());
     }
@@ -113,6 +80,7 @@ const componentId = computed(() => {
     return props.task.id ? props.task.id.replace("#", "") : "manager";
 });
 
+//
 const tabs = importedTabs;
 </script>
 
@@ -132,8 +100,7 @@ const tabs = importedTabs;
                 <ui-icon icon="file-x" />
             </button>
             <ui-longtext data-highlight="1" class="adl-space u2-input" data-name="directory">
-                <input ref="inputEl" type="text" name="directory" v-model="directoryValue" placeholder="" tabindex="0"
-                    draggable="false" autocomplete="off" class="u2-input" scroll="no" value="/user/images/" />
+                <input ref="inputEl" type="text" name="directory" v-model="directoryValue" placeholder="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" />
             </ui-longtext>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-dir-go" @click="goDirectory">
                 <ui-icon icon="step-forward" />
@@ -148,7 +115,7 @@ const tabs = importedTabs;
                 <div class="adl-tabs">
                     <ui-select-row v-for="tab in tabs" :key="tab.id" name="m-tab" :value="tab.id"
                         :checked="currentTab === tab.id" @change="(e) => handleTabChange(e, tab.id)">
-                        <ui-icon icon="tab.icon" :icon="tab.icon" inert style="padding: 0.5rem;" />
+                        <ui-icon :icon="tab.icon" inert style="padding: 0.5rem;" />
                         <span inert>{{ tab.content }}</span>
                     </ui-select-row>
                 </div>
@@ -157,7 +124,8 @@ const tabs = importedTabs;
                 <div class="adl-content" @drop="dropHandle" @dragover.prevent="dragOverHandle">
                     <ui-select-row v-for="[path, file] in fileEntries" :key="path" href="#" name="file" :value="path"
                         style="-webkit-user-drag: element; -moz-user-drag: element;" draggable="true"
-                        @click="(ev) => navigateFile(ev, path)" @dblclick="(ev) => navigateFile(ev, path)">
+                        @click="(ev) => navigateFile(ev, path)"
+                        @dblclick="(ev) => navigateFile(ev, path)">
                         <ui-icon :icon="manager.byType(path)" inert />
                         <span inert>{{ getFilename(path) }}</span>
                         <span inert>
@@ -175,8 +143,3 @@ const tabs = importedTabs;
         </div>
     </div>
 </template>
-
-<!-- You can add styles below if needed -->
-<style scoped>
-/* Styles as required */
-</style>

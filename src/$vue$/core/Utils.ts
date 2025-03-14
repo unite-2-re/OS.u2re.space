@@ -4,6 +4,7 @@ import { onMounted } from "vue";
 // @ts-ignore
 import { observeAttribute } from "/externals/lib/dom.js";
 
+//
 export const refAndMount = (cb) => {
     return (element) => {
         cb(element);
@@ -48,7 +49,7 @@ const hookHandle = {
     }
 };
 
-export const hooked = (target = null, fx = () => { }) => {
+export const hooked = (target = null, fx: any = () => { }) => {
     fx.target = target;
     return new Proxy(fx, hookHandle);
 };

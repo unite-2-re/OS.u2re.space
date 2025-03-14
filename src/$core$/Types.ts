@@ -13,18 +13,24 @@ export interface TabProps {
 
 //
 export interface ItemType {
-    label: string;
-    icon: string;
     id: string;
-    href?: string;
-    action?: string;
     cell: [number, number];
 };
 
 //
+export interface ShortcutType {
+    id: string;
+    label: string;
+    icon: string;
+    href?: string;
+    action?: string;
+};
+
+//
 export interface ItemsType {
-    items: ItemType[];
-    lists: string[][];
+    shortcuts: Set<ShortcutType>;
+    items: Set<ItemType>;
+    lists: Set<string>[];
 };
 
 //
@@ -38,4 +44,10 @@ export interface AppType {
 //
 export interface AppsType {
     tasksList: any;
+};
+
+//
+export interface Task {
+    args: any;
+    id: string;
 };

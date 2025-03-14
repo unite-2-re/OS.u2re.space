@@ -1,4 +1,5 @@
 // @ts-ignore /* @vite-ignore */
+import type { ItemsType, ItemType, ShortcutType } from "src/$core$/Types";
 import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 import { JSOX } from "jsox";
 
@@ -78,9 +79,9 @@ export const mergeByKey = (items: any[]|Set<any>, key = "id")=>{
 }
 
 //
-export const gridState = makeObjectAssignable(makeReactive({
+export const gridState: ItemsType = makeObjectAssignable(makeReactive({
     shortcuts: makeObjectAssignable(makeReactive(new Set(mergeByKey([...defaultShortcuts, ...Array.from(JSOX.parse(localStorage.getItem("grids@shortcuts") || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I))))),
-    
+
     // TODO: deprecate items, lists, and use items-groups
     items: makeObjectAssignable(makeReactive(new Set(mergeByKey([...defaultItems, ...Array.from(JSOX.parse(localStorage.getItem("grids@items") || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I))))),
     lists: makeObjectAssignable(makeReactive(new Set([...Array.from(JSOX.parse(localStorage.getItem("grids@lists") || JSOX.stringify(defaultLists))?.values?.() || defaultLists)])))
@@ -129,8 +130,8 @@ export const removeItem = (id)=>{
     const shortcut = Array.from(gridState.shortcuts.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
 
     //
-    if (gridState.items?.has?.(item)) { gridState.items?.delete?.(item); };
-    if (gridState.shortcuts?.has?.(shortcut)) { gridState.shortcuts?.delete?.(shortcut); };
+    if (item && gridState.items?.has?.(item)) { gridState.items?.delete?.(item); };
+    if (shortcut && gridState.shortcuts?.has?.(shortcut)) { gridState.shortcuts?.delete?.(shortcut); };
 
     //
     return shortcut;
@@ -148,9 +149,9 @@ addEventListener("beforeunload", saveToStorage);
 addEventListener("pagehide", saveToStorage);
 addEventListener("storage", (ev)=>{
     if (ev.storageArea == localStorage) {
-        if (ev.key == "grids@shortcuts") { gridState.shortcuts = mergeByKey([...defaultShortcuts, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I)); };
-        if (ev.key == "grids@items") { gridState.items = mergeByKey([...defaultItems, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I)); };
-        if (ev.key == "grids@lists") { gridState.lists = [...Array.from(JSOX.parse(ev.newValue || JSOX.stringify(defaultLists))?.values?.() || defaultLists)]; };
+        if (ev.key == "grids@shortcuts") { gridState.shortcuts = mergeByKey([...defaultShortcuts, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I) => wrapItemToReactive(I)) as unknown as Set<ShortcutType>; };
+        if (ev.key == "grids@items") { gridState.items = mergeByKey([...defaultItems, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I) => wrapItemToReactive(I)) as unknown as Set<ItemType>; };
+        if (ev.key == "grids@lists") { gridState.lists = [...Array.from(JSOX.parse(ev.newValue || JSOX.stringify(defaultLists))?.values?.() || defaultLists)] as Set<string>[]; };
     }
 });
 

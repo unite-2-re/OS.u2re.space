@@ -12,20 +12,19 @@ import components from "./Components.tsx";
 // @ts-ignore /* @vite-ignore */
 import { safe, subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 
-//
+// sandbox="allow-same-origin allow-scripts allow-downloads allow-storage-access-by-user-activation allow-forms"
 const makeView = ({args, id}: {args: any, id: string})=>{
-    return html`<div id=${id?.replace?.("#","")} class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe 
-    referrerpolicy="no-referrer" 
-    width="100%" height="100%" 
-    frameBorder="0" 
-    style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" 
-    allowtransparency="true" 
+    return html`<div id=${id?.replace?.("#","")} class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe
+    referrerpolicy="no-referrer"
+    width="100%" height="100%"
+    frameBorder="0"
+    style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;"
+    allowtransparency="true"
     scrolling="auto"
     src=${args?.href}
-    loading="eager" 
-    seamless=true
-    sandbox="allow-same-origin allow-scripts allow-downloads allow-storage-access-by-user-activation allow-forms" 
-    allowfullscreen=true
+    loading="eager"
+    seamless
+    allowfullscreen
     credentialless=true
     allow="*"
     ></iframe></div></div></div>`;
@@ -38,7 +37,10 @@ export const Shell = ({tasksList}: AppsType) => {
 
     return html`<>
         <!-- Workspace Icons -->
-        <${Workspace} items=${()=>gridState.items} lists=${()=>gridState.lists}><//>
+        <${Workspace}
+            items=${()=>gridState.items}
+            lists=${()=>gridState.lists}
+        ><//>
 
         <!-- UI-Scaled Layer -->
         <ui-orientbox id="ui-layer" class="ui-layer" orient="0" style="background-color: transparent;">

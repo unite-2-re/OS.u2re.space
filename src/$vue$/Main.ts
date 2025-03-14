@@ -3,9 +3,9 @@ import tasksList from '../$core$/Tasks.ts';
 import Shell from './core/Shell.vue';
 
 export const renderInPage = (root: HTMLElement): void => {
-  createApp({
-    render() {
-      return h(Shell, { tasksList });
-    }
-  }).mount(root);
+    createApp({
+        render() {
+            return h(Shell, { tasksList });
+        }
+    }).mount(root);
 };

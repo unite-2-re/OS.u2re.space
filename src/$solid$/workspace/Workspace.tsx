@@ -39,13 +39,13 @@ export const Workspace = ({items, lists}: ItemsType) => {
     };
 
     //
-    const $shapes = refAndMount((gridSet)=> {
-        inflectInGrid(gridSet, items, lists?.[0] || [], createShaped);
+    const $shapes: any = refAndMount((gridSet)=> {
+        inflectInGrid(gridSet, items, (lists?.[0] || []) as any, createShaped);
     });
 
     //
-    const $labels = refAndMount((gridSet)=> {
-        inflectInGrid(gridSet, items, lists?.[0] || [], createLabel);
+    const $labels: any = refAndMount((gridSet)=> {
+        inflectInGrid(gridSet, items, (lists?.[0] || []) as any, createLabel);
     });
 
     //
