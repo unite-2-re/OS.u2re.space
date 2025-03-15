@@ -1,6 +1,6 @@
 //
-import { renderInPage } from "./$solid$/Main";
-///import { renderInPage } from "./$vue$/Main";
+//import { renderInPage } from "./$solid$/Main";
+import { renderInPage } from "./$vue$/Main";
 import CSS from "./css";
 
 //
@@ -67,7 +67,7 @@ export const initialize = async (root)=>{
 
     //
     await Promise.allSettled([
-        $I, CSS?.(root),
+        $I, CSS?.(document.head),
         loadingModules?.then?.((mds)=>Promise.allSettled(mds.map((rs: any)=> Promise.try(rs?.value?.default || rs?.value))))?.catch?.(console.warn.bind(console))
     ]);
 

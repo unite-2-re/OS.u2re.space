@@ -30,7 +30,7 @@ export interface ShortcutType {
 export interface ItemsType {
     shortcuts: Set<ShortcutType>;
     items: Set<ItemType>;
-    lists: Set<string>[];
+    lists: Set<string>;
 };
 
 //
@@ -49,5 +49,6 @@ export interface AppsType {
 //
 export interface Task {
     args: any;
+    desc: any;
     id: string;
 };

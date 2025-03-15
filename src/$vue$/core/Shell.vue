@@ -11,7 +11,7 @@ import { ref, defineProps } from "vue";
 
 //
 const props = defineProps<{tasksList: any}>();
-const tasks = ref(props?.tasksList);
+const tasks = ref<any>(null);
 if (props?.tasksList) {
     subscribe(props?.tasksList, () => { tasks.value = props?.tasksList; });
 }
@@ -19,24 +19,31 @@ if (props?.tasksList) {
 
 <template>
     <!-- Workspace Icons -->
-    <Workspace v-bind="gridState" />
+    <Workspace
+        v-bind:items="gridState.items"
+        v-bind:shortcuts="gridState.shortcuts"
+        v-bind:lists="gridState.lists"
+    />
 
     <!-- UI-Scaled Layer -->
     <ui-orientbox id="ui-layer" class="ui-layer" orient="0" style="background-color: transparent;">
         <!-- Replace the empty v-for with an iteration over “tasks” -->
-        <ui-frame v-for="task in tasks" :key="task.id" data-highlight="2" data-chroma="0.1" data-scheme="solid"
-            :id="task.id.replace('#', '')">
+        <ui-frame v-for="task in tasks" :key="task.id" data-highlight="2" data-chroma="0.1" data-scheme="solid">
             <div style="justify-self: start; text-align: start; padding-inline: 1rem;" slot="ui-title-bar">
                 {{ task.desc.label }}
             </div>
-            <component :is="components?.get(task.args.type) || PageView" v-bind:args="task.args" v-bind:id="task.id" ></component>
+            <component :is="components?.get(task.args.type) || PageView"
+                v-bind:desc="task.desc"
+                v-bind:args="task.args"
+                v-bind:id="task.id"
+            ></component>
         </ui-frame>
 
         <!-- Item Edit -->
-        <ItemEdit :confirmState="confirmEdit" :form="() => itemForm"></ItemEdit>
+        <ItemEdit :confirmState="confirmEdit" v-bind:form="itemForm"></ItemEdit>
 
         <!-- Taskbar -->
-        <ui-taskbar v-bind:tasks="tasks">
+        <ui-taskbar v-bind:tasks="props?.tasksList">
             <ui-task v-for="task in tasks" :key="task.id" v-bind:taskId="task.id" v-bind:desc="task.desc">
                 <ui-icon :icon="task.desc.icon"></ui-icon>
             </ui-task>

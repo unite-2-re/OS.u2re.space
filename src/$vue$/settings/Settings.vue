@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, defineProps } from "vue";
+import type { Task } from "../../$core$/Types";
+
 
 //
-import TabContent from "../core/TabContent.vue";
 import Form from "./Form.vue";
 
 //
@@ -10,8 +11,9 @@ import { forms, tabs } from "./Fields.ts"
 
 //
 const currentTab = ref("display");
-const cTab = computed<any>(() => tabs.find((t) => t?.id === currentTab.value));
+const cTab = computed<any|null>(() => tabs.find((t) => t?.id === currentTab.value));
 const contentRef = ref<HTMLElement | null>(null);
+const props = defineProps < Task > ();
 
 //
 /*const handleClick = () => {
@@ -21,20 +23,20 @@ const contentRef = ref<HTMLElement | null>(null);
 };*/
 
 //
-const observeArgs = [
+/*const observeArgs = [
     "data-tab",
     (value: any) => {
         currentTab.value = value;
     }
-];
+];*/
 
 onMounted(() => {
-    // Дополнительная логика при монтировании (если требуется)
+    // v-for="tab in tabs" :data-tab="tab?.id"
 });
 </script>
 
 <template>
-    <div id="settings" data-alpha="0" data-scheme="solid" class="ui-content" :data-tab="currentTab" ref="contentRef" v-observe="observeArgs">
+    <div id="settings" data-alpha="0" data-scheme="solid" class="ui-content" :data-tab="currentTab" ref="contentRef">
         <!-- TODO: support titlebar-inline menu button support -->
         <div data-alpha="0" data-highlight="0" data-chroma="0" class="adl-toolbar"></div>
         <div data-scheme="solid" data-alpha="0" class="adl-main">
@@ -49,11 +51,9 @@ onMounted(() => {
                 </div>
             </ui-scrollbox>
             <ui-scrollbox data-scheme="solid" data-alpha="1" class="adl-content-box">
-                <TabContent :tab="cTab">
-                    <template v-for="F in forms" :key="index">
-                        <Form :form="F" :tab="cTab" />
-                    </template>
-                </TabContent>
+                <div class="adl-content" >
+                    <Form v-for="form in forms" v-bind:form="form" v-bind:tab="cTab" />
+                </div>
             </ui-scrollbox>
         </div>
     </div>

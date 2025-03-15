@@ -1,3 +1,8 @@
+<script setup lang="ts">
+    const props = defineProps<{
+        input: any
+    }>();
+</script>
 <template>
     <ui-switch data-name="theme" style="--max-value: 2;">
         <ui-icon icon="sun-moon" slot="icon"/>

@@ -1,3 +1,8 @@
+<script setup lang="ts">
+    const props = defineProps<{
+        input: any
+    }>();
+</script>
 <template>
     <ui-number>
         <span slot="icon" class="ui-indicator"></span>

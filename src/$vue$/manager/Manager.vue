@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch  } from "vue";
 
 //
-import { tabs as importedTabs } from "../settings/Fields.ts"
-import { observe } from "../core/Utils.ts";
+import { tabs } from "../settings/Fields.ts"
 
 //
 import { addItemEv, downloadItemEv, dropItemEv, removeItemEv } from "../../$core$/FileOps.ts";
@@ -17,21 +16,33 @@ import { synchronizeInputs } from "/externals/lib/dom.js";
 //
 const props = defineProps < Task > ();
 const currentTab = ref("display");
-const directoryValue = ref("/user/images/");
 
 //
 const manager = new FileManagment(props.args);
+const directory = ref(props.args?.directory || "/user/images/");
+manager.navigate(directory.value);
 const current = manager.getCurrent();
-manager.navigate(props.args?.directory || directoryValue.value);
 
 //
-const files = ref(current);
+const files = ref<[string, File|Blob|any][]>(Array.from(current?.entries?.() || []));
 
-// Subscribe to changes on current so that files is updated.
-subscribe(current, (_value: any, _prop: string) => { files.value = current; });
+//
+watch(directory, (nv)=>{
+    if (props.args?.directory != nv) {
+        props.args.directory = nv;
+        manager.navigate(nv);
+    }
+});
 
-// When task.args changes (e.g. its directory property), navigate.
-subscribe(props.args, (value: any, prop: string) => { if (prop === "directory") manager.navigate(value); });
+//
+subscribe(props.args, (value: any, prop: string) => {
+    if (prop === "directory" && props.args?.directory != directory.value) {
+        manager.navigate(directory.value = value);
+    }
+});
+subscribe(current, (_value: any, _prop: string) => {
+    files.value = Array.from(current?.entries?.() || [])
+});
 
 // Refs for some DOM elements.
 const contentEl = ref < HTMLElement | null > (null);
@@ -67,26 +78,14 @@ const dropHandle = (ev: DragEvent) => {
     }
 };
 
-// Convert the files (assumed to be a Map or similar) into an array of entries.
-const fileEntries = computed<any[]>(() => {
-    if (files.value && typeof files.value.entries === "function") {
-        return Array.from(files.value.entries());
-    }
-    return [];
-});
-
 // Derived component id (remove "#" if present).
 const componentId = computed(() => {
     return props.id ? props.id.replace("#", "") : "manager";
 });
-
-//
-const tabs = importedTabs;
 </script>
 
 <template>
-    <div data-chroma="0" data-highlight="0" data-alpha="0" data-scheme="solid" class="ui-content" :id="componentId"
-        :data-tab="currentTab" ref="contentEl" v-bind="observe(['data-tab', currentTab])">
+    <div data-chroma="0" data-highlight="0" data-alpha="0" data-scheme="solid" class="ui-content" :id="componentId" :data-tab="currentTab" ref="contentEl">
         <div data-alpha="0" data-highlight="0" data-chroma="0" class="adl-toolbar">
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-file-add" @click="handleAddClick">
                 <ui-icon icon="file-up" />
@@ -100,7 +99,7 @@ const tabs = importedTabs;
                 <ui-icon icon="file-x" />
             </button>
             <ui-longtext data-highlight="1" class="adl-space u2-input" data-name="directory">
-                <input ref="inputEl" type="text" name="directory" v-model="directoryValue" placeholder="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" />
+                <input ref="inputEl" type="text" name="directory" v-model="directory" placeholder="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" />
             </ui-longtext>
             <button data-highlight-hover="2" type="button" tabindex="-1" class="adl-dir-go" @click="goDirectory">
                 <ui-icon icon="step-forward" />
@@ -122,7 +121,7 @@ const tabs = importedTabs;
             </ui-scrollbox>
             <ui-scrollbox data-scheme="solid" data-alpha="1" class="adl-content-box" ref="contentBoxEl">
                 <div class="adl-content" @drop="dropHandle" @dragover.prevent="dragOverHandle">
-                    <ui-select-row v-for="F in fileEntries" :key="F[0]" href="#" name="file" :value="F[0]"
+                    <ui-select-row v-for="F in files" :key="F[0]" href="#" name="file" :value="F[0]"
                         style="-webkit-user-drag: element; -moz-user-drag: element;" draggable="true"
                         @click="(ev) => navigateFile(ev, F[0])"
                         @dblclick="(ev) => navigateFile(ev, F[0])">

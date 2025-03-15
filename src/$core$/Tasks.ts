@@ -1,9 +1,10 @@
 // @ts-ignore /* @vite-ignore */
 import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 import { taskManager } from "../$core$/ActionMap.ts";
+import type { Task } from "./Types.ts";
 
 //
-export const tasks = makeReactive(new Set([
+export const tasks: Set<Task> = makeReactive(new Set<Task>([
     {
         id: "#settings",
         desc: makeReactive({
