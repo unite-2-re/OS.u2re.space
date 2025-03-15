@@ -46,11 +46,11 @@ export const Shell = ({ tasksList }: AppsType) => {
 
                 <For each={tasks()}>{(task: any) => (
                     <ui-frame
-                        key={task?.id}
+                        key={task?.taskId}
                         data-highlight="2"
                         data-chroma="0.1"
                         data-scheme="solid"
-                        data-id={task?.id.replace("#", "")}
+                        data-id={task?.taskId.replace("#", "")}
                     >
                         <div
                             style="justify-self: start; text-align: start; padding=inline: 1rem"
@@ -66,10 +66,10 @@ export const Shell = ({ tasksList }: AppsType) => {
                 <ui-taskbar prop:tasks={tasks()}>
                     <For each={tasks()}>{(task: any) => (
                         <ui-task
-                            key={task?.id}
-                            prop:taskId={task?.id.replace("#", "")}
+                            key={task?.taskId}
+                            prop:taskId={task?.taskId.replace("#", "")}
                             prop:desc={task?.desc}
-                            data-id={task?.id.replace("#", "")}
+                            data-id={task?.taskId.replace("#", "")}
                         >
                             <ui-icon icon={task?.desc?.icon} />
                         </ui-task>

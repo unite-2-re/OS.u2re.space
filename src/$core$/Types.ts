@@ -50,5 +50,5 @@ export interface AppsType {
 export interface Task {
     args: any;
     desc: any;
-    id: string;
+    taskId: string;
 };

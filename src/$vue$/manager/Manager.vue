@@ -80,7 +80,7 @@ const dropHandle = (ev: DragEvent) => {
 
 // Derived component id (remove "#" if present).
 const componentId = computed(() => {
-    return props.id ? props.id.replace("#", "") : "manager";
+    return props.taskId ? props.taskId.replace("#", "") : "manager";
 });
 </script>
 

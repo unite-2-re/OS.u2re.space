@@ -6,7 +6,7 @@ import type { Task } from "./Types.ts";
 //
 export const tasks: Set<Task> = makeReactive(new Set<Task>([
     {
-        id: "#settings",
+        taskId: "#settings",
         desc: makeReactive({
             icon: "settings",
             label: "Settings",
@@ -16,7 +16,7 @@ export const tasks: Set<Task> = makeReactive(new Set<Task>([
         }),
     },
     {
-        id: "#manager",
+        taskId: "#manager",
         desc: makeReactive({
             icon: "folder-code",
             label: "Manager",

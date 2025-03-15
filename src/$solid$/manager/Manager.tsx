@@ -13,7 +13,7 @@ import { tabs } from "../settings/Fields.tsx";
 import { $hideMenu } from "../../$ui$/Sidebar.ts";
 
 // while: tab.component should be  ()=> html`...`
-export const Manager = (task: { args: any, id: string }) => {
+export const Manager = (task: { args: any, taskId: string }) => {
     //const tabOf = (tabId)=>tabs.find((t)=>(t?.id==tabId));
     const [currentTab, setTab] = createSignal("display");
 
@@ -64,7 +64,7 @@ export const Manager = (task: { args: any, id: string }) => {
             data-alpha="0"
             data-scheme="solid"
             class="ui-content"
-            id={task?.id?.replace("#", "") || "manager"}
+            id={task?.taskId?.replace("#", "") || "manager"}
             data-tab={currentTab}
             ref={(el) => {
                 content?.(el);

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Task } from "../../$core$/Types";
 import { confirmEdit, gridState, itemForm } from "../../$state$/GridState.ts";
 import ItemEdit from "../workspace/ItemEdit.vue";
 import Workspace from "../workspace/Workspace.vue";
@@ -11,7 +12,7 @@ import { ref, defineProps } from "vue";
 
 //
 const props = defineProps<{tasksList: any}>();
-const tasks = ref<any>(null);
+const tasks = ref<Task[]>([]);
 if (props?.tasksList) {
     subscribe(props?.tasksList, () => { tasks.value = props?.tasksList; });
 }
@@ -28,14 +29,14 @@ if (props?.tasksList) {
     <!-- UI-Scaled Layer -->
     <ui-orientbox id="ui-layer" class="ui-layer" orient="0" style="background-color: transparent;">
         <!-- Replace the empty v-for with an iteration over “tasks” -->
-        <ui-frame v-for="task in tasks" :key="task.id" data-highlight="2" data-chroma="0.1" data-scheme="solid">
+        <ui-frame v-for="task in tasks" :key="task.taskId" data-highlight="2" data-chroma="0.1" data-scheme="solid">
             <div style="justify-self: start; text-align: start; padding-inline: 1rem;" slot="ui-title-bar">
                 {{ task.desc.label }}
             </div>
             <component :is="components?.get(task.args.type) || PageView"
                 v-bind:desc="task.desc"
                 v-bind:args="task.args"
-                v-bind:id="task.id"
+                v-bind:taskId="task.taskId"
             ></component>
         </ui-frame>
 
@@ -44,7 +45,7 @@ if (props?.tasksList) {
 
         <!-- Taskbar -->
         <ui-taskbar v-bind:tasks="props?.tasksList">
-            <ui-task v-for="task in tasks" :key="task.id" v-bind:taskId="task.id" v-bind:desc="task.desc">
+            <ui-task v-for="task in tasks" :key="task.taskId" v-bind:taskId="task.taskId" v-bind:desc="task.desc">
                 <ui-icon :icon="task.desc.icon"></ui-icon>
             </ui-task>
         </ui-taskbar>
