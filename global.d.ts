@@ -23,7 +23,8 @@ declare global {
             }
 
             export interface IntrinsicElements {
-                'ui-calendar' React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+                'ui-select-row': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+                'ui-calendar': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
                 'ui-longtext': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
                 'ui-select-row': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
                 'ui-scrollbox': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;

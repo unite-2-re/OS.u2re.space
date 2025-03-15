@@ -19,8 +19,8 @@ const fieldTypes = new Map([
 ]);
 
 //
-export const targetItem = ref();
-export const stateOnEdit = makeObjectAssignable(makeReactive({
+const targetItem = ref();
+const stateOnEdit = makeObjectAssignable(makeReactive({
     id: "",
     label: "",
     icon: "",
@@ -30,7 +30,7 @@ export const stateOnEdit = makeObjectAssignable(makeReactive({
 
 //
 const props = defineProps<{
-    loadState: () => any,
+    //loadState: () => any,
     confirmState: (S: any, KV?: [any, any]) => any,
     form: any
 }>();
@@ -40,7 +40,7 @@ subscribe([UIState, "currentItem"], (value, _) => targetItem.value = value)
 
 // when changing target, set another field values
 computed(() => {
-    const state = props.loadState?.();
+    const state = targetItem?.value;
     if (state) {
         for (const k of fields) {
             if (stateOnEdit[k] != state?.[k]) { stateOnEdit[k] = state?.[k] || ""; };

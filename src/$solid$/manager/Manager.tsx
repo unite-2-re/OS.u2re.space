@@ -1,17 +1,16 @@
-// @ts-ignore
-import { For, createSignal, onMount, lazy, Show, createMemo, createEffect } from "solid-js";
+//
+import { For, createSignal } from "solid-js";
 
-// @ts-ignore
-import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
-
-// @ts-ignore
-import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
+//
+import { subscribe } from "/externals/lib/object.js";
+import { synchronizeInputs } from "/externals/lib/dom.js";
 
 //
 import { hooked, observe, refAndMount } from "../core/Utils.tsx";
 import { addItemEv, downloadItemEv, dropItemEv, removeItemEv } from "../../$core$/FileOps.ts";
 import { FileManagment } from "../../$core$/FileManage.ts";
 import { tabs } from "../settings/Fields.tsx";
+import { $hideMenu } from "../../$ui$/Sidebar.ts";
 
 // while: tab.component should be  ()=> html`...`
 export const Manager = (task: { args: any, id: string }) => {
@@ -110,12 +109,9 @@ export const Manager = (task: { args: any, id: string }) => {
                         placeholder=""
                         name="directory"
                         type="text"
-                        label=""
                         tabIndex={0}
                         draggable="false"
-                        autoComplete="off"
                         class="u2-input"
-                        scroll="no"
                         value="/user/images/"
                     />
                 </ui-longtext>
@@ -174,10 +170,10 @@ export const Manager = (task: { args: any, id: string }) => {
                         onDrop={dropHandle}
                         onDragOver={dragOverHandle}
                         class="adl-content"
-                    >
-                        {Array.from(files().entries() || []).map(([path, file]) => (
+                    >   {/* [path, file] */}
+                        <For each={Array.from(files().entries() || [])}>{(E) => (
                             <ui-select-row
-                                key={path}
+                                key={E?.[0]}
                                 href="#"
                                 onClick={(ev) =>
                                     manager.navigate(FileManagment.fileOf(content), ev)
@@ -186,26 +182,26 @@ export const Manager = (task: { args: any, id: string }) => {
                                     manager.navigate(FileManagment.fileOf(content), ev)
                                 }
                                 name="file"
-                                value={path}
+                                value={E?.[0]}
                                 style="-webkit-user-drag: element; -moz-user-drag: element;"
                                 draggable
                                 prop:draggable={true}
                             >
-                                <ui-icon inert icon={manager.byType(path)} />
+                                <ui-icon inert icon={manager.byType(E?.[0])} />
                                 <span inert>
-                                    {path.split("/")?.at(-1) ||
-                                        path.split("/")?.at(-2) ||
-                                        path}
+                                    {E?.[0].split("/")?.at(-1) ||
+                                        E?.[0].split("/")?.at(-2) ||
+                                        E?.[0]}
                                 </span>
                                 <span inert>
-                                    {file.lastModified
-                                        ? new Date(file.lastModified).toLocaleString()
-                                        : path.startsWith("..")
+                                    {E?.[1].lastModified
+                                        ? new Date(E?.[1].lastModified).toLocaleString()
+                                        : E?.[0].startsWith("..")
                                             ? ""
                                             : "N/A"}
                                 </span>
                             </ui-select-row>
-                        ))}
+                        )}</For>
                     </div>
                 </ui-scrollbox>
             </div>

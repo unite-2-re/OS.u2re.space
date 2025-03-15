@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from "vue";
 
 //
-import { tabs as importedTabs } from "../settings/Fields.vue";
+import { tabs as importedTabs } from "../settings/Fields.ts"
 import { observe } from "../core/Utils.ts";
 
 //
@@ -15,14 +15,14 @@ import { subscribe } from "/externals/lib/object.js";
 import { synchronizeInputs } from "/externals/lib/dom.js";
 
 //
-const props = defineProps < { task: Task } > ();
+const props = defineProps < Task > ();
 const currentTab = ref("display");
 const directoryValue = ref("/user/images/");
 
 //
-const manager = new FileManagment(props.task.args);
+const manager = new FileManagment(props.args);
 const current = manager.getCurrent();
-manager.navigate(props.task.args?.directory || directoryValue.value);
+manager.navigate(props.args?.directory || directoryValue.value);
 
 //
 const files = ref(current);
@@ -31,7 +31,7 @@ const files = ref(current);
 subscribe(current, (_value: any, _prop: string) => { files.value = current; });
 
 // When task.args changes (e.g. its directory property), navigate.
-subscribe(props.task.args, (value: any, prop: string) => { if (prop === "directory") manager.navigate(value); });
+subscribe(props.args, (value: any, prop: string) => { if (prop === "directory") manager.navigate(value); });
 
 // Refs for some DOM elements.
 const contentEl = ref < HTMLElement | null > (null);
@@ -42,7 +42,7 @@ const contentBoxEl = ref < HTMLElement | null > (null);
 onMounted(() => {
     if (contentEl.value) {
         FileManagment.bindManager(contentEl.value, manager);
-        synchronizeInputs(props.task.args, ".u2-input", contentEl.value, subscribe);
+        synchronizeInputs(props.args, ".u2-input", contentEl.value, subscribe);
     }
     manager.navigate(manager.currentDir());
 });
@@ -77,7 +77,7 @@ const fileEntries = computed<any[]>(() => {
 
 // Derived component id (remove "#" if present).
 const componentId = computed(() => {
-    return props.task.id ? props.task.id.replace("#", "") : "manager";
+    return props.id ? props.id.replace("#", "") : "manager";
 });
 
 //
@@ -122,17 +122,17 @@ const tabs = importedTabs;
             </ui-scrollbox>
             <ui-scrollbox data-scheme="solid" data-alpha="1" class="adl-content-box" ref="contentBoxEl">
                 <div class="adl-content" @drop="dropHandle" @dragover.prevent="dragOverHandle">
-                    <ui-select-row v-for="[path, file] in fileEntries" :key="path" href="#" name="file" :value="path"
+                    <ui-select-row v-for="F in fileEntries" :key="F[0]" href="#" name="file" :value="F[0]"
                         style="-webkit-user-drag: element; -moz-user-drag: element;" draggable="true"
-                        @click="(ev) => navigateFile(ev, path)"
-                        @dblclick="(ev) => navigateFile(ev, path)">
-                        <ui-icon :icon="manager.byType(path)" inert />
-                        <span inert>{{ getFilename(path) }}</span>
+                        @click="(ev) => navigateFile(ev, F[0])"
+                        @dblclick="(ev) => navigateFile(ev, F[0])">
+                        <ui-icon :icon="manager.byType(F[0])" inert />
+                        <span inert>{{ getFilename(F[0]) }}</span>
                         <span inert>
                             {{
-                                file.lastModified
-                                    ? new Date(file.lastModified).toLocaleString()
-                                    : path.startsWith("..")
+                                F[1].lastModified
+                                    ? new Date(F[1].lastModified).toLocaleString()
+                                    : F[0].startsWith("..")
                                         ? ""
                                         : "N/A"
                             }}

@@ -1,15 +1,13 @@
 // @ts-ignore
 import { For, createSignal, onMount, lazy, Show, createMemo, createEffect } from "solid-js";
-import html from "solid-js/html";
 
 //
-import Content from "../core/TabContent.tsx";
 import Form from "./Form.tsx";
+import { forms, tabs } from "./Fields.tsx";
 
 //
 import { $hideMenu } from "../../$ui$/Sidebar.ts";
 import { observe } from "../core/Utils.tsx";
-import { forms, tabs } from "./Fields.tsx";
 
 // while: tab.component should be  ()=> html`...`
 export const Settings = () => {
@@ -43,30 +41,22 @@ export const Settings = () => {
                 data-chroma="0.01"
                 class="adl-tab-box"
             >
-                <div class="adl-tabs" data-alpha="0">
-                    <For each={tabs}>
-                        {(tab) => (
-                            <ui-select-row
-                                data-alpha="0"
-                                name="s-tab"
-                                onClick={() => $hideMenu(content)}
-                                onChange={(e) => setTab(e.target.value)}
-                                value={tab.id}
-                                checked={currentTab() === tab.id}
-                            >
-                                <ui-icon icon={tab.icon} style="padding: 0.5rem;" />
-                                <span>{tab.content as string}</span>
-                            </ui-select-row>
-                        )}
-                    </For>
-                </div>
+                <div class="adl-tabs" data-alpha="0"><For each={tabs}>{(tab) => (
+                    <ui-select-row
+                        data-alpha="0"
+                        name="s-tab"
+                        onClick={() => $hideMenu(content)}
+                        onChange={(e) => setTab(e.target.value)}
+                        value={tab.id}
+                        checked={currentTab() === tab.id}
+                    >
+                        <ui-icon icon={tab.icon} style="padding: 0.5rem;" />
+                        <span>{tab.content as string}</span>
+                    </ui-select-row>
+                )}</For></div>
             </ui-scrollbox>
             <ui-scrollbox data-scheme="solid" data-alpha="1" class="adl-content-box">
-                <Content tab={cTab()}>
-                    <For each={forms}>
-                        {(form) => (<Form form={form} tab={cTab()} />)}
-                    </For>
-                </Content>
+                <div class="adl-content" data-tab={cTab?.()?.id}><For each={forms}>{(form) => (<Form form={form} tab={cTab?.()}></Form>)}</For></div>
             </ui-scrollbox>
         </div>
     </div>);

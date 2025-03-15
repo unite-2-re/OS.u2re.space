@@ -3,7 +3,6 @@ import Shell from "./core/Shell.tsx";
 
 //
 import { render } from "solid-js/web";
-import html from "solid-js/html";
 
 //
 export const renderInPage = (root: HTMLElement/*, tasks: any*/)=>{

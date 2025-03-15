@@ -15,10 +15,10 @@ import {viteStaticCopy} from "vite-plugin-static-copy";
 import certificate from "./https/certificate.mjs";
 import pkg from "./package.json" with { type: "json" };
 import tsconfig from "./tsconfig.json" with { type: "json" };
-//import vue from '@vitejs/plugin-vue'
+
 //
 //import json5Plugin from 'vite-plugin-json5'
-//import VueI18n from '@intlify/unplugin-vue-i18n/vite'
+
 import nodeExternals from 'rollup-plugin-node-externals'
 import createExternal from 'vite-plugin-external';
 import cssnano from "cssnano";
@@ -29,6 +29,11 @@ import rollupOptions, {plugins, NAME} from "./rollup/rollup.config";
 import { viteSingleFile } from "vite-plugin-singlefile"
 
 //
+import vue from '@vitejs/plugin-vue'
+import VueI18n from '@intlify/unplugin-vue-i18n/vite'
+
+
+//
 const __dirname = import.meta.dirname;
 const r = (s) => { return s; };
 const production = process.env.NODE_ENV === 'production';
@@ -37,11 +42,10 @@ const config = defineConfig({
     base: './',
     resolve: {
         alias: {
-            "@node_modules": path.resolve("./node_modules"),
-            "@": path.resolve("./"),
-            "@src": path.resolve("src/"),
-            "@adl": path.resolve("src/"),
-            "@assets": path.resolve("assets/")
+            'vue$': 'vue/dist/vue.esm.js',
+            '/externals': path.resolve(__dirname, './frontend/externals'),
+            '/frontend': path.resolve(__dirname, './frontend'),
+            '/assets': path.resolve(__dirname, './frontend/assets'),
         },
     },
     plugins: [
@@ -50,6 +54,14 @@ const config = defineConfig({
             include: ["*/$solid$/*.ts", "*/$solid$/**/*.tsx"],
             dev: false
         }),
+        vue({
+            template: {
+                compilerOptions: {
+                    isCustomElement: (tag) => (tag.startsWith('ui') || tag.includes('-'))
+                }
+            }
+        }),
+        VueI18n({}),
         createExternal({
             interop: 'auto',
             externals: {
@@ -59,12 +71,12 @@ const config = defineConfig({
                 externals: "externals"
             },
             externalizeDeps: [
-                "externals", "/externals", "./externals",
-                "frontend", "/frontend", "./frontend",
+                "externals", "./frontend/externals", "./externals",
+                "frontend", "./frontend/frontend", "./frontend",
                 "app", "/app", "./app",
                 "print", "/print", "./print",
-                "frontend/app", "/frontend/app", "./frontend/app",
-                "frontend/print", "/frontend/print", "./frontend/print"
+                "frontend/app", "./frontend/app",
+                "frontend/print", "./frontend/print"
             ]
         }),
         //json5Plugin(),

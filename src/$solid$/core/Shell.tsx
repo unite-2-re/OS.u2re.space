@@ -1,4 +1,4 @@
-// @ts-ignore
+//
 import { For, createSignal } from "solid-js";
 import { Dynamic } from "solid-js/web"
 
@@ -9,23 +9,23 @@ import ItemEdit, { targetItem } from "../workspace/ItemEdit.tsx";
 import Workspace from "../workspace/Workspace.tsx";
 import components from "./Components.tsx";
 
-// @ts-ignore /* @vite-ignore */
-import { safe, subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
+//
+import { subscribe } from "/externals/lib/object.js";
 
 // sandbox="allow-same-origin allow-scripts allow-downloads allow-storage-access-by-user-activation allow-forms"
 const makeView = ({ args, id }: { args: any, id: string }) => {
     return (<div id={id?.replace?.("#", "")} class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe
     referrerpolicy="no-referrer"
     width="100%" height="100%"
-    frameBorder="0"
+    //frameBorder="0"
+    //allowtransparency
+    //scrolling
+    //seamless
+    //credentialless
     style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;"
-    allowtransparency="true"
-    scrolling="auto"
     src={args?.href}
     loading="eager"
-    seamless
     allowfullscreen
-    credentialless
     allow="*"
     ></iframe></div></div></div>);
 }
@@ -44,7 +44,7 @@ export const Shell = ({ tasksList }: AppsType) => {
             <ui-orientbox id="ui-layer" className="ui-layer" orient="0" style="background-color: transparent;">
                 {/* Apps Part */}
 
-                <For each={tasks()}>{(task) => (
+                <For each={tasks()}>{(task: any) => (
                     <ui-frame
                         key={task?.id}
                         data-highlight="2"
@@ -53,7 +53,7 @@ export const Shell = ({ tasksList }: AppsType) => {
                         data-id={task?.id.replace("#", "")}
                     >
                         <div
-                            style={{ justifySelf: "start", textAlign: "start", paddingInline: "1rem" }}
+                            style="justify-self: start; text-align: start; padding=inline: 1rem"
                             slot="ui-title-bar"
                         >
                             {task?.desc?.label}
@@ -62,11 +62,9 @@ export const Shell = ({ tasksList }: AppsType) => {
                     </ui-frame>
                 )}</For>
 
-                <ItemEdit loadState={targetItem} confirmState={confirmEdit} form={itemForm} />
-
                 {/* Taskbar */}
                 <ui-taskbar prop:tasks={tasks()}>
-                    <For each={tasks()}>{(task) => (
+                    <For each={tasks()}>{(task: any) => (
                         <ui-task
                             key={task?.id}
                             prop:taskId={task?.id.replace("#", "")}
@@ -88,6 +86,8 @@ export const Shell = ({ tasksList }: AppsType) => {
                 <ui-modal type="popup" data-name="calendar">
                     <ui-calendar></ui-calendar>
                 </ui-modal>
+
+                <ItemEdit loadState={targetItem} confirmState={confirmEdit} form={itemForm} />
             </ui-orientbox>
         </>
     );

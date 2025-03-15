@@ -1,5 +1,4 @@
 import type { TabType } from "../../$core$/Types";
-import html from "solid-js/html";
 
 // Functionality Not Implemented
 export const tabs: TabType[] = [
@@ -31,9 +30,9 @@ export const forms: any[] = [
         component: ()=>{
             return (<ui-switch data-name="theme" style="--max-value: 2;">
                 <ui-icon icon="sun-moon" slot="icon"></ui-icon>
-                <input type="radio" label=" " placeholder="Dark" name="theme" value="dark"/>
-                <input type="radio" label=" " placeholder="Default" name="theme" value="default"/>
-                <input type="radio" label=" " placeholder="Light" name="theme" value="light"/>
+                <input type="radio" placeholder="Dark" name="theme" value="dark"/>
+                <input type="radio" placeholder="Default" name="theme" value="default"/>
+                <input type="radio" placeholder="Light" name="theme" value="light"/>
             </ui-switch>) ;
         }
     }]
@@ -46,7 +45,7 @@ export const forms: any[] = [
         component: ()=>{
             return (<ui-number>
                 <span slot="icon" class="ui-indicator"></span>
-                <input type="number" inputmode="numeric" pattern="[0-9]*" size="5" label=" " placeholder="Columns" name="columns" value="4" min="4" max="6" step="1"/>
+                <input type="number" inputmode="numeric" pattern="[0-9]*" size="5" placeholder="Columns" name="columns" value="4" min="4" max="6" step="1"/>
             </ui-number>) ;
         }
     },
@@ -56,7 +55,7 @@ export const forms: any[] = [
         component: ()=>{
             return (<ui-number>
                 <span slot="icon" class="ui-indicator"></span>
-                <input type="number" inputmode="numeric" pattern="[0-9]*" size="5" label=" " placeholder="Rows" name="rows" value="8" min="8" max="12" step="1"/>
+                <input type="number" inputmode="numeric" pattern="[0-9]*" size="5" placeholder="Rows" name="rows" value="8" min="8" max="12" step="1"/>
             </ui-number>) ;
         }
     }]

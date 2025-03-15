@@ -1,16 +1,16 @@
-// @ts-ignore
-import { For, createSignal, onMount, lazy } from "solid-js";
+//
+import { For } from "solid-js";
 import { Dynamic } from "solid-js/web";
 
-// @ts-ignore
-import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
+//
+import { subscribe } from "/externals/lib/object.js";
+import { synchronizeInputs } from "/externals/lib/dom.js";
 
-// @ts-ignore
-import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
+//
 import { preferences } from "../../$state$/Preferences.ts";
 
 //
-export const Form = ({ form, tab }: { form: any, tab: () => any }) => {
+export const Form = ({ form, tab }: { form?: any, tab?: any }) => {
     const $content = (topLevel) => { synchronizeInputs(preferences, ".u2-input", topLevel, subscribe); };
 
     // TODO: available by tab (' data-hidden="..." ')

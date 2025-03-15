@@ -1,4 +1,3 @@
-<script setup lang="ts">
 import Appearance from "./Fields/Appearance.vue";
 import Columns from "./Fields/Columns.vue";
 import Rows from "./Fields/Rows.vue";
@@ -35,5 +34,3 @@ export const forms: any[] = [
         component: Rows
     }]
 }];
-
-</script>

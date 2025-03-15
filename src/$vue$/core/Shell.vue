@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-//
-import { subscribe } from "/externals/lib/object.js";
-
-//
 import { confirmEdit, gridState, itemForm } from "../../$state$/GridState.ts";
-import ItemEdit, {targetItem} from "../workspace/ItemEdit.vue";
+import ItemEdit from "../workspace/ItemEdit.vue";
 import Workspace from "../workspace/Workspace.vue";
 import components from "./Components.ts";
 import PageView from "./PageView.vue";
-</script>
 
-<script lang="ts">
+//
+import { subscribe } from "/externals/lib/object.js";
+import { ref, defineProps } from "vue";
+
+//
 const props = defineProps<{tasksList: any}>();
-const tasks = ref(props.tasksList);
-subscribe(props.tasksList, () => { tasks.value = props.tasksList; });
+const tasks = ref(props?.tasksList);
+if (props?.tasksList) {
+    subscribe(props?.tasksList, () => { tasks.value = props?.tasksList; });
+}
 </script>
 
 <template>
@@ -30,15 +29,15 @@ subscribe(props.tasksList, () => { tasks.value = props.tasksList; });
             <div style="justify-self: start; text-align: start; padding-inline: 1rem;" slot="ui-title-bar">
                 {{ task.desc.label }}
             </div>
-            <component :is="components?.get(task.args.type) || PageView" :id="task.id" :args="task.args"></component>
+            <component :is="components?.get(task.args.type) || PageView" v-bind:args="task.args" v-bind:id="task.id" ></component>
         </ui-frame>
 
         <!-- Item Edit -->
-        <ItemEdit :loadState="() => targetItem" :confirmState="confirmEdit" :form="() => itemForm"></ItemEdit>
+        <ItemEdit :confirmState="confirmEdit" :form="() => itemForm"></ItemEdit>
 
         <!-- Taskbar -->
-        <ui-taskbar :tasks="tasks">
-            <ui-task v-for="task in tasks" :key="task.id" :taskId="task.id" :desc="task.desc">
+        <ui-taskbar v-bind:tasks="tasks">
+            <ui-task v-for="task in tasks" :key="task.id" v-bind:taskId="task.id" v-bind:desc="task.desc">
                 <ui-icon :icon="task.desc.icon"></ui-icon>
             </ui-task>
         </ui-taskbar>

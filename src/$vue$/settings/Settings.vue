@@ -6,7 +6,7 @@ import TabContent from "../core/TabContent.vue";
 import Form from "./Form.vue";
 
 //
-import { forms, tabs } from "./Fields.vue";
+import { forms, tabs } from "./Fields.ts"
 
 //
 const currentTab = ref("display");
@@ -50,8 +50,8 @@ onMounted(() => {
             </ui-scrollbox>
             <ui-scrollbox data-scheme="solid" data-alpha="1" class="adl-content-box">
                 <TabContent :tab="cTab">
-                    <template v-for="[form, _] in forms" :key="index">
-                        <Form :form="form" :tab="cTab" />
+                    <template v-for="F in forms" :key="index">
+                        <Form :form="F" :tab="cTab" />
                     </template>
                 </TabContent>
             </ui-scrollbox>
