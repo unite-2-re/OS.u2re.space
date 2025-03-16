@@ -1,6 +1,6 @@
 //
 //import { renderInPage } from "./$solid$/Main";
-import { renderInPage } from "./$vue$/Main";
+import { renderInPage } from "./$blue$/Main";
 import CSS from "./css";
 
 //
