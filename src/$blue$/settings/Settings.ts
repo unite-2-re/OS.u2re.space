@@ -42,7 +42,7 @@ export default (task)=>{
         return form;
     }
 
-    return bindContent(E("div" + (task.taskId ? task.taskId : "#settings") + ".ui-content", {
+    return bindContent(E("div" + (task.taskId || "#settings") + ".ui-content", {
         dataset: {highlight: 0, alpha: 0, scheme: "solid"},
     }, [
         E("div.adl-toolbar", {dataset: {highlight: 0, chroma: 0}}, [
@@ -50,18 +50,18 @@ export default (task)=>{
         E("div.adl-main", {dataset: {alpha: 0, chroma: 0, scheme: "solid"}}, [
             E("ui-scrollbox.adl-tab-box", {dataset: {scheme: "solid", alpha: 1, highlight: 0.5, chroma: 0.01}}),
             E("ui-scrollbox.adl-content-box", {dataset: {scheme: "solid", alpha: 1}}, [
-                list = E("div.adl-content", {}, [()=>M(forms, (form)=>{
+                list = E("div.adl-content", {}, M(forms, (form)=>{
                     return syncInput(E("form", {dataset: {alpha: 0, chroma: 0, highlight: 0} }, [
                         E("span.adl-form-label", {slot: "label"}, [form?.label||""]),
                         M(form.inputs, (input)=>{
                             return E("ui-block", {style: "content-visibility: visible;"}, [
                                 E("ui-icon", {slot: "icon", properties: input}),
                                 E("span", {slot: "label"}, [input?.label||""]),
-                                input
+                                input?.component
                             ])
                         })
                     ]))
-                })])
+                }))
             ]),
         ])
     ]));

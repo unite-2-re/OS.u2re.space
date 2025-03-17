@@ -6,7 +6,7 @@ import type { Task } from "../../$core$/Types";
 //
 import { subscribe } from "/externals/lib/object.js";
 import { synchronizeInputs } from "/externals/lib/dom.js";
-import {E, M, H, computed, remap} from "/externals/lib/blue.js"
+import {E, M, H, computed, remap, observableByMap} from "/externals/lib/blue.js"
 
 //
 export default (task: Task, )=>{
@@ -25,6 +25,7 @@ export default (task: Task, )=>{
     //
     const bindInput = (input)=>{
         input.addEventListener("change", (ev)=>manager.navigate(ev.target.value));
+        return input;
     }
 
     //
@@ -47,17 +48,11 @@ export default (task: Task, )=>{
         }
     };
 
-    // TODO! Aggregate maps into observable arrays
-    const files = remap(current, ()=>{
-        const r = { "entry": Array.from(current.entries()) };
-        requestAnimationFrame(()=>list?.reform?.()); return r;
-    });
-
     //
     let list: any;
 
     //
-    const content = bindContent(E("div" + (task.taskId ? task.taskId : "#manager") + ".ui-content", {
+    const content = bindContent(E("div" + (task.taskId || "#manager") + ".ui-content", {
         dataset: {highlight: 0, alpha: 0, scheme: "solid"},
     }, [
         E("div.adl-toolbar", {dataset: {highlight: 0, chroma: 0}}, [
@@ -73,7 +68,7 @@ export default (task: Task, )=>{
         E("div.adl-main", {dataset: {alpha: 0, chroma: 0, scheme: "solid"}}, [
             E("ui-scrollbox.adl-tab-box", {dataset: {scheme: "solid", alpha: 1, highlight: 0.5, chroma: 0.01}}),
             E("ui-scrollbox.adl-content-box", {dataset: {scheme: "solid", alpha: 1}}, [
-                list = E("div.adl-content", {on: {drop: new Set([dropHandle]), dragover: new Set([dragOverHandle])}}, [()=>M(files?.entry, (entry)=>{
+                list = E("div.adl-content", {on: {drop: new Set([dropHandle]), dragover: new Set([dragOverHandle])}}, M(observableByMap(current), (entry)=>{
                     return E("ui-select-row", {
                         attributes: { href: "#", name: "file", draggable: true},
                         properties: { value: entry[0] },
@@ -89,7 +84,7 @@ export default (task: Task, )=>{
                             ? new Date(entry[1]?.lastModified).toLocaleString()
                             : entry[0]?.startsWith("..") ? "" : "N/A"])
                     ])
-                })])
+                }))
             ]),
         ])
     ]));

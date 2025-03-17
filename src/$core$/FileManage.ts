@@ -35,7 +35,7 @@ export class FileManagment {
         const path: any = getDir?.(dirname);
         if (path) {
             this.#current?.clear?.();
-    
+
             // root directory (currently, not available, except "/user/")
             // root directories practically unsupported (just stub)
             if (path == "/") {
@@ -44,7 +44,7 @@ export class FileManagment {
             } else {
                 this.#current.set("..", ()=>navigate?.((path?.split?.("/")?.slice?.(0, -2)?.join?.("/") || "") + "/"));
             }
-    
+
             // user-space OPFS
             if (path?.startsWith?.("/user")) {
                 const user = path?.replace?.("/user","");
@@ -57,7 +57,7 @@ export class FileManagment {
                         const dir = path + fn + "/";
                         this.#current.set(dir, ()=>navigate?.(dir));
                     }));
-    
+
                     // file types
                     await Promise.all(entries.filter(({handle})=>(handle instanceof FileSystemFileHandle)).map(async ({path: fn, handle})=>{
                         const file = await handle.getFile();
@@ -65,14 +65,14 @@ export class FileManagment {
                     }));
                 }
             } else
-    
+
             // root directories (practically unsupported)
             if (path?.startsWith?.("/assets")) {
                 // add stock image into registry
                 this.#current.set(STOCK_NAME, await provide(STOCK_NAME));
             }
         }
-    
+
         //
         return this.#current;
     }
@@ -130,11 +130,11 @@ export class FileManagment {
             const file = await (this.#current?.get(path) ?? provide(path));
             return typeof file == "string" ? this.navigate?.(file) : (typeof file == "function" ? file?.() : file);
         };
-    
+
         // if regular file (currently, only wallpaper usage implemented)
-        if (!ev || ev?.type == "dblclick") { 
+        if (!ev || ev?.type == "dblclick") {
             return fileActions(path, {current: this.#current});
-            //return useItemEv(path); 
+            //return useItemEv(path);
         };
     };
 }
