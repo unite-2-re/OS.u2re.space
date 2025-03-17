@@ -46,7 +46,18 @@ const linkViewer = ({title, icon, href})=>{
 };
 
 //
+const DOC = document.documentElement;
 export const actionMap = new Map<any, any>([
+    ["toggle-popup", (target?)=>{
+        if (target?.matches("[data-popup]")) {
+            const popup = document.querySelector("ui-modal[type=\"popup\"][data-name=\"" + target?.dataset?.popup + "\"]") as any;
+            popup?.showPopup?.(target?.matches(".ui-anchor") ? target : target?.closest(".ui-anchor"))
+            DOC.querySelectorAll("ui-modal[type=\"popup\"]")?.forEach?.((el: any)=>{ if (el != popup) { el.dataset.hidden = ""; }; });
+        } else {
+            DOC.querySelectorAll("ui-modal[type=\"popup\"]")?.forEach?.((el: any)=>{ el.dataset.hidden = ""; });
+        }
+    }],
+
     ["close-task", (id)=>{
         taskManager?.removeTask?.(id);
     }],
@@ -120,3 +131,14 @@ export const actionMap = new Map<any, any>([
     ["export-settings", ()=>{ saveBinaryToFS?.(exportSettings()); }],
     ["import-settings", ()=>{ pickBinaryFromFS()?.then?.(importSettings); }]
 ]);
+
+//
+document.addEventListener("u2-action", (ev)=>{
+    const det = ev?.detail;
+    if (det?.type == "action") {
+        actionMap?.get?.(det?.name)?.(...(det?.args || []));
+    } else
+    if (det?.type == "popup") {
+        actionMap?.get?.("toggle-popup")?.(det?.initial);
+    }
+});
