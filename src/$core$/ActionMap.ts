@@ -29,18 +29,18 @@ const isSameOrigin = (a)=>{
 
 //
 const linkViewer = ({title, icon, href})=>{
-    const id = "#" + "TASK-" + Array.from({ length: 8 }, () => "0123456789ABCDEF".charAt(Math.floor(Math.random() * 16))).join('');
-    const task = makeReactive({ 
-        id, active: true, 
-        desc: makeReactive({ title, icon }), 
-        args: makeReactive({ href: href?.trim?.() }) 
+    const taskId = "#" + "TASK-" + Array.from({ length: 8 }, () => "0123456789ABCDEF".charAt(Math.floor(Math.random() * 16))).join('');
+    const task = makeReactive({
+        taskId, active: true,
+        desc: makeReactive({ title, icon }),
+        args: makeReactive({ href: href?.trim?.() })
     });
 
     // @ts-ignore
     const module = import("./Tasks.ts")?.then?.(({tasks, setTasks})=>{
         taskManager?.addTask?.(task, true);
         requestIdleCallback?.(()=>{
-            taskManager?.focus?.(id);
+            taskManager?.focus?.(taskId);
         })
     });
 };

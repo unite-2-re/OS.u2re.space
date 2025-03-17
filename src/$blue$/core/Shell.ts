@@ -1,6 +1,6 @@
 import { confirmEdit, gridState, itemForm } from "../../$state$/GridState";
 import Workspace from "../workspace/Workspace";
-import {E, M, computed, observableBySet, remap} from "/externals/lib/blue.js"
+import {E, H, M, observableBySet} from "/externals/lib/blue.js"
 
 //
 import Manager from "../manager/Manager.ts";
@@ -14,6 +14,11 @@ export const components: Map<string, any> = new Map<string, any>([
 ]);
 
 //
+export const viewable = (task)=>{
+    return H(`<div id="${task.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe referrerpolicy="no-referrer" width="100%" height="100%" frameBorder="0" allowtransparency scrolling seamless credentialless style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" src="${task.args?.href}" loading="eager" allowfullscreen allow="*"></iframe></div></div></div>`);
+}
+
+//
 export default (tasks: any)=>{
     let taskproc: any;
     let taskbar: any;
@@ -25,8 +30,8 @@ export default (tasks: any)=>{
             //! we can't reactive contents without container element
             taskproc = E("div", {style: "display: contents !important; background-color: transparent !important;"}, M(observableBySet(tasks), (task: any)=>{
                 return E("ui-frame", {dataset: {highlight: 2, chroma: 0.1, scheme: "solid", id: task?.taskId.replace("#", "") }}, [
-                    E("div", {style: "justify-self: start; text-align: start; padding=inline: 1rem", slot: "ui-title-bar"}, [task?.desc?.label]),
-                    components.get(task?.args?.type)?.(task),
+                    E("div", {style: "justify-self: start; text-align: start; padding=inline: 1rem", slot: "ui-title-bar"}, [task?.desc?.label||""]),
+                    (components.get(task?.args?.type) || viewable)?.(task),
                 ])
             })),
             taskbar = E("ui-taskbar", {properties: {tasks}}, M(observableBySet(tasks), (task)=>E("ui-task", {properties: task, dataset: {id: task.taskId}}, [E("ui-icon", {attributes: task.desc})]))),
