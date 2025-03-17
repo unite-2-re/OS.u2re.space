@@ -49,19 +49,19 @@ const config = defineConfig({
         },
     },
     plugins: [
-        solidPlugin({
+        //solidPlugin({
             // solid-specific, other is inline/regular
-            include: ["*/$solid$/*.ts", "*/$solid$/**/*.tsx"],
-            dev: false
-        }),
-        vue({
+            //include: ["*/$solid$/*.ts", "*/$solid$/**/*.tsx"],
+            //dev: false
+        //}),
+        /*vue({
             template: {
                 compilerOptions: {
                     isCustomElement: (tag) => (tag.startsWith('ui') || tag.includes('-'))
                 }
             }
         }),
-        VueI18n({}),
+        VueI18n({}),*/
         createExternal({
             interop: 'auto',
             externals: {
@@ -71,8 +71,9 @@ const config = defineConfig({
                 externals: "externals"
             },
             externalizeDeps: [
-                "externals", "./frontend/externals", "./externals",
-                "frontend", "./frontend/frontend", "./frontend",
+                "externals", "./externals", "/externals", "./frontend/externals",
+                "frontend", "./frontend", "/frontend",
+                "frontend/externals", "./frontend/externals", "/frontend/externals",
                 "app", "/app", "./app",
                 "print", "/print", "./print",
                 "frontend/app", "./frontend/app",
