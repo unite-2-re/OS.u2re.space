@@ -8,15 +8,24 @@ import Settings from "../settings/Settings.ts";
 import ItemEdit from "../workspace/ItemEdit.ts";
 
 //
-export const components: Map<string, any> = new Map<string, any>([
-    ["manager", Manager],
-    ["settings", Settings]
-]);
-
-//
 export const viewable = (task)=>{
     return H(`<div id="${task.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe referrerpolicy="no-referrer" width="100%" height="100%" frameBorder="0" allowtransparency scrolling seamless credentialless style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" src="${task.args?.href}" loading="eager" allowfullscreen allow="*"></iframe></div></div></div>`);
 }
+
+//
+export const imageView = (task)=>{
+    return H(`<div id="${task.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box">
+        <img src="${task?.args?.src || task?.args?.href || ""}" alt="Image View" style="inline-size: 100%; block-size: 100%; object-fit: contain; object-position: center; background-color: transparent;"/>
+    </div></div></div>`);
+}
+
+//
+export const components: Map<string, any> = new Map<string, any>([
+    ["manager", Manager],
+    ["settings", Settings],
+    ["image", imageView],
+    ["iframe", viewable]
+]);
 
 //
 export default (tasks: any)=>{

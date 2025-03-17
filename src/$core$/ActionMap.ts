@@ -28,21 +28,20 @@ const isSameOrigin = (a)=>{
 };
 
 //
-const linkViewer = ({title, icon, href})=>{
+export const linkViewer = ({label, icon, href})=>{
     const taskId = "#" + "TASK-" + Array.from({ length: 8 }, () => "0123456789ABCDEF".charAt(Math.floor(Math.random() * 16))).join('');
     const task = makeReactive({
-        taskId, active: true,
-        desc: makeReactive({ title, icon }),
-        args: makeReactive({ href: href?.trim?.() })
+        taskId, active: true, //type: "iframe",
+        desc: makeReactive({ label, icon }),
+        args: makeReactive({ href: href?.trim?.(), type: "iframe" })
     });
 
-    // @ts-ignore
-    const module = import("./Tasks.ts")?.then?.(({tasks, setTasks})=>{
+    {
         taskManager?.addTask?.(task, true);
         requestIdleCallback?.(()=>{
             taskManager?.focus?.(taskId);
         })
-    });
+    }
 };
 
 //

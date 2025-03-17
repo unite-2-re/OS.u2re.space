@@ -1,15 +1,37 @@
 //
+import { taskManager } from "./ActionMap";
 import { getDir, provide } from "./FileOps";
 
 // @ts-ignore
 import { colorScheme } from "/externals/core/theme.js";
+import { makeReactive } from "/externals/lib/object";
 
 //
 export const STOCK_NAME = "/assets/wallpaper/stock.webp"
 
 //
+export const openImage = ({label, icon, href})=>{
+    const taskId = "#" + "TASK-" + Array.from({ length: 8 }, () => "0123456789ABCDEF".charAt(Math.floor(Math.random() * 16))).join('');
+    const task = makeReactive({
+        taskId, active: true, //type: "iframe",
+        desc: makeReactive({ label, icon }),
+        args: makeReactive({ href: href?.trim?.(), type: "image" })
+    });
+
+    {
+        taskManager?.addTask?.(task, true);
+        requestIdleCallback?.(()=>{
+            taskManager?.focus?.(taskId);
+        })
+    }
+};
+
+
+//
 export const fileActionMap = new Map([
     ["view", async (path, args?)=>{
+        //const file = await provide(path?.name || path) as File;
+        //openImage({label: file?.name || "", icon: "image", href: URL.createObjectURL(file)});
         console.warn("Image View Not Implemented!");
         useItemEv(path?.name || path);
     }],

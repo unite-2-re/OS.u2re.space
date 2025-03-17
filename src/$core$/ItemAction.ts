@@ -6,7 +6,7 @@ export const UIAction = new Map([
     ["open-in-frame", (initiator, ev?)=>{
         const dataset = initiator?.dataset;
         return actionMap?.get?.("open-link")?.({
-            title: (dataset?.label?.trim?.() || dataset?.href?.trim?.()),
+            label: (dataset?.label?.trim?.() || dataset?.href?.trim?.()),
             icon: (initiator?.icon?.trim?.() || dataset?.icon?.trim?.() || "globe"),
             href: (dataset?.href?.trim?.() || "#")
         });
