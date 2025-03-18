@@ -141,3 +141,8 @@ document.addEventListener("u2-action", (ev)=>{
         actionMap?.get?.("toggle-popup")?.(det?.initial);
     }
 });
+
+//
+document.addEventListener("u2-close", (ev)=>{
+    if (ev?.detail?.taskId?.replace?.("#", "")?.startsWith?.("TASK-")) { actionMap?.get?.("close-task")?.("#" + ev?.detail?.taskId?.replace?.("#", "")); };
+});
