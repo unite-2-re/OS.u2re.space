@@ -1,5 +1,6 @@
 import { dropItemEv } from "../$core$/FileOps.ts";
 import { FileManagment } from "../$core$/FileManage.ts";
+import { addItem } from "../$state$/GridState.ts";
 
 //
 const MOCElement = (el, selector)=>{
@@ -53,6 +54,16 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
                 const file = blob instanceof File ? blob : (new File([blob], UUIDv4() + ".tmp"));
                 if (file) dropItemEv(file, manager.currentDir(), manager.getCurrent());
             }
+        } else
+        if (ROOT.querySelector(".u2-desktop-grid:is(:hover, :active, :focus), .u2-desktop-grid:has(:hover, :active, :focus)")) {
+            const text = (e.clipboardData)?.getData("text/plain");
+            if (text && typeof text == "string") {
+                if (URL.canParse(text)) {
+                    const url = new URL(text);
+                    e?.preventDefault?.();
+                    addItem(UUIDv4(), null, { href: text||"", icon: "globe", label: url?.hostname || "" });
+                }
+            };
         }
     });
 

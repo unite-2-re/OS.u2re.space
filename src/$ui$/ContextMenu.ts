@@ -1,3 +1,4 @@
+import { fileActionMap } from "../$core$/FileAction.ts";
 import { actionMap } from "../$core$/ActionMap.ts";
 
 // @ts-ignore
@@ -6,18 +7,28 @@ import { UILucideIcon, makeCtxMenuItems, openContextMenu } from "/externals/wcom
 //
 export const ctxMenuMap = new Map([
     [".u2-grid-item", [
-        {icon: new UILucideIcon({icon: "external-link", padding: "0.05rem"}), content: "Open Link", callback(initiator) { actionMap.get("open-link")?.(initiator?.dataset?.href || "#"); } },
         {icon: new UILucideIcon({icon: "pencil", padding: "0.05rem"}), content: "Edit", callback(initiator) { actionMap.get("item-edit")?.(initiator?.dataset?.id); } },
-        {icon: new UILucideIcon({icon: "badge-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { actionMap.get("item-delete")?.(initiator?.dataset?.id); } }
+        {icon: new UILucideIcon({icon: "badge-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { actionMap.get("item-delete")?.(initiator?.dataset?.id); } },
+
+        {icon: new UILucideIcon({icon: "external-link", padding: "0.05rem"}), content: "Open Link", condition(initiator) { return !!initiator?.dataset?.href; }, callback(initiator) { actionMap.get("open-link")?.(initiator?.dataset?.href || "#"); } },
+        {icon: new UILucideIcon({icon: "app-window", padding: "0.05rem"}), content: "Open Frame", condition(initiator) { return !!initiator?.dataset?.href; }, callback(initiator) { actionMap.get("open-link")?.({
+            label: (initiator?.dataset?.label?.trim?.() || initiator?.dataset?.href?.trim?.()),
+            icon: (initiator?.dataset?.icon?.trim?.() || initiator?.icon?.trim?.() || "globe"),
+            href: (initiator?.dataset?.href?.trim?.() || "#")
+        }); } },
     ]],
     [".u2-desktop-grid", [
-        {icon: new UILucideIcon({icon: "badge-plus", padding: "0.05rem"}), content: "Add Item", callback() { actionMap.get("item-add")?.(); } },
+        {icon: new UILucideIcon({icon: "badge-plus", padding: "0.05rem"}), content: "Add Item", callback(_, event?) { console.log(event); actionMap.get("item-add")?.(event); } },
 
         // deprecated, needs to refactor UI
         /*{icon: new UILucideIcon({icon: "fullscreen", padding: "0.05rem"}), content: "Fullscreen", callback() { actionMap.get("fullscreen")?.(); } },
         {icon: new UILucideIcon({icon: "folder-code", padding: "0.05rem"}), content: "Manager", callback() { actionMap.get("manager")?.(); } },
         {icon: new UILucideIcon({icon: "settings", padding: "0.05rem"}), content: "Settings", callback() { actionMap.get("settings")?.(); } },*/
     ]],
+    ["ui-select-row[name=\"file\"]", [
+        {icon: new UILucideIcon({icon: "app-window", padding: "0.05rem"}), content: "View file", callback(initiator) { fileActionMap?.get?.("view")?.(initiator?.value); } },
+        {icon: new UILucideIcon({icon: "wallpaper", padding: "0.05rem"}), content: "Use as wallpaper", callback(initiator) { fileActionMap?.get?.("use")?.(initiator?.value); } },
+    ]]
 ]);
 
 //
@@ -48,7 +59,9 @@ export const initCtxMenu = (root = document.documentElement)=>{
                 clientY: ev.clientY,
                 pageX: ev.pageX,
                 pageY: ev.pageY
-            }, false, (menu, initiator)=>makeCtxMenuItems(menu, initiator, one));
+            }, false, (menu, initiator)=>makeCtxMenuItems(menu, initiator, one.filter((el)=>{
+                return el?.condition?.(initiator) ?? true;
+            })));
         }
     }
 

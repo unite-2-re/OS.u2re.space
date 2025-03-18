@@ -94,8 +94,8 @@ export const actionMap = new Map<any, any>([
     }],
 
     //
-    ["item-add", ()=>{
-        const item = addItem(UUIDv4(), {});
+    ["item-add", (event?: any)=>{
+        const item = addItem(UUIDv4(), event);
         if (item) {
             UIState.currentItem = item;
             document?.querySelector?.(".adl-modal:has(.adl-item-edit)")?.removeAttribute?.("data-hidden");

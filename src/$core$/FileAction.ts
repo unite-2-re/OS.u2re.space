@@ -30,10 +30,10 @@ export const openImage = ({label, icon, href})=>{
 //
 export const fileActionMap = new Map([
     ["view", async (path, args?)=>{
-        //const file = await provide(path?.name || path) as File;
-        //openImage({label: file?.name || "", icon: "image", href: URL.createObjectURL(file)});
-        console.warn("Image View Not Implemented!");
-        useItemEv(path?.name || path);
+        const file = await provide(path?.name || path) as File;
+        openImage({label: file?.name || "", icon: "image", href: URL.createObjectURL(file)});
+        //console.warn("Image View Not Implemented!");
+        //useItemEv(path?.name || path);
     }],
     ["use", async (path, args?)=>{
         useItemEv(path?.name || path);

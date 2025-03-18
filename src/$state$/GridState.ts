@@ -2,6 +2,9 @@
 import type { ItemsType, ItemType, ShortcutType } from "src/$core$/Types";
 import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 import { JSOX } from "jsox";
+import { cvt_cs_to_os, getBoundingOrientRect } from "/externals/core/agate";
+import { convertOrientPxToCX, redirectCell } from "/externals/core/grid";
+import { preferences } from "./Preferences";
 
 //
 export const defaultShortcuts = [
@@ -116,8 +119,36 @@ export const getItem = (id)=>{
 }
 
 //
-export const addItem = (id, structure)=>{
-    const item = wrapItemToReactive({ id: (id||structure?.id) });
+export const addItem = (id, event?, structure: any = {})=>{
+    const screen = [event?.clientX || 0, event?.clientY || 0];
+    const box = document.querySelector(".u2-desktop-grid") as any;
+    const grid = box?.querySelector?.("ui-gridbox");
+    const size = [
+        (box?.clientWidth  || innerWidth  || 0),
+        (box?.clientHeight || innerHeight || 0)
+    ];
+
+    //
+    const obs = getBoundingOrientRect(grid, box?.orient || 0);
+    const oriented = cvt_cs_to_os(screen, size, box?.orient || 0);
+
+    //
+    const args = {
+        layout: [preferences?.columns || 4, preferences?.rows || 8],
+        size: [obs?.width || 0, obs?.height || 0],
+        items: gridState.items,
+        list: gridState.lists?.[0] || [],
+        item: null
+    };
+
+    //
+    const fl   = convertOrientPxToCX([oriented[0] - obs.left, oriented[1] - obs.top], args);
+    const cell = [Math.floor(fl[0]), Math.floor(fl[1])];
+    const item = wrapItemToReactive({ id: (id||structure?.id), cell });
+    args.item  = item;
+    item.cell  = redirectCell(cell, args as any);
+
+
     const shortcut = wrapItemToReactive({ ...structure, id: (id||structure?.id) });
     gridState.shortcuts.add(shortcut);
     gridState.items.add(item);
