@@ -38,7 +38,7 @@ export default (tasks: any)=>{
         E("ui-orientbox#ui-layer.ui-layer", {attribute: {orient: 0, }, style: {backgroundColor: "transparent"}}, [
             //! we can't reactive contents without container element
             taskproc = E("div", {style: "display: contents !important; background-color: transparent !important;"}, M(observableBySet(tasks), (task: any)=>{
-                return E("ui-frame", {dataset: {highlight: 2, chroma: 0.1, scheme: "solid", id: task?.taskId.replace("#", "") }}, [
+                return E("ui-frame", {dataset: {hidden: "", highlight: 2, chroma: 0.1, scheme: "solid", id: task?.taskId.replace("#", "") }}, [
                     E("div", {style: "justify-self: start; text-align: start; padding=inline: 1rem", slot: "ui-title-bar"}, [task?.desc?.label||""]),
                     (components.get(task?.args?.type) || viewable)?.(task),
                 ])
