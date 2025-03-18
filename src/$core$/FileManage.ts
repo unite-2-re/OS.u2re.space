@@ -90,7 +90,7 @@ export class FileManagment {
     }
 
     static getManager(element) {
-        return this.elementMap.get(element);
+        return this.elementMap.get(element?.closest?.(".ui-content") || element);
     }
 
     static fileOf(element?) {

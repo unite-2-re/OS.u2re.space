@@ -19,6 +19,26 @@ ghostImage.src = URL.createObjectURL(new Blob([`<svg xmlns="http://www.w3.org/20
 ghostImage.width = 24;
 ghostImage.height = 24;
 
+
+//
+export const pasteInWorkspace = async (data?: any, e?: any)=>{
+    data = await data;
+    const item = data?.items?.find?.(item => item?.getType?.("text/plain"));
+    let text = await (item?.getType?.("text/plain") ?? (item ? new Promise((r)=>(item.getAsString((data)=>r(data)))) : null)) || data?.getData?.("text/plain");
+    if (text instanceof Blob) { text = await text.text(); };
+    if (text && typeof text == "string") {
+        if (URL.canParse(text)) {
+            const url = new URL(text);
+            e?.preventDefault?.();
+            addItem(UUIDv4(), e, { href: text||"", icon: "globe", label: url?.hostname || "" });
+        } else
+        if (text?.startsWith?.("/user/")) {
+            e?.preventDefault?.();
+            addItem(UUIDv4(), e, { href: text||"", icon: "file", label: text?.split?.("/")?.at?.(-1) || "" });
+        }
+    };
+}
+
 //
 export const initFileInteraction = (ROOT = document.documentElement)=>{
     //
@@ -28,13 +48,16 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
 
         //
         if (MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
-            const file = manager.getCurrent().get(FileManagment.fileOf(content));
+            const path = FileManagment.fileOf(content);
+            const file = manager.getCurrent().get(path);
             if (file) {
                 const url = URL.createObjectURL(file);
-                ev?.clipboardData?.setData?.("text/plain", url);
+                ev?.clipboardData?.clearData?.();
                 ev?.clipboardData?.setData?.("text/uri-list", url);
                 ev?.clipboardData?.setData?.("DownloadURL", file?.type + ":" + file?.name + ":" + url);
+                //ev?.clipboardData?.setData?.("text/plain", path);
                 ev?.clipboardData?.items?.add?.(file);
+                ev?.clipboardData?.items?.add?.(path, "text/plain");
                 ev?.preventDefault?.();
             }
         }
@@ -56,14 +79,7 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
             }
         } else
         if (ROOT.querySelector(".u2-desktop-grid:is(:hover, :active, :focus), .u2-desktop-grid:has(:hover, :active, :focus)")) {
-            const text = (e.clipboardData)?.getData("text/plain");
-            if (text && typeof text == "string") {
-                if (URL.canParse(text)) {
-                    const url = new URL(text);
-                    e?.preventDefault?.();
-                    addItem(UUIDv4(), null, { href: text||"", icon: "globe", label: url?.hostname || "" });
-                }
-            };
+            pasteInWorkspace(e.clipboardData);
         }
     });
 
@@ -99,10 +115,14 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
 
             //
             if (e?.ctrlKey && e?.key == "c") {
-                const file = manager.getCurrent().get(FileManagment.fileOf(content));
+                const path = FileManagment.fileOf(content);
+                const file = manager.getCurrent().get(path);
                 if (file && ClipboardItem?.supports?.(file?.type)) {
                     e?.preventDefault?.();
-                    navigator.clipboard.write([new ClipboardItem({[file?.type]: file})]);
+                    navigator.clipboard.write([new ClipboardItem({
+                        [file?.type]: file,
+                        ["text/plain"]: path
+                    })]);
                 }
             }
         }
@@ -126,10 +146,11 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
                 ev.dataTransfer.effectAllowed = "copyLink";
                 ev?.dataTransfer?.clearData?.();
                 ev?.dataTransfer?.setDragImage?.(ghostImage, 0, 0);
-                ev?.dataTransfer?.setData?.("text/plain", url);
                 ev?.dataTransfer?.setData?.("text/uri-list", url);
                 ev?.dataTransfer?.setData?.("DownloadURL", file?.type + ":" + file?.name + ":" + url);
+                //ev?.dataTransfer?.setData?.("text/plain", path);
                 ev?.dataTransfer?.items?.add?.(file);
+                ev?.dataTransfer?.items?.add?.(path, "text/plain");
             }
         } else { ev?.preventDefault?.(); }
     });

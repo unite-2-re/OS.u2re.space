@@ -1,5 +1,5 @@
 // @ts-ignore /* @vite-ignore */
-import type { ItemsType, ItemType, ShortcutType } from "src/$core$/Types";
+import type { ItemsType, ItemType, ShortcutType } from "../$core$/Types";
 import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 import { JSOX } from "jsox";
 import { cvt_cs_to_os, getBoundingOrientRect } from "/externals/core/agate";
@@ -119,8 +119,17 @@ export const getItem = (id)=>{
 }
 
 //
+const mouseCoord = [0, 0];
+
+//
+document.addEventListener("mousemove", (ev)=>{
+    mouseCoord[0] = ev?.clientX || 0;
+    mouseCoord[1] = ev?.clientY || 0;
+});
+
+//
 export const addItem = (id, event?, structure: any = {})=>{
-    const screen = [event?.clientX || 0, event?.clientY || 0];
+    const screen = [event?.clientX || mouseCoord?.[0] || 0, event?.clientY || mouseCoord?.[1] || 0];
     const box = document.querySelector(".u2-desktop-grid") as any;
     const grid = box?.querySelector?.("ui-gridbox");
     const size = [

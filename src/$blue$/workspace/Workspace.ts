@@ -6,6 +6,7 @@ import { fileActions } from "../../$core$/FileAction";
 import { fixOrientToScreen } from "/externals/core/agate.js";
 import { inflectInGrid } from "/externals/core/grid.js";
 import { E, H } from "/externals/lib/blue.js"
+import { pasteInWorkspace } from "../../$ui$/FileInteration.ts";
 
 //
 const dragOverHandle = (ev: DragEvent) => {
@@ -16,6 +17,10 @@ const dragOverHandle = (ev: DragEvent) => {
 const dropHandle = (ev: DragEvent) => {
     ev.preventDefault();
     const file = ev.dataTransfer?.files?.[0];
+    const text = ev.dataTransfer?.getData?.("text/plain");
+    if (text || !file) {
+        pasteInWorkspace(ev.dataTransfer);
+    } else
     if (file) {
         dropItemEv(file, "/user/temp/")?.then((path: any) => {
             if (path) {

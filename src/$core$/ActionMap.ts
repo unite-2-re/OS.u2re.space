@@ -62,6 +62,8 @@ export const actionMap = new Map<any, any>([
     }],
 
     ["manager", (goTo = "")=>{
+        const task = taskManager?.getTask?.("#manager");
+        //if (task && goTo) { task.args.directory = goTo; };
         taskManager?.focus?.("#manager");
         const manager = FileManagment.getManager(document.querySelector("#manager"));
         requestAnimationFrame(()=>{
@@ -116,7 +118,7 @@ export const actionMap = new Map<any, any>([
             // TODO:: external files support, custom mounts of FS
             if ((href = href?.trim?.())?.startsWith?.("/user")) {
                 if (href?.endsWith?.("/") && !takeAction) { return actionMap?.get?.("manager")?.(href); };
-                return (takeAction ?? fileActions(href, {actionMap}) ?? openLink)?.(href);
+                return (takeAction ?? (fileActions ?? openLink)?.(href, {actionMap}))?.(href);
             } else
             if (href?.trim?.()?.startsWith?.("#")) {
                 return taskManager?.focus?.(href?.trim?.());
