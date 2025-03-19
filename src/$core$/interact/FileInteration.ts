@@ -1,6 +1,6 @@
 import { dropFile } from "../file/FileOps.ts";
 import { FileManagment } from "../file/FileManage.ts";
-import { workspace } from "../../$state$/GridState.ts";
+import { workspace } from "../state/GridState.ts";
 
 //
 const MOCElement = (el, selector)=>{

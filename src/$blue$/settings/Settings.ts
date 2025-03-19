@@ -1,5 +1,5 @@
 //
-import { preferences } from '../../$state$/Preferences.ts';
+import { preferences } from '../../$core$/state/Preferences.ts';
 import type { TabType } from "../../$core$/Types";
 
 //
@@ -9,7 +9,7 @@ import { synchronizeInputs } from '/externals/lib/dom.js';
 //
 import { forms } from "./Fields.ts"
 import { E, M } from "/externals/lib/blue.js"
-import { workspace } from '../../$state$/GridState.ts'
+import { workspace } from '../../$core$/state/GridState.ts'
 
 //
 interface InputDesc {

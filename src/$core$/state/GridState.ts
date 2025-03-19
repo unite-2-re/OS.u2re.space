@@ -1,5 +1,5 @@
 // @ts-ignore /* @vite-ignore */
-import type { ItemsType, ItemType, ShortcutType } from "../$core$/Types";
+import type { ItemsType, ItemType, ShortcutType } from "../Types";
 import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 import { JSOX } from "jsox";
 

@@ -1,6 +1,6 @@
-import { UIState } from "../$state$/UIState.ts";
-import { workspace } from "../$state$/GridState.ts";
-import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "../$state$/ImportExport.ts";
+import { UIState } from "./state/UIState.ts";
+import { workspace } from "./state/GridState.ts";
+import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "./state/ImportExport.ts";
 
 //
 import { makeReactive } from "/externals/lib/object.js";

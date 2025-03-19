@@ -8,7 +8,9 @@ import { observeBySelector } from "/externals/lib/dom.js";
 //
 export const preferences = makeObjectAssignable(makeReactive({
     scaling: 1,
-    theme: "default"
+    "theme-quick": matchMedia('(prefers-color-scheme: dark)').matches,
+    "orientation-lock": true,
+    theme: "default",
 }));
 
 //
@@ -56,7 +58,15 @@ subscribe(preferences, (value, prop)=>{
     //const grids = document.querySelectorAll(".u2-desktop-grid .u2-grid-page") as unknown as HTMLElement[];
     //if (prop == "columns") { grids.forEach((target: HTMLElement)=>target.style.setProperty("--layout-c", "" + (value||4))); };
     //if (prop == "rows") { grids.forEach((target: HTMLElement)=>target.style.setProperty("--layout-r", "" + (value||8))); };
-    if (prop == "theme") { document.documentElement.dispatchEvent(new CustomEvent("u2-theme-change", { bubbles: true, detail: {} })); document.documentElement.setAttribute("data-theme", "" + (value||"default")); };
+    // TODO: fix default theme issue (dynamic)
+    if (prop == "theme-quick") { preferences.theme = value ? "dark" : "light"; }
+    if (prop == "theme") {
+        if (value == "default") { preferences["theme-quick"] = matchMedia('(prefers-color-scheme: dark)').matches; } else { preferences["theme-quick"] = value == "dark" ? true : false; };
+        document.documentElement.dispatchEvent(new CustomEvent("u2-theme-change", { bubbles: true, detail: {} })); document.documentElement.setAttribute("data-theme", "" + (value||"default"));
+    }
+    if (prop == "orientation-lock") {
+        if (value) { screen.orientation?.lock?.(screen.orientation.type) } else {  screen.orientation?.unlock?.(); };
+    };
 });
 
 //

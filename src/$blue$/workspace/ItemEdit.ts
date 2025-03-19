@@ -1,4 +1,4 @@
-import { UIState } from "../../$state$/UIState.ts";
+import { UIState } from "../../$core$/state/UIState.ts";
 
 //
 import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
