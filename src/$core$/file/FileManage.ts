@@ -134,7 +134,7 @@ export class FileManagment {
         // if regular file (currently, only wallpaper usage implemented)
         if (!ev || ev?.type == "dblclick") {
             return fileActions(path, {current: this.#current});
-            //return useItemEv(path);
+            //return useFileAs(path);
         };
     };
 }

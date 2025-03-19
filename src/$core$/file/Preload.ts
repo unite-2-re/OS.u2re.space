@@ -1,6 +1,7 @@
-// @ts-ignore
 import { observeBySelector } from "/externals/lib/dom.js";
-import { useAsWallpaper } from "./FileAction";
+
+//
+import { useAsWallpaper } from "./FileAction.ts";
 
 //
 export const loadFromStorage = async ()=>{

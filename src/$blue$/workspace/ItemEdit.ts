@@ -1,11 +1,8 @@
-//import { workspace } from "../../$state$/GridState.ts";
 import { UIState } from "../../$state$/UIState.ts";
 
-// @ts-ignore
+//
 import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
-
-// @ts-ignore
-import { observeAttribute, synchronizeInputs } from "/externals/lib/dom.js";
+import { synchronizeInputs } from "/externals/lib/dom.js";
 import { E, H, M } from "/externals/lib/blue.js";
 
 //

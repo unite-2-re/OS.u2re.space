@@ -1,12 +1,12 @@
 //
-import { addFile, downloadFile, dropFile, removeFile } from "../../$core$/FileOps.ts";
-import { FileManagment } from "../../$core$/FileManage.ts";
+import { addFile, downloadFile, dropFile, removeFile } from "../../$core$/file/FileOps.ts";
+import { FileManagment } from "../../$core$/file/FileManage.ts";
 import type { Task } from "../../$core$/Types";
 
 //
 import { subscribe } from "/externals/lib/object.js";
 import { synchronizeInputs } from "/externals/lib/dom.js";
-import {E, M, H, computed, remap, observableByMap} from "/externals/lib/blue.js"
+import {E, M, H, observableByMap} from "/externals/lib/blue.js"
 
 //
 export default (task: Task, )=>{

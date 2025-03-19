@@ -1,27 +1,17 @@
 import { UIState } from "../$state$/UIState.ts";
 import { workspace } from "../$state$/GridState.ts";
-
-// @ts-ignore
-import { makeReactive, subscribe } from "/externals/lib/object.js";
-
-// @ts-ignore
-import { initTaskManager } from "/externals/wcomp/ui.js";
 import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "../$state$/ImportExport.ts";
 
+//
+import { makeReactive } from "/externals/lib/object.js";
+
 // redundant from core
-//import { navigate } from "./FileManage.ts";
-import { fileActions } from "./FileAction";
-import { FileManagment } from "./FileManage";
+import { fileActions } from "./file/FileAction";
+import { FileManagment } from "./file/FileManage";
+import { taskManager } from "./Tasks.ts";
 
 //
-export const taskManager = initTaskManager();
-
-//
-const UUIDv4 = () => {
-    return crypto?.randomUUID ? crypto?.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16));
-};
-
-//
+const UUIDv4 = () => { return crypto?.randomUUID ? crypto?.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16)); };
 const isSameOrigin = (a)=>{
     const urlA = a instanceof URL ? a : (URL.canParse(a) ? new URL(a) : null);
     return !a || (a.startsWith("./") || a.startsWith("/")) || (urlA?.origin == location?.origin) || a?.trim()?.startsWith?.("#");
@@ -132,19 +122,3 @@ export const actionMap = new Map<any, any>([
     ["export-settings", ()=>{ saveBinaryToFS?.(exportSettings()); }],
     ["import-settings", ()=>{ pickBinaryFromFS()?.then?.(importSettings); }]
 ]);
-
-//
-document.addEventListener("u2-action", (ev)=>{
-    const det = ev?.detail;
-    if (det?.type == "action") {
-        actionMap?.get?.(det?.name)?.(...(det?.args || []));
-    } else
-    if (det?.type == "popup") {
-        actionMap?.get?.("toggle-popup")?.(det?.initial);
-    }
-});
-
-//
-document.addEventListener("u2-close", (ev)=>{
-    if (ev?.detail?.taskId?.replace?.("#", "")?.startsWith?.("TASK-")) { actionMap?.get?.("close-task")?.("#" + ev?.detail?.taskId?.replace?.("#", "")); };
-});

@@ -1,11 +1,10 @@
-import { fileActionMap } from "../$core$/FileAction.ts";
-import { actionMap } from "../$core$/ActionMap.ts";
-
-// @ts-ignore
 import { UILucideIcon, makeCtxMenuItems, openContextMenu } from "/externals/wcomp/ui.js";
+
+//
+import { actionMap } from "../ActionMap.ts";
+import { fileActionMap } from "../file/FileAction.ts";
+import { FileManagment } from "../file/FileManage.ts";
 import { pasteInWorkspace } from "./FileInteration.ts";
-import { removeFile } from "../$core$/FileOps.ts";
-import { FileManagment } from "../$core$/FileManage.ts";
 
 //
 export const ctxMenuMap = new Map([
@@ -32,10 +31,8 @@ export const ctxMenuMap = new Map([
     ["ui-select-row[name=\"file\"]", [
         {icon: new UILucideIcon({icon: "app-window", padding: "0.05rem"}), content: "View file", callback(initiator) { fileActionMap?.get?.("view")?.(initiator?.value); } },
         {icon: new UILucideIcon({icon: "wallpaper", padding: "0.05rem"}), content: "Use as wallpaper", callback(initiator) { fileActionMap?.get?.("use")?.(initiator?.value); } },
-        {icon: new UILucideIcon({icon: "copy-minus", padding: "0.05rem"}), content: "Copy path", callback(initiator) { if (initiator?.value) Promise.try(navigator.clipboard.writeText.bind(navigator.clipboard), initiator?.value); } }, //initiator?.value
-
-        // TODO: add file action delete in registry
-        {icon: new UILucideIcon({icon: "circle-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { if (initiator?.value) removeFile(initiator?.value, FileManagment?.getManager?.(initiator)?.getCurrent?.()); } },
+        {icon: new UILucideIcon({icon: "copy-minus", padding: "0.05rem"}), content: "Copy path", callback(initiator) { if (initiator?.value) Promise.try(navigator.clipboard.writeText.bind(navigator.clipboard), initiator?.value); } },
+        {icon: new UILucideIcon({icon: "circle-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { fileActionMap?.get?.("delete")?.(initiator?.value, FileManagment?.getManager?.(initiator)?.getCurrent?.()); } },
     ]]
 ]);
 

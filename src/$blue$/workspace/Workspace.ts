@@ -1,7 +1,9 @@
-import { dropFile } from "../../$core$/FileOps.ts";
-import { fileActions } from "../../$core$/FileAction";
-import { pasteInWorkspace } from "../../$ui$/FileInteration.ts";
-import { createLabel, createShaped } from "../../$core$/Items.ts";
+import { dropFile } from "../../$core$/file/FileOps.ts";
+import { fileActions } from "../../$core$/file/FileAction";
+
+//
+import { pasteInWorkspace } from "../../$core$/interact/FileInteration.ts";
+import { createLabel, createShaped } from "../../$core$/grid/Items.ts";
 
 //
 import { subscribe } from "/externals/lib/object.js";

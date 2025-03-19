@@ -1,6 +1,6 @@
 //
-import { taskManager } from "./ActionMap";
-import { getDir, provide } from "./FileOps";
+import { taskManager } from "../Tasks";
+import { getDir, provide, removeFile } from "./FileOps";
 
 // @ts-ignore
 import { colorScheme } from "/externals/core/theme.js";
@@ -26,24 +26,16 @@ export const openImage = ({label, icon, href})=>{
     }
 };
 
-
 //
 export const fileActionMap = new Map([
     ["view", async (path, args?)=>{
         const file = await provide(path?.name || path) as File;
-        openImage({label: file?.name || "", icon: "image", href: URL.createObjectURL(file)});
-        //console.warn("Image View Not Implemented!");
-        //useItemEv(path?.name || path);
+        return openImage({label: file?.name || "", icon: "image", href: URL.createObjectURL(file)});
     }],
-    ["use", async (path, args?)=>{
-        useItemEv(path?.name || path);
-    }],
-    ["text", async (path, args?)=>{
-        console.error("Not implemented!");
-    }],
-    ["error", async (path, args?)=>{
-        console.error(args?.reason || "Not implemented!");
-    }],
+    ["use", async (path, args?)=>{ return useFileAs(path?.name || path); }],
+    ["text", async (path, args?)=>{ console.error("Not implemented!"); }],
+    ["error", async (path, args?)=>{ console.error(args?.reason || "Not implemented!"); }],
+    ["delete", async(path, args?)=>{ return removeFile(path, args); }]
 ]);
 
 //
@@ -99,7 +91,7 @@ export const useAsWallpaper = (f_path) => {
 };
 
 //
-export const useItemEv = (selectedFilename)=>{
+export const useFileAs = (selectedFilename)=>{
     const url = (selectedFilename || STOCK_NAME);
     localStorage.setItem("@wallpaper", useAsWallpaper(url));
 }

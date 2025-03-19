@@ -1,4 +1,4 @@
-import { workspace } from "../$state$/GridState";
+import { workspace } from "../../$state$/GridState";
 import { subscribe } from "/externals/lib/object.js";
 
 //
