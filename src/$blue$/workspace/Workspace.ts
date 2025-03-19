@@ -49,8 +49,8 @@ export default (gridState: any)=>{
 
     //
     subscribe(gridState.layout, (value, prop)=>{
-        if (prop == "columns") { tree?.element?.childrens?.forEach((target: HTMLElement)=>target.style.setProperty("--layout-c", "" + (value||4))); };
-        if (prop == "rows") { tree?.element?.childrens?.forEach((target: HTMLElement)=>target.style.setProperty("--layout-r", "" + (value||8))); };
+        if (prop == "columns") { Array.from<any>(tree.element.children).forEach((target: HTMLElement)=>target.style.setProperty("--layout-c", "" + (value||4))); };
+        if (prop == "rows") { Array.from<any>(tree.element?.children).forEach((target: HTMLElement)=>target.style.setProperty("--layout-r", "" + (value||8))); };
     });
 
     //

@@ -38,8 +38,8 @@ export default (task)=>{
     }
 
     const syncInput = (form)=>{
-        synchronizeInputs(preferences, '.u2-input', form?.element ?? form, subscribe);
         synchronizeInputs(workspace.layout, '.u2-input', form?.element ?? form, subscribe);
+        synchronizeInputs(preferences, '.u2-input', form?.element ?? form, subscribe);
         return form;
     }
 
