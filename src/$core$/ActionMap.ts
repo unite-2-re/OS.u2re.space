@@ -1,5 +1,5 @@
 import { UIState } from "../$state$/UIState.ts";
-import { getItem, removeItem, addItem } from "../$state$/GridState.ts";
+import { workspace } from "../$state$/GridState.ts";
 
 // @ts-ignore
 import { makeReactive, subscribe } from "/externals/lib/object.js";
@@ -88,7 +88,7 @@ export const actionMap = new Map<any, any>([
     }],
 
     ["item-edit", (id)=>{
-        const item = getItem(id);
+        const item = workspace.getItem(id);
         if (item) {
             UIState.currentItem = item;
             document?.querySelector?.(".adl-modal:has(.adl-item-edit)")?.removeAttribute?.("data-hidden");
@@ -97,7 +97,7 @@ export const actionMap = new Map<any, any>([
 
     //
     ["item-add", (event?: any)=>{
-        const item = addItem(UUIDv4(), event);
+        const item = workspace.addItem(UUIDv4(), event);
         if (item) {
             UIState.currentItem = item;
             document?.querySelector?.(".adl-modal:has(.adl-item-edit)")?.removeAttribute?.("data-hidden");
@@ -106,7 +106,7 @@ export const actionMap = new Map<any, any>([
 
     //
     ["item-delete", (id)=>{
-        removeItem(id);
+        workspace.removeItem(id);
     }],
 
     // "open-link" works as "_blank" if external domain, and "_self" if internal domain or same origin

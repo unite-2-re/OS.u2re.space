@@ -4,7 +4,7 @@ import html from "solid-js/html";
 
 //
 import { createLabel, createShaped } from "../../$core$/Items.ts";
-import { dropItemEv } from "../../$core$/FileOps.ts";
+import { dropFile } from "../../$core$/FileOps.ts";
 import { fileActions } from "../../$core$/FileAction";
 import { refAndMount } from "../core/Utils.tsx";
 import type { ItemsType } from "../../$core$/Types";
@@ -28,7 +28,7 @@ export const Workspace = ({ items, lists }: ItemsType) => {
         ev?.preventDefault?.();
         const file = ev?.dataTransfer?.files?.[0];
         if (file) {
-            dropItemEv(file, "/user/temp/")?.then?.((path) => {
+            dropFile(file, "/user/temp/")?.then?.((path) => {
                 if (path) { fileActions?.(path); };
             });
         };

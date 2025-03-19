@@ -158,7 +158,7 @@ export const imageImportDesc = {
 };
 
 //
-export const dropItemEv = async (file, dest = "/user/images/", current?: any)=>{
+export const dropFile = async (file, dest = "/user/images/", current?: any)=>{
     const fs = await useFS();
     const path = getDir(dest);
 
@@ -179,19 +179,19 @@ export const dropItemEv = async (file, dest = "/user/images/", current?: any)=>{
 }
 
 //
-export const addItemEv = async (dest = "/user/images/", current?: any)=>{
+export const addFile = async (dest = "/user/images/", current?: any)=>{
     const $e = "showOpenFilePicker";
 
     // @ts-ignore
     const showOpenFilePicker = window?.[$e]?.bind?.(window) ?? (await import("/externals/polyfill/showOpenFilePicker.mjs"))?.[$e];
     return showOpenFilePicker(imageImportDesc)?.then?.(async ([handle] = [])=>{
         const file = await handle?.getFile?.();
-        return dropItemEv(file, dest, current);
+        return dropFile(file, dest, current);
     });
 }
 
 //
-export const removeItemEv = async (f_path = "", current?: any)=>{
+export const removeFile = async (f_path = "", current?: any)=>{
     const path = getDir(f_path);
 
     // TODO: supports other file systems
@@ -219,6 +219,6 @@ export const removeItemEv = async (f_path = "", current?: any)=>{
 }
 
 //
-export const downloadItemEv = async (f_path)=>{
+export const downloadFile = async (f_path)=>{
     downloadImage(await provide(f_path));
 };

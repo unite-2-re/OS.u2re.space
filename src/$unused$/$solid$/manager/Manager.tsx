@@ -7,7 +7,7 @@ import { synchronizeInputs } from "/externals/lib/dom.js";
 
 //
 import { hooked, observe, refAndMount } from "../core/Utils.tsx";
-import { addItemEv, downloadItemEv, dropItemEv, removeItemEv } from "../../$core$/FileOps.ts";
+import { addFile, downloadFile, dropFile, removeFile } from "../../$core$/FileOps.ts";
 import { FileManagment } from "../../$core$/FileManage.ts";
 import { tabs } from "../settings/Fields.tsx";
 import { $hideMenu } from "../../$ui$/Sidebar.ts";
@@ -53,7 +53,7 @@ export const Manager = (task: { args: any, taskId: string }) => {
     const dropHandle = (ev) => {
         ev?.preventDefault?.();
         const file = ev?.dataTransfer?.files?.[0];
-        if (file) { dropItemEv(file, manager.currentDir(), current); };
+        if (file) { dropFile(file, manager.currentDir(), current); };
     }
 
     //
@@ -77,7 +77,7 @@ export const Manager = (task: { args: any, taskId: string }) => {
                     type="button"
                     tabIndex={-1}
                     class="adl-file-add"
-                    onClick={(ev) => addItemEv(manager.currentDir(), current)}
+                    onClick={(ev) => addFile(manager.currentDir(), current)}
                 >
                     <ui-icon icon="file-up" />
                 </button>
@@ -86,7 +86,7 @@ export const Manager = (task: { args: any, taskId: string }) => {
                     type="button"
                     tabIndex={-1}
                     class="adl-file-get"
-                    onClick={(ev) => downloadItemEv(FileManagment.fileOf(content))}
+                    onClick={(ev) => downloadFile(FileManagment.fileOf(content))}
                 >
                     <ui-icon icon="file-down" />
                 </button>
@@ -95,7 +95,7 @@ export const Manager = (task: { args: any, taskId: string }) => {
                     type="button"
                     tabIndex={-1}
                     class="adl-file-del"
-                    onClick={(ev) => removeItemEv(FileManagment.fileOf(content), current)}
+                    onClick={(ev) => removeFile(FileManagment.fileOf(content), current)}
                 >
                     <ui-icon icon="file-x" />
                 </button>

@@ -1,4 +1,4 @@
-import { removeItem } from "../../$state$/GridState.ts";
+//import { workspace } from "../../$state$/GridState.ts";
 import { UIState } from "../../$state$/UIState.ts";
 
 // @ts-ignore
@@ -25,6 +25,7 @@ export const stateOnEdit = makeObjectAssignable(makeReactive({
 
 //
 export const ItemEdit = (
+    workspace,
     confirmState, // uploader to state manager (set by id)
     form // forms of editor
 ) => {
@@ -45,7 +46,7 @@ export const ItemEdit = (
     const confirm = (ev) => {
         const modal = ev?.target?.closest?.(".adl-modal");
         if (modal) {
-            confirmState(stateOnEdit);
+            confirmState(workspace, stateOnEdit);
             modal.dataset.hidden = "";
         };
     };
@@ -54,7 +55,7 @@ export const ItemEdit = (
     const deleteA = (ev) => {
         const modal = ev?.target?.closest?.(".adl-modal");
         if (modal) {
-            removeItem(stateOnEdit?.id);
+            workspace.removeItem(stateOnEdit?.id);
             modal.dataset.hidden = "";
         };
     };

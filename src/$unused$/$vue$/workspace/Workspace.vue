@@ -4,7 +4,7 @@ import { ref, onMounted, defineProps } from "vue";
 //
 import type { ItemsType } from "../../$core$/Types";
 import { createLabel, createShaped } from "../../$core$/Items.ts";
-import { dropItemEv } from "../../$core$/FileOps.ts";
+import { dropFile } from "../../$core$/FileOps.ts";
 import { fileActions } from "../../$core$/FileAction";
 
 //
@@ -27,7 +27,7 @@ const dropHandle = (ev: DragEvent) => {
     ev.preventDefault();
     const file = ev.dataTransfer?.files?.[0];
     if (file) {
-        dropItemEv(file, "/user/temp/")?.then((path: any) => {
+        dropFile(file, "/user/temp/")?.then((path: any) => {
             if (path) {
                 fileActions?.(path);
             }

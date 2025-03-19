@@ -8,8 +8,6 @@ import { observeBySelector } from "/externals/lib/dom.js";
 //
 export const preferences = makeObjectAssignable(makeReactive({
     scaling: 1,
-    columns: 4,
-    rows: 8,
     theme: "default"
 }));
 
@@ -55,16 +53,16 @@ addEventListener("storage", (ev)=>{
 
 //
 subscribe(preferences, (value, prop)=>{
-    const grids = document.querySelectorAll(".u2-desktop-grid .u2-grid-page") as unknown as HTMLElement[];
-    if (prop == "columns") { grids.forEach((target: HTMLElement)=>target.style.setProperty("--layout-c", "" + (value||4))); };
-    if (prop == "rows") { grids.forEach((target: HTMLElement)=>target.style.setProperty("--layout-r", "" + (value||8))); };
+    //const grids = document.querySelectorAll(".u2-desktop-grid .u2-grid-page") as unknown as HTMLElement[];
+    //if (prop == "columns") { grids.forEach((target: HTMLElement)=>target.style.setProperty("--layout-c", "" + (value||4))); };
+    //if (prop == "rows") { grids.forEach((target: HTMLElement)=>target.style.setProperty("--layout-r", "" + (value||8))); };
     if (prop == "theme") { document.documentElement.dispatchEvent(new CustomEvent("u2-theme-change", { bubbles: true, detail: {} })); document.documentElement.setAttribute("data-theme", "" + (value||"default")); };
 });
 
 //
-observeBySelector(document.documentElement, ".u2-desktop-grid .u2-grid-page", (mutations)=>{
+/*observeBySelector(document.documentElement, ".u2-desktop-grid .u2-grid-page", (mutations)=>{
     mutations.addedNodes.forEach((target)=>{
         target.style.setProperty("--layout-c", "" + (preferences.columns||4));
         target.style.setProperty("--layout-r", "" + (preferences.rows||8));
     });
-});
+});*/

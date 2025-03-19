@@ -4,7 +4,7 @@ import { actionMap } from "../$core$/ActionMap.ts";
 // @ts-ignore
 import { UILucideIcon, makeCtxMenuItems, openContextMenu } from "/externals/wcomp/ui.js";
 import { pasteInWorkspace } from "./FileInteration.ts";
-import { removeItemEv } from "../$core$/FileOps.ts";
+import { removeFile } from "../$core$/FileOps.ts";
 import { FileManagment } from "../$core$/FileManage.ts";
 
 //
@@ -35,7 +35,7 @@ export const ctxMenuMap = new Map([
         {icon: new UILucideIcon({icon: "copy-minus", padding: "0.05rem"}), content: "Copy path", callback(initiator) { if (initiator?.value) Promise.try(navigator.clipboard.writeText.bind(navigator.clipboard), initiator?.value); } }, //initiator?.value
 
         // TODO: add file action delete in registry
-        {icon: new UILucideIcon({icon: "circle-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { if (initiator?.value) removeItemEv(initiator?.value, FileManagment?.getManager?.(initiator)?.getCurrent?.()); } },
+        {icon: new UILucideIcon({icon: "circle-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { if (initiator?.value) removeFile(initiator?.value, FileManagment?.getManager?.(initiator)?.getCurrent?.()); } },
     ]]
 ]);
 

@@ -27,10 +27,17 @@ export interface ShortcutType {
 };
 
 //
+export interface GridLayout {
+    columns: number,
+    rows: number
+};
+
+//
 export interface ItemsType {
+    layout: GridLayout;
     shortcuts: Set<ShortcutType>;
     items: Set<ItemType>;
-    lists: Set<string>;
+    //lists: Set<string>;
 };
 
 //

@@ -1,6 +1,6 @@
-import { dropItemEv } from "../$core$/FileOps.ts";
+import { dropFile } from "../$core$/FileOps.ts";
 import { FileManagment } from "../$core$/FileManage.ts";
-import { addItem } from "../$state$/GridState.ts";
+import { workspace } from "../$state$/GridState.ts";
 
 //
 const MOCElement = (el, selector)=>{
@@ -30,11 +30,11 @@ export const pasteInWorkspace = async (data?: any, e?: any)=>{
         if (URL.canParse(text)) {
             const url = new URL(text);
             e?.preventDefault?.();
-            addItem(UUIDv4(), e, { href: text||"", icon: "globe", label: url?.hostname || "" });
+            workspace.addItem(UUIDv4(), e, { href: text||"", icon: "globe", label: url?.hostname || "" });
         } else
         if (text?.startsWith?.("/user/")) {
             e?.preventDefault?.();
-            addItem(UUIDv4(), e, { href: text||"", icon: "file", label: text?.split?.("/")?.at?.(-1) || "" });
+            workspace.addItem(UUIDv4(), e, { href: text||"", icon: "file", label: text?.split?.("/")?.at?.(-1) || "" });
         }
     };
 }
@@ -75,7 +75,7 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
             if (blob) {
                 e?.preventDefault?.();
                 const file = blob instanceof File ? blob : (new File([blob], UUIDv4() + ".tmp"));
-                if (file) dropItemEv(file, manager.currentDir(), manager.getCurrent());
+                if (file) dropFile(file, manager.currentDir(), manager.getCurrent());
             }
         } else
         if (ROOT.querySelector(".u2-desktop-grid:is(:hover, :active, :focus), .u2-desktop-grid:has(:hover, :active, :focus)")) {
@@ -107,7 +107,7 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
                         if (blob) {
                             e?.preventDefault?.();
                             const file = blob instanceof File ? blob : (new File([blob], UUIDv4() + "." + isImage?.replace?.("image/", "")));
-                            if (file) dropItemEv(file, manager.currentDir(), manager.getCurrent());
+                            if (file) dropFile(file, manager.currentDir(), manager.getCurrent());
                         }
                     }
                 });

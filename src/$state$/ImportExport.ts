@@ -1,7 +1,7 @@
-import { gridState, mergeByKey, wrapItemToReactive } from "./GridState.ts";
+import { workspace, mergeByKey, wrapItemToReactive } from "./GridState.ts";
 
 // @ts-ignore /* @vite-ignore */
-import { safe } from "/externals/lib/object.js";
+import { makeReactive, safe } from "/externals/lib/object.js";
 import { JSOX } from "jsox";
 
 // Function to download data to a file
@@ -84,21 +84,15 @@ export const pickBinaryFromFS = async () => {
 
 //
 export const exportSettings = () => {
-    return JSOX.stringify({
-        shortcuts: [...safe(gridState.shortcuts || [])],
-        items: [...safe(gridState.items || [])],
-        lists: [...safe(gridState.lists || [])]
-    });
+    return JSOX.stringify(workspace.getJSOX());
 };
 
 //
 export const importSettings = (data) => {
     if (!data) return;
     const obj = JSOX.parse(data);
-    gridState.shortcuts = mergeByKey([...(obj.shortcuts || [])]).map((I)=>wrapItemToReactive(I));
-
-    // TODO: deprecate items, lists, and use items-groups
-    gridState.items = mergeByKey([...(obj.items || [])]).map((I)=>wrapItemToReactive(I));
-    gridState.lists = [...(obj.lists || [])];
+    workspace.gridState.layout = makeReactive(obj.layout || {columns: 4, rows: 8});
+    workspace.gridState.shortcuts = new Set(mergeByKey([...(obj.shortcuts || [])]).map((I)=>wrapItemToReactive(I)));
+    workspace.gridState.items = new Set(mergeByKey([...(obj.items || [])]).map((I)=>wrapItemToReactive(I)));
     return obj;
 };

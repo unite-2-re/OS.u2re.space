@@ -1,5 +1,5 @@
 import { createLabel, createShaped } from "../../$core$/Items.ts";
-import { dropItemEv } from "../../$core$/FileOps.ts";
+import { dropFile } from "../../$core$/FileOps.ts";
 import { fileActions } from "../../$core$/FileAction";
 
 //
@@ -7,6 +7,7 @@ import { fixOrientToScreen } from "/externals/core/agate.js";
 import { inflectInGrid } from "/externals/core/grid.js";
 import { E, H } from "/externals/lib/blue.js"
 import { pasteInWorkspace } from "../../$ui$/FileInteration.ts";
+import { subscribe } from "/externals/lib/object.js";
 
 //
 const dragOverHandle = (ev: DragEvent) => {
@@ -22,7 +23,7 @@ const dropHandle = (ev: DragEvent) => {
         pasteInWorkspace(ev.dataTransfer);
     } else
     if (file) {
-        dropItemEv(file, "/user/temp/")?.then((path: any) => {
+        dropFile(file, "/user/temp/")?.then((path: any) => {
             if (path) {
                 fileActions?.(path);
             }
@@ -32,6 +33,7 @@ const dropHandle = (ev: DragEvent) => {
 
 //
 export default (gridState: any)=>{
+    //
     let labels: any;
     let shapes: any;
     const tree = E("ui-orientbox.u2-desktop-grid", {
@@ -46,8 +48,14 @@ export default (gridState: any)=>{
         ]);
 
     //
+    subscribe(gridState.layout, (value, prop)=>{
+        if (prop == "columns") { tree?.element?.childrens?.forEach((target: HTMLElement)=>target.style.setProperty("--layout-c", "" + (value||4))); };
+        if (prop == "rows") { tree?.element?.childrens?.forEach((target: HTMLElement)=>target.style.setProperty("--layout-r", "" + (value||8))); };
+    });
+
+    //
     fixOrientToScreen(tree.element);
-    inflectInGrid(labels, gridState?.items, gridState?.lists, createLabel);
-    inflectInGrid(shapes, gridState?.items, gridState?.lists, createShaped);
+    inflectInGrid(labels, gridState?.items, createLabel);
+    inflectInGrid(shapes, gridState?.items, createShaped);
     return tree;
 }

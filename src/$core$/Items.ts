@@ -1,4 +1,4 @@
-import { getItem, gridState } from "../$state$/GridState";
+import { workspace } from "../$state$/GridState";
 import { subscribe } from "/externals/lib/object.js";
 
 //
@@ -51,7 +51,7 @@ export const createShaped = (item, gs)=>{
     shape.setAttribute("data-chroma", "0");
 
     //
-    const scr = getItem(item.id);
+    const scr = workspace.getItem(item.id);
     subscribe(scr, (value, prop)=>{
         trackShortcutState(element, scr, [value, prop]);
     });
@@ -80,7 +80,7 @@ export const createLabel = (item, gs)=>{
     element.innerHTML = item.label || "";
 
     //
-    const scr = getItem(item.id);
+    const scr = workspace.getItem(item.id);
     subscribe(scr, (value, prop)=>{
         trackShortcutState(element, scr, [value, prop]);
     });

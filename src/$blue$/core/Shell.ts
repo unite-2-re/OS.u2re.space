@@ -1,4 +1,4 @@
-import { confirmEdit, gridState, itemForm } from "../../$state$/GridState";
+import { confirmEdit, itemForm, workspace } from "../../$state$/GridState";
 import Workspace from "../workspace/Workspace";
 import {E, H, M, observableBySet} from "/externals/lib/blue.js"
 
@@ -34,7 +34,7 @@ export default (tasks: any)=>{
 
     //
     return E(":fragment:", {}, [
-        Workspace(gridState),
+        Workspace(workspace.gridState),
         E("ui-orientbox#ui-layer.ui-layer", {attribute: {orient: 0, }, style: {backgroundColor: "transparent"}}, [
             //! we can't reactive contents without container element
             taskproc = E("div", {style: "display: contents !important; background-color: transparent !important;"}, M(observableBySet(tasks), (task: any)=>{
@@ -85,7 +85,7 @@ export default (tasks: any)=>{
                     ]),
                 ]),
             ]),
-            ItemEdit(confirmEdit, itemForm)
+            ItemEdit(workspace, confirmEdit, itemForm)
         ])
     ]);
 }

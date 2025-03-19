@@ -7,9 +7,9 @@ import { subscribe } from '/externals/lib/object.js';
 import { synchronizeInputs } from '/externals/lib/dom.js';
 
 //
-import { forms, tabs } from "./Fields.ts"
-import {E, M, H, computed, remap} from "/externals/lib/blue.js"
-
+import { forms } from "./Fields.ts"
+import { E, M } from "/externals/lib/blue.js"
+import { workspace } from '../../$state$/GridState.ts'
 
 //
 interface InputDesc {
@@ -39,6 +39,7 @@ export default (task)=>{
 
     const syncInput = (form)=>{
         synchronizeInputs(preferences, '.u2-input', form?.element ?? form, subscribe);
+        synchronizeInputs(workspace.layout, '.u2-input', form?.element ?? form, subscribe);
         return form;
     }
 

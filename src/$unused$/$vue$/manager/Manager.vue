@@ -5,7 +5,7 @@ import { ref, computed, onMounted, watch  } from "vue";
 import { tabs } from "../settings/Fields.ts"
 
 //
-import { addItemEv, downloadItemEv, dropItemEv, removeItemEv } from "../../$core$/FileOps.ts";
+import { addFile, downloadFile, dropFile, removeFile } from "../../$core$/FileOps.ts";
 import { FileManagment } from "../../$core$/FileManage.ts";
 import type { Task } from "../../$core$/Types";
 
@@ -59,9 +59,9 @@ onMounted(() => {
 });
 
 //
-const handleAddClick = (_: Event) => { addItemEv(manager.currentDir(), current); };
-const handleDownloadClick = (_: Event) => { downloadItemEv(FileManagment.fileOf(contentEl.value)); };
-const handleDeleteClick = (_: Event) => { removeItemEv(FileManagment.fileOf(contentEl.value), current); };
+const handleAddClick = (_: Event) => { addFile(manager.currentDir(), current); };
+const handleDownloadClick = (_: Event) => { downloadFile(FileManagment.fileOf(contentEl.value)); };
+const handleDeleteClick = (_: Event) => { removeFile(FileManagment.fileOf(contentEl.value), current); };
 const goDirectory = (_: Event) => { manager.navigate(manager.currentDir()); };
 const handlePlayClick = (_: Event) => { manager.navigate(FileManagment.fileOf(contentEl.value)); };
 const handleTabChange = (ev: Event, _: string) => { currentTab.value = (ev.target as HTMLInputElement).value; };
@@ -74,7 +74,7 @@ const dropHandle = (ev: DragEvent) => {
     ev.preventDefault();
     const file = ev.dataTransfer?.files?.[0];
     if (file) {
-        dropItemEv(file, manager.currentDir(), current);
+        dropFile(file, manager.currentDir(), current);
     }
 };
 

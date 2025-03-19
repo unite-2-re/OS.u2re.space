@@ -2,62 +2,10 @@
 import type { ItemsType, ItemType, ShortcutType } from "../$core$/Types";
 import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 import { JSOX } from "jsox";
-import { cvt_cs_to_os, getBoundingOrientRect } from "/externals/core/agate";
-import { convertOrientPxToCX, redirectCell } from "/externals/core/grid";
-import { preferences } from "./Preferences";
 
 //
-export const defaultShortcuts = [
-        /*{
-        id: "github",
-        icon: "github",
-        label: "GitHub",
-        //cell: [0, 0],
-        href: "https://github.com/orgs/unite-2-re/repositories" // TODO: add github source code link
-    },
-    {
-        id: "youtube",
-        icon: "youtube",
-        label: "(Unreleased)",
-        //cell: [1, 0],
-        href: "https://www.youtube.com/@MobileCenter-s5v"
-    },*/
-    /*{
-        id: "settings",
-        icon: "settings",
-        label: "Settings",
-        //cell: [2, 0],
-        href: "#settings"
-    },
-    {
-        id: "manager",
-        icon: "folder-code",
-        label: "Manager",
-        //cell: [3, 0],
-        href: "#manager"
-    },
-    {
-        id: "import",
-        icon: "upload",
-        label: "Import Settings",
-        //cell: [0, 1],
-        href: "#import",
-        action: "import-settings"
-    },
-    {
-        id: "export",
-        icon: "download",
-        label: "Export Settings",
-        //cell: [1, 1],
-        href: "#export",
-        action: "export-settings"
-    }*/
-];
-export const defaultLists = [[/*"settings", "import", "export"*/]];
-export const defaultItems = [
-
-]; // also, we thinking about "action:<id>" href type instead of "action" field, and "params" instead of "action"
-// "open-link" works as "_blank" if external domain, and "_self" if internal domain or same origin
+import { cvt_cs_to_os, getBoundingOrientRect } from "/externals/core/agate";
+import { convertOrientPxToCX, redirectCell } from "/externals/core/grid";
 
 //
 export const wrapItemToReactive = (item: any)=>{
@@ -72,29 +20,11 @@ export const unwrap = (items: any[]|Set<any>)=>{
     return safe(items);
 }
 
-
-
 //
 export const mergeByKey = (items: any[]|Set<any>, key = "id")=>{
     const entries = Array.from(items?.values?.()).map((I)=>[I?.[key],I]);
     const map = new Map(entries as any);
     return Array.from(map?.values?.() || []);
-}
-
-//
-export const gridState: ItemsType = makeObjectAssignable(makeReactive({
-    shortcuts: makeObjectAssignable(makeReactive(new Set(mergeByKey([...defaultShortcuts, ...Array.from(JSOX.parse(localStorage.getItem("grids@shortcuts") || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I))))),
-
-    // TODO: deprecate items, lists, and use items-groups
-    items: makeObjectAssignable(makeReactive(new Set(mergeByKey([...defaultItems, ...Array.from(JSOX.parse(localStorage.getItem("grids@items") || "[]")?.values?.() || [])]).map((I)=>wrapItemToReactive(I))))),
-    lists: makeObjectAssignable(makeReactive(new Set([...Array.from(JSOX.parse(localStorage.getItem("grids@lists") || JSOX.stringify(defaultLists))?.values?.() || defaultLists)])))
-}));
-
-//
-export const saveToStorage = (ev?: any)=>{
-    localStorage.setItem("grids@shortcuts", JSOX.stringify([...unwrap(gridState.shortcuts || [])]));
-    localStorage.setItem("grids@items", JSOX.stringify([...unwrap(gridState.items || [])]));
-    localStorage.setItem("grids@lists", JSOX.stringify([...unwrap(gridState.lists || [])]));
 }
 
 //
@@ -111,11 +41,119 @@ const setIdleInterval = (cb, timeout = 1000, ...args)=>{
 }
 
 //
-setIdleInterval(saveToStorage, 6000);
+export const defaultShortcuts = [];
+export const defaultItems = [];
 
 //
-export const getItem = (id)=>{
-    return Array.from(gridState.shortcuts.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
+export class GridState {
+    #gridState: ItemsType;
+    #name: string = "workspace";
+
+    //
+    constructor(name?: string, shortcuts?: any) {
+        const raw = JSOX.parse(localStorage.getItem(this.#name = name || "workspace") || "{items: [], shortcuts: []}");
+        this.#gridState = makeObjectAssignable(makeReactive({
+            layout: makeReactive(raw.layout || { columns: 4, rows: 8 }),
+            shortcuts: shortcuts || makeObjectAssignable(makeReactive(new Set(mergeByKey([ ...defaultShortcuts, ...Array.from(raw.shortcuts)?.values?.() || []])?.map((I)=>wrapItemToReactive(I))))),
+            items: makeObjectAssignable(makeReactive( new Set(mergeByKey([ ...defaultItems, ...Array.from(raw.items)?.values?.() ])?.map?.((I)=>wrapItemToReactive(I))))),
+        }));
+
+        //
+        document.addEventListener("visibilitychange", (ev)=>{
+            if (document.visibilityState === "hidden") {
+                this.saveInStorage(ev);
+            }
+        });
+
+        //
+        addEventListener("beforeunload", (ev)=>this.saveInStorage(ev));
+        addEventListener("pagehide", (ev)=>this.saveInStorage(ev));
+        setIdleInterval(()=>this.saveInStorage(), 6000);
+
+        //
+        addEventListener("storage", (ev)=>{
+            if (ev.storageArea == localStorage && ev.key == this.#name) {
+                const raw = JSOX.parse(ev?.newValue || "{items: [], shortcuts: []}");
+                this.#gridState.layout = makeReactive(raw.layout || { columns: 4, rows: 8 });
+                this.#gridState.items  = mergeByKey([...defaultItems, ...Array.from(raw?.items?.values?.() || [])]).map((I) => wrapItemToReactive(I)) as unknown as Set<ItemType>;
+
+                //
+                this.#gridState.shortcuts = mergeByKey([...defaultShortcuts, ...Array.from(raw?.shortcuts)?.values?.() || []]).map((I) => wrapItemToReactive(I)) as unknown as Set<ShortcutType>;
+            }
+        });
+    }
+
+    //
+    get gridState(): ItemsType { return this.#gridState; };
+    get layout() { return this.#gridState.layout; };
+
+    //
+    getJSOX() {
+        return JSOX.stringify({
+            layout: safe(this.#gridState.layout),
+            items: [...unwrap(this.#gridState.items || [])],
+            shortcuts: [...unwrap(this.#gridState.shortcuts || [])],
+        });
+    }
+
+    //
+    saveInStorage(ev?: any) {
+        localStorage.setItem(this.#name, this.getJSOX());
+        //localStorage.setItem("grids@lists", JSOX.stringify([...unwrap(gridState.lists || [])]));
+    }
+
+    //
+    getItem(id: any) {
+        return Array.from(this.#gridState.shortcuts.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
+    }
+
+    //
+    getCellByCoordinate(item: any, event?: any) {
+        const screen = [event?.clientX || mouseCoord?.[0] || 0, event?.clientY || mouseCoord?.[1] || 0];
+        const box = document.querySelector(".u2-desktop-grid") as any;
+        const grid = box?.querySelector?.("ui-gridbox");
+        const size = [
+            (box?.clientWidth  || innerWidth  || 0),
+            (box?.clientHeight || innerHeight || 0)
+        ];
+
+        //
+        const obs = getBoundingOrientRect(grid, box?.orient || 0);
+        const oriented = cvt_cs_to_os(screen, size, box?.orient || 0);
+
+        //
+        const args = {
+            size: [obs?.width || 0, obs?.height || 0],
+            layout: [this.gridState.layout.columns || 4, this.#gridState.layout.rows || 8],
+            items: this.#gridState.items,
+            item
+        };
+
+        //
+        const fl = convertOrientPxToCX([oriented[0] - obs.left, oriented[1] - obs.top], args);
+        return redirectCell([Math.floor(fl[0]), Math.floor(fl[1])], args as any);
+    }
+
+    addItem(id, event?, structure: any = {}) {
+        const shortcut = wrapItemToReactive({ ...structure, id: (id||structure?.id) });
+        const item = wrapItemToReactive({ id: (id||structure?.id) });
+        item.cell  = this.getCellByCoordinate(item, event);
+        this.#gridState.shortcuts.add(shortcut);
+        this.#gridState.items.add(item);
+        return shortcut;
+    }
+
+    removeItem(id) {
+        const item = Array.from(this.#gridState.items.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
+        const shortcut = Array.from(this.#gridState.shortcuts.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
+
+        //
+        if (item && this.#gridState.items?.has?.(item)) { this.#gridState.items?.delete?.(item); };
+        if (shortcut && this.#gridState.shortcuts?.has?.(shortcut)) { this.#gridState.shortcuts?.delete?.(shortcut); };
+
+        //
+        return shortcut;
+    }
 }
 
 //
@@ -125,80 +163,6 @@ const mouseCoord = [0, 0];
 document.addEventListener("mousemove", (ev)=>{
     mouseCoord[0] = ev?.clientX || 0;
     mouseCoord[1] = ev?.clientY || 0;
-});
-
-//
-export const addItem = (id, event?, structure: any = {})=>{
-    const screen = [event?.clientX || mouseCoord?.[0] || 0, event?.clientY || mouseCoord?.[1] || 0];
-    const box = document.querySelector(".u2-desktop-grid") as any;
-    const grid = box?.querySelector?.("ui-gridbox");
-    const size = [
-        (box?.clientWidth  || innerWidth  || 0),
-        (box?.clientHeight || innerHeight || 0)
-    ];
-
-    //
-    const obs = getBoundingOrientRect(grid, box?.orient || 0);
-    const oriented = cvt_cs_to_os(screen, size, box?.orient || 0);
-
-    //
-    const args = {
-        layout: [preferences?.columns || 4, preferences?.rows || 8],
-        size: [obs?.width || 0, obs?.height || 0],
-        items: gridState.items,
-        list: gridState.lists?.[0] || [],
-        item: null
-    };
-
-    //
-    const fl   = convertOrientPxToCX([oriented[0] - obs.left, oriented[1] - obs.top], args);
-    const cell = [Math.floor(fl[0]), Math.floor(fl[1])];
-    const item = wrapItemToReactive({ id: (id||structure?.id), cell });
-    args.item  = item;
-    item.cell  = redirectCell(cell, args as any);
-
-
-    const shortcut = wrapItemToReactive({ ...structure, id: (id||structure?.id) });
-    gridState.shortcuts.add(shortcut);
-    gridState.items.add(item);
-    return shortcut;
-}
-
-//
-export const removeItem = (id)=>{
-    const item = Array.from(gridState.items.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
-    const shortcut = Array.from(gridState.shortcuts.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
-
-    //
-    if (item && gridState.items?.has?.(item)) { gridState.items?.delete?.(item); };
-    if (shortcut && gridState.shortcuts?.has?.(shortcut)) { gridState.shortcuts?.delete?.(shortcut); };
-
-    //
-    return shortcut;
-}
-
-//
-document.addEventListener("visibilitychange", (ev)=>{
-    if (document.visibilityState === "hidden") {
-        saveToStorage(ev);
-    }
-});
-
-//
-addEventListener("beforeunload", saveToStorage);
-addEventListener("pagehide", saveToStorage);
-addEventListener("storage", (ev)=>{
-    if (ev.storageArea == localStorage) {
-        if (ev.key == "grids@shortcuts") { gridState.shortcuts = mergeByKey([...defaultShortcuts, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I) => wrapItemToReactive(I)) as unknown as Set<ShortcutType>; };
-        if (ev.key == "grids@items") { gridState.items = mergeByKey([...defaultItems, ...Array.from(JSOX.parse(ev.newValue || "[]")?.values?.() || [])]).map((I) => wrapItemToReactive(I)) as unknown as Set<ItemType>; };
-        if (ev.key == "grids@lists") { gridState.lists = [...Array.from(JSOX.parse(ev.newValue || JSOX.stringify(defaultLists))?.values?.() || defaultLists)] as Set<string>[]; };
-    }
-});
-
-//
-defaultItems.forEach((item: any)=>{
-    const exists = getItem(item?.id);
-    if (exists) { Object.assign(exists, item); };
 });
 
 //
@@ -226,8 +190,8 @@ export const itemForm  = [
 ];
 
 //
-export const confirmEdit = (state, /*[_, k]*/p?: [any?, any?])=>{
-    const item = getItem(state?.id)||{};
+export const confirmEdit = (grid, state, /*[_, k]*/p?: [any?, any?])=>{
+    const item = grid?.getItem?.(state?.id)||{};
     if (state && item) {
         if (!p) {
             for (const F of itemForm) {
@@ -239,3 +203,6 @@ export const confirmEdit = (state, /*[_, k]*/p?: [any?, any?])=>{
         }
     }
 };
+
+//
+export const workspace = new GridState("workspace");
