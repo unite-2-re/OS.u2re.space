@@ -80,7 +80,8 @@ export const provide = async (req: string | Request = "", rw = false) => {
 };
 
 // Function to download data to a file
-export const downloadImage = async (file) => {
+export const downloadFile = async (file) => {
+    if (typeof file == "string") { file = await provide(file); };
     const filename = file.name; //|| STOCK_NAME;
     if (!filename) return;
 
@@ -179,7 +180,7 @@ export const dropFile = async (file, dest = "/user/images/", current?: any)=>{
 }
 
 //
-export const addFile = async (dest = "/user/images/", current?: any)=>{
+export const uploadFile = async (dest = "/user/images/", current?: any)=>{
     const $e = "showOpenFilePicker";
 
     // @ts-ignore
@@ -217,8 +218,3 @@ export const removeFile = async (f_path = "", current?: any)=>{
         })();
     }
 }
-
-//
-export const downloadFile = async (f_path)=>{
-    downloadImage(await provide(f_path));
-};

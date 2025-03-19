@@ -5,7 +5,7 @@ import { ref, computed, onMounted, watch  } from "vue";
 import { tabs } from "../settings/Fields.ts"
 
 //
-import { addFile, downloadFile, dropFile, removeFile } from "../../$core$/FileOps.ts";
+import { uploadFile, downloadFile, dropFile, removeFile } from "../../$core$/FileOps.ts";
 import { FileManagment } from "../../$core$/FileManage.ts";
 import type { Task } from "../../$core$/Types";
 
@@ -59,7 +59,7 @@ onMounted(() => {
 });
 
 //
-const handleAddClick = (_: Event) => { addFile(manager.currentDir(), current); };
+const handleAddClick = (_: Event) => { uploadFile(manager.currentDir(), current); };
 const handleDownloadClick = (_: Event) => { downloadFile(FileManagment.fileOf(contentEl.value)); };
 const handleDeleteClick = (_: Event) => { removeFile(FileManagment.fileOf(contentEl.value), current); };
 const goDirectory = (_: Event) => { manager.navigate(manager.currentDir()); };

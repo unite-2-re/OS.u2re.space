@@ -7,7 +7,7 @@ import { synchronizeInputs } from "/externals/lib/dom.js";
 
 //
 import { hooked, observe, refAndMount } from "../core/Utils.tsx";
-import { addFile, downloadFile, dropFile, removeFile } from "../../$core$/FileOps.ts";
+import { uploadFile, downloadFile, dropFile, removeFile } from "../../$core$/FileOps.ts";
 import { FileManagment } from "../../$core$/FileManage.ts";
 import { tabs } from "../settings/Fields.tsx";
 import { $hideMenu } from "../../$ui$/Sidebar.ts";
@@ -77,7 +77,7 @@ export const Manager = (task: { args: any, taskId: string }) => {
                     type="button"
                     tabIndex={-1}
                     class="adl-file-add"
-                    onClick={(ev) => addFile(manager.currentDir(), current)}
+                    onClick={(ev) => uploadFile(manager.currentDir(), current)}
                 >
                     <ui-icon icon="file-up" />
                 </button>

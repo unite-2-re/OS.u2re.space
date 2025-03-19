@@ -1,7 +1,8 @@
 // @ts-ignore
 import { makeReactive, subscribe } from "/externals/lib/object.js";
 import { getDir, provide, useFS } from "./FileOps";
-import { fileActions, STOCK_NAME } from "./FileAction";
+import { fileActions } from "./FileAction";
+import { STOCK_NAME } from "./Wallpaper";
 
 // TODO: targeting support
 export const preload = new Map<string, HTMLImageElement>();
@@ -14,7 +15,6 @@ export const preloadImage = (path, current?)=>{
         preload.set(path, img);
     }
 }
-
 
 //
 export class FileManagment {

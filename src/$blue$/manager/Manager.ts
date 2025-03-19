@@ -1,5 +1,5 @@
 //
-import { addFile, downloadFile, dropFile, removeFile } from "../../$core$/file/FileOps.ts";
+import { uploadFile, downloadFile, dropFile, removeFile } from "../../$core$/file/FileOps.ts";
 import { FileManagment } from "../../$core$/file/FileManage.ts";
 import type { Task } from "../../$core$/Types";
 
@@ -29,7 +29,7 @@ export default (task: Task, )=>{
     }
 
     //
-    const handleAddClick = (_: Event) => { addFile(manager.currentDir(), current); };
+    const handleAddClick = (_: Event) => { uploadFile(manager.currentDir(), current); };
     const handleDownloadClick = (_: Event) => { downloadFile(FileManagment.fileOf(content.value)); };
     const handleDeleteClick = (_: Event) => { removeFile(FileManagment.fileOf(content.value), current); };
     const goDirectory = (_: Event) => { manager.navigate(manager.currentDir()); };
