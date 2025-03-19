@@ -4,8 +4,8 @@ import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.
 import { JSOX } from "jsox";
 
 //
-import { cvt_cs_to_os, getBoundingOrientRect } from "/externals/core/agate";
-import { convertOrientPxToCX, redirectCell } from "/externals/core/grid";
+import { cvt_cs_to_os, getBoundingOrientRect } from "/externals/core/agate.js";
+import { convertOrientPxToCX, redirectCell } from "/externals/core/grid.js";
 
 //
 export const wrapItemToReactive = (item: any)=>{

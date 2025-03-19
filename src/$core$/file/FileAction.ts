@@ -2,7 +2,7 @@
 import { taskManager } from "../Tasks";
 import { provide, removeFile } from "./FileOps";
 import { useFileAs } from "./Wallpaper";
-import { makeReactive } from "/externals/lib/object";
+import { makeReactive } from "/externals/lib/object.js";
 
 //
 export const openImage = ({label, icon, href})=>{
