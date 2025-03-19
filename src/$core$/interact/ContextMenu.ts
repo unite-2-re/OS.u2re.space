@@ -22,6 +22,7 @@ export const ctxMenuMap = new Map([
     ]],
     [".u2-desktop-grid", [
         {icon: new UILucideIcon({icon: "badge-plus", padding: "0.05rem"}), content: "Add Item", callback(_, event?) { actionMap.get("item-add")?.(event); } },
+        {icon: new UILucideIcon({icon: "settings", padding: "0.05rem"}), content: "Settings", callback(_, event?) { actionMap.get("settings")?.(event); } },
         {icon: new UILucideIcon({icon: "clipboard", padding: "0.05rem"}), content: "Paste", callback(_, event?) { pasteInWorkspace(navigator.clipboard?.read?.()?.then?.((items)=>({items})), event); } },
         // deprecated, needs to refactor UI
         /*{icon: new UILucideIcon({icon: "fullscreen", padding: "0.05rem"}), content: "Fullscreen", callback() { actionMap.get("fullscreen")?.(); } },

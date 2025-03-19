@@ -44,7 +44,7 @@ export const fileTypeAction = new Map([
 
 //
 export const getFileExtension = (path)=>{
-    return path.split(".")?.[1];
+    return path?.split?.(".")?.[1];
 }
 
 //

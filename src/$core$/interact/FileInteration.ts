@@ -47,7 +47,7 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
         const manager = FileManagment.getManager(content);
 
         //
-        if (MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
+        if (content && MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
             const path = FileManagment.fileOf(content);
             const file = manager.getCurrent().get(path);
             if (file) {
@@ -69,7 +69,7 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
         const manager = FileManagment.getManager(content);
 
         //
-        if (MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
+        if (content && MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
             const items = (e.clipboardData)?.items;
             const blob = items?.[0]?.getAsFile?.();
             if (blob) {
@@ -79,6 +79,7 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
             }
         } else
         if (ROOT.querySelector(".u2-desktop-grid:is(:hover, :active, :focus), .u2-desktop-grid:has(:hover, :active, :focus)")) {
+
             pasteInWorkspace(e.clipboardData);
         }
     });
@@ -90,7 +91,7 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
         const manager = FileManagment.getManager(content);
 
         //
-        if (MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
+        if (content && MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
             if (e?.key == "Enter" && (e?.target == input)) {
                 e?.preventDefault?.();
                 // TODO: trigger by selected in list

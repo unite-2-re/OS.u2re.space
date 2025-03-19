@@ -7,6 +7,7 @@ import Manager from "../manager/Manager.ts";
 import Settings from "../settings/Settings.ts";
 import ItemEdit from "../workspace/ItemEdit.ts";
 import { QuickSettings } from "./QuickSettings.ts";
+import { AppMenu } from "./AppMenu.ts";
 
 //
 export const viewable = (task)=>{
@@ -52,7 +53,8 @@ export default (tasks: any)=>{
             ]),
 
             ItemEdit(workspace, confirmEdit, itemForm),
-            QuickSettings()
+            QuickSettings(),
+            AppMenu()
         ])
     ]);
 }

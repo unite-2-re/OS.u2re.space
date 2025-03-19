@@ -8,7 +8,7 @@ import { makeReactive } from "/externals/lib/object.js";
 // redundant from core
 import { fileActions } from "./file/FileAction";
 import { FileManagment } from "./file/FileManage";
-import { taskManager } from "./Tasks.ts";
+import { managerTask, settingsTask, taskManager } from "./Tasks.ts";
 
 //
 const UUIDv4 = () => { return crypto?.randomUUID ? crypto?.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16)); };
@@ -52,8 +52,7 @@ export const actionMap = new Map<any, any>([
     }],
 
     ["manager", (goTo = "")=>{
-        const task = taskManager?.getTask?.("#manager");
-        //if (task && goTo) { task.args.directory = goTo; };
+        taskManager?.addTask?.(managerTask);
         taskManager?.focus?.("#manager");
         const manager = FileManagment.getManager(document.querySelector("#manager"));
         requestAnimationFrame(()=>{
@@ -62,6 +61,7 @@ export const actionMap = new Map<any, any>([
     }],
 
     ["settings", ()=>{
+        taskManager?.addTask?.(settingsTask);
         taskManager?.focus?.("#settings");
     }],
 
@@ -111,7 +111,9 @@ export const actionMap = new Map<any, any>([
                 return (takeAction ?? (fileActions ?? openLink)?.(href, {actionMap}))?.(href);
             } else
             if (href?.trim?.()?.startsWith?.("#")) {
-                return taskManager?.focus?.(href?.trim?.());
+                if (href?.trim?.() == "#manager")  { actionMap?.get?.("manager")?.(href);  };
+                if (href?.trim?.() == "#settings") { actionMap?.get?.("settings")?.(href); };
+                //return actionMap?.get?.("manager")?.();
             } else {
                 return (takeAction ?? openLink)?.(href);
             }

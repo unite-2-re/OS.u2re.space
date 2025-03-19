@@ -120,7 +120,7 @@ export class FileManagment {
     navigate(path = "/", ev?: any) {
         if (!ev || ev?.type == "dblclick" || ev?.pointerType == "touch") {
             if (path?.startsWith?.("..")) { return this.navigate?.(this.currentDir()?.split?.("/")?.slice?.(0, -2)?.join?.("/") + "/" || ""); };
-            return (path?.endsWith("/") ? this.getFileList(this.currentDir(path), this.navigate.bind(this)) : this.fileAction(path, ev));
+            return (path?.endsWith?.("/") ? this.getFileList(this.currentDir(path), this.navigate.bind(this)) : this.fileAction(path, ev));
         };
     };
 

@@ -11,6 +11,8 @@ export const preferences = makeObjectAssignable(makeReactive({
     "theme-quick": matchMedia('(prefers-color-scheme: dark)').matches,
     "orientation-lock": true,
     theme: "default",
+    volume: 1,
+    brightness: 1
 }));
 
 //

@@ -41,8 +41,12 @@ const setIdleInterval = (cb, timeout = 1000, ...args)=>{
 }
 
 //
-export const defaultShortcuts = [];
-export const defaultItems = [];
+export const defaultShortcuts = [
+    {id: "manager", href: "#manager", action: "manager", icon: "folder", label: "File Manager"}
+];
+export const defaultItems = [
+    {id: "manager"}
+];
 
 //
 export class GridState {
@@ -110,7 +114,7 @@ export class GridState {
     //
     getCellByCoordinate(item: any, event?: any) {
         const screen = [event?.clientX || mouseCoord?.[0] || 0, event?.clientY || mouseCoord?.[1] || 0];
-        const box = document.querySelector(".u2-desktop-grid") as any;
+        const box  = document.querySelector(".u2-desktop-grid") as any;
         const grid = box?.querySelector?.("ui-gridbox");
         const size = [
             (box?.clientWidth  || innerWidth  || 0),
