@@ -9,10 +9,11 @@ import $S from "./$core$/interact/Sidebar.ts";
 import $C from "./$core$/interact/ContextMenu.ts";
 import $F from "./$core$/interact/FileInteration.ts";
 import $T from "./$core$/interact/ItemAction.ts";
+import $M from "./$wcomp$/Markdown.ts";
 import $P from "./$core$/file/Preload.ts";
 
 //
-const $I = Promise.allSettled([$A, $S, $C, $F, $P, $T]?.map?.((f)=>Promise?.try?.(f?.default || f)));
+const $I = Promise.allSettled([$A, $S, $C, $F, $P, $T, $M]?.map?.((f)=>Promise?.try?.(f?.default || f)));
 export const initialize = async (root)=>{
 
     //

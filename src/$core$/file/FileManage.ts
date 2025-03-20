@@ -1,6 +1,6 @@
 // @ts-ignore
 import { makeReactive, subscribe } from "/externals/lib/object.js";
-import { getDir, provide, useFS } from "./FileOps";
+import { getDir, getFileExtension, provide, useFS } from "./FileOps";
 import { fileActions } from "./FileAction";
 import { STOCK_NAME } from "./Wallpaper";
 
@@ -15,6 +15,17 @@ export const preloadImage = (path, current?)=>{
         preload.set(path, img);
     }
 }
+
+//
+export const fileTypeIcon = new Map([
+    ["png", "wallpaper"],
+    ["jpg", "wallpaper"],
+    ["gif", "wallpaper"],
+    ["webp", "wallpaper"],
+    ["jng", "file"],
+    ["md", "letter-text"],
+    ["txt", "text"]
+]);
 
 //
 export class FileManagment {
@@ -109,12 +120,14 @@ export class FileManagment {
         if (path?.endsWith?.("..")) {
             return this.currentDir()?.endsWith("user/") ? "shield-alert" : "arrow-left";
         }
+
         if (path?.endsWith?.("/")) {
             if (path == "/user/") return "folder-root";
             if (!path?.startsWith?.("/user/")) return "folder-lock";
             return "folder";
         }
-        return "wallpaper";
+
+        return fileTypeIcon?.get?.(getFileExtension(path)) || "wallpaper";
     }
 
     navigate(path = "/", ev?: any) {

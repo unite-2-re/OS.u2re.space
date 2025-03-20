@@ -159,6 +159,11 @@ export const imageImportDesc = {
 };
 
 //
+export const getFileExtension = (path)=>{
+    return path?.split?.(".")?.[1];
+}
+
+//
 export const dropFile = async (file, dest = "/user/images/", current?: any)=>{
     const fs = await useFS();
     const path = getDir(dest);
