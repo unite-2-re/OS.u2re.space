@@ -11,7 +11,7 @@ import { AppMenu } from "./AppMenu.ts";
 
 //
 export const viewable = (task)=>{
-    return H(`<div id="${task?.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe referrerpolicy="no-referrer" width="100%" height="100%" frameBorder="0" allowtransparency scrolling seamless credentialless style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" src="${task.args?.href}" loading="eager" allowfullscreen allow="*"></iframe></div></div></div>`);
+    return H(`<div id="${task?.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe referrerpolicy="no-referrer" width="100%" height="100%" frameBorder="0" allowtransparency scrolling seamless credentialless style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" src="${task?.args?.href}" loading="eager" allowfullscreen allow="*"></iframe></div></div></div>`);
 }
 
 //
@@ -47,13 +47,13 @@ export default (tasks: any)=>{
         Workspace(workspace.gridState),
         E("ui-orientbox#ui-layer.ui-layer", {attribute: {orient: 0, }, style: {backgroundColor: "transparent"}}, [
             //! we can't reactive contents without container element
-            taskproc = E("div", {style: "display: contents !important; background-color: transparent !important;"}, M(observableBySet(tasks), (task: any)=>{
+            taskproc = E("div", {style: "display: contents !important; background-color: transparent !important;"}, M(tasks, (task: any)=>{
                 return E("ui-frame", {dataset: {hidden: "", highlight: 2, chroma: 0.1, scheme: "solid", id: task?.taskId.replace("#", "") }}, [
                     E("div", {style: "justify-self: start; text-align: start; padding=inline: 1rem", slot: "ui-title-bar"}, [task?.desc?.label||""]),
                     (components.get(task?.args?.type) || viewable)?.(task),
                 ])
             })),
-            taskbar = E("ui-taskbar", {properties: {tasks}}, M(observableBySet(tasks), (task)=>E("ui-task", {properties: task, dataset: {id: task?.taskId}}, [E("ui-icon", {attributes: task.desc})]))),
+            taskbar = E("ui-taskbar", {properties: {tasks}}, M(tasks, (task)=>E("ui-task", {properties: task, dataset: {id: task?.taskId}}, [E("ui-icon", {attributes: task?.desc})]))),
             E("ui-navbar", {}, []),
             E("ui-modal#contextmenu", {attributes: {type: "contextmenu"}, style: "display: inline grid; padding: 0.25rem; grid-template-columns: [icon] minmax(0px, 1.75rem) [content] minmax(0px, 1fr);"}, []),
             E("ui-modal", {attributes: {type: "popup"}, dataset: {name: "calendar"}}, [

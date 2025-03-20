@@ -15,6 +15,8 @@ export const initActions = (root = document.documentElement)=>{
     //
     root.addEventListener("u2-close", (ev)=>{
         actionMap?.get?.("close-task")?.("#" + ev?.detail?.taskId?.replace?.("#", ""));
+        ev?.preventDefault?.();
+        ev?.stopPropagation?.();
         //if (ev?.detail?.taskId?.replace?.("#", "")?.startsWith?.("TASK-")) { actionMap?.get?.("close-task")?.("#" + ev?.detail?.taskId?.replace?.("#", "")); };
     });
 };

@@ -1,5 +1,5 @@
 //
-//import { renderInPage } from "./$solid$/Main";
+import tasks from './$core$/Tasks.ts';
 import { renderInPage } from "./$blue$/Main";
 import CSS from "./css";
 
@@ -69,9 +69,7 @@ export const initialize = async (root)=>{
     await loadingModules?.then?.((mds)=>Promise.allSettled(mds.map((rs: any)=> Promise.try(rs?.value?.default || rs?.value))))?.catch?.(console.warn.bind(console));
     await CSS?.(document.head);
     await Promise.allSettled([ $I ]);
-
-    //
-    renderInPage(root);
+    renderInPage(root, tasks);
 }
 
 //

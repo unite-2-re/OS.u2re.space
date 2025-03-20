@@ -1,9 +1,7 @@
 // @ts-ignore /* @vite-ignore */
 import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
 import { initTaskManager } from "/externals/wcomp/ui.js";
-
-//
-import type { Task } from "./Types.ts";
+import { observableArray } from "/externals/lib/blue.js";
 
 //
 export const settingsTask = makeReactive({
@@ -31,12 +29,6 @@ export const managerTask = makeReactive({
 });
 
 //
-export const taskManager = initTaskManager();
-export const tasks: Set<Task> = makeReactive(new Set<Task>([
-    //makeReactive(settingsTask), makeReactive(managerTask)
-]));
-
-//
-taskManager?.on?.("removeTask", ({task})=>{ tasks?.delete(task); });
-taskManager?.on?.("addTask", ({task})=>{ tasks.add(task); });
+export const tasks: any[] = observableArray([]);
+export const taskManager = initTaskManager(tasks);
 export default tasks;
