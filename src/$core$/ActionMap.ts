@@ -68,12 +68,10 @@ export const actionMap = new Map<any, any>([
     ["fullscreen", ()=>{
         //
         if (!document.fullscreenElement) {
-            document.documentElement?.requestFullscreen?.({
-                navigationUI: "hide", screen
-            })?.catch?.(console.warn.bind(console));
+            return document.documentElement?.requestFullscreen?.({ navigationUI: "hide", screen })?.catch?.(console.warn.bind(console));
         } else
         if (document.exitFullscreen) {
-            document?.exitFullscreen?.();
+            return document?.exitFullscreen?.();
         }
     }],
 

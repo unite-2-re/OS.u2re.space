@@ -11,19 +11,19 @@ import { AppMenu } from "./AppMenu.ts";
 
 //
 export const viewable = (task)=>{
-    return H(`<div id="${task.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe referrerpolicy="no-referrer" width="100%" height="100%" frameBorder="0" allowtransparency scrolling seamless credentialless style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" src="${task.args?.href}" loading="eager" allowfullscreen allow="*"></iframe></div></div></div>`);
+    return H(`<div id="${task?.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe referrerpolicy="no-referrer" width="100%" height="100%" frameBorder="0" allowtransparency scrolling seamless credentialless style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" src="${task.args?.href}" loading="eager" allowfullscreen allow="*"></iframe></div></div></div>`);
 }
 
 //
 export const imageView = (task)=>{
-    return H(`<div id="${task.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box">
+    return H(`<div id="${task?.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box">
         <img src="${task?.args?.src || task?.args?.href || ""}" alt="Image View" style="inline-size: 100%; block-size: 100%; object-fit: contain; object-position: center; background-color: transparent;"/>
     </div></div></div>`);
 }
 
 //
 export const markdownView = (task)=>{
-    return H(`<div id="${task.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box">
+    return H(`<div id="${task?.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box">
 <adl-markdown-view style="content-visibility: visible;" src="${task?.args?.href || ""}"></adl-markdown-view>
 </div></div></div>`);
 }
@@ -53,7 +53,7 @@ export default (tasks: any)=>{
                     (components.get(task?.args?.type) || viewable)?.(task),
                 ])
             })),
-            taskbar = E("ui-taskbar", {properties: {tasks}}, M(observableBySet(tasks), (task)=>E("ui-task", {properties: task, dataset: {id: task.taskId}}, [E("ui-icon", {attributes: task.desc})]))),
+            taskbar = E("ui-taskbar", {properties: {tasks}}, M(observableBySet(tasks), (task)=>E("ui-task", {properties: task, dataset: {id: task?.taskId}}, [E("ui-icon", {attributes: task.desc})]))),
             E("ui-navbar", {}, []),
             E("ui-modal#contextmenu", {attributes: {type: "contextmenu"}, style: "display: inline grid; padding: 0.25rem; grid-template-columns: [icon] minmax(0px, 1.75rem) [content] minmax(0px, 1fr);"}, []),
             E("ui-modal", {attributes: {type: "popup"}, dataset: {name: "calendar"}}, [

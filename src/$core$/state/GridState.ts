@@ -42,10 +42,12 @@ const setIdleInterval = (cb, timeout = 1000, ...args)=>{
 
 //
 export const defaultShortcuts = [
-    {id: "manager", href: "#manager", action: "manager", icon: "folder", label: "File Manager"}
+    {id: "manager", href: "#manager", action: "manager", icon: "folder", label: "File Manager"},
+    {id: "icons", href: "https://lucide.dev/icons/", action: "open-in-frame", icon: "book-type", label: "Icons"}
 ];
 export const defaultItems = [
-    {id: "manager"}
+    {id: "manager"},
+    {id: "icons"},
 ];
 
 //

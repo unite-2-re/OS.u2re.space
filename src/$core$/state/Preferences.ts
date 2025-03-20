@@ -4,6 +4,7 @@ import {JSOX} from "jsox";
 
 // @ts-ignore
 import { observeBySelector } from "/externals/lib/dom.js";
+import { actionMap } from "../ActionMap";
 
 //
 export const preferences = makeObjectAssignable(makeReactive({
@@ -12,7 +13,9 @@ export const preferences = makeObjectAssignable(makeReactive({
     "orientation-lock": true,
     theme: "default",
     volume: 1,
-    brightness: 1
+    brightness: 1,
+    "night-mode": 0,
+    fullscreen: !!document.fullscreenElement
 }));
 
 //
@@ -61,13 +64,18 @@ subscribe(preferences, (value, prop)=>{
     //if (prop == "columns") { grids.forEach((target: HTMLElement)=>target.style.setProperty("--layout-c", "" + (value||4))); };
     //if (prop == "rows") { grids.forEach((target: HTMLElement)=>target.style.setProperty("--layout-r", "" + (value||8))); };
     // TODO: fix default theme issue (dynamic)
+    if (prop == "fullscreen") {
+        if (value != (!!document.fullscreenElement)) { Promise.try(actionMap?.get?.("fullscreen"))?.finally?.(()=>{ preferences[prop] = !!document.fullscreenElement; }); };
+    };
+    if (prop == "brightness") { (document.querySelector("#filter") as any)?.style?.setProperty?.("--brightness", value ?? 1); };
+    if (prop == "night-mode") { (document.querySelector("#filter") as any)?.style?.setProperty?.("--night-mode", value || 0); };
     if (prop == "theme-quick") { preferences.theme = value ? "dark" : "light"; }
     if (prop == "theme") {
         if (value == "default") { preferences["theme-quick"] = matchMedia('(prefers-color-scheme: dark)').matches; } else { preferences["theme-quick"] = value == "dark" ? true : false; };
         document.documentElement.dispatchEvent(new CustomEvent("u2-theme-change", { bubbles: true, detail: {} })); document.documentElement.setAttribute("data-theme", "" + (value||"default"));
     }
     if (prop == "orientation-lock") {
-        if (value) { screen.orientation?.lock?.(screen.orientation.type) } else {  screen.orientation?.unlock?.(); };
+        if (value) { Promise.try(screen.orientation?.lock?.bind(screen.orientation), screen.orientation.type); } else {  Promise.try(screen.orientation?.unlock?.bind?.(screen.orientation)); };
     };
 });
 

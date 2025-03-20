@@ -3,6 +3,8 @@
 
     ui-modal[data-name="quick-settings"] {
 
+        & { max-inline-size: 80dvi; inline-size: max-content; };
+
         .modal-container {
 
             & {
@@ -105,7 +107,7 @@
             .modal-footer {
                 background-color: transparent !important;
                 inline-size: 100%;
-                padding: 1rem;
+                padding: 0.5rem;
                 padding-block-start: 0.5rem;
                 padding-block-end: 0rem;
                 display: flex;
@@ -120,14 +122,19 @@
                 & > * {
                     background-color: transparent;
                 }
+
+                span {
+                    flex-basis: 100%;
+                    flex-grow: 1;
+                }
             }
 
-            .modal-settings {
+            .settings, .github {
                 inline-size: 2rem;
                 block-size: 2rem;
             }
 
-            .modal-settings .icon  {
+            :where(.settings, .github) .icon  {
                 padding: 0.5rem;
             }
 

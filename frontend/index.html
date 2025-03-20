@@ -67,6 +67,18 @@
         <!-- critical styles -->
         <style data-owner="runtime" data-type="system">
             @layer ui-system {
+                @property --brightness {
+                    syntax: "<number>";
+                    initial-value: 1;
+                    inherits: false;
+                }
+
+                @property --night-mode {
+                    syntax: "<number>";
+                    initial-value: 0;
+                    inherits: false;
+                }
+
                 @media screen {
                     *:not(:defined) { --tm-bg-alpha: 0; display: none; background-color: transparent; color: transparent; };
 
@@ -112,7 +124,7 @@
                     }
 
                     /* */
-                    body > *:not(#vital-test-fail-warning) {
+                    body > *:not(#vital-test-fail-warning, #filter) {
                         max-inline-size: 100% !important;
                         max-block-size: 100% !important;
 
@@ -173,10 +185,28 @@
                         transition-behavior: allow-discrete;
                         interpolate-size: allow-keywords;
                     }
+
+                    #filter {
+                        mix-blend-mode: multiply !important;
+                        inset: 0px !important;
+                        position: fixed !important;
+                        margin: 0px;
+                        padding: 0px;
+                        inline-size: 100%;
+                        block-size: 100%;
+                        min-inline-size: 100dvi;
+                        min-block-size: 100dvb;
+                        background-color: oklch(calc(var(--brightness, 1) * 0.4 + 0.6) calc(var(--night-mode, 0) * 0.05) 35) !important;/**/
+                        pointer-events: none !important;
+                        z-index: 9999999 !important;
+                        content-visibility: visible;
+                        transform: translateZ(0px) !important;
+                    }
                 };
 
                 /* */
                 @media screen {
+
                     #viewport {
                         & {
                             background-color: transparent;
@@ -313,5 +343,7 @@
             </ui-focustext>
             <ui-tooltip id="tooltip"></ui-tooltip>
         </div>
+
+        <div id="filter"></div>
     </body>
 </html>
