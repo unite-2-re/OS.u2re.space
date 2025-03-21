@@ -8,11 +8,11 @@ import { E, H, M } from "/externals/lib/blue.js";
 //
 const fields = ["label", "icon", "href", "action", "id"];
 const fieldTypes = new Map([
-    ["text", (input: any) => H(`<ui-longtext class="u2-input" data-name=${input?.name}><input value="" placeholder=${input?.name} name=${input?.name} type="text" label="test" placeholder="test-longtext" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no"/></ui-longtext>`)],
-    /*["action-list", (input: any) => H(`<ui-button data-name=${input?.name} style="inline-size: 8rem; block-size: 2rem;" data-scheme="solid" data-highlight="8">
-    <ui-select-row class="u2-input" data-highlight-hover="4" value="open-link"> <ui-icon icon="external-link"></ui-icon> <span>Open Link</span> </ui-select-row>
-    <ui-select-row class="u2-input" data-highlight-hover="4" value="open-in-frame"> <ui-icon icon="app-window"></ui-icon> <span>Open in Frame</span> </ui-select-row>
-</ui-button>`)]*/
+    ["text", (input: any) => H(`<ui-longtext data-scheme="solid" data-alpha="0" data-chroma="0.01" data-highlight="3" data-highlight-hover="1" class="u2-input" data-name=${input?.name}><input value="" placeholder=${input?.name} name=${input?.name} type="text" label="test" placeholder="test-longtext" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no"/></ui-longtext>`)],
+    ["action-list", (input: any) => H(`<ui-button data-scheme="solid" data-alpha="0" data-chroma="0.01" data-highlight="3" data-highlight-hover="1" class="u2-input" data-name=${input?.name} style="block-size: 2rem;">
+    <ui-button-row data-alpha="0" data-value="open-link"> <ui-icon icon="external-link"></ui-icon> <span>Open Link</span> </ui-button-row>
+    <ui-button-row data-alpha="0" data-value="open-in-frame"> <ui-icon icon="app-window"></ui-icon> <span>Open in Frame</span> </ui-button-row>
+</ui-button>`)]
 ]);
 
 //

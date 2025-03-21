@@ -76,7 +76,7 @@ export const actionMap = new Map<any, any>([
     }],
 
     ["item-edit", (id)=>{
-        const item = workspace.getItem(id);
+        const item = workspace.getItem(typeof id == "string" ? id : (id?.dataset?.id || ""));
         if (item) {
             UIState.currentItem = item;
             document?.querySelector?.(".adl-modal:has(.adl-item-edit)")?.removeAttribute?.("data-hidden");

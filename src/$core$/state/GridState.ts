@@ -186,8 +186,8 @@ export const itemForm  = [
     {
         name: "action",
         label: "Action",
-        type: "text"
-        //type: "action-list"
+        //type: "text"
+        type: "action-list"
     },
     {
         name: "href",

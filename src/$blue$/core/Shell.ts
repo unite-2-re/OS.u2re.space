@@ -1,6 +1,6 @@
 import { confirmEdit, itemForm, workspace } from "../../$core$/state/GridState.ts";
 import Workspace from "../workspace/Workspace";
-import {E, H, M, observableBySet} from "/externals/lib/blue.js"
+import {E, H, M } from "/externals/lib/blue.js"
 
 //
 import Manager from "../manager/Manager.ts";

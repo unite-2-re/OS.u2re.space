@@ -30,7 +30,7 @@ export const initUIAction = (root = document.documentElement)=>{
         const element   = ev?.target as HTMLElement;
         const selector  = "*[data-action]";
         const initiator = element?.matches?.(selector) ? element : element?.closest?.(selector);
-        const actionNm  = (initiator as HTMLElement)?.dataset?.action || "open-link";
+        const actionNm  = (initiator as HTMLElement)?.dataset?.action || ((initiator as HTMLElement)?.dataset?.href ? "open-link" : "item-edit");
         const actionCb  = UIAction.get(actionNm) ?? actionMap.get(actionNm);
         if (actionCb && initiator) {
             ev?.preventDefault?.();
