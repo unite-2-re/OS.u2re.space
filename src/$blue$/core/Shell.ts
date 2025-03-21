@@ -17,7 +17,7 @@ export const viewable = (task)=>{
 //
 export const imageView = (task)=>{
     return H(`<div id="${task?.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box">
-        <img src="${task?.args?.src || task?.args?.href || ""}" alt="Image View" style="inline-size: 100%; block-size: 100%; object-fit: contain; object-position: center; background-color: transparent;"/>
+        <img src="${task?.args?.src || task?.args?.href || ""}" alt="Image View" style="inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center; background-color: transparent; image-rendering: auto; image-rendering: smooth;"/>
     </div></div></div>`);
 }
 
