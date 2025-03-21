@@ -7,8 +7,9 @@ import { makeReactive } from "/externals/lib/object.js";
 
 // redundant from core
 import { fileActions } from "./file/FileAction";
-import { FileManagment } from "./file/FileManage";
+//import { FileManagment } from "./file/FileManage";
 import { managerTask, settingsTask, taskManager } from "./Tasks.ts";
+import { useAsWallpaper } from "./file/Wallpaper.ts";
 
 //
 const UUIDv4 = () => { return crypto?.randomUUID ? crypto?.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16)); };
@@ -52,12 +53,13 @@ export const actionMap = new Map<any, any>([
     }],
 
     ["manager", (goTo = "")=>{
+        if (goTo && goTo?.startsWith?.("/user/")) { managerTask.args.directory = goTo; }
         taskManager?.addTask?.(managerTask);
         taskManager?.focus?.("#manager");
-        const manager = FileManagment.getManager(document.querySelector("#manager"));
-        requestAnimationFrame(()=>{
+        //const manager = FileManagment.getManager(document.querySelector("#manager"));
+        /*requestAnimationFrame(()=>{
             if (goTo) { manager?.navigate?.(goTo); };
-        });
+        });*/
     }],
 
     ["settings", ()=>{
@@ -76,7 +78,7 @@ export const actionMap = new Map<any, any>([
     }],
 
     ["item-edit", (id)=>{
-        const item = workspace.getItem(typeof id == "string" ? id : (id?.dataset?.id || ""));
+        const item = workspace.getItem(/*typeof id == "string" ? id : (id?.dataset?.id || "")*/ id);
         if (item) {
             UIState.currentItem = item;
             document?.querySelector?.(".adl-modal:has(.adl-item-edit)")?.removeAttribute?.("data-hidden");
@@ -90,6 +92,11 @@ export const actionMap = new Map<any, any>([
             UIState.currentItem = item;
             document?.querySelector?.(".adl-modal:has(.adl-item-edit)")?.removeAttribute?.("data-hidden");
         }
+    }],
+
+    //
+    ["use-as-wallpaper", (path)=>{
+        return useAsWallpaper(path);
     }],
 
     //

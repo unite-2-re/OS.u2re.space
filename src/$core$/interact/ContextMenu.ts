@@ -11,14 +11,13 @@ export const ctxMenuMap = new Map([
     [".u2-grid-item", [
         {icon: new UILucideIcon({icon: "pencil", padding: "0.05rem"}), content: "Edit", callback(initiator) { actionMap.get("item-edit")?.(initiator?.dataset?.id); } },
         {icon: new UILucideIcon({icon: "badge-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { actionMap.get("item-delete")?.(initiator?.dataset?.id); } },
-
         {icon: new UILucideIcon({icon: "copy-minus", padding: "0.05rem"}), content: "Copy Link", condition(initiator) { return !!initiator?.dataset?.href; }, callback(initiator) { if (initiator?.dataset?.href) Promise.try(navigator.clipboard.writeText.bind(navigator.clipboard), initiator?.dataset?.href);; } },
-        {icon: new UILucideIcon({icon: "external-link", padding: "0.05rem"}), content: "Open Link", condition(initiator) { return !!initiator?.dataset?.href; }, callback(initiator) { actionMap.get("open-link")?.(initiator?.dataset?.href || "#"); } },
+        /*{icon: new UILucideIcon({icon: "external-link", padding: "0.05rem"}), content: "Open Link", condition(initiator) { return !!initiator?.dataset?.href; }, callback(initiator) { actionMap.get("open-link")?.(initiator?.dataset?.href || "#"); } },
         {icon: new UILucideIcon({icon: "app-window", padding: "0.05rem"}), content: "Open Frame", condition(initiator) { return !!initiator?.dataset?.href; }, callback(initiator) { actionMap.get("open-link")?.({
             label: (initiator?.dataset?.label?.trim?.() || initiator?.dataset?.href?.trim?.()),
             icon: (initiator?.dataset?.icon?.trim?.() || initiator?.icon?.trim?.() || "globe"),
             href: (initiator?.dataset?.href?.trim?.() || "#")
-        }); } },
+        }); } },*/
     ]],
     [".u2-desktop-grid", [
         {icon: new UILucideIcon({icon: "badge-plus", padding: "0.05rem"}), content: "Add Item", callback(_, event?) { actionMap.get("item-add")?.(event); } },

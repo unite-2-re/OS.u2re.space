@@ -13,9 +13,13 @@ export const UIAction = new Map([
     }],
 
     //
-    //["item-edit", (initiator, ev?)=> actionMap?.get?.("item-edit")?.(initiator?.dataset?.id)],
     //["item-delete", (initiator, ev?)=> actionMap?.get?.("item-delete")?.(initiator?.dataset?.id)],
+    ["item-edit", (initiator, ev?)=> actionMap?.get?.("item-edit")?.(initiator?.dataset?.id)],
+    ["item-edit", (initiator, ev?)=> actionMap?.get?.("item-edit")?.(initiator?.dataset?.id)],
     ["open-link", (initiator)=> actionMap?.get?.("open-link")?.(initiator?.dataset?.href)],
+    ["manager", (initiator, ev?)=> actionMap?.get?.("manager")?.(initiator?.dataset?.href)],
+    ["settings", (initiator, ev?)=> actionMap?.get?.("settings")?.(initiator?.dataset?.href)],
+    ["use-as-wallpaper", (initiator, ev?)=> actionMap?.get?.("use-as-wallpaper")?.(initiator?.dataset?.href)],
 
     // legacy...
     ["import-settings", ()=> actionMap?.get?.("import-settings")?.()],

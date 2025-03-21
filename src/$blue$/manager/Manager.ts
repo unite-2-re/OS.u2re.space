@@ -36,7 +36,7 @@ export default (task: Task, )=>{
     const handlePlayClick = (_: Event) => { manager.navigate(FileManagment.fileOf(content.value)); };
     //const handleTabChange = (ev: Event, _: string) => { currentTab.value = (ev.target as HTMLInputElement).value; };
     const dragOverHandle = (ev: DragEvent) => { ev.preventDefault(); };
-    const navigateFile = (ev: Event, _: string) => { manager.navigate(FileManagment.fileOf(content.value), ev); };
+    const navigateFile = (ev: Event, _: string) => { manager.navigate((ev?.target as any)?.value || FileManagment.fileOf(content.value), ev); };
     const getFilename = (path: string) => { const parts = path.split("/"); return parts.at(-1) || parts.at(-2) || path; };
 
     //
