@@ -65,7 +65,7 @@ export const initCtxMenu = (root = document.documentElement)=>{
                 clientY: ev.clientY,
                 pageX: ev.pageX,
                 pageY: ev.pageY
-            }, false, (menu, initiator)=>makeCtxMenuItems(menu, initiator, one.filter((el)=>{
+            }, true, (menu, initiator)=>makeCtxMenuItems(menu, initiator, one.filter((el)=>{
                 return el?.condition?.(initiator) ?? true;
             })));
         }
