@@ -10,6 +10,7 @@ import { subscribe } from "/externals/lib/object.js";
 import { fixOrientToScreen } from "/externals/core/agate.js";
 import { inflectInGrid } from "/externals/core/grid.js";
 import { E, H } from "/externals/lib/blue.js"
+import { useAsWallpaper } from "src/$core$/file/Wallpaper.ts";
 
 //
 const dragOverHandle = (ev: DragEvent) => { ev.preventDefault(); };
@@ -22,9 +23,8 @@ const dropHandle = (ev: DragEvent) => {
     } else
     if (file) {
         dropFile(file, "/user/temp/")?.then((path: any) => {
-            if (path) {
-                fileActions?.(path);
-            }
+            // TODO: detect if image
+            if (path) { useAsWallpaper?.(path); }
         });
     }
 };
