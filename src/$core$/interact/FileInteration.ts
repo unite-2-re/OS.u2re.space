@@ -1,6 +1,7 @@
 import { dropFile } from "../file/FileOps.ts";
 import { FileManagment } from "../file/FileManage.ts";
 import { workspace } from "../state/GridState.ts";
+import { JSOX } from "jsox";
 
 //
 const MOCElement = (el, selector)=>{
@@ -12,11 +13,12 @@ const UUIDv4 = () => {
     return crypto?.randomUUID ? crypto?.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16));
 };
 
+
 //
 export const ghostImage = new Image();
 ghostImage.decoding = "async";
 ghostImage.src = URL.createObjectURL(new Blob([`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z"/></svg>`], {type: "image/svg+xml"}));
-ghostImage.width = 24;
+ghostImage.width  = 24;
 ghostImage.height = 24;
 
 
@@ -35,6 +37,10 @@ export const pasteInWorkspace = async (data?: any, e?: any)=>{
         if (text?.startsWith?.("/user/")) {
             e?.preventDefault?.();
             workspace.addItem(UUIDv4(), e, { href: text||"", icon: "file", label: text?.split?.("/")?.at?.(-1) || "" });
+        } else
+        {
+            const obj = await Promise.try(JSOX.parse.bind(JSOX), text);
+            if (obj) workspace.importItem(obj);
         }
     };
 }
@@ -79,7 +85,6 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
             }
         } else
         if (ROOT.querySelector(".u2-desktop-grid:is(:hover, :active, :focus), .u2-desktop-grid:has(:hover, :active, :focus)")) {
-
             pasteInWorkspace(e.clipboardData);
         }
     });

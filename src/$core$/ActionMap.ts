@@ -126,6 +126,6 @@ export const actionMap = new Map<any, any>([
     }],
 
     //
-    ["export-settings", ()=>{ saveBinaryToFS?.(exportSettings()); }],
-    ["import-settings", ()=>{ pickBinaryFromFS()?.then?.(importSettings); }]
+    ["export-state", ()=>{ saveBinaryToFS?.(exportSettings()); }],
+    ["import-state", ()=>{ pickBinaryFromFS()?.then?.(importSettings); }]
 ]);

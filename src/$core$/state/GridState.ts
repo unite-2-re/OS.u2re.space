@@ -1,6 +1,6 @@
 // @ts-ignore /* @vite-ignore */
 import type { ItemsType, ItemType, ShortcutType } from "../Types";
-import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
+import { safe, makeReactive, makeObjectAssignable, objectAssign, UUIDv4 } from "/externals/lib/object.js";
 import { JSOX } from "jsox";
 
 //
@@ -79,14 +79,16 @@ export class GridState {
         //
         addEventListener("storage", (ev)=>{
             if (ev.storageArea == localStorage && ev.key == this.#name) {
-                const raw = JSOX.parse(ev?.newValue || "{items: [], shortcuts: []}");
-                this.#gridState.layout = makeReactive(raw.layout || { columns: 4, rows: 8 });
-                this.#gridState.items  = mergeByKey([...defaultItems, ...Array.from(raw?.items?.values?.() || [])]).map((I) => wrapItemToReactive(I)) as unknown as Set<ItemType>;
-
-                //
-                this.#gridState.shortcuts = mergeByKey([...defaultShortcuts, ...Array.from(raw?.shortcuts)?.values?.() || []]).map((I) => wrapItemToReactive(I)) as unknown as Set<ShortcutType>;
+                this.importState(JSOX.parse(ev?.newValue || "{items: [], shortcuts: []}"));
             }
         });
+    }
+
+    //
+    importState(raw) {
+        this.#gridState.layout    = makeReactive(raw.layout || { columns: 4, rows: 8 });
+        this.#gridState.items     = mergeByKey([...defaultItems, ...Array.from(raw?.items?.values?.() || [])]).map((I) => wrapItemToReactive(I)) as unknown as Set<ItemType>;
+        this.#gridState.shortcuts = mergeByKey([...defaultShortcuts, ...Array.from(raw?.shortcuts)?.values?.() || []]).map((I) => wrapItemToReactive(I)) as unknown as Set<ShortcutType>;
     }
 
     //
@@ -94,12 +96,30 @@ export class GridState {
     get layout() { return this.#gridState.layout; };
 
     //
-    getJSOX() {
-        return JSOX.stringify({
+    getItemRepresentation(id: any) {
+        const item = unwrap(typeof id == "string" ? this.getItem(id) : id);
+        const clon = {...item}; clon.id = UUIDv4();
+        return JSOX.stringify(clon);
+    }
+
+    //
+    importItem(jsox: any, event?) {
+        const obj = typeof jsox == "string" ? JSOX.parse(jsox) : jsox;
+        return this.addItem(obj.id, event, obj);
+    }
+
+    //
+    getRawObject() {
+        return {
             layout: safe(this.#gridState.layout),
             items: [...unwrap(this.#gridState.items || [])],
             shortcuts: [...unwrap(this.#gridState.shortcuts || [])],
-        });
+        };
+    }
+
+    //
+    getJSOX() {
+        return JSOX.stringify(this.getRawObject());
     }
 
     //
@@ -141,12 +161,20 @@ export class GridState {
     }
 
     addItem(id, event?, structure: any = {}) {
-        const shortcut = wrapItemToReactive({ ...structure, id: (id||structure?.id) });
-        const item = wrapItemToReactive({ id: (id||structure?.id) });
-        item.cell  = this.getCellByCoordinate(item, event);
-        this.#gridState.shortcuts.add(shortcut);
-        this.#gridState.items.add(item);
-        return shortcut;
+        const exists = Array.from(this.#gridState.shortcuts.values()).find((t)=>(t?.id == id));
+        if (exists) {
+            objectAssign(exists, structure);
+        } else {
+            const shortcut = wrapItemToReactive({ ...structure, id: (id||structure?.id) });
+            const item = wrapItemToReactive({ id: (id||structure?.id) });
+            item.cell  = this.getCellByCoordinate(item, event);
+
+            //
+            this.#gridState.shortcuts.add(shortcut);
+            this.#gridState.items.add(item);
+            return shortcut;
+        }
+        return exists;
     }
 
     removeItem(id) {

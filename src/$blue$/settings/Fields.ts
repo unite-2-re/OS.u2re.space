@@ -44,4 +44,17 @@ export const forms: any[] = [
     <input type="number" inputmode="numeric" pattern="[0-9]*" size="5" label=" " placeholder="Rows" name="rows" value="8" min="8" max="12" step="1"/>
 </ui-number>`)
     }]
+},
+{
+    label: "State managment",
+    inputs: [{
+        icon: "upload",
+        label: "Import:",
+        component: H(`<ui-button data-action="import-state" data-scheme="inverse" data-alpha="1" data-chroma="0.01" data-highlight="3" data-highlight-hover="1" data-name="import" style="min-inline-size: 6rem; block-size: 2rem; padding: 0.25rem; padding-inline: 0.5rem;"> <ui-icon style="padding: 0.2rem;" icon="upload"></ui-icon> <span style="background-color: transparent; font-size: 0.75rem;">Import State</span> </ui-button>`)
+    },
+    {
+        icon: "download",
+        label: "Export:",
+        component: H(`<ui-button data-action="export-state" data-scheme="inverse" data-alpha="1" data-chroma="0.01" data-highlight="3" data-highlight-hover="1" data-name="export" style="min-inline-size: 6rem; block-size: 2rem; padding: 0.25rem; padding-inline: 0.5rem;"> <ui-icon style="padding: 0.2rem;" icon="download"></ui-icon> <span style="background-color: transparent; font-size: 0.75rem;">Export State</span> </ui-button>`)
+    }]
 }];

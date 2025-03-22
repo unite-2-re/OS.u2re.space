@@ -1,7 +1,8 @@
-import { workspace, mergeByKey, wrapItemToReactive } from "./GridState.ts";
+import { workspace } from "./GridState.ts";
+import { preferences } from "./Preferences.ts";
 
 // @ts-ignore /* @vite-ignore */
-import { makeReactive, safe } from "/externals/lib/object.js";
+import { makeReactive, objectAssign, safe } from "/externals/lib/object.js";
 import { JSOX } from "jsox";
 
 // Function to download data to a file
@@ -84,15 +85,18 @@ export const pickBinaryFromFS = async () => {
 
 //
 export const exportSettings = () => {
-    return JSOX.stringify(workspace.getJSOX());
+    return JSOX.stringify({
+        version: 1,
+        workspace: workspace.getRawObject(),
+        preferences: safe(preferences)
+    });
 };
 
 //
 export const importSettings = (data) => {
     if (!data) return;
-    const obj = JSOX.parse(data);
-    workspace.gridState.layout = makeReactive(obj.layout || {columns: 4, rows: 8});
-    workspace.gridState.shortcuts = new Set(mergeByKey([...(obj.shortcuts || [])]).map((I)=>wrapItemToReactive(I)));
-    workspace.gridState.items = new Set(mergeByKey([...(obj.items || [])]).map((I)=>wrapItemToReactive(I)));
-    return obj;
+    if (typeof data == "string") { data = JSOX.parse(data); };
+    if (data.workspace) { workspace.importState(typeof data.workspace == "string" ? JSOX.parse(data.workspace) : data.workspace); };
+    if (data.preferences) { objectAssign(preferences, data.preferences); };
+    return data;
 };

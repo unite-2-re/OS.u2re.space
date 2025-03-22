@@ -21,9 +21,9 @@ export const UIAction = new Map([
     ["settings", (initiator, ev?)=> actionMap?.get?.("settings")?.(initiator?.dataset?.href)],
     ["use-as-wallpaper", (initiator, ev?)=> actionMap?.get?.("use-as-wallpaper")?.(initiator?.dataset?.href)],
 
-    // legacy...
-    ["import-settings", ()=> actionMap?.get?.("import-settings")?.()],
-    ["export-settings", ()=> actionMap?.get?.("export-settings")?.()]
+    //
+    ["import-state", ()=> actionMap?.get?.("import-state")?.()],
+    ["export-state", ()=> actionMap?.get?.("export-state")?.()]
 ]);
 
 //

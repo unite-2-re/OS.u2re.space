@@ -103,6 +103,7 @@
                 //
                 & {
                     display: grid;
+                    pointer-events: none;
                     grid-template-columns: subgrid;
                     grid-template-rows: minmax(0px, 1fr);
                     grid-auto-flow: row;
@@ -182,6 +183,7 @@
                         inline-size: 100%;
                         grid-column: 2 / 2 span;
                         touch-action: none;
+                        pointer-events: none;
 
                         //
                         border-radius: 0.5rem;
@@ -201,9 +203,11 @@
                             inline-size: 100%;
                             block-size: max-content;
                             min-block-size: 100%;
+                            max-block-size: none;
                             flex-direction: column;
                             overflow: hidden;
                             touch-action: none;
+                            pointer-events: none;
 
                             //
                             justify-content: start;
@@ -256,6 +260,7 @@
                             padding: 0rem;
                             padding-block-start: 1rem;
                             border-radius: 0.333rem;
+                            pointer-events: none;
 
                             display: flex;
                             flex-direction: column;
