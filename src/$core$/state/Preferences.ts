@@ -74,6 +74,7 @@ subscribe(preferences, (value, prop)=>{
     }
     if (prop == "theme") {
         document.documentElement.dispatchEvent(new CustomEvent("u2-theme-change", { bubbles: true, detail: {} })); document.documentElement.setAttribute("data-theme", "" + (value||"default"));
+        if (value != "default") preferences["theme-quick"] = value == "dark" ? true : false;
     }
     if (prop == "orientation-lock") {
         if (value) { Promise.try(screen.orientation?.lock?.bind(screen.orientation), screen.orientation.type); } else {  Promise.try(screen.orientation?.unlock?.bind?.(screen.orientation)); };
