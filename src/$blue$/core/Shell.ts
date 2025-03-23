@@ -21,12 +21,12 @@ export const imageView = (task)=>{
     </div></div></div>`);
 }
 
-//
-export const markdownView = (task)=>{
+// DE-IMPLEMENTED (merging to iframe, dedicated component)
+/*export const markdownView = (task)=>{
     return H(`<div id="${task?.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box">
 <adl-markdown-view style="content-visibility: visible;" src="${task?.args?.href || ""}"></adl-markdown-view>
 </div></div></div>`);
-}
+}*/
 
 //
 export const components: Map<string, any> = new Map<string, any>([
@@ -34,7 +34,7 @@ export const components: Map<string, any> = new Map<string, any>([
     ["settings", Settings],
     ["image", imageView],
     ["iframe", viewable],
-    ["markdown", markdownView]
+    //["markdown", markdownView]
 ]);
 
 //

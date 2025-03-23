@@ -82,8 +82,6 @@ export const fileTypeAction = new Map([
 ]);
 
 
-
-
 //
 export const actionByType = (ext)=>{
     return fileTypeAction.get(ext) || "error";
