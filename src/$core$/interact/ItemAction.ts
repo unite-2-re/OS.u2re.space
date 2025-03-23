@@ -1,5 +1,6 @@
 //
 import { actionMap } from "../ActionMap.ts";
+import { workspace } from "../state/GridState.ts";
 
 //
 export const UIAction = new Map([
@@ -13,13 +14,14 @@ export const UIAction = new Map([
     }],
 
     //
-    //["item-delete", (initiator, ev?)=> actionMap?.get?.("item-delete")?.(initiator?.dataset?.id)],
+    ["item-copy", (initiator)=>(Promise.try(navigator.clipboard.writeText.bind(navigator.clipboard), workspace.getItemRepresentation(initiator?.dataset?.id)))],
     ["item-edit", (initiator, ev?)=> actionMap?.get?.("item-edit")?.(initiator?.dataset?.id)],
-    ["item-edit", (initiator, ev?)=> actionMap?.get?.("item-edit")?.(initiator?.dataset?.id)],
+    ["item-delete", (initiator, ev?)=> actionMap?.get?.("item-delete")?.(initiator?.dataset?.id)],
     ["open-link", (initiator)=> actionMap?.get?.("open-link")?.(initiator?.dataset?.href)],
     ["manager", (initiator, ev?)=> actionMap?.get?.("manager")?.(initiator?.dataset?.href)],
     ["settings", (initiator, ev?)=> actionMap?.get?.("settings")?.(initiator?.dataset?.href)],
     ["use-as-wallpaper", (initiator, ev?)=> actionMap?.get?.("use-as-wallpaper")?.(initiator?.dataset?.href)],
+    ["copy-link", (initiator, ev?)=> { if (initiator?.dataset?.href) Promise.try(navigator.clipboard.writeText.bind(navigator.clipboard), initiator?.dataset?.href); }],
 
     //
     ["import-state", ()=> actionMap?.get?.("import-state")?.()],

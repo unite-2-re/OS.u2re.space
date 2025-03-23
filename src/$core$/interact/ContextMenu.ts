@@ -6,15 +6,16 @@ import { fileActionMap } from "../file/FileAction.ts";
 import { FileManagment } from "../file/FileManage.ts";
 import { pasteInWorkspace } from "./FileInteration.ts";
 import { workspace } from "../state/GridState.ts";
+import { UIAction } from "./ItemAction.ts";
 
 //
 export const ctxMenuMap = new Map([
     [".u2-grid-item", [
-        {icon: new UILucideIcon({icon: "pencil", padding: "0.05rem"}), content: "Edit", callback(initiator) { actionMap.get("item-edit")?.(initiator?.dataset?.id); } },
-        {icon: new UILucideIcon({icon: "copy-minus", padding: "0.05rem"}), content: "Copy Link", condition(initiator) { return !!initiator?.dataset?.href; }, callback(initiator) { if (initiator?.dataset?.href) Promise.try(navigator.clipboard.writeText.bind(navigator.clipboard), initiator?.dataset?.href);; } },
-        {icon: new UILucideIcon({icon: "braces", padding: "0.05rem"}), content: "Copy JSOX", callback(initiator) { Promise.try(navigator.clipboard.writeText.bind(navigator.clipboard), workspace.getItemRepresentation(initiator?.dataset?.id));; } },
-        {icon: new UILucideIcon({icon: "folder", padding: "0.05rem"}), content: "Explore", condition(initiator) { return initiator?.dataset?.href?.startsWith?.("/user/"); }, callback(initiator) { if (initiator?.dataset?.href) actionMap.get("manager")?.(initiator?.dataset?.href); } },
-        {icon: new UILucideIcon({icon: "badge-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { actionMap.get("item-delete")?.(initiator?.dataset?.id); } },
+        {icon: new UILucideIcon({icon: "pencil"    , padding: "0.05rem"}), content: "Edit"     , callback(initiator) { return UIAction.get("item-edit")?.(initiator);   } }, //if (initiator?.dataset?.href)
+        {icon: new UILucideIcon({icon: "copy-minus", padding: "0.05rem"}), content: "Copy Link", callback(initiator) { return UIAction.get("copy-link")?.(initiator);   }  , condition(initiator) { return !!initiator?.dataset?.href; } },
+        {icon: new UILucideIcon({icon: "braces"    , padding: "0.05rem"}), content: "Copy JSOX", callback(initiator) { return UIAction.get("item-copy")?.(initiator);   } },
+        {icon: new UILucideIcon({icon: "folder"    , padding: "0.05rem"}), content: "Explore"  , callback(initiator) { return UIAction.get("manager")?.(initiator);     }  , condition(initiator) { return initiator?.dataset?.href?.startsWith?.("/user/"); } },
+        {icon: new UILucideIcon({icon: "badge-x"   , padding: "0.05rem"}), content: "Delete"   , callback(initiator) { return UIAction.get("item-delete")?.(initiator); } },
         /*{icon: new UILucideIcon({icon: "external-link", padding: "0.05rem"}), content: "Open Link", condition(initiator) { return !!initiator?.dataset?.href; }, callback(initiator) { actionMap.get("open-link")?.(initiator?.dataset?.href || "#"); } },
         {icon: new UILucideIcon({icon: "app-window", padding: "0.05rem"}), content: "Open Frame", condition(initiator) { return !!initiator?.dataset?.href; }, callback(initiator) { actionMap.get("open-link")?.({
             label: (initiator?.dataset?.label?.trim?.() || initiator?.dataset?.href?.trim?.()),

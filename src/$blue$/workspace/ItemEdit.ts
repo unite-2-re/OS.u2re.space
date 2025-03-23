@@ -15,6 +15,7 @@ const fieldTypes = new Map([
     <ui-button-row data-alpha="0" data-value="manager"> <ui-icon icon="folder"></ui-icon> <span>Explore</span> </ui-button-row>
     <ui-button-row data-alpha="0" data-value="settings"> <ui-icon icon="settings"></ui-icon> <span>Settings</span> </ui-button-row>
     <ui-button-row data-alpha="0" data-value="use-as-wallpaper"> <ui-icon icon="wallpaper"></ui-icon> <span>Use as Wallpaper</span> </ui-button-row>
+    <ui-button-row data-alpha="0" data-value="copy-link"> <ui-icon icon="copy-minus"></ui-icon> <span>Copy Link</span> </ui-button-row>
 </ui-button>`)]
 ]);
 

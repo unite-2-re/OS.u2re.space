@@ -2,6 +2,7 @@ import { dropFile } from "../file/FileOps.ts";
 import { FileManagment } from "../file/FileManage.ts";
 import { workspace } from "../state/GridState.ts";
 import { JSOX } from "jsox";
+import { useAsWallpaper } from "../file/Wallpaper.ts";
 
 //
 const MOCElement = (el, selector)=>{
@@ -37,6 +38,11 @@ export const pasteInWorkspace = async (data?: any, e?: any)=>{
         if (text?.startsWith?.("/user/")) {
             e?.preventDefault?.();
             workspace.addItem(UUIDv4(), e, { href: text||"", icon: "file", label: text?.split?.("/")?.at?.(-1) || "" });
+        } else
+        if (text?.startsWith?.("/")) {
+            e?.preventDefault?.();
+            //useAsWallpaper((window.location.origin + text)||"");
+            workspace.addItem(UUIDv4(), e, { action: "use-as-wallpaper", href: (window.location.origin + text)||"", icon: "globe", label: text?.split?.("/")?.at?.(-1) || "" });
         } else
         {
             const obj = await Promise.try(JSOX.parse.bind(JSOX), text);

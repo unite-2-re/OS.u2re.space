@@ -1,5 +1,4 @@
 import { dropFile } from "../../$core$/file/FileOps.ts";
-import { fileActions } from "../../$core$/file/FileAction";
 
 //
 import { pasteInWorkspace } from "../../$core$/interact/FileInteration.ts";
@@ -10,7 +9,7 @@ import { subscribe } from "/externals/lib/object.js";
 import { fixOrientToScreen } from "/externals/core/agate.js";
 import { inflectInGrid } from "/externals/core/grid.js";
 import { E, H } from "/externals/lib/blue.js"
-import { useAsWallpaper } from "src/$core$/file/Wallpaper.ts";
+import { useAsWallpaper } from "../../$core$/file/Wallpaper.ts";
 
 //
 const dragOverHandle = (ev: DragEvent) => { ev.preventDefault(); };
