@@ -11,7 +11,7 @@ export const preferences = makeObjectAssignable(makeReactive({
     scaling: 1,
     "theme-quick": matchMedia('(prefers-color-scheme: dark)').matches,
     "orientation-lock": true,
-    theme: "default",
+    theme: matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light",//"default",
     volume: 1,
     brightness: 1,
     "night-mode": 0,
@@ -69,9 +69,10 @@ subscribe(preferences, (value, prop)=>{
     };
     if (prop == "brightness") { (document.querySelector("#filter") as any)?.style?.setProperty?.("--brightness", value ?? 1); };
     if (prop == "night-mode") { (document.querySelector("#filter") as any)?.style?.setProperty?.("--night-mode", value || 0); };
-    if (prop == "theme-quick") { preferences.theme = value ? "dark" : "light"; }
+    if (prop == "theme-quick") {
+        if (preferences.theme != "default") { preferences.theme = value ? "dark" : "light"; };
+    }
     if (prop == "theme") {
-        if (value == "default") { preferences["theme-quick"] = matchMedia('(prefers-color-scheme: dark)').matches; } else { preferences["theme-quick"] = value == "dark" ? true : false; };
         document.documentElement.dispatchEvent(new CustomEvent("u2-theme-change", { bubbles: true, detail: {} })); document.documentElement.setAttribute("data-theme", "" + (value||"default"));
     }
     if (prop == "orientation-lock") {
