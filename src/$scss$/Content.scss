@@ -206,8 +206,8 @@
                             max-block-size: none;
                             flex-direction: column;
                             overflow: hidden;
-                            touch-action: none;
-                            pointer-events: none;
+                            touch-action: inherit;
+                            pointer-events: auto;
 
                             //
                             justify-content: start;

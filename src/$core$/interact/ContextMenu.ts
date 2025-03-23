@@ -2,11 +2,11 @@ import { UILucideIcon, makeCtxMenuItems, openContextMenu } from "/externals/wcom
 
 //
 import { actionMap } from "../ActionMap.ts";
-import { fileActionMap } from "../file/FileAction.ts";
+import { fileActionMap, fileActions } from "../file/FileAction.ts";
 import { FileManagment } from "../file/FileManage.ts";
 import { pasteInWorkspace } from "./FileInteration.ts";
-import { workspace } from "../state/GridState.ts";
 import { UIAction } from "./ItemAction.ts";
+import { downloadFile, uploadFile } from "../file/FileOps.ts";
 
 //
 export const ctxMenuMap = new Map([
@@ -33,10 +33,18 @@ export const ctxMenuMap = new Map([
         {icon: new UILucideIcon({icon: "settings", padding: "0.05rem"}), content: "Settings", callback() { actionMap.get("settings")?.(); } },*/
     ]],
     ["ui-select-row[name=\"file\"]", [
-        {icon: new UILucideIcon({icon: "app-window", padding: "0.05rem"}), content: "View file", callback(initiator) { fileActionMap?.get?.("view")?.(initiator?.value); } },
+        {icon: new UILucideIcon({icon: "app-window", padding: "0.05rem"}), content: "View file", callback(initiator) { fileActions?.(initiator?.value); } },
         {icon: new UILucideIcon({icon: "wallpaper", padding: "0.05rem"}), content: "Use as wallpaper", callback(initiator) { fileActionMap?.get?.("use")?.(initiator?.value); } },
         {icon: new UILucideIcon({icon: "copy-minus", padding: "0.05rem"}), content: "Copy path", callback(initiator) { if (initiator?.value) Promise.try(navigator.clipboard.writeText.bind(navigator.clipboard), initiator?.value); } },
+        {icon: new UILucideIcon({icon: "book-copy", padding: "0.05rem"}), content: "Copy item", callback(initiator) { fileActionMap?.get?.("to-clipboard")?.(initiator?.value, FileManagment?.getManager?.(initiator)?.getCurrent?.()); } },
+        {icon: new UILucideIcon({icon: "file-down", padding: "0.05rem"}), content: "Download", callback(initiator) { downloadFile(initiator.value); } }, // TODO! add down into file op registry
         {icon: new UILucideIcon({icon: "circle-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { fileActionMap?.get?.("delete")?.(initiator?.value, FileManagment?.getManager?.(initiator)?.getCurrent?.()); } },
+    ]],
+    ["#manager .adl-content", [
+        {icon: new UILucideIcon({icon: "clipboard", padding: "0.05rem"}), content: "Paste", callback(initiator, _?) { navigator.clipboard?.read?.()?.then?.((items)=>(FileManagment?.getManager?.(initiator)?.handleDrop?.({items}))); } },
+
+         // TODO! add down into file op registry
+        {icon: new UILucideIcon({icon: "file-up", padding: "0.05rem"}), content: "Upload", callback(initiator, _?) { const manager = FileManagment?.getManager?.(initiator); uploadFile(manager.currentDir(), manager.getCurrent()); } },
     ]]
 ]);
 

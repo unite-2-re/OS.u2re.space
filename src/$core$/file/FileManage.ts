@@ -1,6 +1,6 @@
 // @ts-ignore
-import { makeReactive, subscribe } from "/externals/lib/object.js";
-import { getDir, getFileExtension, provide, useFS } from "./FileOps";
+import { makeReactive, subscribe, UUIDv4 } from "/externals/lib/object.js";
+import { dropFile, getDir, getFileExtension, provide, useFS } from "./FileOps";
 import { fileActions } from "./FileAction";
 import { STOCK_NAME } from "./Wallpaper";
 
@@ -26,6 +26,14 @@ export const fileTypeIcon = new Map([
     ["md", "letter-text"],
     ["txt", "text"]
 ]);
+
+//
+const getLeast = (item)=>{
+    if (item?.types?.length > 0) {
+        return item?.getType?.(Array.from(item?.types || [])?.at?.(-1));
+    }
+    return null;
+}
 
 //
 export class FileManagment {
@@ -86,6 +94,21 @@ export class FileManagment {
 
         //
         return this.#current;
+    }
+
+    handleDrop(data: any) {
+        const current = this.getCurrent();
+        const items = (data)?.items;
+        const blob  =  data?.files?.[0] ?? getLeast(items?.[0]);
+        if (blob) {
+            Promise.try(async()=>{
+                const raw = await blob; // TODO! support of type detection
+                const file = raw instanceof File ? raw : (new File([raw], UUIDv4() + ".tmp"));
+                if (file) dropFile(file, this.currentDir(), current);
+            });
+            return true;
+        }
+        return false;
     }
 
     currentDir(val?: any|null) {

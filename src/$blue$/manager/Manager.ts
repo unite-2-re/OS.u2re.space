@@ -42,10 +42,7 @@ export default (task: Task, )=>{
     //
     const dropHandle = (ev: DragEvent) => {
         ev.preventDefault();
-        const file = ev.dataTransfer?.files?.[0];
-        if (file) {
-            dropFile(file, manager.currentDir(), current);
-        }
+        manager.handleDrop(ev.dataTransfer);
     };
 
     //

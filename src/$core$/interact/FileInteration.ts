@@ -82,13 +82,9 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
 
         //
         if (content && MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
-            const items = (e.clipboardData)?.items;
-            const blob = items?.[0]?.getAsFile?.();
-            if (blob) {
+            if (manager.handleDrop(e.clipboardData)) {
                 e?.preventDefault?.();
-                const file = blob instanceof File ? blob : (new File([blob], UUIDv4() + ".tmp"));
-                if (file) dropFile(file, manager.currentDir(), manager.getCurrent());
-            }
+            };
         } else
         if (ROOT.querySelector(".u2-desktop-grid:is(:hover, :active, :focus), .u2-desktop-grid:has(:hover, :active, :focus)")) {
             pasteInWorkspace(e.clipboardData);

@@ -45,13 +45,25 @@ export const fileActionMap = new Map([
         return openMarkdown({label: file?.name || "", icon: "letter-text", href: URL.createObjectURL(file)});
     }],
     ["view", async (path, args?)=>{
-        const file = await provide(path?.name || path) as File;
-        return openImage({label: file?.name || "", icon: "image", href: URL.createObjectURL(file)});
+        const file = (path instanceof File || path instanceof Blob) ? path : (await provide(path?.name || path) as File);
+        return openImage({label: (file as any)?.name || "", icon: "image", href: URL.createObjectURL(file)});
     }],
     ["use", async (path, args?)=>{ return useFileAs(path?.name || path); }],
     ["text", async (path, args?)=>{ console.error("Not implemented!"); }],
     ["error", async (path, args?)=>{ console.error(args?.reason || "Not implemented!"); }],
-    ["delete", async(path, args?)=>{ return removeFile(path, args); }]
+    ["delete", async(path, args?)=>{ return removeFile(path, args); }],
+
+    //
+    ["to-clipboard", async (path, args?)=>{
+        const file = (path instanceof File || path instanceof Blob) ? path : (await provide(path?.name || path) as File);
+        if (ClipboardItem.supports(file?.type)) {
+            const clipboardItem = new ClipboardItem({
+                [file?.type || "text/plain"]: file,
+            });
+            return navigator.clipboard.write([clipboardItem]);
+        }
+        return null;
+    }],
 ]);
 
 //
