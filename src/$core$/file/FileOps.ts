@@ -10,6 +10,11 @@ export const getDir = (dest)=>{
 }
 
 //
+export const UUIDv4 = () => {
+    return crypto?.randomUUID ? crypto?.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16));
+};
+
+//
 const $useFS$ = async() => {
     // @ts-ignore
     const opfs = await import(/*@vite-ignore */ '/externals/vendor/happy-opfs.mjs').catch(console.warn.bind(console));
@@ -171,9 +176,12 @@ export const dropFile = async (file, dest = "/user/images/", current?: any)=>{
     //
     if (!path?.startsWith?.("/user")) return;
     const user = path?.replace?.("/user","");
-    const fp = user + (file?.name || "wallpaper");
 
     //
+    file = file instanceof File ? file : (new File([file], UUIDv4() + "." + (file?.type?.split?.("/")?.[1] || "tmp")))
+
+    //
+    const fp = user + (file?.name || "wallpaper");
     await fs?.mkdir?.(user);
     await fs?.writeFile?.(fp, file);
 

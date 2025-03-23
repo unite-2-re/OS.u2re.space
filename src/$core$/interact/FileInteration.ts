@@ -1,5 +1,5 @@
-import { dropFile } from "../file/FileOps.ts";
-import { FileManagment } from "../file/FileManage.ts";
+import { dropFile, removeFile, UUIDv4 } from "../file/FileOps.ts";
+import { FileManagment, getLeast } from "../file/FileManage.ts";
 import { workspace } from "../state/GridState.ts";
 import { JSOX } from "jsox";
 import { useAsWallpaper } from "../file/Wallpaper.ts";
@@ -10,18 +10,34 @@ const MOCElement = (el, selector)=>{
 };
 
 //
-const UUIDv4 = () => {
-    return crypto?.randomUUID ? crypto?.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16));
-};
-
-
-//
 export const ghostImage = new Image();
 ghostImage.decoding = "async";
 ghostImage.src = URL.createObjectURL(new Blob([`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z"/></svg>`], {type: "image/svg+xml"}));
 ghostImage.width  = 24;
 ghostImage.height = 24;
 
+//
+export const attachFile = (transfer, file, path = "") => {
+    const url = URL.createObjectURL(file);
+    if (file?.type && file?.type != "text/plain") {
+        transfer?.items?.add?.(file, file?.type || "text/plain");
+    } else {
+        transfer?.add?.(file);
+    }
+    if (path) { transfer?.items?.add?.(path, "text/plain"); };
+    transfer?.setData?.("text/uri-list", url);
+    transfer?.setData?.("DownloadURL", file?.type + ":" + file?.name + ":" + url);
+}
+
+//
+export const dropAsTempFile = async (data: any)=>{
+    const items   = (data)?.items;
+    const item    = items?.[0];
+    const isImage = item?.types?.find?.((n)=>n?.startsWith?.("image/"));
+    const blob    = await (data?.files?.[0] ?? ((isImage ? item?.getType?.(isImage) : null) || getLeast(item)));
+    const path    = await dropFile(blob, "/user/temp/");
+    if (path) { useAsWallpaper?.(path); }
+}
 
 //
 export const pasteInWorkspace = async (data?: any, e?: any)=>{
@@ -32,23 +48,22 @@ export const pasteInWorkspace = async (data?: any, e?: any)=>{
     if (text && typeof text == "string") {
         if (URL.canParse(text)) {
             const url = new URL(text);
-            e?.preventDefault?.();
             workspace.addItem(UUIDv4(), e, { href: text||"", icon: "globe", label: url?.hostname || "" });
         } else
         if (text?.startsWith?.("/user/")) {
-            e?.preventDefault?.();
             workspace.addItem(UUIDv4(), e, { href: text||"", icon: "file", label: text?.split?.("/")?.at?.(-1) || "" });
         } else
         if (text?.startsWith?.("/")) {
-            e?.preventDefault?.();
             //useAsWallpaper((window.location.origin + text)||"");
             workspace.addItem(UUIDv4(), e, { action: "use-as-wallpaper", href: (window.location.origin + text)||"", icon: "globe", label: text?.split?.("/")?.at?.(-1) || "" });
         } else
         {
-            const obj = await Promise.try(JSOX.parse.bind(JSOX), text);
-            if (obj) workspace.importItem(obj);
+            const obj = await Promise.try(JSOX.parse.bind(JSOX), text)?.catch?.(()=>null);
+            if (obj)
+                { workspace.importItem(obj); } else
+                { dropAsTempFile(data); }
         }
-    };
+    } else { dropAsTempFile(data); }
 }
 
 //
@@ -59,17 +74,12 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
         const manager = FileManagment.getManager(content);
 
         //
-        if (content && MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
+        if (content && MOCElement(content, ":where(ui-frame):is(:hover, :active, :focus), :where(ui-frame):has(:hover, :active, :focus)")?.querySelector?.(".ui-content") == content) {
             const path = FileManagment.fileOf(content);
             const file = manager.getCurrent().get(path);
             if (file) {
-                const url = URL.createObjectURL(file);
                 ev?.clipboardData?.clearData?.();
-                ev?.clipboardData?.setData?.("text/uri-list", url);
-                ev?.clipboardData?.setData?.("DownloadURL", file?.type + ":" + file?.name + ":" + url);
-                //ev?.clipboardData?.setData?.("text/plain", path);
-                ev?.clipboardData?.items?.add?.(file);
-                ev?.clipboardData?.items?.add?.(path, "text/plain");
+                attachFile(ev?.clipboardData, file, path);
                 ev?.preventDefault?.();
             }
         }
@@ -81,10 +91,11 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
         const manager = FileManagment.getManager(content);
 
         //
-        if (content && MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
-            if (manager.handleDrop(e.clipboardData)) {
-                e?.preventDefault?.();
-            };
+        if (content && MOCElement(content, ":where(ui-frame):is(:hover, :active, :focus), :where(ui-frame):has(:hover, :active, :focus)")?.querySelector?.(".ui-content") == content) {
+            e?.preventDefault?.();
+            if (!manager.handleDrop(e.clipboardData)) {
+                navigator.clipboard.read?.()?.then?.(async (items)=>manager.handleDrop({items}));
+            }
         } else
         if (ROOT.querySelector(".u2-desktop-grid:is(:hover, :active, :focus), .u2-desktop-grid:has(:hover, :active, :focus)")) {
             pasteInWorkspace(e.clipboardData);
@@ -106,23 +117,20 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
             }
 
             //
-            if (e?.ctrlKey && e?.key == "v") {
+            /*if (e?.ctrlKey && e?.key == "v") {
                 navigator.clipboard.read?.()?.then?.(async (items)=>{
                     const item = items?.[0];
                     const isImage = item?.types?.find?.((n)=>n?.startsWith?.("image/"));
-                    if (isImage) {
-                        const blob = await item?.getType?.(isImage);
-                        if (blob) {
-                            e?.preventDefault?.();
-                            const file = blob instanceof File ? blob : (new File([blob], UUIDv4() + "." + isImage?.replace?.("image/", "")));
-                            if (file) dropFile(file, manager.currentDir(), manager.getCurrent());
-                        }
+                    const blob = await ((isImage ? item?.getType?.(isImage) : null) || getLeast(item));
+                    if (blob) {
+                        e?.preventDefault?.();
+                        if (blob) dropFile(blob, manager.currentDir(), manager.getCurrent());
                     }
                 });
-            }
+            }*/
 
             //
-            if (e?.ctrlKey && e?.key == "c") {
+            /*if (e?.ctrlKey && e?.key == "c") {
                 const path = FileManagment.fileOf(content);
                 const file = manager.getCurrent().get(path);
                 if (file && ClipboardItem?.supports?.(file?.type)) {
@@ -132,6 +140,12 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
                         ["text/plain"]: path
                     })]);
                 }
+            }*/
+
+            //
+            if (e?.key == "Delete") {
+                const path = FileManagment.fileOf(content);
+                if (path) removeFile(path, manager.getCurrent());
             }
         }
     });
@@ -143,23 +157,16 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
             content?.querySelector?.("ui-select-row:is(:hover, :active)") ||
             content?.querySelector?.("ui-select-row[checked]")
         ) as HTMLInputElement;
-        const manager = FileManagment.getManager(content);
 
         //
+        const manager = FileManagment.getManager(content);
         const path = input?.value || FileManagment.fileOf(content)
         const file = manager.getCurrent()?.get?.(path);
-        if (file) {
-            const url = URL.createObjectURL(file);
-            if (ev?.dataTransfer) {
-                ev.dataTransfer.effectAllowed = "copyLink";
-                ev?.dataTransfer?.clearData?.();
-                ev?.dataTransfer?.setDragImage?.(ghostImage, 0, 0);
-                ev?.dataTransfer?.setData?.("text/uri-list", url);
-                ev?.dataTransfer?.setData?.("DownloadURL", file?.type + ":" + file?.name + ":" + url);
-                //ev?.dataTransfer?.setData?.("text/plain", path);
-                ev?.dataTransfer?.items?.add?.(file);
-                ev?.dataTransfer?.items?.add?.(path, "text/plain");
-            }
+        if (file && ev?.dataTransfer) {
+            ev.dataTransfer.effectAllowed = "copyLink";
+            ev?.dataTransfer?.clearData?.();
+            ev?.dataTransfer?.setDragImage?.(ghostImage, 0, 0);
+            attachFile(ev?.dataTransfer, file, path);
         } else { ev?.preventDefault?.(); }
     });
 

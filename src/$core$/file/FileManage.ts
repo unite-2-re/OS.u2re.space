@@ -28,7 +28,7 @@ export const fileTypeIcon = new Map([
 ]);
 
 //
-const getLeast = (item)=>{
+export const getLeast = (item)=>{
     if (item?.types?.length > 0) {
         return item?.getType?.(Array.from(item?.types || [])?.at?.(-1));
     }
@@ -96,21 +96,26 @@ export class FileManagment {
         return this.#current;
     }
 
+    //
     handleDrop(data: any) {
         const current = this.getCurrent();
-        const items = (data)?.items;
-        const blob  =  data?.files?.[0] ?? getLeast(items?.[0]);
+        const items   = (data)?.items;
+        const item    = items?.[0];
+
+        //
+        const isImage = item?.types?.find?.((n)=>n?.startsWith?.("image/"));
+        const blob    = data?.files?.[0] ?? ((isImage ? item?.getType?.(isImage) : null) || getLeast(item));
         if (blob) {
             Promise.try(async()=>{
-                const raw = await blob; // TODO! support of type detection
-                const file = raw instanceof File ? raw : (new File([raw], UUIDv4() + ".tmp"));
-                if (file) dropFile(file, this.currentDir(), current);
+                const raw = await blob;
+                if (raw) dropFile(raw, this.currentDir(), current);
             });
             return true;
         }
         return false;
     }
 
+    //
     currentDir(val?: any|null) {
         if (this.#task) {
             if (val && this.#task.directory != val) { this.#task.directory = val; };

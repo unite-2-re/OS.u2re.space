@@ -1,5 +1,5 @@
 //
-import { uploadFile, downloadFile, dropFile, removeFile } from "../../$core$/file/FileOps.ts";
+import { uploadFile, downloadFile, removeFile } from "../../$core$/file/FileOps.ts";
 import { FileManagment } from "../../$core$/file/FileManage.ts";
 import type { Task } from "../../$core$/Types";
 

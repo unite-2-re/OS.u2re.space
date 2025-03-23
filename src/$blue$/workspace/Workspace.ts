@@ -1,6 +1,3 @@
-import { dropFile } from "../../$core$/file/FileOps.ts";
-
-//
 import { pasteInWorkspace } from "../../$core$/interact/FileInteration.ts";
 import { createLabel, createShaped } from "../../$core$/grid/Items.ts";
 
@@ -9,23 +6,12 @@ import { subscribe } from "/externals/lib/object.js";
 import { fixOrientToScreen } from "/externals/core/agate.js";
 import { inflectInGrid } from "/externals/core/grid.js";
 import { E, H } from "/externals/lib/blue.js"
-import { useAsWallpaper } from "../../$core$/file/Wallpaper.ts";
 
 //
 const dragOverHandle = (ev: DragEvent) => { ev.preventDefault(); };
 const dropHandle = (ev: DragEvent) => {
     ev.preventDefault();
-    const file = ev.dataTransfer?.files?.[0];
-    const text = ev.dataTransfer?.getData?.("text/plain");
-    if (text || !file) {
-        pasteInWorkspace(ev.dataTransfer);
-    } else
-    if (file) {
-        dropFile(file, "/user/temp/")?.then((path: any) => {
-            // TODO: detect if image
-            if (path) { useAsWallpaper?.(path); }
-        });
-    }
+    pasteInWorkspace(ev.dataTransfer, ev);
 };
 
 //

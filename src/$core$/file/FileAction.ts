@@ -74,6 +74,9 @@ export const fileTypeAction = new Map([
     ["gif", "view"],
     ["webp", "view"],
     ["jng", "error"],
+    ["jpeg", "view"],
+    ["txt", "text"],
+    ["plain", "text"],
 ]);
 
 //
