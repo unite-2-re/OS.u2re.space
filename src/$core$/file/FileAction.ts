@@ -66,7 +66,9 @@ export const fileActionMap = new Map([
     }],
 ]);
 
+
 //
+export const imageTypes = new Set(["png", "gif", "jpg", "jpeg", "webp"]);
 export const fileTypeAction = new Map([
     ["md", "markdown"],
     ["png", "view"],
@@ -78,6 +80,9 @@ export const fileTypeAction = new Map([
     ["txt", "text"],
     ["plain", "text"],
 ]);
+
+
+
 
 //
 export const actionByType = (ext)=>{

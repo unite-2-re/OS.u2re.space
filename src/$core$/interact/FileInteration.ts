@@ -3,6 +3,7 @@ import { FileManagment, getLeast } from "../file/FileManage.ts";
 import { workspace } from "../state/GridState.ts";
 import { JSOX } from "jsox";
 import { useAsWallpaper } from "../file/Wallpaper.ts";
+import { imageTypes } from "../file/FileAction.ts";
 
 //
 const MOCElement = (el, selector)=>{
@@ -45,6 +46,11 @@ export const pasteInWorkspace = async (data?: any, e?: any)=>{
     const item = data?.items?.find?.(item => item?.getType?.("text/plain"));
     let text = await (item?.getType?.("text/plain") ?? (item ? new Promise((r)=>(item.getAsString((data)=>r(data)))) : null)) || data?.getData?.("text/plain");
     if (text instanceof Blob) { text = await text.text(); };
+
+    //
+    if (imageTypes.has(text?.split?.(".")?.at?.(-1))) {
+        useAsWallpaper(text);
+    } else
     if (text && typeof text == "string") {
         if (URL.canParse(text)) {
             const url = new URL(text);
