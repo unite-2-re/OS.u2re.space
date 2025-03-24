@@ -22,11 +22,13 @@ export const imageView = (task)=>{
 }
 
 // DE-IMPLEMENTED (merging to iframe, dedicated component)
-/*export const markdownView = (task)=>{
-    return H(`<div id="${task?.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box">
-<adl-markdown-view style="content-visibility: visible;" src="${task?.args?.href || ""}"></adl-markdown-view>
-</div></div></div>`);
-}*/
+export const markdownView = (task)=>{
+    const iframe = H(`<iframe referrerpolicy="no-referrer" width="100%" height="100%" frameBorder="0" allowtransparency scrolling seamless credentialless style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" loading="eager" allowfullscreen allow="*" src="./mdv/index.html"></iframe>`) as HTMLIFrameElement;
+    if (iframe) { iframe.addEventListener("load", ()=>{
+        iframe?.contentWindow?.postMessage({src: task?.args?.href||""}, "*", []);
+    }); };
+    return E("div.ui-content" + task?.taskId, {}, [ E("div.adl-main", {}, [ E("div.adl-content-box", {}, [ iframe ]) ]) ]);
+}
 
 //
 export const components: Map<string, any> = new Map<string, any>([
@@ -34,7 +36,7 @@ export const components: Map<string, any> = new Map<string, any>([
     ["settings", Settings],
     ["image", imageView],
     ["iframe", viewable],
-    //["markdown", markdownView]
+    ["markdown", markdownView]
 ]);
 
 //

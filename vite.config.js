@@ -45,6 +45,7 @@ const config = defineConfig({
             'vue$': 'vue/dist/vue.esm.js',
             '/externals': path.resolve(__dirname, './frontend/externals'),
             '/frontend': path.resolve(__dirname, './frontend'),
+            '/mdv': path.resolve(__dirname, './frontend/mdv'),
             '/assets': path.resolve(__dirname, './frontend/assets'),
         },
     },
