@@ -27,10 +27,3 @@ export const useAsWallpaper = (f_path) => {
     }
     return f_path?.name || f_path;
 };
-
-//
-export const STOCK_NAME = "/assets/wallpaper/stock.webp"
-export const useFileAs = (selectedFilename)=>{
-    const url = (selectedFilename || STOCK_NAME);
-    localStorage.setItem("@wallpaper", useAsWallpaper(url));
-}

@@ -1,5 +1,7 @@
 //
 import { actionMap } from "../ActionMap.ts";
+import { fileActionMap } from "../file/FileAction.ts";
+import { FileManagment } from "../file/FileManage.ts";
 import { workspace } from "../state/GridState.ts";
 
 //
@@ -29,6 +31,21 @@ export const UIAction = new Map([
 ]);
 
 //
+export const doUIAction = (name: string, initiator: any, ev?: any)=>{
+    if (name?.startsWith?.("file:")) {
+        const action = name?.split?.(":")?.[1];
+        return fileActionMap.get(action)?.(initiator?.value, FileManagment?.getManager?.(initiator)?.getCurrent?.());
+    } else {
+        const act = UIAction.get(name);
+        if (act) { return act(initiator, ev) } else {
+            const mp = actionMap.get(name);
+            if (mp) return mp(initiator.href, ev);
+        };
+    }
+    return null;
+}
+
+//
 export const initUIAction = (root = document.documentElement)=>{
     root?.addEventListener?.("click", (evc: any)=>{
         const ev = evc;
@@ -37,11 +54,9 @@ export const initUIAction = (root = document.documentElement)=>{
         const selector  = "*[data-action]";
         const initiator = element?.matches?.(selector) ? element : element?.closest?.(selector);
         const actionNm  = (initiator as HTMLElement)?.dataset?.action || ((initiator as HTMLElement)?.dataset?.href ? "open-link" : "item-edit");
-        const actionCb  = UIAction.get(actionNm) ?? actionMap.get(actionNm);
-        if (actionCb && initiator) {
+        if (doUIAction(actionNm, initiator, ev) || initiator) {
             ev?.preventDefault?.();
             ev?.stopPropagation?.();
-            actionCb?.(initiator, ev);
         }
     });
 };

@@ -1,7 +1,9 @@
 //
 import { taskManager } from "../Tasks";
-import { getFileExtension, provide, removeFile } from "./FileOps";
-import { useFileAs } from "./Wallpaper";
+import { downloadFile, getFileExtension, provide, removeFile } from "./FileOps";
+import { useAsWallpaper } from "./Wallpaper";
+
+//
 import { makeReactive } from "/externals/lib/object.js";
 
 //
@@ -39,6 +41,19 @@ export const openMarkdown = ({label, icon, href})=>{
 };
 
 //
+export const STOCK_NAME = "/assets/wallpaper/stock.webp"
+export const useFileAs = (selectedFilename)=>{
+    if (imageTypes.has(selectedFilename?.split?.(".")?.at?.(-1))) {
+        const url = (selectedFilename || STOCK_NAME);
+        localStorage.setItem("@wallpaper", useAsWallpaper(url));
+        return url;
+    } else {
+        return fileActions?.(selectedFilename);
+    }
+    return null;
+}
+
+//
 export const fileActionMap = new Map([
     ["markdown", async (path, args?)=>{
         const file = await provide(path?.name || path) as File;
@@ -51,7 +66,10 @@ export const fileActionMap = new Map([
     ["use", async (path, args?)=>{ return useFileAs(path?.name || path); }],
     ["text", async (path, args?)=>{ console.error("Not implemented!"); }],
     ["error", async (path, args?)=>{ console.error(args?.reason || "Not implemented!"); }],
-    ["delete", async(path, args?)=>{ return removeFile(path, args); }],
+    ["delete", async (path, args?)=>{ return removeFile(path, args); }],
+    ["download", async (path, args?)=>{ return downloadFile(path); }],
+    ["copy-path", async (path) => { return (path ? Promise.try(navigator.clipboard.writeText.bind(navigator.clipboard), path) : null); }],
+    ["action", async (path) => { return fileActions?.(path); }],
 
     //
     ["to-clipboard", async (path, args?)=>{

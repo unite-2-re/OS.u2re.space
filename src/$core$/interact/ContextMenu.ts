@@ -2,11 +2,9 @@ import { UILucideIcon, makeCtxMenuItems, openContextMenu } from "/externals/wcom
 
 //
 import { actionMap } from "../ActionMap.ts";
-import { fileActionMap, fileActions } from "../file/FileAction.ts";
 import { FileManagment } from "../file/FileManage.ts";
 import { pasteInWorkspace } from "./FileInteration.ts";
-import { UIAction } from "./ItemAction.ts";
-import { downloadFile, uploadFile } from "../file/FileOps.ts";
+import { doUIAction, UIAction } from "./ItemAction.ts";
 
 //
 export const ctxMenuMap = new Map([
@@ -16,35 +14,23 @@ export const ctxMenuMap = new Map([
         {icon: new UILucideIcon({icon: "braces"    , padding: "0.05rem"}), content: "Copy JSOX", callback(initiator) { return UIAction.get("item-copy")?.(initiator);   } },
         {icon: new UILucideIcon({icon: "folder"    , padding: "0.05rem"}), content: "Explore"  , callback(initiator) { return UIAction.get("manager")?.(initiator);     }  , condition(initiator) { return initiator?.dataset?.href?.startsWith?.("/user/"); } },
         {icon: new UILucideIcon({icon: "badge-x"   , padding: "0.05rem"}), content: "Delete"   , callback(initiator) { return UIAction.get("item-delete")?.(initiator); } },
-        /*{icon: new UILucideIcon({icon: "external-link", padding: "0.05rem"}), content: "Open Link", condition(initiator) { return !!initiator?.dataset?.href; }, callback(initiator) { actionMap.get("open-link")?.(initiator?.dataset?.href || "#"); } },
-        {icon: new UILucideIcon({icon: "app-window", padding: "0.05rem"}), content: "Open Frame", condition(initiator) { return !!initiator?.dataset?.href; }, callback(initiator) { actionMap.get("open-link")?.({
-            label: (initiator?.dataset?.label?.trim?.() || initiator?.dataset?.href?.trim?.()),
-            icon: (initiator?.dataset?.icon?.trim?.() || initiator?.icon?.trim?.() || "globe"),
-            href: (initiator?.dataset?.href?.trim?.() || "#")
-        }); } },*/
     ]],
     [".u2-desktop-grid", [
-        {icon: new UILucideIcon({icon: "badge-plus", padding: "0.05rem"}), content: "Add Item", callback(_, event?) { actionMap.get("item-add")?.(event); } },
-        {icon: new UILucideIcon({icon: "settings", padding: "0.05rem"}), content: "Settings", callback(_, event?) { actionMap.get("settings")?.(event); } },
-        {icon: new UILucideIcon({icon: "clipboard", padding: "0.05rem"}), content: "Paste", callback(_, event?) { pasteInWorkspace(navigator.clipboard?.read?.()?.then?.((items)=>({items})), event); } },
-        // deprecated, needs to refactor UI
-        /*{icon: new UILucideIcon({icon: "fullscreen", padding: "0.05rem"}), content: "Fullscreen", callback() { actionMap.get("fullscreen")?.(); } },
-        {icon: new UILucideIcon({icon: "folder-code", padding: "0.05rem"}), content: "Manager", callback() { actionMap.get("manager")?.(); } },
-        {icon: new UILucideIcon({icon: "settings", padding: "0.05rem"}), content: "Settings", callback() { actionMap.get("settings")?.(); } },*/
+        {icon: new UILucideIcon({icon: "badge-plus", padding: "0.05rem"}), content: "Add Item", callback(_, event?) { return actionMap.get("item-add")?.(event); } },
+        {icon: new UILucideIcon({icon: "settings"  , padding: "0.05rem"}), content: "Settings", callback(_, event?) { return actionMap.get("settings")?.(event); } },
+        {icon: new UILucideIcon({icon: "clipboard" , padding: "0.05rem"}), content: "Paste"   , callback(_, event?) { return pasteInWorkspace(navigator.clipboard?.read?.()?.then?.((items)=>({items})), event); } },
     ]],
     ["ui-select-row[name=\"file\"]", [
-        {icon: new UILucideIcon({icon: "app-window", padding: "0.05rem"}), content: "View file", callback(initiator) { fileActions?.(initiator?.value); } },
-        {icon: new UILucideIcon({icon: "wallpaper", padding: "0.05rem"}), content: "Use as wallpaper", callback(initiator) { fileActionMap?.get?.("use")?.(initiator?.value); } },
-        {icon: new UILucideIcon({icon: "copy-minus", padding: "0.05rem"}), content: "Copy path", callback(initiator) { if (initiator?.value) Promise.try(navigator.clipboard.writeText.bind(navigator.clipboard), initiator?.value); } },
-        {icon: new UILucideIcon({icon: "book-copy", padding: "0.05rem"}), content: "Copy item", callback(initiator) { fileActionMap?.get?.("to-clipboard")?.(initiator?.value, FileManagment?.getManager?.(initiator)?.getCurrent?.()); } },
-        {icon: new UILucideIcon({icon: "file-down", padding: "0.05rem"}), content: "Download", callback(initiator) { downloadFile(initiator.value); } }, // TODO! add down into file op registry
-        {icon: new UILucideIcon({icon: "circle-x", padding: "0.05rem"}), content: "Delete", callback(initiator) { fileActionMap?.get?.("delete")?.(initiator?.value, FileManagment?.getManager?.(initiator)?.getCurrent?.()); } },
+        {icon: new UILucideIcon({icon: "app-window", padding: "0.05rem"}), content: "View file"       , callback(initiator) { return doUIAction?.("file:action"      , initiator); } },
+        {icon: new UILucideIcon({icon: "wallpaper" , padding: "0.05rem"}), content: "Use as wallpaper", callback(initiator) { return doUIAction?.("file:use"         , initiator); } },
+        {icon: new UILucideIcon({icon: "copy-minus", padding: "0.05rem"}), content: "Copy path"       , callback(initiator) { return doUIAction?.("file:copy-path"   , initiator); } },
+        {icon: new UILucideIcon({icon: "book-copy" , padding: "0.05rem"}), content: "Copy item"       , callback(initiator) { return doUIAction?.("file:to-clipboard", initiator); } },
+        {icon: new UILucideIcon({icon: "file-down" , padding: "0.05rem"}), content: "Download"        , callback(initiator) { return doUIAction?.("file:download"    , initiator); } },
+        {icon: new UILucideIcon({icon: "circle-x"  , padding: "0.05rem"}), content: "Delete"          , callback(initiator) { return doUIAction?.("file:delete"      , initiator); } },
     ]],
     ["#manager .adl-content", [
-        {icon: new UILucideIcon({icon: "clipboard", padding: "0.05rem"}), content: "Paste", callback(initiator, _?) { navigator.clipboard?.read?.()?.then?.((items)=>(FileManagment?.getManager?.(initiator)?.handleDrop?.({items}))); } },
-
-         // TODO! add down into file op registry
-        {icon: new UILucideIcon({icon: "file-up", padding: "0.05rem"}), content: "Upload", callback(initiator, _?) { const manager = FileManagment?.getManager?.(initiator); uploadFile(manager.currentDir(), manager.getCurrent()); } },
+        {icon: new UILucideIcon({icon: "clipboard", padding: "0.05rem"}), content: "Paste" , callback(initiator, _?) { return FileManagment?.getManager?.(initiator)?.requestPaste?.(); } },
+        {icon: new UILucideIcon({icon: "file-up"  , padding: "0.05rem"}), content: "Upload", callback(initiator, _?) { return FileManagment?.getManager?.(initiator)?.requestUpload?.(); } },
     ]]
 ]);
 
@@ -76,9 +62,8 @@ export const initCtxMenu = (root = document.documentElement)=>{
                 clientY: ev.clientY,
                 pageX: ev.pageX,
                 pageY: ev.pageY
-            }, true, (menu, initiator)=>makeCtxMenuItems(menu, initiator, one.filter((el)=>{
-                return el?.condition?.(initiator) ?? true;
-            })));
+            // @ts-ignore
+            }, true, (menu, initiator)=>makeCtxMenuItems(menu, initiator, one.filter((el)=>{ return el?.condition?.(initiator) ?? true; })));
         }
     }
 

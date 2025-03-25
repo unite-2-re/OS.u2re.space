@@ -1,8 +1,7 @@
 // @ts-ignore
 import { makeReactive, subscribe, UUIDv4 } from "/externals/lib/object.js";
-import { dropFile, getDir, getFileExtension, provide, useFS } from "./FileOps";
-import { fileActions } from "./FileAction";
-import { STOCK_NAME } from "./Wallpaper";
+import { dropFile, getDir, getFileExtension, provide, uploadFile, useFS } from "./FileOps";
+import { fileActions, STOCK_NAME } from "./FileAction";
 
 // TODO: targeting support
 export const preload = new Map<string, HTMLImageElement>();
@@ -114,6 +113,10 @@ export class FileManagment {
         }
         return false;
     }
+
+    //
+    requestPaste () { return navigator.clipboard?.read?.()?.then?.((items)=>(this?.handleDrop?.({items}))); }
+    requestUpload() { return uploadFile(this.currentDir(), this.getCurrent()); }
 
     //
     currentDir(val?: any|null) {

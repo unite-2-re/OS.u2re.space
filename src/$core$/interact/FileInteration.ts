@@ -114,6 +114,25 @@ export const initFileInteraction = (ROOT = document.documentElement)=>{
         const input = content?.querySelector?.("input[type=\"text\"]");
         const manager = FileManagment.getManager(content);
 
+        // close modals by esc
+        if (e?.key == "Escape") {
+            const isMobile = matchMedia("not (((hover: hover) or (pointer: fine)) and ((width >= 9in) or (orientation: landscape)))").matches;
+            const taskbar = isMobile ? document.querySelector("ui-taskbar:not([data-hidden])") : null;
+            const modal = (document.querySelector("ui-modal[type=\"contextmenu\"]:not([data-hidden])") ?? document.querySelector("ui-modal:not([data-hidden]):where(:has(:focus), :focus)") ?? document.querySelector("ui-modal:not([data-hidden])") ?? taskbar) as HTMLElement;
+
+            //
+            if (document.activeElement?.matches?.("input")) {
+                (document.activeElement as any)?.blur?.();
+                e?.preventDefault?.();
+            } else
+
+            //
+            if (modal) {
+                modal.dataset.hidden = "";
+                e?.preventDefault?.();
+            }
+        }
+
         //
         if (content && MOCElement(ROOT.querySelector(":where(ui-frame *):is(:hover, :active, :focus)"), ".ui-content") == content) {
             if (e?.key == "Enter" && (e?.target == input)) {
