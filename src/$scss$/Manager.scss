@@ -27,7 +27,7 @@
                 //
                 display: inline grid;
                 grid-auto-rows: max-content;
-                grid-template-columns: minmax(0px, max-content) minmax(0px, 1fr) minmax(0px, max-content);
+                grid-template-columns: minmax(0px, max-content) minmax(0px, 1fr) minmax(0px, max-content) minmax(0px, max-content);
             }
 
         }
