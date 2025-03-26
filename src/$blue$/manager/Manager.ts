@@ -1,11 +1,11 @@
 import { subscribe } from "/externals/lib/object.js";
 import { synchronizeInputs } from "/externals/lib/dom.js";
-import {E, M, H, observableByMap, computed} from "/externals/lib/blue.js"
+import { E, M, H, observableByMap } from "/externals/lib/blue.js"
 
 //
 import { FileManagment } from "../../$core$/file/FileManage.ts";
-import type { Task } from "../../$core$/Types";
 import { doUIAction } from "../../$core$/interact/ItemAction.ts";
+import type { Task } from "../../$core$/Types";
 
 //
 export default (task: Task, )=>{
@@ -26,16 +26,16 @@ export default (task: Task, )=>{
     const initiatorOf = () => content?.querySelector?.(".adl-content input:checked");
 
     //
-    const handleDownloadClick = (_: Event) => { return doUIAction("file:download", initiatorOf()); };
-    const handleDeleteClick   = (_: Event) => { return doUIAction("file:delete"  , initiatorOf()); };
+    //const handleDownloadClick = (_: Event) => { return doUIAction("file:download", initiatorOf()); };
+
+    //
+    const handleDeleteClick   = (_: Event) => { return doUIAction("file:delete", initiatorOf()); };
+    const handlePlayClick     = (_: Event) => { return doUIAction("file:use"   , initiatorOf()); };
     const handleAddClick      = (_: Event) => { return manager.requestUpload(); };
-
-    //
+    const handleDirUp         = (_: Event) => { return manager.navigate("../"); };
     const goDirectory         = (_: Event) => { return manager.navigate(manager.currentDir()); };
-    const handleDirUp         = (_: Event) => { return manager.navigate("../"); }
 
     //
-    const handlePlayClick     = (_: Event) => { return doUIAction("file:use"     , initiatorOf()); };
     const navigateFile   = (ev: Event, _: string) => { return manager.navigate((ev?.target as any)?.value || FileManagment.fileOf(content.value), ev); };
     const getFilename    = (        path: string) => { const parts = path.split("/"); return parts.at(-1) || parts.at(-2) || path; };
     const dropHandle     = (ev: DragEvent) => { ev.preventDefault(); return manager.handleDrop(ev.dataTransfer); };
@@ -55,12 +55,13 @@ export default (task: Task, )=>{
             E("button.adl-file-add", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleAddClick])}}, [H(`<ui-icon icon="file-up" />`)]),
             // TODO: re-design those controls
             //E("button.adl-file-get", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleDownloadClick])}}, [H(`<ui-icon icon="file-down" />`)]),
-            //E("button.adl-file-del", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleDeleteClick])}}, [H(`<ui-icon icon="file-x" />`)]),
+            //
             E("ui-longtext.adl-space.u2-input", {attributes: {tabindex: -1, type: "button"}, dataset: {highlight: 1, name: "directory"}}, [
                 bindInput(H(`<input type="text" name="directory" placeholder="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" />`))
             ]),
-            E("button.adl-dir-go" , {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([goDirectory])}}, [H(`<ui-icon icon="step-forward" />`)]),
-            E("button.adl-dir-use", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handlePlayClick])}}, [H(`<ui-icon icon="image-play" />`)]),
+            E("button.adl-dir-go"  , {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([goDirectory])}}, [H(`<ui-icon icon="step-forward" />`)]),
+            E("button.adl-file-del", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleDeleteClick])}}, [H(`<ui-icon icon="file-x" />`)]),
+            E("button.adl-dir-use" , {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handlePlayClick])}}, [H(`<ui-icon icon="image-play" />`)]),
         ]),
         E("div.adl-main", {dataset: {alpha: 0, chroma: 0, scheme: "solid"}}, [
             E("ui-scrollbox.adl-tab-box", {dataset: {scheme: "solid", alpha: 1, highlight: 0.5, chroma: 0.01}}),

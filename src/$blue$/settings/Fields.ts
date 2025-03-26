@@ -1,12 +1,4 @@
-
-import { E, H } from "/externals/lib/blue.js"
-import type { TabType } from "../../$core$/Types";
-
-// Functionality Not Implemented
-export const tabs: TabType[] = [
-    //{id: "display", icon: "monitor-cog", content: "Display" },
-    //{id: "layout", icon: "grid-3x3", content: "Layout" }
-];
+import { H } from "/externals/lib/blue.js"
 
 //
 export const forms: any[] = [

@@ -1,18 +1,15 @@
-import { pasteInWorkspace } from "../../$core$/interact/FileInteration.ts";
-import { createLabel, createShaped } from "../../$core$/grid/Items.ts";
-
-//
-import { subscribe } from "/externals/lib/object.js";
-import { fixOrientToScreen } from "/externals/core/agate.js";
-import { inflectInGrid } from "/externals/core/grid.js";
+import { subscribe } from "/externals/lib/object.js"
+import { fixOrientToScreen } from "/externals/core/agate.js"
+import { inflectInGrid } from "/externals/core/grid.js"
 import { E, H } from "/externals/lib/blue.js"
 
 //
+import { pasteInWorkspace } from "../../$core$/interact/FileInteration.ts"
+import { createLabel, createShaped } from "../../$core$/grid/Items.ts"
+
+//
 const dragOverHandle = (ev: DragEvent) => { ev.preventDefault(); };
-const dropHandle = (ev: DragEvent) => {
-    ev.preventDefault();
-    pasteInWorkspace(ev.dataTransfer, ev);
-};
+const dropHandle     = (ev: DragEvent) => { ev.preventDefault(); pasteInWorkspace(ev.dataTransfer, ev); };
 
 //
 export default (gridState: any)=>{

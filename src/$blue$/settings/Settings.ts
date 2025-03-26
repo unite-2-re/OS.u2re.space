@@ -11,16 +11,14 @@ import { forms } from "./Fields.ts"
 
 //
 export default (task)=>{
-    const bindContent = (ct)=>{
-        return ct;
-    }
-
-    const syncInput = (form)=>{
+    const bindContent = (ct) => { return ct; }
+    const syncInput = (form) => {
         synchronizeInputs(workspace.layout, '.u2-input', form?.element ?? form, subscribe);
         synchronizeInputs(preferences, '.u2-input', form?.element ?? form, subscribe);
         return form;
     }
 
+    //
     return bindContent(E("div" + (task.taskId || "#settings") + ".ui-content", {
         dataset: {highlight: 0, alpha: 0, scheme: "solid"},
     }, [
