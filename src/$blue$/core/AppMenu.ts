@@ -18,15 +18,15 @@ export const AppMenu = () => {
             scheme: "solid", name: "app-menu", hidden: ""
         }
     }, [
-        E("div.menu-container", { dataset: { scheme: "solid", alpha: 1, chroma: 0.2, highlight: 1 }, }, [
+        E("div.menu-container", { dataset: { scheme: "solid", alpha: 0, chroma: 0.2, highlight: 0 }, style: "background-color: transparent;" }, [
 
-            E("div.menu-grid", { dataset: { scheme: "solid", alpha: 1, chroma: 0, highlight: 0 } }, [
-                E("div.ui-list-item", { dataset: {scheme: "solid", alpha: 0, highlightHover: 2, action: "manager"}, attributes: {} }, [
+            E("div.menu-grid", { dataset: { scheme: "solid", alpha: 0, chroma: 0, highlight: 0 }, style: "background-color: transparent;" }, [
+                E("div.ui-list-item", { dataset: {scheme: "solid", alpha: 0, highlight: 0, highlightHover: 2, action: "manager"}, attributes: {} }, [
                     E("ui-shaped", { dataset: {scheme: "inverse"}, attributes: {icon: "folder"} }, [E("div.u2-item-design", {dataset: {shape: "square", scheme: "inverse", alpha: 1}})]),
                     E("span", {}, ["File Manager"])
                 ]),
 
-                E("div.ui-list-item", { dataset: {scheme: "solid", alpha: 0, highlightHover: 2, action: "settings"}, attributes: {} }, [
+                E("div.ui-list-item", { dataset: {scheme: "solid", alpha: 0, highlight: 0, highlightHover: 2, action: "settings"}, attributes: {} }, [
                     E("ui-shaped", { dataset: {scheme: "inverse"}, attributes: {icon: "settings"} }, [E("div.u2-item-design", {dataset: {shape: "square", scheme: "inverse", alpha: 1}})]),
                     E("span", {}, ["Settings"])
                 ])
