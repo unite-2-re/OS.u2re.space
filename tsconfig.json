@@ -9,7 +9,10 @@
         "**/*.vue",
         "./global.d.ts"
     ],
-    "exclude": ["node_modules/**", "externals/**", "frontend/**"],
+    "exclude": [
+        "node_modules/**", "externals/**", "frontend/**", "frontend/externals/**",
+        "node_modules/**/*", "externals/**/*", "frontend/**/*", "frontend/externals/**/*"
+    ],
     "compilerOptions": {
         "skipLibCheck": true,
         "jsx": "preserve",

@@ -141,14 +141,14 @@ const config = defineConfig({
         },
         outDir: "./frontend/app",
         emptyOutDir: true,
-        rollupOptions/*: {
-            external: ["externals", "/externals", "./externals"],
+        rollupOptions: {
+            external: ["externals", "/externals", "./externals", "externals/*", "/externals/*"],
             output: {
-                assetFileNames: 'assets/[name]-[hash].js',
+                assetFileNames:  'assets/[name]-[hash].js',
                 chunkFileNames: 'chunks/[name]-[hash].js',
                 entryFileNames: 'app.js',
             }
-        },*/
+        },
     },
     css: {
         postcss: {
@@ -163,6 +163,7 @@ const config = defineConfig({
         },
     },
     optimizeDeps: {
+        exclude: ['externals/*', 'frontend/*'],
         esbuildOptions: {target: "esnext", supported: {bigint: true}},
     },
 });
