@@ -1,6 +1,8 @@
 # 🪟 U2RE OS 🪟
 
-> <https://os.u2re.space/>
+- **Demo:** <https://os.u2re.space/>
+- **Original:** <https://github.com/unite-2-re/OS.u2re.space>
+- **Telegram:** <https://t.me/u2re_space>
 
 ---
 
