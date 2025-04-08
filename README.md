@@ -20,15 +20,15 @@ I practically done version number one. Frontend-only project.
 - Basic calendar
 - Basic file manager
 - Workspace item editor
+- Quick settings panel
+- Basic start menu button
+- Chrome extension (experiment)
 
 ### What to be planned?
 
-- Start menu button
-- Quick settings panel
 - Documentation
 - Hello screens
 - Optional backends
-- Chrome extension
 - Tooltips (recover)
 
 ---

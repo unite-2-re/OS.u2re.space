@@ -1,7 +1,7 @@
 // @ts-ignore
 import { makeReactive, subscribe, UUIDv4 } from "/externals/lib/object.js";
 import { dropFile, getDir, getFileExtension, provide, uploadFile, useFS } from "./FileOps";
-import { fileActions, STOCK_NAME } from "./FileAction";
+import { fileActions, README_NAME, STOCK_NAME } from "./FileAction";
 
 // TODO: targeting support
 export const preload = new Map<string, HTMLImageElement>();
@@ -88,6 +88,7 @@ export class FileManagment {
             if (path?.startsWith?.("/assets")) {
                 // add stock image into registry
                 this.#current.set(STOCK_NAME, await provide(STOCK_NAME));
+                this.#current.set(README_NAME, await provide(README_NAME));
             }
         }
 

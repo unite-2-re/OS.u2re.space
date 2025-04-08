@@ -111,7 +111,7 @@ export const actionMap = new Map<any, any>([
         const openLink = (href)=> { return (desc ? linkViewer(desc) : window.open(href, isSameOrigin(href||"") ? "_self" : "_blank")); };
         if (typeof href == "string") {
             // TODO:: external files support, custom mounts of FS
-            if ((href = href?.trim?.())?.startsWith?.("/user")) {
+            if ((href = href?.trim?.())?.startsWith?.("/user") || href?.startsWith?.("/assets")) {
                 if (href?.endsWith?.("/") && !takeAction) { return actionMap?.get?.("manager")?.(href); };
                 return (takeAction ?? (fileActions ?? openLink)?.(href, {actionMap}))?.(href);
             } else
