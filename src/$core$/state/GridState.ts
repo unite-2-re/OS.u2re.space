@@ -6,6 +6,7 @@ import { JSOX } from "jsox";
 //
 import { cvt_cs_to_os, getBoundingOrientRect } from "/externals/core/agate.js";
 import { convertOrientPxToCX, redirectCell } from "/externals/core/grid.js";
+import { README_NAME } from "../file/FileAction";
 
 //
 export const wrapItemToReactive = (item: any)=>{
@@ -44,8 +45,10 @@ const setIdleInterval = (cb, timeout = 1000, ...args)=>{
 export const defaultShortcuts = [
     {id: "manager", href: "#manager", action: "manager", icon: "folder", label: "File Manager"},
     {id: "icons", href: "https://lucide.dev/icons/", action: "open-in-frame", icon: "book-type", label: "Icons"},
-    {id: "readme", href: "/assets/README.md", action: "open-in-frame", icon: "notebook-text", label: "README"}
+    {id: "readme", href: README_NAME, action: "open-in-frame", icon: "notebook-text", label: "About"}
 ];
+
+//
 export const defaultItems = [
     {id: "readme"},
     {id: "manager"},

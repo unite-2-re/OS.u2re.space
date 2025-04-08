@@ -42,7 +42,7 @@ export const openMarkdown = ({label, icon, href})=>{
 
 //
 export const STOCK_NAME = "/assets/wallpaper/stock.webp"
-export const README_NAME = "/assets/README.md"
+export const README_NAME = "/assets/ABOUT.md"
 export const useFileAs = (selectedFilename)=>{
     if (imageTypes.has(selectedFilename?.split?.(".")?.at?.(-1))) {
         const url = (selectedFilename || STOCK_NAME);
