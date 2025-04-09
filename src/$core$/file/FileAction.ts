@@ -58,11 +58,11 @@ export const useFileAs = (selectedFilename)=>{
 export const fileActionMap = new Map([
     ["markdown", async (path, args?)=>{
         const file = await provide(path?.name || path) as File;
-        return openMarkdown({label: file?.name || "", icon: "letter-text", href: URL.createObjectURL(file)});
+        return Promise.try(openMarkdown, {label: file?.name || "", icon: "letter-text", href: URL.createObjectURL(file)})?.catch?.(console.warn.bind(console));
     }],
     ["view", async (path, args?)=>{
         const file = (path instanceof File || path instanceof Blob) ? path : (await provide(path?.name || path) as File);
-        return openImage({label: (file as any)?.name || "", icon: "image", href: URL.createObjectURL(file)});
+        return Promise.try(openImage, {label: (file as any)?.name || "", icon: "image", href: URL.createObjectURL(file)})?.catch?.(console.warn.bind(console));
     }],
     ["use", async (path, args?)=>{ return useFileAs(path?.name || path); }],
     ["text", async (path, args?)=>{ console.error("Not implemented!"); }],

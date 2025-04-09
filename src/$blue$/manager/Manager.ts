@@ -6,6 +6,8 @@ import { E, M, H, observableByMap } from "/externals/lib/blue.js"
 import { FileManagment } from "../../$core$/file/FileManage.ts";
 import { doUIAction } from "../../$core$/interact/ItemAction.ts";
 import type { Task } from "../../$core$/Types";
+//import { makeCtxMenuItems, openContextMenu } from "/externals/wcomp/ui.js";
+import { ctxMenuMap } from "../../$core$/interact/ContextMenu.ts";
 
 //
 export default (task: Task, )=>{
@@ -26,9 +28,6 @@ export default (task: Task, )=>{
     const initiatorOf = () => content?.querySelector?.(".adl-content input:checked");
 
     //
-    //const handleDownloadClick = (_: Event) => { return doUIAction("file:download", initiatorOf()); };
-
-    //
     const handleDeleteClick   = (_: Event) => { return doUIAction("file:delete", initiatorOf()); };
     const handlePlayClick     = (_: Event) => { return doUIAction("file:use"   , initiatorOf()); };
     const handleAddClick      = (_: Event) => { return manager.requestUpload(); };
@@ -40,6 +39,24 @@ export default (task: Task, )=>{
     const getFilename    = (        path: string) => { const parts = path.split("/"); return parts.at(-1) || parts.at(-2) || path; };
     const dropHandle     = (ev: DragEvent) => { ev.preventDefault(); return manager.handleDrop(ev.dataTransfer); };
     const dragOverHandle = (ev: DragEvent) => { ev.preventDefault(); };
+
+    //
+    /*const ctxMenuWorkaround = (ev: PointerEvent, _?: string) => {
+        const selector = "ui-select-row[name=\"file\"], #manager ui-select-row";
+        const element = ev?.target as HTMLElement;
+        const initiator = selector ? (element?.matches?.(selector) ? element : element?.closest?.(selector)) : null;
+        const one = ctxMenuMap?.get?.(selector);
+        openContextMenu({
+            ...ev,
+            type: "contextmenu",
+            target: initiator,
+            clientX: ev.clientX,
+            clientY: ev.clientY,
+            pageX: ev.pageX,
+            pageY: ev.pageY
+        // @ts-ignore
+        }, false, (menu, initiator)=>makeCtxMenuItems(menu, initiator, one));
+    }*/
 
     //
     const makeSortable = (current, Ef)=>{
@@ -70,16 +87,17 @@ export default (task: Task, )=>{
                     return makeSortable(current, E("ui-select-row", {
                         attributes: { href: "#", name: "file", draggable: true},
                         properties: { value: entry[0] },
-                        style: "-webkit-user-drag: element; -moz-user-drag: element;",
+                        style: "user-select: none; pointer-events: auto; touch-action: manipulation; -webkit-touch-callout: default; -webkit-user-drag: element; -moz-user-drag: element;",
                         on: {
                             click: new Set([(ev)=>navigateFile(ev, entry[0])]),
-                            dblclick: new Set([(ev)=>navigateFile(ev, entry[0])])
+                            dblclick: new Set([(ev)=>navigateFile(ev, entry[0])]),
+                            //contextmenu: new Set([(ev)=>ctxMenuWorkaround(ev, entry[0])])
                         }
                     }, [
-                        E("ui-icon", {properties: {icon: manager.byType(entry[0]), inert: true}}),
-                        E("span", {properties: {inert: true}}, [getFilename(entry[0]||"")]),
-                        E("span", {properties: {inert: true}}, [entry[1]?.size ? (entry[1]?.size + " B") : ""]),
-                        E("span", {properties: {inert: true}}, [entry[1]?.lastModified
+                        E("ui-icon", {style: "user-select: none; pointer-events: none;", properties: {icon: manager.byType(entry[0]), inert: true}}),
+                        E("span", {style: "user-select: none; pointer-events: none;", properties: {inert: true}}, [getFilename(entry[0]||"")]),
+                        E("span", {style: "user-select: none; pointer-events: none;", properties: {inert: true}}, [entry[1]?.size ? (entry[1]?.size + " B") : ""]),
+                        E("span", {style: "user-select: none; pointer-events: none;", properties: {inert: true}}, [entry[1]?.lastModified
                             ? new Date(entry[1]?.lastModified).toLocaleString()
                             : entry[0]?.startsWith("..") ? "" : "N/A"])
                     ]))

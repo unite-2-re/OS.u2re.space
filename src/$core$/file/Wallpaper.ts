@@ -12,7 +12,7 @@ export const useAsWallpaper = (f_path) => {
             if (!inUserSpace) { wallpaper.dataset.src = f_path; };
             // @ts-ignore
             Promise.try(provide, f_path)?.then?.((F: any) => {
-                wallpaper.dataset.src = inUserSpace ? URL.createObjectURL(F) : f_path;
+                try { wallpaper.dataset.src = inUserSpace ? URL.createObjectURL(F) : f_path; } catch(e) { wallpaper.dataset.src = f_path; };
                 if (F) { colorScheme(F); };
             })?.catch?.(()=>{
                 wallpaper.dataset.src = f_path;
@@ -21,7 +21,7 @@ export const useAsWallpaper = (f_path) => {
 
         // if f_path is not string
         if (f_path instanceof Blob || f_path instanceof File) {
-            wallpaper.dataset.src = URL.createObjectURL(f_path as File);
+            try { wallpaper.dataset.src = URL.createObjectURL(f_path as File); } catch(e) { console.warn(e); };
             colorScheme(f_path);
         }
     }

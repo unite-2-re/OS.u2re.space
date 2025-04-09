@@ -39,7 +39,7 @@ export const saveBinaryToFS = async (data, filename = "settings") => {
         // Others
         let url = "";
         const a = document.createElement("a");
-        a.href = url = URL.createObjectURL(file);
+        try { a.href = url = URL.createObjectURL(file); } catch(e) { console.warn(e); };
         a.download = filename;
         document.body.appendChild(a);
         a.click();

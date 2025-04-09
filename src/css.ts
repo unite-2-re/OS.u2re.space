@@ -22,16 +22,20 @@ const hash = async (string: string) => {
 
 //
 const loadStyleSheet = async (inline: string, base?: [any, any], integrity?: string|Promise<string>)=>{
-    const url = URL.canParse(inline) ? inline : URL.createObjectURL(new Blob([inline], {type: "text/css"}));
-    if (base?.[0] && (!URL.canParse(inline) || integrity) && base?.[0] instanceof HTMLLinkElement) {
-        const I: any = (integrity ?? hash(inline));
-        if (typeof I?.then == "function") {
-            I?.then?.((H)=>base?.[0]?.setAttribute?.("integrity", H));
-        } else {
-            base?.[0]?.setAttribute?.("integrity", I as string);
+    try {
+        const url = URL.canParse(inline) ? inline : URL.createObjectURL(new Blob([inline], {type: "text/css"}));
+        if (base?.[0] && (!URL.canParse(inline) || integrity) && base?.[0] instanceof HTMLLinkElement) {
+            const I: any = (integrity ?? hash(inline));
+            if (typeof I?.then == "function") {
+                I?.then?.((H)=>base?.[0]?.setAttribute?.("integrity", H));
+            } else {
+                base?.[0]?.setAttribute?.("integrity", I as string);
+            }
         }
+        if (base) setStyleURL(base, url);
+    } catch(e) {
+        console.warn(e);
     }
-    if (base) setStyleURL(base, url);
 }
 
 //

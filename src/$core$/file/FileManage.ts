@@ -10,7 +10,7 @@ export const preloadImage = (path, current?)=>{
     if (file && (file instanceof File || file instanceof Blob)) {
         const img = new Image();
         img.decoding = "async";
-        img.src = URL.createObjectURL(file);
+        try { img.src = URL.createObjectURL(file); } catch(e) {};
         preload.set(path, img);
     }
 }
