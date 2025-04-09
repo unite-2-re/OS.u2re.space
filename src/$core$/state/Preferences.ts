@@ -65,7 +65,9 @@ subscribe(preferences, (value, prop)=>{
     //if (prop == "rows") { grids.forEach((target: HTMLElement)=>target.style.setProperty("--layout-r", "" + (value||8))); };
     // TODO: fix default theme issue (dynamic)
     if (prop == "fullscreen") {
-        if (value != (!!document.fullscreenElement)) { Promise.try(actionMap?.get?.("fullscreen"))?.finally?.(()=>{ preferences[prop] = !!document.fullscreenElement; }); };
+        requestAnimationFrame(()=>{
+            if (value != (!!document.fullscreenElement)) { Promise.try(actionMap?.get?.("fullscreen"))?.finally?.(()=>{ preferences[prop] = !!document.fullscreenElement; }); };
+        });
     };
     if (prop == "brightness") { (document.querySelector("#filter") as any)?.style?.setProperty?.("--brightness", value ?? 1); };
     if (prop == "night-mode") { (document.querySelector("#filter") as any)?.style?.setProperty?.("--night-mode", value || 0); };
@@ -77,7 +79,9 @@ subscribe(preferences, (value, prop)=>{
         if (value != "default") preferences["theme-quick"] = value == "dark" ? true : false;
     }
     if (prop == "orientation-lock") {
-        if (value) { Promise.try(screen.orientation?.lock?.bind(screen.orientation), screen.orientation.type); } else {  Promise.try(screen.orientation?.unlock?.bind?.(screen.orientation)); };
+        requestAnimationFrame(()=>{
+            if (value) { Promise.try(screen.orientation?.lock?.bind(screen.orientation), screen.orientation.type); } else {  Promise.try(screen.orientation?.unlock?.bind?.(screen.orientation)); };
+        });
     };
 });
 
