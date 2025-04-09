@@ -20,7 +20,7 @@ export const ctxMenuMap = new Map([
         {icon: new UILucideIcon({icon: "settings"  , padding: "0.05rem"}), content: "Settings", callback(_, event?) { return actionMap.get("settings")?.(event); } },
         {icon: new UILucideIcon({icon: "clipboard" , padding: "0.05rem"}), content: "Paste"   , callback(_, event?) { return pasteInWorkspace(navigator.clipboard?.read?.()?.then?.((items)=>({items})), event); } },
     ]],
-    ["ui-select-row[name=\"file\"]", [
+    ["ui-select-row[name=\"file\"], #manager ui-select-row", [
         {icon: new UILucideIcon({icon: "app-window", padding: "0.05rem"}), content: "View file"       , callback(initiator) { return doUIAction?.("file:action"      , initiator); } },
         {icon: new UILucideIcon({icon: "wallpaper" , padding: "0.05rem"}), content: "Use as wallpaper", callback(initiator) { return doUIAction?.("file:use"         , initiator); } },
         {icon: new UILucideIcon({icon: "copy-minus", padding: "0.05rem"}), content: "Copy path"       , callback(initiator) { return doUIAction?.("file:copy-path"   , initiator); } },
@@ -38,12 +38,12 @@ export const ctxMenuMap = new Map([
 export const initCtxMenu = (root = document.documentElement)=>{
     //
     const ctxMenu = (ev, o_ev?)=>{
-        o_ev?.preventDefault?.();
-        o_ev?.stopPropagation?.();
+        (o_ev || ev)?.preventDefault?.();
+        (o_ev || ev)?.stopPropagation?.();
 
         //
         const element = ev?.target as HTMLElement;
-        const entry = Array.from(ctxMenuMap.entries())?.find?.(([K,_])=>{
+        const entry = Array.from(ctxMenuMap?.entries?.() || [])?.find?.(([K,_])=>{
             return (element?.matches?.(K) || element?.closest?.(K));
         });
 
@@ -57,13 +57,15 @@ export const initCtxMenu = (root = document.documentElement)=>{
             //ev?.stopImmediatePropagation?.();
             //o_ev?.stopImmediatePropagation?.();
             openContextMenu({
+                ...ev,
+                type: "contextmenu",
                 target: initiator,
                 clientX: ev.clientX,
                 clientY: ev.clientY,
                 pageX: ev.pageX,
                 pageY: ev.pageY
             // @ts-ignore
-            }, true, (menu, initiator)=>makeCtxMenuItems(menu, initiator, one.filter((el)=>{ return el?.condition?.(initiator) ?? true; })));
+            }, false, (menu, initiator)=>makeCtxMenuItems(menu, initiator, one.filter((el)=>{ return el?.condition?.(initiator) ?? true; })));
         }
     }
 
