@@ -21,7 +21,7 @@ export const setProperty = (target, name, value, importance = "")=>{
 }
 
 //
-export const createShaped = (item, gs)=>{
+export const createShaped = (item, gs?)=>{
     // if exists, skip
     const exists = gs?.querySelector?.(`.u2-grid-item[data-id=\"${item?.id}\"]`);
     if (exists || !item?.id) { return exists; };
@@ -62,7 +62,7 @@ export const createShaped = (item, gs)=>{
 }
 
 //
-export const createLabel = (item, gs)=>{
+export const createLabel = (item, gs?)=>{
     // if exists, skip
     const exists = gs?.querySelector?.(`.u2-grid-item[data-id=\"${item?.id}\"]`);
     if (exists || !item?.id) { return exists; }

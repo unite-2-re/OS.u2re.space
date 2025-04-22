@@ -48,8 +48,6 @@ export const initialize = async (root)=>{
         // @ts-ignore
         import(/* @vite-ignore */ "/externals/core/theme.js"),
         // @ts-ignore
-        import(/* @vite-ignore */ "/externals/core/grid.js"),
-        // @ts-ignore
         import(/* @vite-ignore */ "/externals/core/design.js"),
         // @ts-ignore
         import(/* @vite-ignore */ "/externals/core/existence.js"),

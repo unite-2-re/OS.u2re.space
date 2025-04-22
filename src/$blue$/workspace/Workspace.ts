@@ -1,7 +1,7 @@
 import { subscribe } from "/externals/lib/object.js"
 import { fixOrientToScreen } from "/externals/core/agate.js"
-import { inflectInGrid } from "/externals/core/grid.js"
-import { E, H } from "/externals/lib/blue.js"
+import { bindInteraction, reflectCell } from "/externals/core/interact.js"
+import { E, H, M } from "/externals/lib/blue.js"
 
 //
 import { pasteInWorkspace } from "../../$core$/interact/FileInteration.ts"
@@ -23,8 +23,16 @@ export default (gridState: any)=>{
             dragover: new Set([dragOverHandle]),
             drop: new Set([dropHandle])
         }}, [
-            labels = H(`<ui-gridbox class="u2-grid-page" style="background-color: transparent; inline-size: 100%; block-size: 100%;" ref="labelsRef"></ui-gridbox>`),
-            shapes = H(`<ui-gridbox class="u2-grid-page" style="background-color: transparent; inline-size: 100%; block-size: 100%;" ref="shapesRef"></ui-gridbox>`)
+            labels = E("ui-gridbox.u2-grid-page", {style: "background-color: transparent; inline-size: 100%; block-size: 100%;"}, M(gridState?.items, (item)=>{
+                const label = createLabel(item);
+                if (label) reflectCell(label, {item, ...gridState});
+                return label;
+            })),
+            shapes = E("ui-gridbox.u2-grid-page", {style: "background-color: transparent; inline-size: 100%; block-size: 100%;"}, M(gridState?.items, (item)=>{
+                const shape = createShaped(item);
+                if (shape) bindInteraction(shape, {item, ...gridState});
+                return shape;
+            }))
         ]);
 
     //
@@ -35,7 +43,7 @@ export default (gridState: any)=>{
 
     //
     fixOrientToScreen(tree.element);
-    inflectInGrid(labels, gridState?.items, createLabel);
-    inflectInGrid(shapes, gridState?.items, createShaped);
+    //inflectInGrid(labels, gridState?.items, createLabel);
+    //inflectInGrid(shapes, gridState?.items, createShaped);
     return tree;
 }

@@ -4,8 +4,7 @@ import { safe, makeReactive, makeObjectAssignable, objectAssign, UUIDv4 } from "
 import { JSOX } from "jsox";
 
 //
-import { cvt_cs_to_os, getBoundingOrientRect } from "/externals/core/agate.js";
-import { convertOrientPxToCX, redirectCell } from "/externals/core/grid.js";
+import { cvt_cs_to_os, getBoundingOrientRect, convertOrientPxToCX, redirectCell } from "/externals/core/agate.js";
 import { README_NAME } from "../file/FileAction";
 
 //
@@ -136,6 +135,19 @@ export class GridState {
     //
     getItem(id: any) {
         return Array.from(this.#gridState.shortcuts.values()).find((item: any)=>(item?.id || item) == (id?.id || id));
+    }
+
+    //
+    getArgs(item?) {
+        const box  = document.querySelector(".u2-desktop-grid") as any;
+        const grid = box?.querySelector?.("ui-gridbox");
+        const obs = getBoundingOrientRect(grid, box?.orient || 0);
+        return {
+            size: [obs?.width || 0, obs?.height || 0],
+            layout: [this.gridState.layout.columns || 4, this.#gridState.layout.rows || 8],
+            items: this.#gridState.items,
+            item
+        };
     }
 
     //
