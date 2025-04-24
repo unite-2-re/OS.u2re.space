@@ -12,19 +12,17 @@ const warningCode = `
     <p>We currently do not provide a fallback for these features.</p>
     <p>Currently actively supported only on Chromium based browsers.</p>
     <!--<button id="continue-button">Continue Anyway</button>-->
-    <p class="small-text">
+    <div class="small-text">
         <img src="${QR}" alt="ETH" style="width: 8rem; height: 8rem; object-fit: contain; object-position: center;"/>
         <span>
-            <span>You can contact us: 
-            <a href="https://t.me/u2re_space">https://t.me/u2re_space</a></span><br>
-            <span>Or consider about donating Ethereum to support the project.<br>
-                <ul>
+            <span>You can contact us: <a href="https://t.me/u2re_space">https://t.me/u2re_space</a></span><br/>
+            <span>Or consider about donating Ethereum to support the project.</span><br/>
+            <ul>
                 <li>ETH: <a href="#0x102E317665bBa4B4D2e2317Bf3c48F83FC13F4ec"><code>0x102E317665bBa4B4D2e2317Bf3c48F83FC13F4ec</code></a></li>
                 <li>TRX: <a href="#TCXePhsrVb63qymT84KP8cEfGWAb7qCKYJ"><code>TCXePhsrVb63qymT84KP8cEfGWAb7qCKYJ</code></a></li>
-                </ul>
-            </span>
+            </ul>
         </span>
-    </p>
+    </div>
 </div>
 `;
 
@@ -40,7 +38,7 @@ body { user-select: none; pointer-events: none; overflow: visible; content-visib
     inline-size: 100% !important;
     block-size: max(100%, 100dvb) !important;
     background-color: #1b1b1c;
-    color: white !important;
+    color: white;
     font-family: Arial, sans-serif;
     text-align: center;
     padding: 20px;
@@ -72,6 +70,11 @@ body { user-select: none; pointer-events: none; overflow: visible; content-visib
     display: inline-block;
 }
 
+#vital-test-fail-warning ul li {
+    margin: 0;
+    text-align: start;
+}
+
 #vital-test-fail-warning .small-text {
     font-size: 0.6rem;
     display: flex;
@@ -81,6 +84,13 @@ body { user-select: none; pointer-events: none; overflow: visible; content-visib
     justify-content: space-between;
     align-items: end;
     margin-block-start: 1rem;
+}
+
+#vital-test-fail-warning .small-text ul {
+    padding-inline: 0px;
+    margin-inline: 0px;
+    inline-size: 100%;
+    flex-grow: 1;
 }
 
 #vital-test-fail-warning .small-text > span {
@@ -97,6 +107,20 @@ body { user-select: none; pointer-events: none; overflow: visible; content-visib
 
 #vital-test-fail-warning a {
     font-size: 0.9em;
+    pointer-events: auto;
+    color: #ddf !important;
+}
+
+#vital-test-fail-warning a:hover {
+    color: white !important;
+}
+
+#vital-test-fail-warning .small-text code {
+    color: #ddf !important;
+}
+
+#vital-test-fail-warning a:hover code {
+    color: white !important;
 }
 
 #vital-test-fail-warning .small-text > span > span:first-child {
@@ -152,17 +176,18 @@ export const placeCSSCompatWarning = ()=>{
     if (doTest()) return true;
 
     //
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(warningCode, 'text/html');
+    //const parser = new DOMParser();
+    //const doc = parser.parseFromString(warningCode, 'text/html');
     const style = document.createElement("style");
     style.innerHTML = warningCSS;
     document.head.appendChild(style);
 
     //
-    const element = doc.body.firstChild;
-    if (element) {
-        doc.body.removeChild(element);
-        document.body.appendChild(element);
-    }
+    //const element = doc.body.firstChild;
+    //if (element) {
+        //doc.body.removeChild(element);
+        //document.body.appendChild(element);
+    //}
+    document.body.insertAdjacentHTML("beforeend", warningCode);
     return false;
 }
