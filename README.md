@@ -115,12 +115,16 @@ I practically done version number one. Frontend-only project.
 <table width="100%">
 <tr>
 <td valign="top">
-<img width="120" height="120" alt="ETH-QR" src="./ethereum/ethereum.png" style="aspect-ratio: 1 / 1; inline-size: 120px !important; max-inline-size: 100% !important; block-size: 120px !important; object-fit: contain; object-position: center;"/>
+<img width="120" height="120" alt="ETH-QR" src="./ethereum/usdt_qr.png" style="aspect-ratio: 1 / 1; inline-size: 120px !important; max-inline-size: 100% !important; block-size: 120px !important; object-fit: contain; object-position: center;"/>
 </td>
 <td valign="top">
-You may consider about donation for our projects:
+
+You may consider about donation for our projects (USDT options available):
 
 **ETH:** [`0x102E317665bBa4B4D2e2317Bf3c48F83FC13F4ec`](#0x102E317665bBa4B4D2e2317Bf3c48F83FC13F4ec)
+
+**TRX:** [`TCXePhsrVb63qymT84KP8cEfGWAb7qCKYJ`](#TCXePhsrVb63qymT84KP8cEfGWAb7qCKYJ)
+
 </td>
 </tr>
 </table>
