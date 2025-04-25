@@ -203,16 +203,16 @@ dist/
 ./dist/
 
 #
-app/*
-app/
-./app/*
-./app/
+apps/*
+apps/
+./apps/*
+./apps/
 
 #
-frontend/app/*
-frontend/app/
-./frontend/app/*
-./frontend/app/
+frontend/apps/*
+frontend/apps/
+./frontend/apps/*
+./frontend/apps/
 
 #
 index/*

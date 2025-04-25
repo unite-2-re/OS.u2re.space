@@ -3,8 +3,8 @@ import { synchronizeInputs } from '/externals/lib/dom.js';
 import { E, M } from "/externals/lib/blue.js"
 
 //
-import { preferences } from '../../$core$/state/Preferences.ts';
-import { workspace } from '../../$core$/state/GridState.ts'
+import { preferences } from '../../../$core$/state/Preferences.ts';
+import { workspace } from '../../../$core$/state/GridState.ts'
 
 //
 import { forms } from "./Fields.ts"

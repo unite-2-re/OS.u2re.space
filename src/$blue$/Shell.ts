@@ -1,19 +1,19 @@
 import {E, H, M } from "/externals/lib/blue.js"
 
 //
-import { confirmEdit, itemForm, workspace } from "../../$core$/state/GridState.ts";
+import { confirmEdit, itemForm, workspace } from "../$core$/state/GridState.ts";
 
 //
-import Workspace from "../workspace/Workspace.ts";
-import ItemEdit  from "../workspace/ItemEdit.ts";
+import Workspace from "./workspace/Workspace.ts";
+import ItemEdit  from "./modals/ItemEdit.ts";
 
 //
-import Manager  from "../manager/Manager.ts";
-import Settings from "../settings/Settings.ts";
+import Manager  from "./views/manager/Manager.ts";
+import Settings from "./views/settings/Settings.ts";
 
 //
-import { QuickSettings } from "./QuickSettings.ts";
-import { AppMenu } from "./AppMenu.ts";
+import { QuickSettings } from "./modals/QuickSettings.ts";
+import { AppMenu } from "./modals/AppMenu.ts";
 
 //
 export const viewable = (task)=>{
@@ -29,7 +29,7 @@ export const imageView = (task)=>{
 
 // DE-IMPLEMENTED (merging to iframe, dedicated component)
 export const markdownView = (task)=>{
-    const iframe = H(`<iframe referrerpolicy="no-referrer" width="100%" height="100%" frameBorder="0" allowtransparency scrolling seamless credentialless style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" loading="eager" allowfullscreen allow="*" src="./mdv/index.html"></iframe>`) as HTMLIFrameElement;
+    const iframe = H(`<iframe referrerpolicy="no-referrer" width="100%" height="100%" frameBorder="0" allowtransparency scrolling seamless credentialless style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" loading="eager" allowfullscreen allow="*" src="./apps/mdv/index.html"></iframe>`) as HTMLIFrameElement;
     if (iframe) { iframe.addEventListener("load", ()=>{
         iframe?.contentWindow?.postMessage({src: task?.args?.href||""}, "*", []);
     }); };

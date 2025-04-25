@@ -42,10 +42,10 @@ const config = defineConfig({
     base: './',
     resolve: {
         alias: {
-            'vue$': 'vue/dist/vue.esm.js',
+            //'vue$': 'vue/dist/vue.esm.js',
             '/externals': path.resolve(__dirname, './frontend/externals'),
             '/frontend': path.resolve(__dirname, './frontend'),
-            '/mdv': path.resolve(__dirname, './frontend/mdv'),
+            '/apps': path.resolve(__dirname, './frontend/apps'),
             '/assets': path.resolve(__dirname, './frontend/assets'),
         },
     },
@@ -66,8 +66,7 @@ const config = defineConfig({
         createExternal({
             interop: 'auto',
             externals: {
-                app: "app",
-                print: "print",
+                apps: "apps",
                 frontend: "frontend",
                 externals: "externals"
             },
@@ -75,18 +74,14 @@ const config = defineConfig({
                 "externals", "./externals", "/externals", "./frontend/externals",
                 "frontend", "./frontend", "/frontend",
                 "frontend/externals", "./frontend/externals", "/frontend/externals",
-                "app", "/app", "./app",
-                "print", "/print", "./print",
-                "frontend/app", "./frontend/app",
-                "frontend/print", "./frontend/print"
+                "apps", "/apps", "./apps",
+                "frontend/apps", "./frontend/apps",
             ]
         }),
         //json5Plugin(),
         /**/
         //nodePolyfills(),
-        compression({
-            algorithm: 'brotliCompress'
-        }),
+        compression({ algorithm: 'brotliCompress' }),
         prefetchPlugin(),
         viteSingleFile({
             useRecommendedBuildConfig: false,
@@ -139,7 +134,7 @@ const config = defineConfig({
             name: "app",
             fileName: "app",
         },
-        outDir: "./frontend/app",
+        outDir: "./frontend/apps/OS",
         emptyOutDir: true,
         rollupOptions: {
             external: ["externals", "/externals", "./externals", "externals/*", "/externals/*"],
@@ -163,7 +158,7 @@ const config = defineConfig({
         },
     },
     optimizeDeps: {
-        exclude: ['externals/*', 'frontend/*'],
+        exclude: ['externals/*', 'frontend/*', 'apps/*'],
         esbuildOptions: {target: "esnext", supported: {bigint: true}},
     },
 });

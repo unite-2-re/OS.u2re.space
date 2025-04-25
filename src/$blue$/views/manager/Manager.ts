@@ -3,11 +3,9 @@ import { synchronizeInputs } from "/externals/lib/dom.js";
 import { E, M, H, observableByMap } from "/externals/lib/blue.js"
 
 //
-import { FileManagment } from "../../$core$/file/FileManage.ts";
-import { doUIAction } from "../../$core$/interact/ItemAction.ts";
-import type { Task } from "../../$core$/Types";
-//import { makeCtxMenuItems, openContextMenu } from "/externals/wcomp/ui.js";
-import { ctxMenuMap } from "../../$core$/interact/ContextMenu.ts";
+import { FileManagment } from "../../../$core$/file/FileManage.ts";
+import { doUIAction } from "../../../$core$/interact/ItemAction.ts";
+import type { Task } from "../../../$core$/Types.ts";
 
 //
 export default (task: Task, )=>{
@@ -39,24 +37,6 @@ export default (task: Task, )=>{
     const getFilename    = (        path: string) => { const parts = path.split("/"); return parts.at(-1) || parts.at(-2) || path; };
     const dropHandle     = (ev: DragEvent) => { ev.preventDefault(); return manager.handleDrop(ev.dataTransfer); };
     const dragOverHandle = (ev: DragEvent) => { ev.preventDefault(); };
-
-    //
-    /*const ctxMenuWorkaround = (ev: PointerEvent, _?: string) => {
-        const selector = "ui-select-row[name=\"file\"], #manager ui-select-row";
-        const element = ev?.target as HTMLElement;
-        const initiator = selector ? (element?.matches?.(selector) ? element : element?.closest?.(selector)) : null;
-        const one = ctxMenuMap?.get?.(selector);
-        openContextMenu({
-            ...ev,
-            type: "contextmenu",
-            target: initiator,
-            clientX: ev.clientX,
-            clientY: ev.clientY,
-            pageX: ev.pageX,
-            pageY: ev.pageY
-        // @ts-ignore
-        }, false, (menu, initiator)=>makeCtxMenuItems(menu, initiator, one));
-    }*/
 
     //
     const makeSortable = (current, Ef)=>{

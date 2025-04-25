@@ -8,7 +8,7 @@ import optimizer from 'vite-plugin-optimizer';
 import createExternal from "vite-plugin-external";
 
 //
-export const NAME = "app";
+export const NAME = "OS";
 export const __dirname = resolve(import.meta.dirname, "../");
 export const terserOptions = {
     ecma: 2020,
@@ -101,8 +101,8 @@ export const TSConfig = {
         "inlineSources": true,
         "inlineSourceMap": true,
         "sourceMap": false,
-        "outDir": "./frontend/"+NAME+"/",
-        "declarationDir": "./frontend/"+NAME+"/",//"./frontend/decl/",
+        "outDir": "./frontend/apps/"+NAME+"/",
+        "declarationDir": "./frontend/apps/"+NAME+"/",//"./frontend/decl/",
         //"allowImportingTsExtensions": true,
         //"emitDeclarationOnly": true,
         "typeRoots": ["./global.d.ts"]
@@ -118,18 +118,15 @@ export const plugins = [
     createExternal({
         interop: 'auto',
         externals: {
-            app: "app",
-            print: "print",
+            apps: "apps",
             frontend: "frontend",
             externals: "externals"
         },
         externalizeDeps: [
             "externals", "/externals", "./externals",
             "frontend", "/frontend", "./frontend",
-            "app", "/app", "./app",
-            "print", "/print", "./print",
-            "frontend/app", "/frontend/app", "./frontend/app",
-            "frontend/print", "/frontend/print", "./frontend/print"
+            "apps", "/apps", "./apps",
+            "frontend/apps", "/frontend/apps", "./frontend/apps"
         ]
     }),
 ];
@@ -139,13 +136,11 @@ export const rollupOptions = {
     plugins,
     treeshake: 'smallest',
     external: [
-        "app", "/app", "./app",
-        "print", "/print", "./print",
+        "apps", "/apps", "./apps",
         "frontend", "/frontend", "./frontend",
         "externals", "/externals", "./externals",
         "frontend/externals", "/frontend/externals", "./frontend/externals",
-        "frontend/app", "/frontend/app", "./frontend/app",
-        "frontend/print", "/frontend/print", "./frontend/print"
+        "frontend/apps", "/frontend/apps", "./frontend/apps"
     ],
     input: "./src/app.ts",
     output: {
@@ -154,7 +149,7 @@ export const rollupOptions = {
         globals: {},
 		format: 'es',
 		name: NAME,
-        dir: './frontend/app/',
+        dir: './frontend/apps/OS/',
         sourcemap: 'hidden',
         exports: "auto",
         esModuleInterop: true,

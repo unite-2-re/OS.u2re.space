@@ -19,7 +19,7 @@
         "jsxImportSource": "solid-js",
         "types": ["./global.d.ts"],
         "paths": {
-            "/mdv/*": ["frontend/mdv/*"],
+            "/apps/*": ["frontend/apps/*"],
             "/externals/*": ["frontend/externals/*"],
             "/assets/*": ["frontend/assets/*"],
             "/frontend/*": ["frontend/*"]

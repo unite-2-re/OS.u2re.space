@@ -1,7 +1,7 @@
 import { subscribe } from "/externals/lib/object.js"
 import { fixOrientToScreen } from "/externals/core/agate.js"
 import { bindInteraction, reflectCell } from "/externals/core/interact.js"
-import { E, H, M } from "/externals/lib/blue.js"
+import { E, M } from "/externals/lib/blue.js"
 
 //
 import { pasteInWorkspace } from "../../$core$/interact/FileInteration.ts"
@@ -14,8 +14,6 @@ const dropHandle     = (ev: DragEvent) => { ev.preventDefault(); pasteInWorkspac
 //
 export default (gridState: any)=>{
     //
-    let labels: any;
-    let shapes: any;
     const tree = E("ui-orientbox.u2-desktop-grid", {
         dataset: { alpha: 0, chroma: 0, scheme: "base" },
         style: "background-color: transparent; inset: 0px; inset-block-end: auto; pointer-events: auto; contain: none; overflow: visible; container-type: normal; touch-action: none;",
@@ -23,12 +21,12 @@ export default (gridState: any)=>{
             dragover: new Set([dragOverHandle]),
             drop: new Set([dropHandle])
         }}, [
-            labels = E("ui-gridbox.u2-grid-page", {style: "background-color: transparent; inline-size: 100%; block-size: 100%;"}, M(gridState?.items, (item)=>{
+            E("ui-gridbox.u2-grid-page", {style: "background-color: transparent; inline-size: 100%; block-size: 100%;"}, M(gridState?.items, (item)=>{
                 const label = createLabel(item);
                 if (label) reflectCell(label, {item, ...gridState});
                 return label;
             })),
-            shapes = E("ui-gridbox.u2-grid-page", {style: "background-color: transparent; inline-size: 100%; block-size: 100%;"}, M(gridState?.items, (item)=>{
+            E("ui-gridbox.u2-grid-page", {style: "background-color: transparent; inline-size: 100%; block-size: 100%;"}, M(gridState?.items, (item)=>{
                 const shape = createShaped(item);
                 if (shape) bindInteraction(shape, {item, ...gridState});
                 return shape;
