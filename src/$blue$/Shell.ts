@@ -27,11 +27,11 @@ export const imageView = (task)=>{
     </div></div></div>`);
 }
 
-// DE-IMPLEMENTED (merging to iframe, dedicated component)
+//
 export const markdownView = (task)=>{
     const iframe = H(`<iframe referrerpolicy="no-referrer" width="100%" height="100%" frameBorder="0" allowtransparency scrolling seamless credentialless style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" loading="eager" allowfullscreen allow="*" src="./apps/mdv/index.html"></iframe>`) as HTMLIFrameElement;
     if (iframe) { iframe.addEventListener("load", ()=>{
-        iframe?.contentWindow?.postMessage({src: task?.args?.href||""}, "*", []);
+        iframe?.contentWindow?.postMessage({src: (URL.canParse(task?.args?.href||"") ? task?.args?.href : new URL(task?.args?.href||"", import.meta.url).href)||""}, "/", []);
     }); };
     return E("div.ui-content" + task?.taskId, {}, [ E("div.adl-main", {}, [ E("div.adl-content-box", {}, [ iframe ]) ]) ]);
 }
