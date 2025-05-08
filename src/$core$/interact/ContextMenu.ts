@@ -5,6 +5,8 @@ import { actionMap } from "../ActionMap.ts";
 import { FileManagment } from "../file/FileManage.ts";
 import { pasteInWorkspace } from "./FileInteration.ts";
 import { doUIAction, UIAction } from "./ItemAction.ts";
+import { getFileExtension } from "../file/FileOps.ts";
+import { imageTypes } from "../file/FileAction.ts";
 
 //
 export const ctxMenuMap = new Map([
@@ -22,7 +24,7 @@ export const ctxMenuMap = new Map([
     ]],
     ["ui-select-row[name=\"file\"], #manager ui-select-row", [
         {icon: new UILucideIcon({icon: "app-window", padding: "0.05rem"}), content: "View file"       , callback(initiator) { return doUIAction?.("file:action"      , initiator); } },
-        {icon: new UILucideIcon({icon: "wallpaper" , padding: "0.05rem"}), content: "Use as wallpaper", callback(initiator) { return doUIAction?.("file:use"         , initiator); } },
+        {icon: new UILucideIcon({icon: "wallpaper" , padding: "0.05rem"}), content: "Use as wallpaper", callback(initiator) { return doUIAction?.("file:use"         , initiator); }, condition(initiator) { return imageTypes.has(getFileExtension(initiator?.value)); } },
         {icon: new UILucideIcon({icon: "copy-minus", padding: "0.05rem"}), content: "Copy path"       , callback(initiator) { return doUIAction?.("file:copy-path"   , initiator); } },
         {icon: new UILucideIcon({icon: "book-copy" , padding: "0.05rem"}), content: "Copy item"       , callback(initiator) { return doUIAction?.("file:to-clipboard", initiator); } },
         {icon: new UILucideIcon({icon: "file-down" , padding: "0.05rem"}), content: "Download"        , callback(initiator) { return doUIAction?.("file:download"    , initiator); } },

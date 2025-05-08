@@ -30,7 +30,7 @@ export default (task: Task, )=>{
     const handlePlayClick     = (_: Event) => { return doUIAction("file:use"   , initiatorOf()); };
     const handleAddClick      = (_: Event) => { return manager.requestUpload(); };
     const handleDirUp         = (_: Event) => { return manager.navigate("../"); };
-    const goDirectory         = (_: Event) => { return manager.navigate(manager.currentDir()); };
+    const goDirectory         = (_: Event) => { return manager.navigate(document.activeElement?.value || initiatorOf()?.parentNode?.value || manager.currentDir()); };
 
     //
     const navigateFile   = (ev: Event, _: string) => { return manager.navigate((ev?.target as any)?.value || FileManagment.fileOf(content.value), ev); };
@@ -48,16 +48,16 @@ export default (task: Task, )=>{
     //
     const content = bindContent(E("div" + (task.taskId || "#manager") + ".ui-content", { dataset: {highlight: 0, alpha: 0, scheme: "solid"}, }, [
         E("div.adl-toolbar", {dataset: {highlight: 0, chroma: 0}}, [
-            E("button.adl-dir-up", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleDirUp])}}, [H(`<ui-icon icon="arrow-up" />`)]),
-            E("button.adl-file-add", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleAddClick])}}, [H(`<ui-icon icon="file-up" />`)]),
+            E("button.adl-dir-up", {attributes: {tabindex: -1, type: "button"}, dataset: {scheme: "inverse", chroma: 0.2, highlight: 2, highlightHover: 3}, on: {click: new Set([handleDirUp])}}, [H(`<ui-icon icon="arrow-up" />`)]),
             // TODO: re-design those controls
             //E("button.adl-file-get", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleDownloadClick])}}, [H(`<ui-icon icon="file-down" />`)]),
             //
             E("ui-longtext.adl-space.u2-input", {attributes: {tabindex: -1, type: "button"}, dataset: {highlight: 1, name: "directory"}}, [
                 bindInput(H(`<input type="text" name="directory" placeholder="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" />`))
             ]),
-            E("button.adl-dir-go"  , {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([goDirectory])}}, [H(`<ui-icon icon="step-forward" />`)]),
-            E("button.adl-file-del", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleDeleteClick])}}, [H(`<ui-icon icon="file-x" />`)]),
+            E("button.adl-dir-go"  , {attributes: {tabindex: -1, type: "button"}, dataset: {scheme: "inverse", chroma: 0.2, highlight: 2, highlightHover: 3}, on: {click: new Set([goDirectory])}}, [H(`<ui-icon icon="step-forward" />`)]),
+            //E("button.adl-file-del", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleDeleteClick])}}, [H(`<ui-icon icon="file-x" />`)]),
+            E("button.adl-file-add", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleAddClick])}}, [H(`<ui-icon icon="file-up" />`)]),
             E("button.adl-dir-use" , {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handlePlayClick])}}, [H(`<ui-icon icon="image-play" />`)]),
         ]),
         E("div.adl-main", {dataset: {alpha: 0, chroma: 0, scheme: "solid"}}, [
