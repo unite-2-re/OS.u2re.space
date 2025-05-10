@@ -52,7 +52,7 @@ export default (task: Task, )=>{
             // TODO: re-design those controls
             //E("button.adl-file-get", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleDownloadClick])}}, [H(`<ui-icon icon="file-down" />`)]),
             //
-            E("ui-longtext.adl-space.u2-input", {attributes: {tabindex: -1, type: "button"}, dataset: {highlight: 1, name: "directory"}}, [
+            E("ui-longtext.adl-space.u2-input", {attributes: {tabindex: -1, type: "button"}, dataset: {highlight: 1, name: "directory"}, style: { display: "grid", inlineSize: "auto", flexGrow: 1, minInlineSize: "max-content", maxInlineSize: "100%"}}, [
                 bindInput(H(`<input type="text" name="directory" placeholder="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" />`))
             ]),
             E("button.adl-dir-go"  , {attributes: {tabindex: -1, type: "button"}, dataset: {scheme: "inverse", chroma: 0.2, highlight: 2, highlightHover: 3}, on: {click: new Set([goDirectory])}}, [H(`<ui-icon icon="step-forward" />`)]),
