@@ -1,0 +1,42 @@
+@layer adl-modal {
+  @media screen {
+    .adl-modal {
+      contain: none;
+      container-type: inline-size;
+      place-self: center;
+      inline-size: 16rem;
+      block-size: -moz-max-content;
+      block-size: max-content;
+      position: fixed !important;
+      inset: auto;
+      inset-inline-start: 50%;
+      inset-block-start: 50%;
+      transform: scale3d(var(--scale, 1), var(--scale, 1), var(--scale, 1)) translate3d(-50%, -50%, 0%);
+      transform-origin: 0% 0%;
+      overflow: hidden;
+      padding: 1rem;
+      box-sizing: border-box;
+      max-block-size: 100cqb;
+      max-inline-size: 100cqi;
+      pointer-events: auto !important;
+      font-size: 0.9rem;
+      gap: 1rem;
+      place-items: center;
+      place-content: center;
+      display: flex;
+      flex-direction: column;
+      z-index: calc(999 + var(--z-index, 0));
+      border-radius: 0.4rem;
+      box-shadow: 0.125rem 0.125rem 1rem rgba(0, 0, 0, 0.5019607843);
+    }
+    .adl-modal form, .adl-modal label, .adl-modal span, .adl-modal .adl-label, .adl-modal .adl-buttons {
+      background-color: transparent;
+    }
+    .adl-modal label, .adl-modal .adl-label, .adl-modal .adl-input, .adl-modal .adl-buttons {
+      pointer-events: none;
+    }
+    .adl-modal ui-longtext input, .adl-modal ui-longtext, .adl-modal button {
+      pointer-events: auto;
+    }
+  }
+}/*# sourceMappingURL=Modal.css.map */

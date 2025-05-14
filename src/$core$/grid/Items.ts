@@ -28,7 +28,7 @@ export const createShaped = (item, gs?)=>{
 
     //
     const element: any = document.createElement("ui-shaped");
-    element.classList.add("u2-grid-item");
+    element.classList?.add?.("u2-grid-item");
     element.item = item;
     element.icon = item.icon || "shield-question";
     element.label = item.label || "";

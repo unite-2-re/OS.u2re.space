@@ -1,0 +1,710 @@
+@layer adl-css {
+  @layer adl-general, adl-item-edit, adl-content, adl-manager, adl-settings, adl-quick-settings, adl-app-menu, adl-modal;
+}
+@layer adl-content {
+  @media screen {
+    :where(.ui-content) iframe {
+      content-visibility: auto;
+    }
+    :where(.ui-content) {
+      display: inline grid;
+      grid-template-columns: minmax(0px, 0rem) minmax(0px, 1fr);
+      grid-template-rows: minmax(2.25rem, max-content) minmax(0px, 1fr);
+      content-visibility: auto;
+      box-sizing: border-box;
+      font-size: 0.75rem;
+      background-color: transparent;
+      gap: 0.1rem;
+      -moz-column-gap: 0.2rem;
+           column-gap: 0.2rem;
+      padding: 0.3333rem;
+      touch-action: none;
+      contain: strict;
+    }
+    :where(.ui-content) ui-longtext, :where(.ui-content) input {
+      touch-action: none;
+    }
+    :where(.ui-content) .adl-toolbar {
+      grid-row: 1/1 span;
+      grid-column: 1/-1;
+      inline-size: 100%;
+      min-block-size: 100%;
+      block-size: -moz-max-content;
+      block-size: max-content;
+      padding: 0px;
+      z-index: 98;
+      display: flex;
+      justify-content: start;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 0.25rem;
+      padding-inline: 0.125rem;
+      background-color: transparent;
+      touch-action: none;
+    }
+    :where(.ui-content) .adl-toolbar .adl-space {
+      flex-grow: 1;
+      flex-basis: stretch;
+      touch-action: none;
+    }
+    :where(.ui-content) .adl-toolbar button {
+      aspect-ratio: 1/1;
+      block-size: 100%;
+      inline-size: -moz-max-content;
+      inline-size: max-content;
+      min-block-size: 2rem;
+      padding: 0.5rem;
+      margin: 0px;
+      border-radius: 0.25rem;
+      touch-action: none;
+    }
+    :where(.ui-content) .adl-main {
+      display: grid;
+      pointer-events: none;
+      grid-template-columns: subgrid;
+      grid-template-rows: minmax(0px, 1fr);
+      grid-auto-flow: row;
+      border-radius: 0.5rem;
+      touch-action: none;
+      grid-column: 1/-1;
+      inline-size: 100%;
+      block-size: 100%;
+      overflow: hidden;
+      gap: 0.2rem;
+      row-gap: 0px;
+      padding: 0px;
+      padding-inline-end: max(env(safe-area-inset-right, 0px) - 0.3333rem, 0px);
+      padding-block-end: max(env(safe-area-inset-bottom, 0px) - 0.3333rem, 0px);
+      padding-inline-start: max(env(safe-area-inset-left, 0px) - 0.3333rem, 0px);
+    }
+    :where(.ui-content) .adl-main > :where(*) {
+      grid-row: 1/1 span;
+      inline-size: 100%;
+      block-size: 100%;
+    }
+    :where(.ui-content) .adl-main .adl-tab-box {
+      inline-size: 100%;
+      block-size: 100%;
+      transition: translate 0.2s;
+      grid-column: 1/-1;
+      padding: 0rem;
+      overflow: hidden;
+      justify-self: start;
+      border-radius: 0.5rem;
+      z-index: 99;
+    }
+    :where(.ui-content) .adl-main .adl-tab-box .adl-tabs {
+      background-color: transparent;
+      display: inline grid;
+      grid-auto-rows: minmax(0px, max-content);
+      grid-template-columns: minmax(2rem, max-content) minmax(0px, 1fr);
+      block-size: -moz-max-content;
+      block-size: max-content;
+      inline-size: 100%;
+      overflow: hidden;
+      border-radius: 0rem;
+    }
+    :where(.ui-content) .adl-main .adl-tab-box ui-select-row {
+      block-size: 2.5rem;
+      display: inline grid;
+      grid-template-columns: subgrid;
+    }
+    :where(.ui-content) .adl-main .adl-tab-box ui-icon {
+      min-block-size: 2rem;
+    }
+    :where(.ui-content) .adl-main .adl-tab-box:has(.adl-tabs:empty) {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    :where(.ui-content) .adl-main .adl-tab-box:has(.adl-tabs:empty) :where(*) {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    :where(.ui-content) .adl-main .adl-content-box {
+      block-size: 100%;
+      inline-size: 100%;
+      grid-column: 2/2 span;
+      touch-action: none;
+      pointer-events: none;
+      border-radius: 0.5rem;
+      place-content: center;
+      place-items: center;
+      overflow: hidden;
+    }
+    :where(.ui-content) .adl-main .adl-content-box .adl-content {
+      place-content: center;
+      place-items: center;
+      display: flex;
+      padding: 1rem;
+      inline-size: 100%;
+      block-size: -moz-max-content;
+      block-size: max-content;
+      min-block-size: 100%;
+      max-block-size: none;
+      flex-direction: column;
+      overflow: hidden;
+      touch-action: inherit;
+      pointer-events: auto;
+      justify-content: start;
+      justify-items: start;
+      align-content: start;
+      align-items: start;
+    }
+    :where(.ui-content) .adl-main .adl-content-box .adl-content ui-select-row {
+      display: grid;
+      font-size: 0.7rem;
+      line-height: normal;
+      block-size: 2.25rem;
+      place-content: center;
+      place-items: center;
+      justify-content: start;
+      justify-items: start;
+      padding: 0.5rem;
+    }
+    :where(.ui-content) .adl-main .adl-content-box .adl-content ui-select-row ui-icon {
+      min-block-size: 1rem;
+    }
+    :where(.ui-content) .adl-main .adl-content-box .adl-content ui-select-row span, :where(.ui-content) .adl-main .adl-content-box .adl-content ui-select-row div {
+      pointer-events: none;
+      overflow: hidden;
+      display: inline-block;
+      inline-size: 100%;
+      block-size: 100%;
+      max-inline-size: 100%;
+      max-block-size: 100%;
+    }
+    :where(.ui-content) .adl-main .adl-content-box .adl-content ui-select-row span, :where(.ui-content) .adl-main .adl-content-box .adl-content ui-select-row div, :where(.ui-content) .adl-main .adl-content-box .adl-content ui-select-row {
+      word-break: keep-all;
+      white-space: nowrap;
+      overflow-wrap: anywhere;
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+      text-wrap-mode: nowrap;
+      text-wrap-style: pretty;
+      text-spacing-trim: trim-start;
+      white-space-collapse: collapse;
+    }
+    :where(.ui-content) .adl-main .adl-content-box .adl-content form {
+      background-origin: border-box;
+      background-clip: border-box;
+      box-sizing: border-box;
+      inline-size: 100%;
+      block-size: -moz-max-content;
+      block-size: max-content;
+      padding: 0rem;
+      padding-block-start: 1rem;
+      border-radius: 0.333rem;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      gap: 1rem;
+    }
+    :where(.ui-content) .adl-main .adl-content-box .adl-content .adl-form-label {
+      text-align: center;
+      opacity: 0.6;
+      font-size: 0.7rem;
+    }
+    :where(.ui-content):not(:has(.adl-tabs)) .adl-content-box, :where(.ui-content):has(.adl-tabs:empty) .adl-content-box {
+      grid-column: 1/2 span;
+    }
+    :where(.ui-content):not(:has(.adl-tabs)) .adl-tab-box, :where(.ui-content):has(.adl-tabs:empty) .adl-tab-box {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    :where(.ui-content):not(:has(.adl-tabs)) .adl-tab-box :where(*), :where(.ui-content):has(.adl-tabs:empty) .adl-tab-box :where(*) {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    :where(.ui-content):not(:has(.adl-toolbar)) .adl-main, :where(.ui-content):has(.adl-toolbar:empty) .adl-main {
+      grid-row: 1/2 span;
+    }
+    :where(.ui-content):not(:has(.adl-toolbar)) .adl-tab-box, :where(.ui-content):has(.adl-toolbar:empty) .adl-tab-box {
+      grid-row: 1/2 span;
+    }
+    :where(.ui-content):not(:has(.adl-toolbar)) .adl-toolbar, :where(.ui-content):has(.adl-toolbar:empty) .adl-toolbar {
+      display: none;
+    }
+    [data-device-type=mobile] :where(.ui-content) :where(.ui-content) {
+      -moz-column-gap: 0rem;
+           column-gap: 0rem;
+    }
+    [data-device-type=mobile] :where(.ui-content) :where(.ui-content) {
+      grid-template-columns: minmax(0px, 0rem) minmax(0px, 1fr);
+    }
+    [data-device-type=mobile] :where(.ui-content) :where(.ui-content) .adl-toolbar {
+      z-index: 98;
+    }
+    [data-device-type=mobile] :where(.ui-content) :where(.ui-content) .adl-content-box {
+      grid-column: 1/-1;
+    }
+    [data-device-type=mobile] :where(.ui-content) :where(.ui-content) .adl-tab-box {
+      grid-column: 1/-1;
+    }
+    [data-device-type=mobile] :where(.ui-content) :where(.ui-content) .adl-tab-box:not(.adl-open) {
+      translate: calc(-100% - 0.2rem) 0px;
+    }
+    [data-device-type=mobile] :where(.ui-content) :where(.ui-content) .adl-tab-box.adl-open {
+      translate: 0px 0px;
+    }
+    [data-device-type=desktop] :where(.ui-content) :where(.ui-content) {
+      grid-template-columns: minmax(12rem, 0rem) minmax(0px, 1fr);
+    }
+    [data-device-type=desktop] :where(.ui-content) :where(.ui-content) .adl-toolbar {
+      z-index: 99;
+    }
+    [data-device-type=desktop] :where(.ui-content) :where(.ui-content) .adl-tab-box {
+      grid-column: 1/1 span !important;
+      translate: 0px 0px;
+    }
+    [data-device-type=desktop] :where(.ui-content) :where(.ui-content) .adl-content-box {
+      grid-column: 2/2 span;
+    }
+  }
+}
+@layer adl-settings {
+  @media screen {
+    :where(.ui-content#settings) .adl-content {
+      display: flex;
+      padding: 0rem;
+      overflow: hidden;
+      inline-size: 100%;
+      block-size: -moz-max-content;
+      block-size: max-content;
+      min-block-size: 100%;
+      max-block-size: none;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    :where(.ui-content#settings) .adl-main {
+      background-color: transparent;
+      padding: 0px;
+    }
+    :where(.ui-content#settings) .adl-block {
+      border-radius: 0.5rem;
+      min-block-size: -moz-max-content;
+      min-block-size: max-content;
+      max-block-size: none;
+      flex-direction: column;
+      display: flex;
+      inline-size: 100%;
+    }
+    :where(.ui-content#settings) form {
+      border-radius: 0.5rem;
+    }
+    :where(.ui-content#settings) .adl-form-label {
+      border-block-end: solid 1px oklch(from var(--rv-color, transparent) l c h/0.4);
+      block-size: -moz-max-content;
+      block-size: max-content;
+      line-height: 1.5;
+      margin-inline: 1rem;
+      padding: 0.5rem;
+      padding-block-start: 0px;
+    }
+  }
+}
+@layer adl-manager {
+  @media screen {
+    :where(.ui-content#manager) .adl-toolbar ui-longtext {
+      border-radius: 0.5rem;
+    }
+    :where(.ui-content#manager) .adl-content {
+      padding: 0rem;
+      inline-size: 100%;
+      min-block-size: 100%;
+      block-size: -moz-max-content;
+      block-size: max-content;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      font-size: 0.7rem;
+      overflow: hidden;
+      display: inline grid;
+      grid-auto-rows: max-content;
+      grid-template-columns: minmax(0px, max-content) minmax(0px, 1fr) minmax(0px, max-content) minmax(0px, max-content);
+    }
+  }
+}
+@layer adl-item-edit {
+  @media screen {
+    .adl-buttons {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1rem;
+      min-block-size: 2rem;
+      block-size: -moz-max-content;
+      block-size: max-content;
+      place-content: stretch;
+      place-items: stretch;
+      box-sizing: border-box;
+      padding: 0.5rem;
+      justify-content: space-between;
+      inline-size: 100%;
+    }
+    .adl-buttons button {
+      display: flex;
+      place-self: stretch;
+      flex-direction: row;
+      box-sizing: border-box;
+      min-block-size: 2rem;
+      block-size: -moz-max-content;
+      block-size: max-content;
+      padding: 0.5rem;
+      inline-size: auto;
+      min-inline-size: -moz-max-content;
+      min-inline-size: max-content;
+      max-inline-size: 100%;
+      flex-grow: 1;
+      outline: none 0px transparent;
+      border: none 0px transparent;
+      overflow: hidden;
+      border-radius: 0.125rem;
+    }
+    .adl-item-edit {
+      contain: none;
+      container-type: inline-size;
+      inline-size: 100%;
+      block-size: 100%;
+      min-block-size: -moz-max-content;
+      min-block-size: max-content;
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: minmax(4rem, max-content) minmax(0px, 1fr);
+      grid-auto-rows: minmax(2rem, max-content);
+      grid-auto-flow: column;
+      gap: 1rem;
+      place-items: center;
+      place-content: center;
+    }
+    .adl-item-edit > label {
+      inline-size: 100%;
+      block-size: 100%;
+      min-block-size: -moz-max-content;
+      min-block-size: max-content;
+      box-sizing: border-box;
+      padding: 0rem;
+      display: grid;
+      grid-template-columns: subgrid;
+      grid-template-rows: minmax(0px, 1fr);
+      grid-auto-flow: row;
+      grid-column: 1/-1;
+      place-self: center;
+      place-items: center;
+      place-content: center;
+      -webkit-user-select: none;
+         -moz-user-select: none;
+              user-select: none;
+    }
+    .adl-item-edit > label .adl-label {
+      padding-inline-start: 0.6666rem;
+      grid-column: 1/1 span;
+      min-inline-size: -moz-max-content;
+      min-inline-size: max-content;
+      min-block-size: -moz-max-content;
+      min-block-size: max-content;
+      block-size: 100%;
+      inline-size: 100%;
+      box-sizing: border-box;
+      -webkit-user-select: none;
+         -moz-user-select: none;
+              user-select: none;
+      pointer-events: none;
+      display: flex;
+      place-content: center;
+      place-items: center;
+      justify-content: start;
+      justify-self: start;
+      text-align: start;
+    }
+    .adl-item-edit > label .adl-input {
+      grid-column: 2/2 span;
+      min-block-size: -moz-max-content;
+      min-block-size: max-content;
+      inline-size: 100%;
+      block-size: 100%;
+      padding: 0rem;
+      box-sizing: border-box;
+      overflow: hidden;
+      border-radius: 0.33rem;
+      -webkit-user-select: none;
+         -moz-user-select: none;
+              user-select: none;
+      display: flex;
+      place-content: stretch;
+      place-items: stretch;
+    }
+    .adl-item-edit > label .adl-input > :where(*) {
+      inline-size: 100%;
+      block-size: 100%;
+      box-sizing: border-box;
+      position: relative;
+      place-self: center;
+      translate: 0px 0px;
+      inset: auto;
+    }
+  }
+}
+@layer adl-modal {
+  @media screen {
+    .adl-modal {
+      contain: none;
+      container-type: inline-size;
+      place-self: center;
+      inline-size: 16rem;
+      block-size: -moz-max-content;
+      block-size: max-content;
+      position: fixed !important;
+      inset: auto;
+      inset-inline-start: 50%;
+      inset-block-start: 50%;
+      transform: scale3d(var(--scale, 1), var(--scale, 1), var(--scale, 1)) translate3d(-50%, -50%, 0%);
+      transform-origin: 0% 0%;
+      overflow: hidden;
+      padding: 1rem;
+      box-sizing: border-box;
+      max-block-size: 100cqb;
+      max-inline-size: 100cqi;
+      pointer-events: auto !important;
+      font-size: 0.9rem;
+      gap: 1rem;
+      place-items: center;
+      place-content: center;
+      display: flex;
+      flex-direction: column;
+      z-index: calc(999 + var(--z-index, 0));
+      border-radius: 0.4rem;
+      box-shadow: 0.125rem 0.125rem 1rem rgba(0, 0, 0, 0.5019607843);
+    }
+    .adl-modal form, .adl-modal label, .adl-modal span, .adl-modal .adl-label, .adl-modal .adl-buttons {
+      background-color: transparent;
+    }
+    .adl-modal label, .adl-modal .adl-label, .adl-modal .adl-input, .adl-modal .adl-buttons {
+      pointer-events: none;
+    }
+    .adl-modal ui-longtext input, .adl-modal ui-longtext, .adl-modal button {
+      pointer-events: auto;
+    }
+  }
+}
+@layer adl-quick-settings {
+  ui-modal[data-name=quick-settings] {
+    max-inline-size: 80dvi;
+    inline-size: -moz-max-content;
+    inline-size: max-content;
+  }
+  ui-modal[data-name=quick-settings] .modal-container {
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: -moz-max-content;
+    min-block-size: max-content;
+    min-inline-size: -moz-max-content;
+    min-inline-size: max-content;
+    padding: 0.5rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main {
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: -moz-max-content;
+    min-block-size: max-content;
+    min-inline-size: -moz-max-content;
+    min-inline-size: max-content;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 0.5rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .modal-controls {
+    inline-size: 100%;
+    padding: 1rem;
+    padding-block-end: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    background-color: transparent;
+    justify-content: space-between;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .modal-toggle {
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .icon {
+    padding: 0.75rem;
+    block-size: 100%;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .modal-sliders {
+    inline-size: 100%;
+    padding: 1rem;
+    padding-block-end: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: transparent;
+    place-content: center;
+    place-items: center;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .modal-slider-row {
+    padding: 0.5rem;
+    padding-block: 0.25rem;
+    justify-content: space-between;
+    inline-size: 100%;
+    min-block-size: 1rem;
+    block-size: -moz-max-content;
+    block-size: max-content;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    background-color: transparent;
+    place-content: center;
+    place-items: center;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .slider-icon {
+    block-size: 100%;
+    min-block-size: 1rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .slider-control {
+    background-color: transparent;
+    flex-grow: 1;
+    flex-basis: 100%;
+    block-size: 0.75rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .slider-indicator {
+    font-size: 0.4rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .slider-input {
+    background-color: transparent;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-footer {
+    background-color: transparent !important;
+    inline-size: 100%;
+    padding: 0.5rem;
+    padding-block-start: 0.5rem;
+    padding-block-end: 0rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    place-content: center;
+    place-items: center;
+    justify-content: space-between;
+    block-size: -moz-max-content;
+    block-size: max-content;
+    min-block-size: 1rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-footer > * {
+    background-color: transparent;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-footer span {
+    flex-basis: 100%;
+    flex-grow: 1;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .settings, ui-modal[data-name=quick-settings] .modal-container .github {
+    inline-size: 2rem;
+    block-size: 2rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container :where(.settings, .github) .icon {
+    padding: 0.5rem;
+  }
+}
+@layer adl-app-menu {
+  ui-modal[data-name=app-menu] {
+    max-inline-size: 16rem;
+  }
+  ui-modal[data-name=app-menu] .menu-container {
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: -moz-max-content;
+    min-block-size: max-content;
+    min-inline-size: -moz-max-content;
+    min-inline-size: max-content;
+    padding: 0.5rem;
+  }
+  ui-modal[data-name=app-menu] .menu-grid {
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: -moz-max-content;
+    min-block-size: max-content;
+    min-inline-size: -moz-max-content;
+    min-inline-size: max-content;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 0.5rem;
+  }
+  ui-modal[data-name=app-menu] .menu-grid .ui-list-item {
+    cursor: pointer;
+    text-align: start;
+    inline-size: 100%;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    place-content: center;
+    place-items: center;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+  ui-modal[data-name=app-menu] .menu-grid .ui-list-item span {
+    text-align: start;
+    display: inline-block;
+    flex-basis: 100%;
+  }
+  ui-modal[data-name=app-menu] .menu-grid ui-shaped {
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    min-block-size: 0px;
+    background-color: transparent;
+    transform: none;
+    translate: none;
+    inset: 0px;
+    position: relative;
+    aspect-ratio: 1/1;
+    pointer-events: none;
+  }
+  ui-modal[data-name=app-menu] .menu-grid ui-shaped::part(icon) {
+    padding: 0.5rem !important;
+    pointer-events: none;
+  }
+  ui-modal[data-name=app-menu] .menu-grid ui-shaped > * {
+    inline-size: 100%;
+    block-size: 100%;
+    aspect-ratio: 1/1;
+  }
+}
+@layer adl-general {
+  @media screen {
+    :root, :host, :scope, body, html {
+      font-family: "Open Sans", "Ubuntu Sans", Ubuntu, Segoe, "Segoe UI", source-sans-pro, "Source Sans 3", "Gill Sans Nova", Candara, sans-serif, ui-sans-serif, system-ui;
+    }
+    body, :host, body {
+      font-size: 0.8rem;
+    }
+    #root {
+      place-self: center;
+      display: flex;
+      pointer-events: auto;
+      justify-self: start;
+      align-self: start;
+      min-inline-size: 0px !important;
+      min-block-size: 0px !important;
+      inline-size: 100% !important;
+      block-size: 100% !important;
+      max-inline-size: 100% !important;
+      max-block-size: 100% !important;
+      position: fixed !important;
+      inset: 0px !important;
+      inset-block-end: auto !important;
+      overflow: hidden !important;
+      contain: strict !important;
+      container-type: size !important;
+    }
+    ui-orientbox {
+      position: fixed !important;
+    }
+  }
+}/*# sourceMappingURL=Main.css.map */

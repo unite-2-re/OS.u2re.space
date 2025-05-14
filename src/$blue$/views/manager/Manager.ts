@@ -26,7 +26,7 @@ export default (task: Task, )=>{
     const initiatorOf = () => content?.querySelector?.(".adl-content input:checked");
 
     //
-    const handleDeleteClick   = (_: Event) => { return doUIAction("file:delete", initiatorOf()); };
+    //const handleDeleteClick   = (_: Event) => { return doUIAction("file:delete", initiatorOf()); };
     const handlePlayClick     = (_: Event) => { return doUIAction("file:use"   , initiatorOf()); };
     const handleAddClick      = (_: Event) => { return manager.requestUpload(); };
     const handleDirUp         = (_: Event) => { return manager.navigate("../"); };
@@ -37,13 +37,7 @@ export default (task: Task, )=>{
     const getFilename    = (        path: string) => { const parts = path.split("/"); return parts.at(-1) || parts.at(-2) || path; };
     const dropHandle     = (ev: DragEvent) => { ev.preventDefault(); return manager.handleDrop(ev.dataTransfer); };
     const dragOverHandle = (ev: DragEvent) => { ev.preventDefault(); };
-
-    //
-    const makeSortable = (current, Ef)=>{
-        const element = Ef.element;
-        subscribe(current, ()=>element.style.order = Array.from(current.keys()).sort().indexOf(element.value));
-        return Ef;
-    }
+    const makeSortable   = (current, Ef) => { const element = Ef.element; subscribe(current, ()=>element.style.order = Array.from(current.keys()).sort().indexOf(element.value)); return Ef; }
 
     //
     const content = bindContent(E("div" + (task.taskId || "#manager") + ".ui-content", { dataset: {highlight: 0, alpha: 0, scheme: "solid"}, }, [
@@ -65,7 +59,8 @@ export default (task: Task, )=>{
             E("ui-scrollbox.adl-content-box", {dataset: {scheme: "solid", alpha: 1}}, [
                 E("div.adl-content", {on: {drop: new Set([dropHandle]), dragover: new Set([dragOverHandle])}}, M(observableByMap(current), (entry)=>{
                     return makeSortable(current, E("ui-select-row", {
-                        attributes: { href: "#", name: "file", draggable: true},
+                        attributes: { href: "#", name: "file", draggable: true, value: entry[0] },
+                        dataset: { value: entry[0] },
                         properties: { value: entry[0] },
                         style: "user-select: none; pointer-events: auto; touch-action: manipulation; -webkit-touch-callout: default; -webkit-user-drag: element; -moz-user-drag: element;",
                         on: {

@@ -1,0 +1,120 @@
+@layer adl-quick-settings {
+  ui-modal[data-name=quick-settings] {
+    max-inline-size: 80dvi;
+    inline-size: -moz-max-content;
+    inline-size: max-content;
+  }
+  ui-modal[data-name=quick-settings] .modal-container {
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: -moz-max-content;
+    min-block-size: max-content;
+    min-inline-size: -moz-max-content;
+    min-inline-size: max-content;
+    padding: 0.5rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main {
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: -moz-max-content;
+    min-block-size: max-content;
+    min-inline-size: -moz-max-content;
+    min-inline-size: max-content;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 0.5rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .modal-controls {
+    inline-size: 100%;
+    padding: 1rem;
+    padding-block-end: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    background-color: transparent;
+    justify-content: space-between;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .modal-toggle {
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .icon {
+    padding: 0.75rem;
+    block-size: 100%;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .modal-sliders {
+    inline-size: 100%;
+    padding: 1rem;
+    padding-block-end: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: transparent;
+    place-content: center;
+    place-items: center;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .modal-slider-row {
+    padding: 0.5rem;
+    padding-block: 0.25rem;
+    justify-content: space-between;
+    inline-size: 100%;
+    min-block-size: 1rem;
+    block-size: -moz-max-content;
+    block-size: max-content;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    background-color: transparent;
+    place-content: center;
+    place-items: center;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .slider-icon {
+    block-size: 100%;
+    min-block-size: 1rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .slider-control {
+    background-color: transparent;
+    flex-grow: 1;
+    flex-basis: 100%;
+    block-size: 0.75rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .slider-indicator {
+    font-size: 0.4rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-main .slider-input {
+    background-color: transparent;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-footer {
+    background-color: transparent !important;
+    inline-size: 100%;
+    padding: 0.5rem;
+    padding-block-start: 0.5rem;
+    padding-block-end: 0rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    place-content: center;
+    place-items: center;
+    justify-content: space-between;
+    block-size: -moz-max-content;
+    block-size: max-content;
+    min-block-size: 1rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-footer > * {
+    background-color: transparent;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .modal-footer span {
+    flex-basis: 100%;
+    flex-grow: 1;
+  }
+  ui-modal[data-name=quick-settings] .modal-container .settings, ui-modal[data-name=quick-settings] .modal-container .github {
+    inline-size: 2rem;
+    block-size: 2rem;
+  }
+  ui-modal[data-name=quick-settings] .modal-container :where(.settings, .github) .icon {
+    padding: 0.5rem;
+  }
+}/*# sourceMappingURL=QuickSettings.css.map */
