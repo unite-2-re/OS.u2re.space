@@ -1,7 +1,7 @@
-import { subscribe } from "/externals/lib/object.js"
+import { propRef } from "/externals/lib/object.js"
 import { fixOrientToScreen } from "/externals/core/agate.js"
 import { bindInteraction, reflectCell } from "/externals/core/interact.js"
-import { E, M } from "/externals/lib/blue.js"
+import { H } from "/externals/lib/blue.js"
 
 //
 import { pasteInWorkspace } from "../../$core$/interact/FileInteration.ts"
@@ -13,35 +13,13 @@ const dropHandle     = (ev: DragEvent) => { ev.preventDefault(); pasteInWorkspac
 
 //
 export default (gridState: any)=>{
-    //
-    const tree = E("ui-orientbox.u2-desktop-grid", {
-        dataset: { alpha: 0, chroma: 0, scheme: "base" },
-        style: "background-color: transparent; inset: 0px; inset-block-end: auto; pointer-events: auto; contain: none; overflow: visible; container-type: normal; touch-action: none;",
-        on: {
-            dragover: new Set([dragOverHandle]),
-            drop: new Set([dropHandle])
-        }}, [
-            E("ui-gridbox.u2-grid-page", {style: "background-color: transparent; inline-size: 100%; block-size: 100%;"}, M(gridState?.items, (item)=>{
-                const label = createLabel(item);
-                if (label) reflectCell(label, {item, ...gridState});
-                return label;
-            })),
-            E("ui-gridbox.u2-grid-page", {style: "background-color: transparent; inline-size: 100%; block-size: 100%;"}, M(gridState?.items, (item)=>{
-                const shape = createShaped(item);
-                if (shape) bindInteraction(shape, {item, ...gridState});
-                return shape;
-            }))
-        ]);
-
-    //
-    subscribe(gridState.layout, (value, prop)=>{
-        if (prop == "columns") { Array.from<any>(tree.element.children).forEach((target: HTMLElement)=>target.style.setProperty("--layout-c", "" + (value||4))); };
-        if (prop == "rows") { Array.from<any>(tree.element?.children).forEach((target: HTMLElement)=>target.style.setProperty("--layout-r", "" + (value||8))); };
-    });
-
-    //
-    fixOrientToScreen(tree.element);
-    //inflectInGrid(labels, gridState?.items, createLabel);
-    //inflectInGrid(shapes, gridState?.items, createShaped);
-    return tree;
+    const style = {"background-color": "transparent", "inline-size": "100%", "block-size": "100%", "--layout-c": propRef(gridState.layout, "columns", 4), "--layout-r": propRef(gridState.layout, "rows", 8)};
+    const tree = H`<${"ui-orientbox.u2-desktop-grid"} on:drop=${dropHandle} on:dragover=${dragOverHandle} dataset=${{ alpha: 0, chroma: 0, scheme: "base" }} style="background-color: transparent; inset: 0px; inset-block-end: auto; pointer-events: auto; contain: none; overflow: visible; container-type: normal; touch-action: none;">
+    <${"ui-gridbox.u2-grid-page"} style=${style} iterate=${gridState?.items}>${(item)=>{
+        const label = createLabel(item); if (label) reflectCell(label, {item, ...gridState}); return label;
+    }}</ui-gridbox>
+    <${"ui-gridbox.u2-grid-page"} style=${style} iterate=${gridState?.items}>${(item)=>{
+        const shape = createShaped(item); if (shape) bindInteraction(shape, {item, ...gridState}); return shape;
+    }}</ui-gridbox>
+</ui-orientbox>`; fixOrientToScreen(tree); return tree;
 }

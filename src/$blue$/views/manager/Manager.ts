@@ -1,6 +1,6 @@
 import { subscribe } from "/externals/lib/object.js";
 import { synchronizeInputs } from "/externals/lib/dom.js";
-import { E, M, H, observableByMap } from "/externals/lib/blue.js"
+import { H, observableByMap } from "/externals/lib/blue.js"
 
 //
 import { FileManagment } from "../../../$core$/file/FileManage.ts";
@@ -9,13 +9,12 @@ import type { Task } from "../../../$core$/Types.ts";
 
 //
 export default (task: Task, )=>{
-    const manager = new FileManagment(task.args);
-    manager.navigate(task.args?.directory || "/user/images/");
+    const manager = new FileManagment(task.args); manager.navigate(task.args?.directory || "/user/images/");
     const current = manager.getCurrent();
 
     //
     const bindContent = (ct)=>{
-        const content = ct.element;
+        const content = ct?.element ?? ct;
         FileManagment.bindManager(content, manager);
         synchronizeInputs(task.args, ".u2-input", content, subscribe);
         return content;
@@ -37,48 +36,32 @@ export default (task: Task, )=>{
     const getFilename    = (        path: string) => { const parts = path.split("/"); return parts.at(-1) || parts.at(-2) || path; };
     const dropHandle     = (ev: DragEvent) => { ev.preventDefault(); return manager.handleDrop(ev.dataTransfer); };
     const dragOverHandle = (ev: DragEvent) => { ev.preventDefault(); };
-    const makeSortable   = (current, Ef) => { const element = Ef.element; subscribe(current, ()=>element.style.order = Array.from(current.keys()).sort().indexOf(element.value)); return Ef; }
+    const makeSortable   = (current, Ef) => { const element = Ef?.element ?? Ef; subscribe(current, ()=>element.style.order = Array.from(current.keys()).sort().indexOf(element.value)); return Ef; }
 
     //
-    const content = bindContent(E("div" + (task.taskId || "#manager") + ".ui-content", { dataset: {highlight: 0, alpha: 0, scheme: "solid"}, }, [
-        E("div.adl-toolbar", {dataset: {highlight: 0, chroma: 0}}, [
-            E("button.adl-dir-up", {attributes: {tabindex: -1, type: "button"}, dataset: {scheme: "inverse", chroma: 0.2, highlight: 2, highlightHover: 3}, on: {click: new Set([handleDirUp])}}, [H(`<ui-icon icon="arrow-up" />`)]),
-            // TODO: re-design those controls
-            //E("button.adl-file-get", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleDownloadClick])}}, [H(`<ui-icon icon="file-down" />`)]),
-            //
-            E("ui-longtext.adl-space.u2-input", {attributes: {tabindex: -1, type: "button"}, dataset: {highlight: 1, name: "directory"}, style: { display: "grid", inlineSize: "auto", flexGrow: 1, minInlineSize: "max-content", maxInlineSize: "100%"}}, [
-                bindInput(H(`<input type="text" name="directory" placeholder="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" />`))
-            ]),
-            E("button.adl-dir-go"  , {attributes: {tabindex: -1, type: "button"}, dataset: {scheme: "inverse", chroma: 0.2, highlight: 2, highlightHover: 3}, on: {click: new Set([goDirectory])}}, [H(`<ui-icon icon="step-forward" />`)]),
-            //E("button.adl-file-del", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleDeleteClick])}}, [H(`<ui-icon icon="file-x" />`)]),
-            E("button.adl-file-add", {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handleAddClick])}}, [H(`<ui-icon icon="file-up" />`)]),
-            E("button.adl-dir-use" , {attributes: {tabindex: -1, type: "button"}, dataset: {highlightHover: 2}, on: {click: new Set([handlePlayClick])}}, [H(`<ui-icon icon="image-play" />`)]),
-        ]),
-        E("div.adl-main", {dataset: {alpha: 0, chroma: 0, scheme: "solid"}}, [
-            E("ui-scrollbox.adl-tab-box", {dataset: {scheme: "solid", alpha: 1, highlight: 0.5, chroma: 0.01}}),
-            E("ui-scrollbox.adl-content-box", {dataset: {scheme: "solid", alpha: 1}}, [
-                E("div.adl-content", {on: {drop: new Set([dropHandle]), dragover: new Set([dragOverHandle])}}, M(observableByMap(current), (entry)=>{
-                    return makeSortable(current, E("ui-select-row", {
-                        attributes: { href: "#", name: "file", draggable: true, value: entry[0] },
-                        dataset: { value: entry[0] },
-                        properties: { value: entry[0] },
-                        style: "user-select: none; pointer-events: auto; touch-action: manipulation; -webkit-touch-callout: default; -webkit-user-drag: element; -moz-user-drag: element;",
-                        on: {
-                            click: new Set([(ev)=>navigateFile(ev, entry[0])]),
-                            dblclick: new Set([(ev)=>navigateFile(ev, entry[0])]),
-                            //contextmenu: new Set([(ev)=>ctxMenuWorkaround(ev, entry[0])])
-                        }
-                    }, [
-                        E("ui-icon", {style: "user-select: none; pointer-events: none;", properties: {icon: manager.byType(entry[0]), inert: true}}),
-                        E("span", {style: "user-select: none; pointer-events: none;", properties: {inert: true}}, [getFilename(entry[0]||"")]),
-                        E("span", {style: "user-select: none; pointer-events: none;", properties: {inert: true}}, [entry[1]?.size ? (entry[1]?.size + " B") : ""]),
-                        E("span", {style: "user-select: none; pointer-events: none;", properties: {inert: true}}, [entry[1]?.lastModified
-                            ? new Date(entry[1]?.lastModified).toLocaleString()
-                            : entry[0]?.startsWith("..") ? "" : "N/A"])
-                    ]))
-                }))
-            ]),
-        ])
-    ]));
+    const content = bindContent(H`<${"div" + (task.taskId || "#manager") + ".ui-content"} dataset=${{highlight: 0, alpha: 0, scheme: "solid"}}>
+    <${"div.adl-toolbar"} dataset=${{highlight: 0, chroma: 0}}>
+        <${"button.adl-dir-up"} tabIndex="-1" type="button" dataset=${{scheme: "inverse", chroma: 0.2, highlight: 2, highlightHover: 3}} on:click=${handleDirUp}><ui-icon icon="arrow-up" /></button>
+        <${"ui-longtext.adl-space.u2-input"} tabIndex="-1" type="button" dataset=${{highlight: 1, name: "directory"}} on:click=${handleDirUp} style=${{ display: "grid", inlineSize: "auto", flexGrow: 1, minInlineSize: "max-content", maxInlineSize: "100%"}}>
+            ${bindInput(H(`<input type="text" name="directory" placeholder="" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no" />`))}
+        </ui-longtext>
+        <${"button.adl-dir-go"} tabIndex="-1" type="button" dataset=${{scheme: "inverse", chroma: 0.2, highlight: 2, highlightHover: 3}} on:click=${goDirectory}><ui-icon icon="step-forward" /></button>
+        <${"button.adl-file-add"} tabIndex="-1" type="button" dataset=${{highlightHover: 2}} on:click=${handleAddClick}><ui-icon icon="file-up" /></button>
+        <${"button.adl-dir-use"} tabIndex="-1" type="button" dataset=${{highlightHover: 2}} on:click=${handlePlayClick}><ui-icon icon="image-play" /></button>
+    </div>
+    <${"div.adl-main"} dataset=${{alpha: 0, chroma: 0, scheme: "solid"}}>
+        <${"ui-scrollbox.adl-tab-box"} dataset=${{scheme: "solid", alpha: 1, highlight: 0.5, chroma: 0.01}}></ui-scrollbox>
+        <${"ui-scrollbox.adl-content-box"} dataset=${{scheme: "solid", alpha: 1}}>
+            <${"div.adl-content"} on:drop=${dropHandle} on:dragover=${dragOverHandle} iterate=${observableByMap(current)}>${(entry)=>{
+                return makeSortable(current, H`<ui-select-row on:dblclick=${(ev)=>navigateFile(ev, entry[0])} on:click=${(ev)=>navigateFile(ev, entry[0])} href="#" style="user-select: none; pointer-events: auto; touch-action: manipulation; -webkit-touch-callout: default; -webkit-user-drag: element; -moz-user-drag: element;" name="file" draggable="true" prop:value=${entry[0]} value=${entry[0]} dataset=${{ value: entry[0] }}>
+                    <ui-icon style="user-select: none; pointer-events: none;" inert prop:icon=${manager.byType(entry[0])}></ui-icon>
+                    <span style="user-select: none; pointer-events: none;" inert>${getFilename(entry[0]||"")}</span>
+                    <span style="user-select: none; pointer-events: none;" inert>${entry[1]?.size ? (entry[1]?.size + " B") : ""}</span>
+                    <span style="user-select: none; pointer-events: none;" inert>${entry[1]?.lastModified ? new Date(entry[1]?.lastModified).toLocaleString() : entry[0]?.startsWith("..") ? "" : "N/A"}</span>
+                </ui-select-row>`)}
+            }</div>
+        </ui-scrollbox>
+    </div>
+</div>`);
     return content;
 }
