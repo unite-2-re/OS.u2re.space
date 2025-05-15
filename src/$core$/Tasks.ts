@@ -1,7 +1,6 @@
 // @ts-ignore /* @vite-ignore */
-import { safe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
+import { safe, makeReactive, makeObjectAssignable, observableArray } from "/externals/lib/object.js";
 import { initTaskManager } from "/externals/wcomp/ui.js";
-import { observableArray } from "/externals/lib/blue.js";
 
 //
 export const settingsTask = makeReactive({

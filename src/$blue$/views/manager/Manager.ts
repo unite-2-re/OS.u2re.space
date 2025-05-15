@@ -1,6 +1,6 @@
-import { subscribe } from "/externals/lib/object.js";
+import { subscribe, observableByMap } from "/externals/lib/object.js";
 import { synchronizeInputs } from "/externals/lib/dom.js";
-import { H, observableByMap } from "/externals/lib/blue.js"
+import { H } from "/externals/lib/blue.js"
 
 //
 import { FileManagment } from "../../../$core$/file/FileManage.ts";
