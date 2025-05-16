@@ -1,4 +1,5 @@
-import {E, H, M } from "/externals/lib/blue.js"
+// @ts-ignore
+import {E, H, M } from "/externals/modules/blue.js"
 
 //
 import { confirmEdit, itemForm, workspace } from "../$core$/state/GridState.ts";
@@ -16,11 +17,7 @@ import { QuickSettings } from "./modals/QuickSettings.ts";
 import { AppMenu } from "./modals/AppMenu.ts";
 
 //
-export const viewable = (task)=>{
-    return H(`<div id="${task?.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe referrerpolicy="no-referrer" width="100%" height="100%" frameBorder="0" allowtransparency scrolling seamless credentialless style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" src="${task?.args?.href}" loading="eager" allowfullscreen allow="*"></iframe></div></div></div>`);
-}
-
-//
+export const viewable  = (task)=>{ return H(`<div id="${task?.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box"><iframe referrerpolicy="no-referrer" width="100%" height="100%" frameBorder="0" allowtransparency scrolling seamless credentialless style="border:none;inline-size:100%;block-size:100%;pointer-events:auto;" src="${task?.args?.href}" loading="eager" allowfullscreen allow="*"></iframe></div></div></div>`); }
 export const imageView = (task)=>{
     return H(`<div id="${task?.taskId?.replace?.("#", "")}" class="ui-content"><div class="adl-main"><div class="adl-content-box">
         <img src="${task?.args?.src || task?.args?.href || ""}" alt="Image View" style="inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center; background-color: transparent; image-rendering: auto; image-rendering: smooth;"/>

@@ -1,4 +1,4 @@
-import { E } from "/externals/lib/blue.js"
+import { E } from "/externals/modules/blue.js"
 
 //
 export const AppMenu = () => {

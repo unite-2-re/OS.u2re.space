@@ -1,7 +1,7 @@
-import { propRef } from "/externals/lib/object.js"
-import { fixOrientToScreen } from "/externals/core/agate.js"
-import { bindInteraction, reflectCell } from "/externals/core/interact.js"
-import { H } from "/externals/lib/blue.js"
+import { propRef } from "/externals/modules/object.js"
+import { fixOrientToScreen } from "/externals/modules/dom.js"
+import { H } from "/externals/modules/blue.js"
+import { bindInteraction, reflectCell } from "/externals/modules/ui.js"
 
 //
 import { pasteInWorkspace } from "../../$core$/interact/FileInteration.ts"

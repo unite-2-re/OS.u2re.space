@@ -1,4 +1,4 @@
-import { H } from "/externals/lib/blue.js"
+import { H } from "/externals/modules/blue.js"
 
 //
 export const forms: any[] = [

@@ -1,4 +1,4 @@
-import { UILucideIcon, makeCtxMenuItems, openContextMenu } from "/externals/wcomp/ui.js";
+import { UILucideIcon, makeCtxMenuItems, openContextMenu } from "/externals/modules/ui.js";
 
 //
 import { actionMap } from "../ActionMap.ts";

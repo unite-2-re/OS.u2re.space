@@ -1,8 +1,8 @@
 // @ts-ignore /* @vite-ignore */
-import { safe, makeReactive, makeObjectAssignable, observableArray } from "/externals/lib/object.js";
-import { initTaskManager } from "/externals/wcomp/ui.js";
-
-//
+import { safe, makeReactive, makeObjectAssignable, observableArray } from "/externals/modules/object.js";
+import { initTaskManager } from "/externals/modules/ui.js";
+export const tasks: any[] = observableArray([]);
+export const taskManager  = initTaskManager(tasks);
 export const settingsTask = makeReactive({
     taskId: "#settings",
     desc: makeReactive({
@@ -28,6 +28,4 @@ export const managerTask = makeReactive({
 });
 
 //
-export const tasks: any[] = observableArray([]);
-export const taskManager = initTaskManager(tasks);
 export default tasks;

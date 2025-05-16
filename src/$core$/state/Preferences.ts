@@ -1,9 +1,9 @@
 // @ts-ignore
-import { subscribe, makeReactive, makeObjectAssignable, safe } from "/externals/lib/object.js";
+import { subscribe, makeReactive, makeObjectAssignable, safe } from "/externals/modules/object.js";
 import {JSOX} from "jsox";
 
 // @ts-ignore
-import { observeBySelector } from "/externals/lib/dom.js";
+import { observeBySelector } from "/externals/modules/dom.js";
 import { actionMap } from "../ActionMap";
 
 //

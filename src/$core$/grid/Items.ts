@@ -1,12 +1,13 @@
 import { workspace } from "../state/GridState";
-import { subscribe } from "/externals/lib/object.js";
+import { subscribe, ref, propRef } from "/externals/modules/object.js";
+import { E } from "/externals/modules/blue.js";
 
 //
 export const setProperty = (target, name, value, importance = "")=>{
     if ("attributeStyleMap" in target) {
         const raw = target.attributeStyleMap.get(name);
         const prop = raw?.[0] ?? raw?.value;
-        if (parseFloat(prop) != value && prop != value || prop == null) {
+        if (parseFloat(prop) != value || prop != value || !prop) {
             //if (raw?.[0] != null) { raw[0] = value; } else
             if (raw?.value != null) { raw.value = value; } else
             { target.attributeStyleMap.set(name, value); };
@@ -14,7 +15,7 @@ export const setProperty = (target, name, value, importance = "")=>{
     } else
     {
         const prop = target?.style?.getPropertyValue?.(name);
-        if ((parseFloat(prop||"0") != value && prop != value) || !prop) {
+        if ((parseFloat(prop||"0") != value || prop != value) || !prop) {
             target.style.setProperty(name, value, importance);
         }
     }
@@ -81,11 +82,9 @@ export const createLabel = (item, gs?)=>{
 
     //
     const scr = workspace.getItem(item.id);
-    subscribe(scr, (value, prop)=>{
-        trackShortcutState(element, scr, [value, prop]);
-    });
-
-    //
+    subscribe(scr, (value, prop)=>trackShortcutState(element, scr, [value, prop]));
+    subscribe([item.cell, 0], (val)=> setProperty(element, "--cell-x", val));
+    subscribe([item.cell, 1], (val)=> setProperty(element, "--cell-y", val));
     return element;
 }
 

@@ -3,24 +3,13 @@ import styles from "./$scss$/Main.scss?inline&compress";
 
 //
 const OWNER = "adl";
-
-//
-const setStyleURL = (base: [any, any], url: string)=>{
-    //
-    if (base[1] == "innerHTML") {
-        base[0][base[1]] = `@import url("${url}");`;
-    } else {
-        base[0][base[1]] = url;
-    }
-}
-
-//
-const hash = async (string: string) => {
+const hash  = async (string: string) => {
     const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(string));
     return "sha256-" + btoa(String.fromCharCode.apply(null, new Uint8Array(hashBuffer) as unknown as number[]));
 }
 
 //
+const setStyleURL = (base: [any, any], url: string)=>{ return (base[0][base[1]] = (base[1] == "innerHTML") ? `@import url("${url}");` : url); }
 const loadStyleSheet = async (inline: string, base?: [any, any], integrity?: string|Promise<string>)=>{
     try {
         const url = URL.canParse(inline) ? inline : URL.createObjectURL(new Blob([inline], {type: "text/css"}));
@@ -41,11 +30,6 @@ const loadStyleSheet = async (inline: string, base?: [any, any], integrity?: str
 //
 const preInit = URL.createObjectURL(new Blob([styles], {type: "text/css"}));
 const integrity = hash(styles);
-
-//
-export const styleCode = {preInit, integrity, styles};
-
-//
 const loadBlobStyle = (inline: string, integrity?: string|Promise<string>)=>{
     const style = document.createElement("link");
     style.rel = "stylesheet";
@@ -76,4 +60,5 @@ const initialize = (rootElement = document.head)=>{
 }
 
 //
+export const styleCode = {preInit, integrity, styles};
 export default initialize;

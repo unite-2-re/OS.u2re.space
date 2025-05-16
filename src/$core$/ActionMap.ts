@@ -1,17 +1,15 @@
 import { UIState } from "./state/UIState.ts";
 import { workspace } from "./state/GridState.ts";
 import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "./state/ImportExport.ts";
-
-//
-import { makeReactive } from "/externals/lib/object.js";
+import { makeReactive } from "/externals/modules/object.js";
 
 // redundant from core
 import { fileActions } from "./file/FileAction";
-//import { FileManagment } from "./file/FileManage";
 import { managerTask, settingsTask, taskManager } from "./Tasks.ts";
 import { useAsWallpaper } from "./file/Wallpaper.ts";
 
 //
+const DOC = document.documentElement;
 const UUIDv4 = () => { return crypto?.randomUUID ? crypto?.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16)); };
 const isSameOrigin = (a)=>{
     const urlA = a instanceof URL ? a : (URL.canParse(a) ? new URL(a) : null);
@@ -36,7 +34,6 @@ export const linkViewer = ({label, icon, href})=>{
 };
 
 //
-const DOC = document.documentElement;
 export const actionMap = new Map<any, any>([
     ["toggle-popup", (target?)=>{
         if (target?.matches("[data-popup]")) {

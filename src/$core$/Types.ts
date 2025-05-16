@@ -7,11 +7,7 @@ export interface TabType {
 };
 
 //
-export interface TabProps {
-    tabs: TabType[];
-}
-
-//
+export interface TabProps { tabs: TabType[]; }
 export interface ItemType {
     id: string;
     cell: [number, number];
@@ -27,13 +23,8 @@ export interface ShortcutType {
 };
 
 //
-export interface GridLayout {
-    columns: number,
-    rows: number
-};
-
-//
-export interface ItemsType {
+export interface GridLayout { columns: number, rows: number };
+export interface ItemsType  {
     layout: GridLayout;
     shortcuts: Set<ShortcutType>;
     items: Set<ItemType>;
@@ -41,16 +32,12 @@ export interface ItemsType {
 };
 
 //
+export interface AppsType { tasksList: any; };
 export interface AppType {
     component?: ()=>any;
     title: string;
     icon: string;
     id: string;
-};
-
-//
-export interface AppsType {
-    tasksList: any;
 };
 
 //

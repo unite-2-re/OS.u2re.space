@@ -1,10 +1,10 @@
 // @ts-ignore /* @vite-ignore */
 import type { ItemsType, ItemType, ShortcutType } from "../Types";
-import { safe, makeReactive, makeObjectAssignable, objectAssign, UUIDv4 } from "/externals/lib/object.js";
-import { JSOX } from "jsox";
+import { safe, makeReactive, makeObjectAssignable, objectAssign, UUIDv4 } from "/externals/modules/object.js";
+import { cvt_cs_to_os, getBoundingOrientRect, convertOrientPxToCX, redirectCell } from "/externals/modules/dom.js";
 
 //
-import { cvt_cs_to_os, getBoundingOrientRect, convertOrientPxToCX, redirectCell } from "/externals/core/agate.js";
+import { JSOX } from "jsox";
 import { README_NAME } from "../file/FileAction";
 
 //
@@ -16,11 +16,7 @@ export const wrapItemToReactive = (item: any)=>{
 }
 
 //
-export const unwrap = (items: any[]|Set<any>)=>{
-    return safe(items);
-}
-
-//
+export const unwrap = (items: any[]|Set<any>)=>{ return safe(items); }
 export const mergeByKey = (items: any[]|Set<any>, key = "id")=>{
     const entries = Array.from(items?.values?.()).map((I)=>[I?.[key],I]);
     const map = new Map(entries as any);

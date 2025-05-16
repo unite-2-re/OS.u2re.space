@@ -1,5 +1,5 @@
 // @ts-ignore
-import { makeReactive, subscribe, UUIDv4 } from "/externals/lib/object.js";
+import { makeReactive, subscribe, UUIDv4 } from "/externals/modules/object.js";
 import { dropFile, getDir, getFileExtension, provide, uploadFile, useFS } from "./FileOps";
 import { fileActions, README_NAME, STOCK_NAME } from "./FileAction";
 

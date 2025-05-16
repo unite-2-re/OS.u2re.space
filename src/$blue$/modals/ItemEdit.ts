@@ -1,9 +1,7 @@
-import { subscribe, makeReactive, makeObjectAssignable } from "/externals/lib/object.js";
-import { synchronizeInputs } from "/externals/lib/dom.js";
-import { E, H, M } from "/externals/lib/blue.js";
-
-//
+import { subscribe, makeReactive, makeObjectAssignable } from "/externals/modules/object.js";
+import { E, H, M } from "/externals/modules/blue.js";
 import { UIState } from "../../$core$/state/UIState.ts";
+import { synchronizeInputs } from "/externals/modules/ui.js";
 
 //
 const fields = ["label", "icon", "href", "action", "id"];

@@ -1,5 +1,5 @@
 import { downloadFile, getDir, provide } from "./FileOps";
-import { colorScheme } from "/externals/core/theme.js";
+import { colorScheme } from "/externals/modules/theme.js";
 
 //
 export const downloadImage = async (f_path)=>{ downloadFile(f_path); };

@@ -1,8 +1,6 @@
-import { E } from "/externals/lib/blue.js"
-import { synchronizeInputs } from '/externals/lib/dom.js';
-import { subscribe } from '/externals/lib/object.js';
-
-//
+import { E } from "/externals/modules/blue.js"
+import { synchronizeInputs } from '/externals/modules/ui.js';
+import { subscribe   } from '/externals/modules/object.js';
 import { preferences } from '../../$core$/state/Preferences.ts';
 
 //

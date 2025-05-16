@@ -1,5 +1,5 @@
 import { useAsWallpaper } from "./Wallpaper";
-import { observeBySelector } from "/externals/lib/dom.js";
+import { observeBySelector } from "/externals/modules/dom.js";
 
 //
 export const loadFromStorage = async ()=>{

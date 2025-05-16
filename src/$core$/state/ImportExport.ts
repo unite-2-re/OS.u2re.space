@@ -2,7 +2,7 @@ import { workspace } from "./GridState.ts";
 import { preferences } from "./Preferences.ts";
 
 // @ts-ignore /* @vite-ignore */
-import { makeReactive, objectAssign, safe } from "/externals/lib/object.js";
+import { makeReactive, objectAssign, safe } from "/externals/modules/object.js";
 import { JSOX } from "jsox";
 
 // Function to download data to a file
