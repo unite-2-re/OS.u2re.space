@@ -24,13 +24,13 @@ export default (task)=>{
     }, [
         E("div.adl-toolbar", {dataset: {highlight: 0, chroma: 0}}, [
         ]),
-        E("div.adl-main", {dataset: {alpha: 0, chroma: 0, scheme: "solid"}}, [
+        E("div.adl-main", {dataset: {alpha: 0, chroma: 0, scheme: "solid"}}, [ /// style="content-visibility:visible;"
             E("ui-scrollbox.adl-tab-box", {dataset: {scheme: "solid", alpha: 0, highlight: 0.5, chroma: 0.01}}),
-            E("ui-scrollbox.adl-content-box", {dataset: {scheme: "solid", alpha: 0}}, [
-                E("div.adl-content", {}, M(forms, (form)=>{
+            E("ui-scrollbox.adl-content-box", {style: "content-visibility:visible;", dataset: {scheme: "solid", alpha: 0}}, [
+                E("div.adl-content", { style: "content-visibility:visible;" }, M(forms, (form)=>{
                     return syncInput(E("form", { dataset: {scheme: "solid", alpha: 1, chroma: 0.05, highlight: 0} }, [
-                        E("span.adl-form-label", {style: "background-color: transparent;", slot: "label", dataset: {scheme: "solid", alpha: 0, chroma: 0, highlight: 0}}, [form?.label||""]),
-                        E("div.adl-block", {style: "background-color: transparent;", dataset: {scheme: "solid", alpha: 0, chroma: 0, highlight: 0}}, M(form.inputs, (input)=>{
+                        E("span.adl-form-label", {style: "background-color: transparent; content-visibility:visible;", slot: "label", dataset: {scheme: "solid", alpha: 0, chroma: 0, highlight: 0}}, [form?.label||""]),
+                        E("div.adl-block", {style: "background-color: transparent; content-visibility:visible;", dataset: {scheme: "solid", alpha: 0, chroma: 0, highlight: 0}}, M(form.inputs, (input)=>{
                             return E("ui-block", {
                                 style: "background-color: transparent; content-visibility: visible;",
                                 dataset: {scheme: "solid", alpha: 0, chroma: 0, highlight: 0}},

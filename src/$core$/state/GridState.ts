@@ -24,19 +24,6 @@ export const mergeByKey = (items: any[]|Set<any>, key = "id")=>{
 }
 
 //
-const setIdleInterval = (cb, timeout = 1000, ...args)=>{
-    requestIdleCallback(async ()=>{
-        if (!cb || (typeof cb != "function")) return;
-        while (true) {
-            await Promise.try(cb, ...args);
-            await new Promise((r)=>setTimeout(r, timeout));
-            await new Promise((r)=>requestIdleCallback(r, {timeout: 100}));
-            await new Promise((r)=>requestAnimationFrame(r));
-        }
-    }, {timeout: 1000});
-}
-
-//
 export const defaultShortcuts = [
     {id: "manager", href: "#manager", action: "manager", icon: "folder", label: "File Manager"},
     {id: "icons", href: "https://lucide.dev/icons/", action: "open-in-frame", icon: "book-type", label: "Icons"},
@@ -205,12 +192,20 @@ export class GridState {
 
 //
 const mouseCoord = [0, 0];
+const setIdleInterval = (cb, timeout = 1000, ...args)=>{
+    requestIdleCallback(async ()=>{
+        if (!cb || (typeof cb != "function")) return;
+        while (true) { // @ts-ignore
+            await Promise.try(cb, ...args);
+            await new Promise((r)=>setTimeout(r, timeout));
+            await new Promise((r)=>requestIdleCallback(r, {timeout: 100}));
+            await new Promise((r)=>requestAnimationFrame(r));
+        }
+    }, {timeout: 1000});
+}
 
 //
-document.addEventListener("mousemove", (ev)=>{
-    mouseCoord[0] = ev?.clientX || 0;
-    mouseCoord[1] = ev?.clientY || 0;
-});
+document.addEventListener("mousemove", (ev)=>{ mouseCoord[0] = ev?.clientX || 0, mouseCoord[1] = ev?.clientY || 0; });
 
 //
 export const itemForm  = [
