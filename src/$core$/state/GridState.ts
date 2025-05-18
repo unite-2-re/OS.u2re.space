@@ -110,7 +110,7 @@ export class GridState {
     }
 
     //
-    saveInStorage(ev?: any) {
+    saveInStorage(_?: any) {
         localStorage.setItem(this.#name, this.getJSOX());
         //localStorage.setItem("grids@lists", JSOX.stringify([...unwrap(gridState.lists || [])]));
     }

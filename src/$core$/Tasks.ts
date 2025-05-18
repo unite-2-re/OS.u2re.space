@@ -1,5 +1,6 @@
 // @ts-ignore /* @vite-ignore */
 import { safe, makeReactive, makeObjectAssignable, observableArray } from "/externals/modules/object.js";
+// @ts-ignore /* @vite-ignore */
 import { initTaskManager } from "/externals/modules/ui.js";
 export const tasks: any[] = observableArray([]);
 export const taskManager  = initTaskManager(tasks);

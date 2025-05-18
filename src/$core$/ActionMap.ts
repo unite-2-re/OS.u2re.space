@@ -1,12 +1,12 @@
 import { UIState } from "./state/UIState.ts";
 import { workspace } from "./state/GridState.ts";
 import { exportSettings, importSettings, pickBinaryFromFS, saveBinaryToFS } from "./state/ImportExport.ts";
-import { makeReactive } from "/externals/modules/object.js";
-
-// redundant from core
 import { fileActions } from "./file/FileAction";
 import { managerTask, settingsTask, taskManager } from "./Tasks.ts";
 import { useAsWallpaper } from "./file/Wallpaper.ts";
+
+// @ts-ignore /* @vite-ignore */
+import { makeReactive } from "/externals/modules/object.js";
 
 //
 const DOC = document.documentElement;
@@ -65,8 +65,7 @@ export const actionMap = new Map<any, any>([
     }],
 
     ["fullscreen", ()=>{
-        //
-        if (!document.fullscreenElement) {
+        if (!document.fullscreenElement) { // @ts-ignore
             return document.documentElement?.requestFullscreen?.({ navigationUI: "hide", screen })?.catch?.(console.warn.bind(console));
         } else
         if (document.exitFullscreen) {
