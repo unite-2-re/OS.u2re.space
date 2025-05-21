@@ -6,7 +6,9 @@ import { synchronizeInputs } from "/externals/modules/ui.js";
 //
 const fields = ["label", "icon", "href", "action", "id"];
 const fieldTypes = new Map([
-    ["text", (input: any) => H(`<ui-longtext data-scheme="solid" data-alpha="0" data-chroma="0.01" data-highlight="3" data-highlight-hover="1" class="u2-input" data-name=${input?.name}><input value="" placeholder=${input?.name} name=${input?.name} type="text" label="test" placeholder="test-longtext" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no"/></ui-longtext>`)],
+    ["text", (input: any) => H`<ui-longtext style="display: grid; inline-size: 100%; justify-content: start; content-visibility: visible;" data-scheme="solid" data-alpha="0" data-chroma="0.01" data-highlight="3" data-highlight-hover="1" class="u2-input" name=${input?.name} data-name=${input?.name}>
+        <input style="justify-self: start; display: flex; content-visibility: visible; min-inline-size: max-content; inline-size: 100%;" value="" placeholder=${input?.name} name=${input?.name} type="text" label="test" placeholder="test-longtext" tabindex="0" draggable="false" autocomplete="off" class="u2-input" scroll="no"/>
+    </ui-longtext>`],
     ["action-list", (input: any) => H(`<ui-button data-scheme="solid" data-alpha="0" data-chroma="0.01" data-highlight="3" data-highlight-hover="1" class="u2-input" data-name=${input?.name} style="block-size: 2rem;">
     <ui-button-row data-highlight-hover="2" data-alpha="0" data-value="open-link"> <ui-icon icon="external-link"></ui-icon> <span>Open Link</span> </ui-button-row>
     <ui-button-row data-highlight-hover="2" data-alpha="0" data-value="copy-link"> <ui-icon icon="copy-minus"></ui-icon> <span>Copy Link</span> </ui-button-row>
@@ -66,9 +68,9 @@ export const ItemEdit = (
     //
     const content = E("ui-modal.adl-modal", { dataset: { hidden: true, alpha: 1, scheme: "solid" }}, [
         bindContent(E("form.adl-item-edit", {dataset: {alpha: 0, highlight: 0, }, style: "background-color: transparent;"}, M(form, (input)=>{
-            return E("label", {style: "background-color: transparent;"}, [
-                E("div.adl-label", { style: "background-color: transparent;" }, [input?.label]),
-                E("div.adl-input", { style: "background-color: transparent;", dataset: {scheme: "solid", alpha: 0, highlight: 2} }, [ fieldTypes?.get(input?.type)?.(input) ]),
+            return E("label", {style: "background-color: transparent; grid-column: 1 / 2 span; justify-content: start; content-visibility: visible;"}, [
+                E("div.adl-label", { style: "background-color: transparent; grid-column: 1 / 1 span; justify-content: start; content-visibility: visible;" }, [input?.label]),
+                E("div.adl-input", { style: "background-color: transparent; grid-column: 2 / 2 span; justify-content: start; content-visibility: visible;", dataset: {scheme: "solid", alpha: 0, highlight: 2} }, [ fieldTypes?.get(input?.type)?.(input) ]),
             ])
         }))),
         E("div.adl-buttons", {dataset: {alpha: 0, highlight: 0}, style: "background-color: transparent;"}, [
