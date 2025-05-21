@@ -94,7 +94,7 @@ I practically done version number one. Frontend-only project.
 - **[BLU.E](https://github.com/unite-2-re/BLU.E)** - our UI/DOM framework or library.
 - **[DOM.TS](https://github.com/unite-2-re/dom.ts)** - our DOM and layout library or framework.
 - **[UI.sys](https://github.com/unite-2-re/ui.system)** - UI web components system.
-- **[Theme.core](https://github.com/unite-2-re/theme.core)** - Dynamic theme system.
+- **[Theme.core](https://github.com/unite-2-re/theme.core)** - dynamic theme system.
 - ***[Others](https://github.com/orgs/unite-2-re/repositories)*** - all available repositories
 
 </td>
